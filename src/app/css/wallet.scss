@@ -1,0 +1,17 @@
+.react-tabs__tab-list{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #fff;
+
+    .react-tabs__tab {
+        width: 50%;
+        text-align: center;
+        padding: 15px;
+        outline: none;
+        cursor: pointer;
+
+        &.react-tabs__tab--selected {
+            background-color: #444;
+        }
+    }
+}
