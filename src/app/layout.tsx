@@ -7,6 +7,8 @@ import QueryClientWrapper from "./components/providers/query-client-wrapper";
 import "./css/globals.scss";
 import "./css/main.scss";
 
+import UserProvider from "./components/providers/user-provider";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,15 +37,17 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <QueryClientWrapper>
           <TonConnectWrapper>
-            <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
-              <Header />
-              
-              <main className="layout-content">
-                {children}
-              </main>
+            <UserProvider>
+              <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
+                <Header />
+                
+                <main className="layout-content">
+                  {children}
+                </main>
 
-              <Footer />
-            </div>
+                <Footer />
+              </div>
+            </UserProvider>
           </TonConnectWrapper>
         </QueryClientWrapper>
       </body>

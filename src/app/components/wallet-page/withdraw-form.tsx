@@ -1,9 +1,15 @@
 import { useTonConnect } from "@/app/hooks/useTonConnect";
+import { UserContext } from "../providers/user-provider";
+import { useContext } from "react";
 
 export default function WithdrawForm() {
   const defaultAmount = 0.8;
-
   const { address } = useTonConnect();
+  const { user, updateUser } = useContext(UserContext);
+  
+  function test1() {
+    updateUser({balance: user.balance + 1});
+  }
   
   return (
     <form action="#" className="withdraw-form">
@@ -17,7 +23,7 @@ export default function WithdrawForm() {
         <input type="text" name="address" defaultValue={address ?? ''} />
       </div>
 
-      <button type="submit" className="submit-btn">Withdraw</button>
+      <button type="button" className="submit-btn" onClick={test1}>Withdraw</button>
     </form>
   )
 }

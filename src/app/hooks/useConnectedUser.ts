@@ -1,13 +1,16 @@
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
 import { fetchUserByAddress } from "@/app/db/sql";
+
+
 import { User } from "../lib/definitions";
-import { useQuery } from "@tanstack/react-query";
-
-
+import { UserContext } from "../components/providers/user-provider";
+import { useContext } from "react";
 
 export function useConnectedUser() {
   const { connected, address } = useTonConnect();
+
+  const { updateUser } = useContext(UserContext);
 
   // const connected = true;
   // const address = '0QCXwrih_8H9sGnGUBtgT0PpOzcoNZJkfWy901UjbmN6j8te';
@@ -17,28 +20,12 @@ export function useConnectedUser() {
     if (!connected) {
       return null;
     }
-    return fetchUserByAddress(address as string);
+
+    const user = await fetchUserByAddress(address as string);
+    console.log(user);
+    updateUser(user);
+    return user;
   }, [connected, address]);
-
-  // if (!connected) return { 
-  //   id: null,
-  //   address: null,
-  //   balance: 0,
-  //   reward: 0,
-  // };
-
-  // TODO: hook after connected. Maybe custom connect function?: https://docs.ton.org/develop/dapps/ton-connect/web
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ['connectedUser'],
-  //   queryFn: async () => {
-  //     console.log(`useConnectedUser: ${connected}`);
-
-  //     if (!connected) {
-  //       return null;
-  //     }
-  //     return fetchUserByAddress(address as string);
-  //   }
-  // });
 
   return { 
     id: data?.id ?? null,
