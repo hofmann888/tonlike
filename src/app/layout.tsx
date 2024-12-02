@@ -4,10 +4,10 @@ import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import TonConnectWrapper from "./components/providers/ton-connect-wrapper";
 import QueryClientWrapper from "./components/providers/query-client-wrapper";
+import UserProvider from "./components/providers/user-provider";
 import "./css/globals.scss";
 import "./css/main.scss";
 
-import UserProvider from "./components/providers/user-provider";
 
 
 const geistSans = localFont({

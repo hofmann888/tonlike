@@ -28,8 +28,7 @@ export function useTonConnect(): {
       },
     },
     connected: !!wallet?.account.address,
-    // address: wallet?.account.address ?? null,
-    address: address,
+    address: address, // wallet?.account.address ?? null
     network: wallet?.account.chain ?? null,
   };
 }

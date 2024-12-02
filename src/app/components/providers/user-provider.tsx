@@ -5,7 +5,13 @@ import { useConnectedUser } from "@/app/hooks/useConnectedUser";
 import { useState } from "react";
 import { User } from "@/app/lib/definitions";
 
-export const UserContext = createContext({user: {} as User, updateUser: (data: any) => {}});
+export const UserContext = createContext({
+  id: 0,
+  address: '',
+  balance: 0,
+  reward: 0,
+  updateUser: (data: any) => {}
+});
 
 export default function UserProvider({children}: {children: React.ReactNode}) {
   const connectedUser = useConnectedUser() as User;
@@ -15,7 +21,13 @@ export default function UserProvider({children}: {children: React.ReactNode}) {
     setUser(Object.assign({}, user, data));
   }
 
-  const value = {user: user, updateUser: updateUser};
+  const value = {
+    id: user.id, 
+    address: user.address, 
+    balance: user.balance,
+    reward: user.reward,
+    updateUser: updateUser
+  };
 
   return (
     <UserContext.Provider value={value}>

@@ -1,25 +1,18 @@
 'use client'
 
-import { useConnectedUser } from "@/app/hooks/useConnectedUser";
+// import { useConnectedUser } from "@/app/hooks/useConnectedUser";
+// import { User } from "@/app/lib/definitions";
 import { UserContext } from "../providers/user-provider";
 import { useContext } from "react";
-import { User } from "@/app/lib/definitions";
 
 export default function HeaderBalance() {
-  const { user } = useContext(UserContext);
-
-  // const user = useContext(UserContext) as User;
-
-  // function test() {
-  //   console.log(user);
-  //   user.balance = user.balance + 1;
-  //   // user.update({balance: user.balance + 1});
-  // }
+  // const { balance, reward } = useConnectedUser();
+  const { balance, reward } = useContext(UserContext);
 
   return (
     <div className="header-balance">
-      <p>Balance: {user.balance}</p>
-      <p>Reward: {user.reward}</p>
+      <p>Balance: {balance}</p>
+      <p>Reward: {reward}</p>
     </div>
   );
 }

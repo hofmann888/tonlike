@@ -2,7 +2,6 @@ import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
 import { fetchUserByAddress } from "@/app/db/sql";
 
-
 import { User } from "../lib/definitions";
 import { UserContext } from "../components/providers/user-provider";
 import { useContext } from "react";
@@ -21,7 +20,7 @@ export function useConnectedUser() {
       return null;
     }
 
-    const user = await fetchUserByAddress(address as string);
+    const user: User = await fetchUserByAddress(address as string);
     console.log(user);
     updateUser(user);
     return user;
