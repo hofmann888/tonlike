@@ -1,6 +1,6 @@
-import EarnItem from "../components/earn-page/earn-item";
-import { Task } from "../lib/definitions";
-import "../css/earn.scss";
+import EarnItem from "@/components/earn-page/earn-item";
+import { Task } from "@/lib/definitions";
+import "@/css/earn.scss";
 
 const tasks: Task[] = [
   { 'id': 1, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },

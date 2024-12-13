@@ -1,7 +1,7 @@
 'use client'
 
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { useTonConnect } from "@/app/hooks/useTonConnect";
+import { useTonConnect } from "@/hooks/useTonConnect";
 import { CHAIN } from "@tonconnect/protocol";
 
 export default function HeaderWallet() {

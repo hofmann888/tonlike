@@ -1,4 +1,4 @@
-import NewTaskForm from "../components/tasks-page/new-task-form";
+import NewTaskForm from "@/components/tasks-page/new-task-form";
 
 
 export default async function NewTaskPage() {

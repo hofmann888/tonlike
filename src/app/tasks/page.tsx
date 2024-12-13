@@ -1,9 +1,9 @@
 'use client';
 
-import { Task } from "../lib/definitions";
-import TaskItem from "../components/tasks-page/task-item";
+import { Task } from "@/lib/definitions";
+import TaskItem from "@/components/tasks-page/task-item";
 import Link from "next/link";
-import "../css/tasks.scss";
+import "@/css/tasks.scss";
 
 const tasks: Task[] = [
   { 'id': 1, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },

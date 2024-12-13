@@ -1,11 +1,11 @@
 'use client'
 
-import "../../css/footer.scss";
+import "@/css/footer.scss";
 import { FaCoins, FaWallet, FaTasks } from "react-icons/fa";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { NavLink } from "@/app/lib/definitions";
+import { NavLink } from "@/lib/definitions";
 
 const navLinks: NavLink[] = [
   { name: 'earn', href: '/earn', icon: FaCoins },

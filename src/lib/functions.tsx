@@ -1,6 +1,6 @@
 import { cache } from 'react';
-import { useTonConnect } from "@/app/hooks/useTonConnect";
-import { fetchUserByAddress } from "../db/sql";
+import { useTonConnect } from "@/hooks/useTonConnect";
+import { fetchUserByAddress } from "@/db/sql";
 import { User } from "./definitions";
 
 

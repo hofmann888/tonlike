@@ -1,7 +1,7 @@
 // import bcrypt from 'bcrypt';
 // import { db } from '@vercel/postgres';
 import { neon } from '@neondatabase/serverless';
-import { users, services, actions } from '../db/seed';
+import { users, services, actions } from '@/db/seed';
 
 // const client = await db.connect();
 const sql = neon(`${process.env.DATABASE_URL}`);

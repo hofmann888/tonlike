@@ -1,6 +1,6 @@
 import HeaderWallet from "./header-wallet";
 import HeaderBalance from "./header-balance";
-import "@/app/css/header.scss";
+import "@/css/header.scss";
 
 
 export default function Header() {

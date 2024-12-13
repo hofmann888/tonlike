@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
-import TonConnectWrapper from "./components/providers/ton-connect-wrapper";
-import QueryClientWrapper from "./components/providers/query-client-wrapper";
-import UserProvider from "./components/providers/user-provider";
-import "./css/globals.scss";
-import "./css/main.scss";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
+import TonConnectWrapper from "@/components/providers/ton-connect-wrapper";
+import QueryClientWrapper from "@/components/providers/query-client-wrapper";
+import UserProvider from "@/components/providers/user-provider";
+import "@/css/globals.scss";
+import "@/css/main.scss";
 
 
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });

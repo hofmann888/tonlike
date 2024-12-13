@@ -1,9 +1,9 @@
 'use clinet'
 
 // import { updateUserBalance } from "@/app/db/actions";
-import { updateUserBalance } from "@/app/db/sql";
-import { DepostitFormState } from "@/app/lib/definitions";
-import { useConnectedUser } from "@/app/hooks/useConnectedUser";
+import { updateUserBalance } from "@/db/sql";
+import { DepostitFormState } from "@/lib/definitions";
+import { useConnectedUser } from "@/hooks/useConnectedUser";
 import { useFormState } from 'react-dom';
 
 import { UserContext } from "../providers/user-provider";

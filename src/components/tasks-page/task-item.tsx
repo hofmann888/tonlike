@@ -1,4 +1,4 @@
-import { Task } from "@/app/lib/definitions";
+import { Task } from "@/lib/definitions";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function TaskItem({task}: {task: Task}) {

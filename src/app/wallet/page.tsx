@@ -1,11 +1,11 @@
 'use client'
 
-import DepositForm from "../components/wallet-page/deposit-form";
-import WithdrawForm from "../components/wallet-page/withdraw-form";
+import DepositForm from "@/components/wallet-page/deposit-form";
+import WithdrawForm from "@/components/wallet-page/withdraw-form";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
-import "../css/wallet.scss";
+import "@/css/wallet.scss";
 
-import { useTonConnect } from "@/app/hooks/useTonConnect";
+import { useTonConnect } from "@/hooks/useTonConnect";
 
 export default function Walletage() {
 

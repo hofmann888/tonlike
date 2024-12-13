@@ -1,4 +1,4 @@
-import { Task } from "@/app/lib/definitions";
+import { Task } from "@/lib/definitions";
 import { FaTelegramPlane } from "react-icons/fa";
 
 export default function EarnItem({task}: {task: Task}) {

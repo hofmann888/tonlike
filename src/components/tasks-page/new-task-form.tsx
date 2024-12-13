@@ -1,4 +1,4 @@
-import { fetchActions, fetchServices } from "@/app/db/sql";
+import { fetchActions, fetchServices } from "@/db/sql";
 // import { Action, Service } from "@/app/lib/definitions";
 // import { useQuery } from "@tanstack/react-query";
 

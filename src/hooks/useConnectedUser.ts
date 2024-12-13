@@ -1,9 +1,9 @@
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { useTonConnect } from "./useTonConnect";
-import { fetchUserByAddress } from "@/app/db/sql";
+import { fetchUserByAddress } from "@/db/sql";
 
-import { User } from "../lib/definitions";
-import { UserContext } from "../components/providers/user-provider";
+import { User } from "@/lib/definitions";
+import { UserContext } from "@/components/providers/user-provider";
 import { useContext } from "react";
 
 export function useConnectedUser() {

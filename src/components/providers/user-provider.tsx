@@ -1,9 +1,9 @@
 'use client'
 
 import { createContext } from "react";
-import { useConnectedUser } from "@/app/hooks/useConnectedUser";
+import { useConnectedUser } from "@/hooks/useConnectedUser";
 import { useState } from "react";
-import { User } from "@/app/lib/definitions";
+import { User } from "@/lib/definitions";
 
 export const UserContext = createContext({
   id: 0,
