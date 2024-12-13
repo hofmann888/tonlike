@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 export default function WithdrawForm() {
   const defaultAmount = 0.8;
-  const { balance, address, updateUser } = useContext(UserContext);
+  const { address } = useContext(UserContext);
   
   return (
     <form action="#" className="withdraw-form">

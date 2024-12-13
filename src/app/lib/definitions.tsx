@@ -38,7 +38,7 @@ export type Action = {
 }
 
 export type Task = {
-  // id: number,
+  id: number,
   service: string,
   action: string,
   link: string,
