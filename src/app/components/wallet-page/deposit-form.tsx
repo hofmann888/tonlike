@@ -1,14 +1,18 @@
 'use clinet'
 
+// import { updateUserBalance } from "@/app/db/actions";
 import { updateUserBalance } from "@/app/db/sql";
 import { DepostitFormState } from "@/app/lib/definitions";
 import { useConnectedUser } from "@/app/hooks/useConnectedUser";
 import { useFormState } from 'react-dom';
 
+import { UserContext } from "../providers/user-provider";
+import { useContext } from "react";
 
 export default function DepositForm() {
   const min = 1;
-  const { id, balance } = useConnectedUser();
+  // const { id, balance } = useConnectedUser();
+  const { id, balance } = useContext(UserContext);
 
   const initialState: DepostitFormState = { errors: {}, message: null };
   const updateBalanceWithUserId = updateUserBalance.bind(null, id, balance); // TODO: get balance on the server side?
