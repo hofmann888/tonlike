@@ -11,8 +11,8 @@ import { useContext } from "react";
 
 export default function DepositForm() {
   const min = 1;
-  // const { id, balance } = useConnectedUser();
-  const { id, balance } = useContext(UserContext);
+  const { id, balance } = useConnectedUser();
+  // const { id, balance } = useContext(UserContext);
 
   const initialState: DepostitFormState = { errors: {}, message: null };
   const updateBalanceWithUserId = updateUserBalance.bind(null, id, balance); // TODO: get balance on the server side?
