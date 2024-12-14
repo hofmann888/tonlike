@@ -11,6 +11,7 @@ const navLinks: NavLink[] = [
   { name: 'earn', href: '/earn', icon: FaCoins },
   { name: 'tasks', href: '/tasks', icon: FaTasks },
   { name: 'wallet', href: '/wallet', icon: FaWallet },
+  { name: 'init', href: '/init-data', icon: FaTasks },
 ]
 
 export default function Footer() {
