@@ -1,18 +1,19 @@
 'use client';
 
-import { type PropsWithChildren, useEffect } from 'react';
+import { type PropsWithChildren, useEffect, useMemo } from 'react';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-
 import { ErrorBoundary } from '@/components/Root/ErrorBoundary';
 import { ErrorPage } from '@/components/Root/ErrorPage';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getWebApp } from '@/utils/getWebApp';
 
-import './styles.css';
-
 function RootInner({ children }: PropsWithChildren) {
   const webApp = getWebApp();
   const debug = webApp.initDataUnsafe.start_param === 'debug';
+  const manifestUrl = useMemo(() => {
+    return new URL('tonconnect-manifest.json', window.location.href).toString();
+  }, []);
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
@@ -22,12 +23,14 @@ function RootInner({ children }: PropsWithChildren) {
   }, [debug]);
 
   return (
-    <AppRoot
-      appearance={webApp.colorScheme}
-      platform={['macos', 'ios'].includes(webApp.platform) ? 'ios' : 'base'}
-    >
-      {children}
-    </AppRoot>
+    <TonConnectUIProvider manifestUrl={manifestUrl}>
+      <AppRoot
+        appearance={webApp.colorScheme}
+        platform={['macos', 'ios'].includes(webApp.platform) ? 'ios' : 'base'}
+      >
+        {children}
+      </AppRoot>
+    </TonConnectUIProvider>
   );
 }
 
