@@ -3,9 +3,10 @@ import Script from "next/script";
 import localFont from "next/font/local";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
-import { TWARoot } from "@/components/Root/TWARoot";
 import UserProvider from "@/components/providers/user-provider";
 import QueryClientWrapper from "@/components/providers/query-client-wrapper";
+import { TWARoot } from "@/components/Root/TWARoot";
+import { getSession } from "./init-data/auth/session";
 import "@/css/globals.scss";
 import "@/css/main.scss";
 
@@ -27,11 +28,15 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log('layout.tsx');
+  const session = await getSession();
+  console.log('layout.tsx session:'); console.log(session);
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -39,7 +44,7 @@ export default function RootLayout({
 
         <QueryClientWrapper>
           <TWARoot>
-            <UserProvider>
+            <UserProvider session={session}>
               <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
                 <Header />
                 

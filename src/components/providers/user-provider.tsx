@@ -1,9 +1,9 @@
 'use client'
 
-import { createContext } from "react";
-import { useConnectedUser } from "@/hooks/useConnectedUser";
-import { useState } from "react";
 import { User } from "@/lib/definitions";
+import { createContext } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "@/hooks/useSession";
 
 export const UserContext = createContext({
   id: 0,
@@ -13,19 +13,32 @@ export const UserContext = createContext({
   updateUser: (data: any) => {}
 });
 
-export default function UserProvider({children}: {children: React.ReactNode}) {
-  const connectedUser = useConnectedUser() as User;
+export default function UserProvider({children, session}: {children: React.ReactNode, session: any}) {
+  console.log('UserProvider');
+
+  if (!session?.user) {
+    session = useSession();
+    console.log('UserProvider useSession:'); console.log(session);
+  }
+  
+  const connectedUser: User = session?.user;
   const [user, setUser] = useState(connectedUser);
   
   function updateUser(data: any) {
     setUser(Object.assign({}, user, data));
   }
 
+  useEffect(() => {
+    if (session?.user) {
+      updateUser(session.user);
+    }
+  }, [session]);
+
   const value = {
-    id: user.id, 
-    address: user.address, 
-    balance: user.balance,
-    reward: user.reward,
+    id: user?.id, 
+    address: user?.address, 
+    balance: user?.balance,
+    reward: user?.reward,
     updateUser: updateUser
   };
 

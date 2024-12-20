@@ -8,6 +8,7 @@ import { ErrorPage } from '@/components/Root/ErrorPage';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getWebApp } from '@/utils/getWebApp';
 
+
 function RootInner({ children }: PropsWithChildren) {
   const webApp = getWebApp();
   const debug = webApp.initDataUnsafe.start_param === 'debug';
@@ -15,6 +16,7 @@ function RootInner({ children }: PropsWithChildren) {
     return new URL('tonconnect-manifest.json', window.location.href).toString();
   }, []);
 
+  // TODO: remove?
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
     if (debug) {
@@ -35,13 +37,13 @@ function RootInner({ children }: PropsWithChildren) {
 }
 
 export function TWARoot(props: PropsWithChildren) {
-  // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side
-  // Rendering. That's why we are showing loader on the server side.
+  // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side Rendering.
+  // That's why we are showing loader on the server side.
   const didMount = useDidMount();
 
   return didMount ? (
     <ErrorBoundary fallback={ErrorPage}>
       <RootInner {...props}/>
     </ErrorBoundary>
-  ) : <div className="root__loading">Loading</div>;
+  ) : <div className="root__loading">Loading</div>; // TODO: loader before auth
 }

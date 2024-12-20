@@ -9,5 +9,6 @@ declare global {
 }
 
 export function getWebApp(): WebApp {
+  // TODO: sometimes error on refresh page: 'Cannot read properties of undefined (reading 'WebApp')'
   return window.Telegram.WebApp;
 }

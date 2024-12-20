@@ -15,6 +15,7 @@ export const withdrawFormSchema = z.object({
 
 export const userSchema = z.object({
   id: z.bigint().positive(),
+  tg_id: z.bigint().positive(),
   address: z.string().length(42, { message: "Wrong address" }),
 	balance: z.number().positive(),
 	reward: z.number().positive(),

@@ -14,6 +14,7 @@ async function seedUsers() {
   await sql(`
     CREATE TABLE IF NOT EXISTS users (
       id BIGINT PRIMARY KEY,
+      tg_id BIGINT NOT NULL,
       address CHAR(48) NOT NULL,
       balance FLOAT NOT NULL DEFAULT 0,
       reward BIGINT NOT NULL DEFAULT 0
@@ -23,9 +24,9 @@ async function seedUsers() {
   const insertedUsers = await Promise.all(
     users.map(
       (user) => sql(`
-        INSERT INTO users (id, address, balance, reward)
-        VALUES ($1, $2, $3, $4)
-      `, [user.id, user.address, user.balance, user.reward]),
+        INSERT INTO users (id, tg_id, address, balance, reward)
+        VALUES ($1, $2, $3, $4, $5)
+      `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
     ),
   );
 

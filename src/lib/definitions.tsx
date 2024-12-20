@@ -20,7 +20,8 @@ export type DepostitFormState = {
 //========== DB
 
 export type User = {
-  id: number, 
+  id: number,
+  tg_id: number,
   address: string,
   balance: number,
   reward: number,
