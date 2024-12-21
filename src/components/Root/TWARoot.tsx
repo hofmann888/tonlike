@@ -14,7 +14,7 @@ function RootInner({ children }: PropsWithChildren) {
   const webApp = getWebApp();
   const debug = webApp.initDataUnsafe.start_param === 'debug';
   const manifestUrl = useMemo(() => {
-    return new URL('tonconnect-manifest.json', window.location.href).toString();
+    return new URL('https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json', window.location.href).toString();
   }, []);
 
   // TODO: remove?
@@ -38,12 +38,13 @@ function RootInner({ children }: PropsWithChildren) {
   );
 }
 
+import { useUser } from '@/hooks/useUser';
+
 export function TWARoot(props: PropsWithChildren) {
   // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side Rendering.
   // That's why we are showing loader on the server side.
   const didMount = useDidMount();
-
-  const { id } = useContext(UserContext);
+  const { id } = useUser();
 
   return didMount && id ? (
     <ErrorBoundary fallback={ErrorPage}>

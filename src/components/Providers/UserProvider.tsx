@@ -6,10 +6,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "@/hooks/useSession";
 
 export const UserContext = createContext({
-  id: 0,
-  address: '',
-  balance: 0,
-  reward: 0,
+  user: {} as User,
   updateUser: (data: any) => {}
 });
 
@@ -17,7 +14,7 @@ export default function UserProvider({children, session}: {children: React.React
   console.log('UserProvider');
 
   if (!session?.user) {
-    session = useSession();
+    session = useSession(); // TODO: error on npm run build: hook on condition 
     console.log('UserProvider useSession:'); console.log(session);
   }
   
@@ -35,10 +32,7 @@ export default function UserProvider({children, session}: {children: React.React
   }, [session]);
 
   const value = {
-    id: user?.id, 
-    address: user?.address, 
-    balance: user?.balance,
-    reward: user?.reward,
+    user: user,
     updateUser: updateUser
   };
 
