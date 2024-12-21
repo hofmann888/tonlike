@@ -33,12 +33,24 @@ export async function fetchActions() {
   }
 }
 
+export async function createUser(tg_id: number) {
+  try {
+    console.log('createUser');
+    const [data] = await sql(`INSERT INTO users (tg_id, balance) VALUES ($1, 8) ON CONFLICT DO NOTHING RETURNING *;`, [tg_id]);
+    console.log('createUser data'); console.log(data);
+    return data as User;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch revenue data.');
+  }
+}
+
 export async function fetchUserByTgId(tg_id: number) {
   try {
     console.log('fetchUserByTgId');
     const [data] = await sql(`SELECT * FROM users WHERE tg_id = $1;`, [tg_id]);
     console.log(data);
-    return data as User;
+    return data as User; // User | undefined
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');

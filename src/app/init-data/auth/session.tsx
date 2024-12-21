@@ -2,7 +2,7 @@
 
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from 'next/headers';
-import { fetchUserByTgId } from "@/db/sql";
+import { createUser, fetchUserByTgId } from "@/db/sql";
 import { NextRequest, NextResponse } from "next/server";
 
 // const expiresIn = parseInt(process.env.SESSION_TIME as string); // TODO: env?
@@ -31,7 +31,11 @@ export async function setSession(tg_id: number) {
   console.log('setSession');
   console.log(expires);
 
-  const user = await fetchUserByTgId(tg_id); // TODO: save in db if new user
+  let user = await fetchUserByTgId(tg_id);
+  if (!user) { 
+    user = await createUser(tg_id);
+  }
+
   const expDate = new Date(expires);
 
   cookies().set({ 

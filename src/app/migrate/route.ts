@@ -4,7 +4,7 @@ import { neon } from '@neondatabase/serverless';
 import { users, services, actions } from '@/db/seed';
 
 // const client = await db.connect();
-const sql = neon(`${process.env.DATABASE_URL}`);
+const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
     await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, tasks_done;`);
@@ -13,9 +13,9 @@ async function dropDB() {
 async function seedUsers() {
   await sql(`
     CREATE TABLE IF NOT EXISTS users (
-      id BIGINT PRIMARY KEY,
-      tg_id BIGINT NOT NULL,
-      address CHAR(48) NOT NULL,
+      id BIGSERIAL PRIMARY KEY,
+      tg_id BIGINT NOT NULL UNIQUE,
+      address CHAR(48),
       balance FLOAT NOT NULL DEFAULT 0,
       reward BIGINT NOT NULL DEFAULT 0
     );
@@ -24,9 +24,9 @@ async function seedUsers() {
   const insertedUsers = await Promise.all(
     users.map(
       (user) => sql(`
-        INSERT INTO users (id, tg_id, address, balance, reward)
-        VALUES ($1, $2, $3, $4, $5)
-      `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
+        INSERT INTO users (tg_id, address, balance, reward)
+        VALUES ($1, $2, $3, $4)
+      `, [user.tg_id, user.address, user.balance, user.reward]),
     ),
   );
 
@@ -36,7 +36,7 @@ async function seedUsers() {
 async function seedServices() {
   await sql(`
     CREATE TABLE IF NOT EXISTS services (
-      id INT PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL
     );
   `);
@@ -44,9 +44,9 @@ async function seedServices() {
   const insertedServices = await Promise.all(
     services.map(
       (service) => sql(`
-        INSERT INTO services (id, name)
-        VALUES ($1, $2)
-      `, [service.id, service.name]),
+        INSERT INTO services (name)
+        VALUES ($1)
+      `, [service.name]),
     ),
   );
 
@@ -56,7 +56,7 @@ async function seedServices() {
 async function seedActions() {
   await sql(`
     CREATE TABLE IF NOT EXISTS actions (
-      id INT PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       reward INT NOT NULL DEFAULT 0
     );
@@ -65,9 +65,9 @@ async function seedActions() {
   const insertedActions = await Promise.all(
     actions.map(
       (action) => sql(`
-        INSERT INTO actions (id, name, reward)
-        VALUES ($1, $2, $3)
-      `, [action.id, action.name, action.reward]),
+        INSERT INTO actions (name, reward)
+        VALUES ($1, $2)
+      `, [action.name, action.reward]),
     ),
   );
 
@@ -77,7 +77,7 @@ async function seedActions() {
 async function seedTasks() {
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
-      id BIGINT PRIMARY KEY, 
+      id BIGSERIAL PRIMARY KEY, 
       user_id BIGINT NOT NULL,
       service_id INT NOT NULL,
       action_id INT NOT NULL,
@@ -100,7 +100,7 @@ async function seedTasks() {
 async function seedTasksDone() {
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks_done (
-      id BIGINT PRIMARY KEY,
+      id BIGSERIAL PRIMARY KEY,
       user_id BIGINT NOT NULL,
       task_id BIGINT NOT NULL,
       created_at TIMESTAMP NOT NULL,
