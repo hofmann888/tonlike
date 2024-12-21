@@ -7,7 +7,8 @@ import { ErrorBoundary } from '@/components/Root/ErrorBoundary';
 import { ErrorPage } from '@/components/Root/ErrorPage';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getWebApp } from '@/utils/getWebApp';
-
+import { UserContext } from "../providers/user-provider";
+import { useContext } from "react";
 
 function RootInner({ children }: PropsWithChildren) {
   const webApp = getWebApp();
@@ -24,6 +25,7 @@ function RootInner({ children }: PropsWithChildren) {
     }
   }, [debug]);
 
+  // TODO: move all providers from layaut to root?
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <AppRoot
@@ -41,9 +43,11 @@ export function TWARoot(props: PropsWithChildren) {
   // That's why we are showing loader on the server side.
   const didMount = useDidMount();
 
-  return didMount ? (
+  const { id } = useContext(UserContext);
+
+  return didMount && id ? (
     <ErrorBoundary fallback={ErrorPage}>
       <RootInner {...props}/>
     </ErrorBoundary>
-  ) : <div className="root__loading">Loading</div>; // TODO: loader before auth
+  ) : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
 }
