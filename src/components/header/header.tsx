@@ -1,5 +1,6 @@
-import HeaderWallet from "./HeaderWallet";
 import HeaderBalance from "./HeaderBalance";
+import HeaderUser from "./HeaderUser";
+
 import "@/css/header.scss";
 
 export default function Header() {
@@ -7,7 +8,7 @@ export default function Header() {
     <header className="header row-start-1">
       <HeaderBalance />
 
-      <HeaderWallet />
+      <HeaderUser />
     </header>
   )
 }

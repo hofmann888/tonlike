@@ -13,7 +13,7 @@ export async function POST() {
     let session: any = null;
     
     if (authData && token) {
-      if (!process.env.APP_DEBUG) { // TODO: APP_ENV === 'prod'?
+      if (!process.env.APP_DEBUG) { // TODO: NODE_ENV === 'production'?
         validate(authData, token, {
           expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
         });
@@ -31,6 +31,7 @@ export async function POST() {
 
     return Response.json({ success: true, session: session });
   } catch (error) {
+    // redirect on 403 if auth failed?
     await deleteSession();
     return Response.json({ success: false, error }, { status: 500 });
 

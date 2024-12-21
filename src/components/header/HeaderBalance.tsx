@@ -1,10 +1,9 @@
 'use client'
 
-import { UserContext } from "../Providers/UserProvider";
-import { useContext } from "react";
+import { useUser } from "@/hooks/useUser";
 
 export default function HeaderBalance() {
-  const { balance, reward } = useContext(UserContext);
+  const { balance, reward } = useUser();
 
   return (
     <div className="header-balance">
