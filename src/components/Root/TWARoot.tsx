@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@/components/Root/ErrorBoundary';
 import { ErrorPage } from '@/components/Root/ErrorPage';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getWebApp } from '@/utils/getWebApp';
-import { UserContext } from "../providers/user-provider";
+import { UserContext } from "../Providers/UserProvider";
 import { useContext } from "react";
 
 function RootInner({ children }: PropsWithChildren) {

@@ -8,7 +8,7 @@ import { DepostitFormState } from '@/lib/definitions';
 
 import { sql } from './connection';
 
-import { UserContext } from '@/components/providers/user-provider';
+import { UserContext } from '@/components/Providers/UserProvider';
 import { useContext } from "react";
 
 // const sql = neon(`${process.env.DATABASE_URL}`);

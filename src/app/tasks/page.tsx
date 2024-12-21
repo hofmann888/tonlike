@@ -1,7 +1,7 @@
 'use client';
 
 import { Task } from "@/lib/definitions";
-import TaskItem from "@/components/tasks-page/task-item";
+import TaskItem from "@/components/TasksPage/TaskItem";
 import Link from "next/link";
 import "@/css/tasks.scss";
 
@@ -14,7 +14,7 @@ const tasks: Task[] = [
   { 'id': 5, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
   // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
   // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 }
-]
+];
 
 export default function TasksPage() {
   return (

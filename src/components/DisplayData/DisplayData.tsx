@@ -1,9 +1,7 @@
 import { Cell, Checkbox, Section } from '@telegram-apps/telegram-ui';
 import type { FC, ReactNode } from 'react';
-
 import { RGB } from '@/components/RGB/RGB';
 import { Link } from '@/components/Link/Link';
-
 import './styles.css';
 
 export type DisplayDataRow =

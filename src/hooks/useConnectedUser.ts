@@ -3,7 +3,7 @@ import { useTonConnect } from "./useTonConnect";
 import { fetchUserByAddress } from "@/db/sql";
 
 import { User } from "@/lib/definitions";
-import { UserContext } from "@/components/providers/user-provider";
+import { UserContext } from "@/components/Providers/UserProvider";
 import { useContext } from "react";
 
 export function useConnectedUser() {

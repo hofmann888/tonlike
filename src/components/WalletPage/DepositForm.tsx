@@ -6,7 +6,7 @@ import { DepostitFormState } from "@/lib/definitions";
 import { useConnectedUser } from "@/hooks/useConnectedUser";
 import { useFormState } from 'react-dom';
 
-import { UserContext } from "../providers/user-provider";
+import { UserContext } from "../Providers/UserProvider";
 import { useContext } from "react";
 
 export default function DepositForm() {

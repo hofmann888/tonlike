@@ -1,4 +1,4 @@
-import EarnItem from "@/components/earn-page/earn-item";
+import EarnItem from "@/components/EarnPage/EarnItem";
 import { Task } from "@/lib/definitions";
 import "@/css/earn.scss";
 
@@ -11,7 +11,7 @@ const tasks: Task[] = [
   { 'id': 6, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
   // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
   // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 }
-]
+];
 
 export default function EarnPage() {
   return (

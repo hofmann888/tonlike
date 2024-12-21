@@ -1,4 +1,4 @@
-import { UserContext } from "../providers/user-provider";
+import { UserContext } from "../Providers/UserProvider";
 import { useContext } from "react";
 
 export default function WithdrawForm() {
