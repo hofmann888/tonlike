@@ -2,8 +2,8 @@
 
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from 'next/headers';
-import { createUser, fetchUserByTgId } from "@/db/sql";
 import { NextRequest, NextResponse } from "next/server";
+import { User } from "@/lib/definitions";
 
 // const expiresIn = parseInt(process.env.SESSION_TIME as string); // TODO: env?
 const expiresIn = 3600;
@@ -27,20 +27,13 @@ export async function decrypt(input: string): Promise<any> {
   return payload;
 }
 
-export async function setSession(tg_id: number) {
+export async function setSession(user: User) {
   console.log('setSession');
   console.log(expires);
 
-  let user = await fetchUserByTgId(tg_id);
-  if (!user) { 
-    user = await createUser(tg_id);
-  }
-
-  const expDate = new Date(expires);
-
   cookies().set({ 
     name: 'session',
-    value: await encrypt({ user, expDate }),
+    value: await encrypt({ user, expDate: new Date(expires) }),
     expires: expires,
     httpOnly: true,
     secure: true,

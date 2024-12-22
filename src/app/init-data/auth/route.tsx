@@ -3,6 +3,7 @@
 import { validate, parse } from '@telegram-apps/init-data-node';
 import { headers } from 'next/headers';
 import { deleteSession, getSession, setSession } from './session';
+import { createUser, fetchUserByTgId } from '@/db/sql';
 
 export async function POST() {
   console.log('post auth');
@@ -22,10 +23,15 @@ export async function POST() {
       const initData = parse(authData);
       console.log('post auth parsed initData:'); console.log(initData);
 
-      if (!initData?.user?.id) {
+      const tgId = initData?.user?.id;
+      if (!tgId) {
         throw Error('Undefined tg user ID!')
       }
-      await setSession(initData.user.id);
+      let user = await fetchUserByTgId(tgId);
+      if (!user) { 
+        user = await createUser(tgId);
+      }
+      await setSession(user);
       session = await getSession();
     }
 
