@@ -2,23 +2,7 @@ import { WithdrawFormState } from "@/lib/definitions";
 import { WithdrawFormSubmit } from "@/db/actions";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { useFormState } from 'react-dom';
-import { useFormStatus } from 'react-dom';
-import clsx from "clsx";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button 
-      type="submit" 
-      className={clsx('submit-btn', {'disabled': pending})} 
-      disabled={pending} 
-      aria-disabled={pending}
-    >
-      Withdraw
-    </button>
-  );
-}
+import SubmitButton from "@/components/Forms/SubmitButton";
 
 export default function WithdrawForm() {
   const min = 1;
@@ -66,7 +50,7 @@ export default function WithdrawForm() {
         }
       </div>
 
-      <SubmitButton />
+      <SubmitButton text="Withdraw" />
     </form>
   )
 }

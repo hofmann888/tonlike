@@ -3,23 +3,7 @@
 import { DepositFormSubmit } from "@/db/actions";
 import { DepostitFormState } from "@/lib/definitions";
 import { useFormState } from 'react-dom';
-import { useFormStatus } from 'react-dom';
-import clsx from "clsx";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button 
-      type="submit" 
-      className={clsx('submit-btn', {'disabled': pending})} 
-      disabled={pending} 
-      aria-disabled={pending}
-    >
-      Deposit
-    </button>
-  );
-}
+import SubmitButton from "@/components/Forms/SubmitButton";
 
 export default function DepositForm() {
   const min = 1;
@@ -51,7 +35,7 @@ export default function DepositForm() {
         }
       </div>
 
-      <SubmitButton />
+      <SubmitButton text="Deposit" />
     </form>
   )
 }

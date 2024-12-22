@@ -13,7 +13,7 @@ export async function DepositFormSubmit(prevState: DepostitFormState, formData: 
   try {
     const { user } = await getSession();
     if (!user) {
-      throw new Error('Not authorized!');
+      throw new Error('Not authorized.');
     }
 
     const validated = depositFormSchema.safeParse({
@@ -50,7 +50,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
   try {
     const { user } = await getSession();
     if (!user) {
-      throw new Error('Not authorized!');
+      throw new Error('Not authorized.');
     }
 
     const validated = withdrawFormSchema.safeParse({
