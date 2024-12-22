@@ -2,10 +2,10 @@
 
 import "@/css/footer.scss";
 import { FaCoins, FaWallet, FaTasks } from "react-icons/fa";
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
 import { NavLink } from "@/lib/definitions";
+import Link from 'next/link';
+import clsx from 'clsx';
 
 const navLinks: NavLink[] = [
   { name: 'earn', href: '/earn', icon: FaCoins },

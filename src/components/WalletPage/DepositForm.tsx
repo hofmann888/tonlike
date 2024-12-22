@@ -1,22 +1,30 @@
-'use clinet'
+'use client'
 
-// import { updateUserBalance } from "@/app/db/actions";
-import { updateUserBalance } from "@/db/sql";
+import { updateUserBalance } from "@/db/actions";
 import { DepostitFormState } from "@/lib/definitions";
-import { useConnectedUser } from "@/hooks/useConnectedUser";
 import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+import clsx from "clsx";
 
-import { UserContext } from "../Providers/UserProvider";
-import { useContext } from "react";
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button 
+      type="submit" 
+      className={clsx('submit-btn', {'disabled': pending})} 
+      disabled={pending} 
+      aria-disabled={pending}
+    >
+      Deposit
+    </button>
+  );
+}
 
 export default function DepositForm() {
   const min = 1;
-  const { id, balance } = useConnectedUser();
-  // const { id, balance } = useContext(UserContext);
-
   const initialState: DepostitFormState = { errors: {}, message: null };
-  const updateBalanceWithUserId = updateUserBalance.bind(null, id, balance); // TODO: get balance on the server side?
-  const [state, formAction] = useFormState(updateBalanceWithUserId, initialState);
+  const [state, formAction] = useFormState(updateUserBalance, initialState);
 
   return (
     <form action={formAction}>
@@ -24,7 +32,7 @@ export default function DepositForm() {
         <label htmlFor="amount">Amount</label>
         <input type="number" name="amount" step="0.1" min={min} defaultValue={min} />
 
-        <div id="customer-error" aria-live="polite" aria-atomic="true">
+        <div id="amountError" aria-live="polite" aria-atomic="true">
             {state?.errors?.amount &&
               state.errors.amount.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
@@ -35,7 +43,15 @@ export default function DepositForm() {
         </div>
       </div>
 
-      <button type="submit" className="submit-btn">Deposit</button>
+      <div id="fields-error" aria-live="polite" aria-atomic="true">
+        {state?.message &&
+          <p className="mt-2 text-sm text-red-500" key={state.message}>
+            {state.message}
+          </p>
+        }
+      </div>
+
+      <SubmitButton />
     </form>
   )
 }
