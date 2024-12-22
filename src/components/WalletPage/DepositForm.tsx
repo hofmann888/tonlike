@@ -1,6 +1,6 @@
 'use client'
 
-import { updateUserBalance } from "@/db/actions";
+import { DepositFormSubmit } from "@/db/actions";
 import { DepostitFormState } from "@/lib/definitions";
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
@@ -24,7 +24,7 @@ function SubmitButton() {
 export default function DepositForm() {
   const min = 1;
   const initialState: DepostitFormState = { errors: {}, message: null };
-  const [state, formAction] = useFormState(updateUserBalance, initialState);
+  const [state, formAction] = useFormState(DepositFormSubmit, initialState);
 
   return (
     <form action={formAction}>

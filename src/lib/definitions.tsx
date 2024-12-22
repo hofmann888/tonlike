@@ -16,6 +16,14 @@ export type DepostitFormState = {
   message?: string | null;
 };
 
+export type WithdrawFormState = {
+  errors?: {
+    amount?: string[];
+    address?: string[];
+  };
+  message?: string | null;
+};
+
 
 //========== DB
 
