@@ -17,13 +17,13 @@ export default function DepositForm() {
         <input type="number" name="amount" step="0.1" min={min} defaultValue={min} />
 
         <div id="amountError" aria-live="polite" aria-atomic="true">
-            {state?.errors?.amount &&
-              state.errors.amount.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              )
-            )}
+          {state?.errors?.amount &&
+            state.errors.amount.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            )
+          )}
         </div>
       </div>
 

@@ -17,13 +17,13 @@ export default function WithdrawForm() {
         <input type="number" name="amount" step="0.1" defaultValue={min} min={min} />
 
         <div aria-live="polite" aria-atomic="true">
-            {state?.errors?.amount &&
-              state.errors.amount.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              )
-            )}
+          {state?.errors?.amount &&
+            state.errors.amount.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            )
+          )}
         </div>
       </div>
 
@@ -32,13 +32,13 @@ export default function WithdrawForm() {
         <input type="text" name="address" defaultValue={address ?? ''} />
 
         <div aria-live="polite" aria-atomic="true">
-            {state?.errors?.address &&
-              state.errors.address.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              )
-            )}
+          {state?.errors?.address &&
+            state.errors.address.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            )
+          )}
         </div>
       </div>
 
