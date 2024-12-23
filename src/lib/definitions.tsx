@@ -24,6 +24,17 @@ export type WithdrawFormState = {
   message?: string | null;
 };
 
+export type NewTaskFormState = {
+  errors?: {
+    actionId?: string[];
+    serviceId?: string[];
+    link?: string[];
+    price?: string[];
+    count?: string[];
+  };
+  message?: string | null;
+};
+
 
 //========== DB
 
@@ -48,10 +59,20 @@ export type Action = {
 
 export type Task = {
   id: number,
-  service: string,
-  action: string,
+  action: number, // todo: action obj?
+  service: number, // todo: service obj?
   link: string,
   price: number,
   count: number,
   done: number,
+  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE,
+	created_at: number,
+	updated_at: number,
+	deleted_at: number,
+}
+
+export enum TaskStatus {
+  ACTIVE = 'active',
+  STOP = 'stop',
+  DONE = 'done',
 }

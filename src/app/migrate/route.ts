@@ -8,6 +8,7 @@ const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
     await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, tasks_done;`);
+    await sql(`DROP TYPE IF EXISTS task_status;`);
 }
 
 async function seedUsers() {
@@ -75,25 +76,28 @@ async function seedActions() {
 }
 
 async function seedTasks() {
+  await sql(`CREATE TYPE task_status AS ENUM('active','stop','done');`);
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
       id BIGSERIAL PRIMARY KEY, 
       user_id BIGINT NOT NULL,
-      service_id INT NOT NULL,
       action_id INT NOT NULL,
+      service_id INT NOT NULL,
       link VARCHAR(255) NOT NULL,
       price FLOAT NOT NULL,
       count INT NOT NULL,
-      done INT NOT NULL,
+      done INT NOT NULL DEFAULT 0,
+      status TASK_STATUS NOT NULL DEFAULT 'active',
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      edited_at TIMESTAMP NULL,
-      finished_at TIMESTAMP NULL,
+      updated_at TIMESTAMP NOT NULL,
+      deleted_at TIMESTAMP NULL,
 
       CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
       CONSTRAINT fk_service FOREIGN KEY(service_id) REFERENCES services(id),
       CONSTRAINT fk_action FOREIGN KEY(action_id) REFERENCES actions(id)
     );
   `);
+    // updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ?, probably nope
     // CONSTRAINT ... ON DELETE SET NULL | ON DELETE CASCADE
 }
 
