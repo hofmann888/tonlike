@@ -59,8 +59,6 @@ export type Action = {
 
 export type Task = {
   id: number,
-  action: number, // todo: action obj?
-  service: number, // todo: service obj?
   link: string,
   price: number,
   count: number,
@@ -69,6 +67,27 @@ export type Task = {
 	created_at: number,
 	updated_at: number,
 	deleted_at: number,
+  user_id: number,
+  action: Action,
+  service: Service,
+}
+
+export type TaskDTO = {
+  id: number,
+  link: string,
+  price: number,
+  count: number,
+  done: number,
+  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE,
+	created_at: number,
+	updated_at: number,
+	deleted_at: number,
+  user_id: number,
+  action_id: number,
+  action_name: string,
+  action_reward: number,
+  service_id: number,
+  service_name: string,
 }
 
 export enum TaskStatus {

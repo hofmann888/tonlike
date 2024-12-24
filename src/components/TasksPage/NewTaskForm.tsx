@@ -6,6 +6,7 @@ import { NewTaskFormSubmit } from "@/db/actions";
 import { NewTaskFormState, Action, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
 
+// TODO: display task sum
 export default function NewTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
   const linkInput = useRef<any>();
 

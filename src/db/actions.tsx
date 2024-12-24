@@ -136,5 +136,5 @@ export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: F
   }
   
   revalidatePath('/tasks');
-  redirect('/tasks');
+  redirect('/tasks'); // TODO: there was error after first NewTaskForm submit after `npx next dev` # che to tam too many renders
 }

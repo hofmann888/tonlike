@@ -1,22 +1,20 @@
-'use client';
+'use server'
 
 import { Task } from "@/lib/definitions";
-import TaskItem from "@/components/TasksPage/TaskItem";
+import { getSession } from "../init-data/auth/session";
+import { fetchUserTasks } from "@/db/sql";
 import Link from "next/link";
+import TaskItem from "@/components/TasksPage/TaskItem";
 import "@/css/tasks.scss";
 
-const tasks: Task[] = [
-  { 'id': 1, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
-  { 'id': 2, 'service': 'telegram', 'action': 'comment', 'link': '', 'price': 1.1, 'count': 88, done: 69 },
-  { 'id': 3, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
-  { 'id': 4, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
-  { 'id': 5, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
-  { 'id': 5, 'service': 'telegram', 'action': 'subscribe', 'link': '', 'price': 0.8, 'count': 888, done: 33 },
-  // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 }
-];
 
-export default function TasksPage() {
+export default async function TasksPage() {
+  const { user } = await getSession(); // TODO: TypeError: Cannot destructure property 'user' of '(intermediate value)' as it is null.
+
+  if (!user.id) return <div>Not authorized!</div>; // TODO: throw exceptions and handle them in one place?
+
+  const tasks: Task[] = await fetchUserTasks(user.id);
+
   return (
     <div className="tasks-page">
       <div className="task-list">

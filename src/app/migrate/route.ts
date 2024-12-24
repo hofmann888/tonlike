@@ -3,6 +3,8 @@
 import { neon } from '@neondatabase/serverless';
 import { users, services, actions } from '@/db/seed';
 
+// TODO: use int/serial instead of big...? # big... returns string instead of number # max int = +2,147,483,647
+
 // const client = await db.connect();
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 

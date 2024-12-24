@@ -1,7 +1,8 @@
 'use server'
 
-import { Action, Service, User } from '@/lib/definitions';
 import { sql } from './connection';
+import { formatUserTaskDTO } from './dto';
+import { Action, Service, Task, TaskDTO, User } from '@/lib/definitions';
 
 export async function fetchActions() {
   try {
@@ -54,6 +55,36 @@ export async function createTask(taskData: any) {
   } catch (error ) {
     console.error('Database Error:', error);
     throw new Error('Failed to create task.');
+  }
+}
+
+export async function fetchUserTasks(userId: number) {
+  try {
+    console.log('fetchUserTasks');
+    const data = await sql(`
+      SELECT 
+        tasks.*, 
+        actions.name as action_name, actions.reward as action_reward,
+        services.name as service_name
+      FROM tasks 
+      LEFT JOIN actions on tasks.action_id = actions.id 
+      LEFT JOIN services on tasks.service_id = services.id 
+      WHERE user_id = $1
+      ORDER BY tasks.created_at DESC;
+    `, [userId]);
+
+    let formatedData: Task[] = []; 
+
+    if (data) {
+      data.map((dataTask) => {
+        const task = formatUserTaskDTO(dataTask as TaskDTO);
+        formatedData.push(task);
+      });
+    }
+    return formatedData as Task[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch action data.');
   }
 }
 

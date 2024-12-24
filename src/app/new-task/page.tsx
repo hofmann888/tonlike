@@ -1,3 +1,5 @@
+'use server'
+
 import { fetchActions, fetchServices } from "@/db/sql";
 import NewTaskForm from "@/components/TasksPage/NewTaskForm";
 
