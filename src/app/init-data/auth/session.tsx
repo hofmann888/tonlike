@@ -74,3 +74,11 @@ export async function getSession() {
 export async function deleteSession() {
   cookies().delete('session');
 }
+
+export async function getAuthUser(safe: boolean = true) {
+  const session = await getSession();
+  if (!session?.user.id && !safe) {
+    throw new Error('Not authorized.');
+  }
+  return session?.user as User; // TODO: validate user from session?
+}

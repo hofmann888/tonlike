@@ -3,18 +3,15 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 import { depositFormSchema, withdrawFormSchema, newTaskFormSchema } from './schema';
-import { DepostitFormState, WithdrawFormState, NewTaskFormState} from '@/lib/definitions';
-import { getSession, setSession } from '@/app/init-data/auth/session';
+import { DepostitFormState, WithdrawFormState, NewTaskFormState, User} from '@/lib/definitions';
+import { getAuthUser, getSession, setSession } from '@/app/init-data/auth/session';
 import { updateUserById, createTask } from './sql';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
 
   try {
-    const { user } = await getSession();
-    if (!user) {
-      throw new Error('Not authorized.');
-    }
+    const user: User = await getAuthUser(false);
 
     const validated = depositFormSchema.safeParse({
       amount: formData.get('amount'),
@@ -48,10 +45,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
   console.log('WithdrawFormSubmit');
 
   try {
-    const { user } = await getSession();
-    if (!user) {
-      throw new Error('Not authorized.');
-    }
+    const user: User = await getAuthUser(false);
 
     const validated = withdrawFormSchema.safeParse({
       amount: formData.get('amount'),
@@ -91,10 +85,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
 export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: FormData) {
   console.log('NewTaskFormSubmit');
   try {
-    const { user } = await getSession();
-    if (!user) {
-      throw new Error('Not authorized.');
-    }
+    const user: User = await getAuthUser(false);
 
     const validated = await newTaskFormSchema.safeParseAsync({
       actionId: formData.get('actionId'),
