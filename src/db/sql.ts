@@ -69,7 +69,38 @@ export async function fetchUserTasks(userId: number) {
       FROM tasks 
       LEFT JOIN actions on tasks.action_id = actions.id 
       LEFT JOIN services on tasks.service_id = services.id 
-      WHERE user_id = $1
+      WHERE tasks.user_id = $1
+      ORDER BY tasks.created_at DESC;
+    `, [userId]);
+
+    let formatedData: Task[] = []; 
+
+    if (data) {
+      data.map((dataTask) => {
+        const task = formatUserTaskDTO(dataTask as TaskDTO);
+        formatedData.push(task);
+      });
+    }
+    return formatedData as Task[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch action data.');
+  }
+}
+
+export async function fetchUserEarnTasks(userId: number) {
+  try {
+    console.log('fetchUserEarnTasks');
+    const data = await sql(`
+      SELECT 
+        tasks.*, 
+        actions.name as action_name, actions.reward as action_reward,
+        services.name as service_name
+      FROM tasks 
+      LEFT JOIN actions on tasks.action_id = actions.id 
+      LEFT JOIN services on tasks.service_id = services.id
+      LEFT JOIN tasks_done on tasks.id = tasks_done.task_id 
+      WHERE tasks.user_id != $1 AND tasks_done.id IS NULL
       ORDER BY tasks.created_at DESC;
     `, [userId]);
 

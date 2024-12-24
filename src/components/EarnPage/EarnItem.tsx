@@ -8,7 +8,7 @@ export default function EarnItem({task}: {task: Task}) {
         <FaTelegramPlane className="w-7 h-7" />
       </div>
       <div className="earm-item-info">
-        {task.action}
+        {task.action.name}
       </div>
       <div className="earn-item-price">
         {task.price}
