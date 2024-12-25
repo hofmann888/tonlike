@@ -127,5 +127,7 @@ export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: F
   }
   
   revalidatePath('/tasks');
-  redirect('/tasks'); // TODO: there was error after first NewTaskForm submit after `npx next dev` # che to tam too many renders
+  redirect('/tasks'); 
+  // TODO: there was error after first NewTaskForm submit after `npx next dev` 
+  // Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
 }

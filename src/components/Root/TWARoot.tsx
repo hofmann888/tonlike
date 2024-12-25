@@ -3,12 +3,8 @@
 import { type PropsWithChildren, useEffect, useMemo } from 'react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { ErrorBoundary } from '@/components/Root/ErrorBoundary';
-import { ErrorPage } from '@/components/Root/ErrorPage';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getWebApp } from '@/utils/getWebApp';
-import { UserContext } from "../Providers/UserProvider";
-import { useContext } from "react";
 
 function RootInner({ children }: PropsWithChildren) {
   const webApp = getWebApp();
@@ -46,9 +42,5 @@ export function TWARoot(props: PropsWithChildren) {
   const didMount = useDidMount();
   const { id } = useUser();
 
-  return didMount && id ? (
-    <ErrorBoundary fallback={ErrorPage}>
-      <RootInner {...props}/>
-    </ErrorBoundary>
-  ) : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
+  return didMount && id ? <RootInner {...props}/> : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
 }

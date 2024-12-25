@@ -76,6 +76,7 @@ export async function deleteSession() {
 }
 
 export async function getAuthUser(safe: boolean = true) {
+  console.log('getAuthUser');
   const session = await getSession();
   if (!session?.user.id && !safe) {
     throw new Error('Not authorized.');
