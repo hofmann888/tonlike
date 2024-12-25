@@ -130,4 +130,7 @@ export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: F
   redirect('/tasks'); 
   // TODO: there was error after first NewTaskForm submit after `npx next dev` 
   // Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+  // It's because useSession in condition
+  //- либо убираем из лейаута сессию и тянем ее через хук на фронте (хзхз)
+  //- либо при отсутвии сессии на фронте делаем не фетч а редирект (ну нет, мне же данные надо посылать туда...ну либо как гет параметры их отсылать я хуй знает)
 }

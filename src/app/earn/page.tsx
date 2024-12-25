@@ -7,10 +7,7 @@ import EarnItem from "@/components/EarnPage/EarnItem";
 import "@/css/earn.scss";
 
 export default async function EarnPage() {
-  const user: User = await getAuthUser();
-
-  if (!user?.id) return <div>Not authorized!</div>; // TODO: throw exceptions and handle them in one place?
-
+  const user: User = await getAuthUser(false);
   const tasks: Task[] = await fetchUserEarnTasks(user.id);
 
   return (
