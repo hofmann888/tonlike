@@ -1,6 +1,8 @@
 'use client';
 
 import { type PropsWithChildren, useEffect } from 'react';
+import { ErrorBoundary } from '@/components/Error/ErrorBoundary';
+import { ErrorPage } from '@/components/Error/ErrorPage';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { useTelegramMock } from '@/hooks/useTelegramMock';
@@ -58,5 +60,9 @@ export function TWARoot(props: PropsWithChildren) {
   // That's why we are showing loader on the server side.
   const didMount = useDidMount();
 
-  return didMount ? <RootInner {...props}/> : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
+  return didMount ? (
+    <ErrorBoundary fallback={ErrorPage}>
+      <RootInner {...props}/>
+    </ErrorBoundary>
+  ) : <div className="root__loading">Loading</div>;
 }

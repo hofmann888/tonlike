@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function HeaderUser() {
   const { tgUserName, tgPhotoUrl } = useUser();
 
-  return (
+  return ( // TODO: check if user auth!
     <div className="header-user">
       <p className="header-user__username">{ tgUserName }</p>
 

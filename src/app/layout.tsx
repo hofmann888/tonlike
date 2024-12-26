@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import { getSession } from "./auth/session";
+import { TWARoot } from "@/components/TWA/TWARoot";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import UserProvider from "@/components/Providers/UserProvider";
 import QueryClientWrapper from "@/components/Providers/QueryClientWrapper";
-import { TWARoot } from "@/components/Root/TWARoot";
-import { getSession } from "./auth/session";
 import "@/css/globals.scss";
 import "@/css/main.scss";
 
