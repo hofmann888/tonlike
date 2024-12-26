@@ -41,7 +41,7 @@ export default async function RootLayout({
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive"/>
 
         <QueryClientWrapper>
-          <UserProvider session={session}>
+          <UserProvider sessionData={session}>
             <TWARoot>
               <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
                 <Header />

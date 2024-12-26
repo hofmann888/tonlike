@@ -18,7 +18,6 @@ export function useSession() {
             headers: {
               Authorization: `${initDataRaw}`
             },
-            // credentials: 'include',
           });
           
           const authResponse = await auth.json();
