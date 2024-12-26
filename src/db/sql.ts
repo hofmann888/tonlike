@@ -73,7 +73,7 @@ export async function fetchUserTasks(userId: number) {
       ORDER BY tasks.created_at DESC;
     `, [userId]);
 
-    let formatedData: Task[] = []; 
+    const formatedData: Task[] = []; 
 
     if (data) {
       data.map((dataTask) => {
@@ -104,7 +104,7 @@ export async function fetchUserEarnTasks(userId: number) {
       ORDER BY tasks.created_at DESC;
     `, [userId]);
 
-    let formatedData: Task[] = []; 
+    const formatedData: Task[] = []; 
 
     if (data) {
       data.map((dataTask) => {
@@ -139,8 +139,8 @@ export async function updateUserById(id: number, fields: any) {
       throw new Error('No fields specified on update ')
     }
 
+    const values: any = [];
     let setString = '';
-    let values: any = [];
     let varIdx = 1;
     for (const key in fields) {
       setString += `${key} = $${varIdx}, `

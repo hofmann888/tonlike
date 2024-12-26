@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import UserProvider from "@/components/Providers/UserProvider";
 import QueryClientWrapper from "@/components/Providers/QueryClientWrapper";
 import { TWARoot } from "@/components/Root/TWARoot";
-import { getSession } from "./init-data/auth/session";
+import { getSession } from "./auth/session";
 import "@/css/globals.scss";
 import "@/css/main.scss";
 
@@ -38,11 +37,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive"/>
-
-        <QueryClientWrapper>
-          <UserProvider sessionData={session}>
-            <TWARoot>
+        <TWARoot>
+          <QueryClientWrapper>
+            <UserProvider sessionData={session}>
               <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
                 <Header />
                 
@@ -52,9 +49,9 @@ export default async function RootLayout({
 
                 <Footer />
               </div>
-            </TWARoot>
-          </UserProvider>
-        </QueryClientWrapper>
+            </UserProvider>
+          </QueryClientWrapper>
+        </TWARoot>
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
 'use server'
 
 import { Task, User } from "@/lib/definitions";
-import { getAuthUser } from "../init-data/auth/session";
+import { getAuthUser } from "@/app/auth/session";
 import { fetchUserTasks } from "@/db/sql";
-import Link from "next/link";
 import TaskItem from "@/components/TasksPage/TaskItem";
+import Link from "next/link";
 import "@/css/tasks.scss";
 
 export default async function TasksPage() {

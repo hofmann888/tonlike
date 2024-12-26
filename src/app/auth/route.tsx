@@ -1,9 +1,9 @@
 'use server'
 
-import { validate, parse } from '@telegram-apps/init-data-node';
-import { headers } from 'next/headers';
 import { deleteSession, getSession, setSession } from './session';
+import { validate, parse } from '@telegram-apps/init-data-node';
 import { createUser, fetchUserByTgId } from '@/db/sql';
+import { headers } from 'next/headers';
 
 export async function POST() {
   console.log('post auth');
@@ -14,18 +14,18 @@ export async function POST() {
     let session: any = null;
     
     if (authData && token) {
-      if (!process.env.APP_DEBUG) { // TODO: NODE_ENV === 'production'?
+      if (process.env.NODE_ENV === 'production') {
         validate(authData, token, {
           expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
         });
       }
 
       const initData = parse(authData);
-      console.log('post auth parsed initData:'); console.log(initData);
+      console.log('post auth parsed initData:', initData);
 
       const tgId = initData?.user?.id;
       if (!tgId) {
-        throw Error('Undefined tg user ID!')
+        throw Error('Undefined tg user ID!');
       }
       let user = await fetchUserByTgId(tgId);
       if (!user) { 
@@ -36,16 +36,15 @@ export async function POST() {
     }
 
     return Response.json({ success: true, session: session });
-  } catch (error) {
-    // redirect on 403 if auth failed?
+  } catch (error: any) {
+    // TODO: redirect on 403 if auth failed?
+    console.log(error);
     await deleteSession();
-    return Response.json({ success: false, error }, { status: 500 });
 
-    // TODO:
-    // if (error.type === 'CredentialsSignin') { // 'ERR_EXPIRED' | ...
-    //   res.status(401).json({ error: 'Invalid credentials.' })
-    // } else {
-    //   res.status(500).json({ error: 'Something went wrong.' })
-    // }
+    let status = 500;
+    if (error?.type === 'ERR_EXPIRED') { // TODO: 'ERR_EXPIRED' | ...
+      status = 401; // Invalid credentials
+    }
+    return Response.json({ success: false, error }, { status: status });
   }
 }

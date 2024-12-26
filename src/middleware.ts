@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { updateSession } from "@/app/init-data/auth/session";
+// import { updateSession } from "@/app/auth/session";
 
 // TODO: runs to many times on one request
 //        probably because of img, ico... GET requests, so I need to restrict them

@@ -1,46 +1,62 @@
 'use client';
 
-import { type PropsWithChildren, useEffect, useMemo } from 'react';
+import { type PropsWithChildren, useEffect } from 'react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
+import { useTelegramMock } from '@/hooks/useTelegramMock';
+import { useClientOnce } from '@/hooks/useClientOnce';
 import { useDidMount } from '@/hooks/useDidMount';
-import { getWebApp } from '@/utils/getWebApp';
+import { init } from '@/core/init';
+// import { setLocale } from '@/core/i18n/locale'; // TODO: localization
+import {
+  // initData,
+  miniApp,
+  useLaunchParams,
+  useSignal,
+} from '@telegram-apps/sdk-react';
+
+const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json';
 
 function RootInner({ children }: PropsWithChildren) {
-  const webApp = getWebApp();
-  const debug = webApp.initDataUnsafe.start_param === 'debug';
-  const manifestUrl = useMemo(() => {
-    return new URL('https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json', window.location.href).toString();
-  }, []);
+  const isDev = process.env.NODE_ENV === 'development';
 
-  // TODO: remove?
-  // Enable debug mode to see all the methods sent and events received.
-  useEffect(() => {
-    if (debug) {
-      import('eruda').then((lib) => lib.default.init());
-    }
-  }, [debug]);
+  // Mock Telegram environment in development mode if needed.
+  if (isDev) {
+    useTelegramMock(); // eslint-disable-next-line react-hooks/rules-of-hooks
+  }
 
-  // TODO: move all providers from layaut to root?
+  const lp = useLaunchParams();
+  const debug = isDev || lp.startParam === 'debug';
+
+  // Initialize the library.
+  useClientOnce(() => {
+    init(debug);
+  });
+
+  const isDark = useSignal(miniApp.isDark);
+  // const initDataUser = useSignal(initData.user);
+
+  // Set the user locale. // TODO: localization
+  // useEffect(() => {
+  //   initDataUser && setLocale(initDataUser.languageCode);
+  // }, [initDataUser]);
+
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <AppRoot
-        appearance={webApp.colorScheme}
-        platform={['macos', 'ios'].includes(webApp.platform) ? 'ios' : 'base'}
+        appearance={isDark ? 'dark' : 'light'}
+        platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
       >
         {children}
       </AppRoot>
     </TonConnectUIProvider>
   );
 }
-
-import { useUser } from '@/hooks/useUser';
-
+ 
 export function TWARoot(props: PropsWithChildren) {
   // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side Rendering.
   // That's why we are showing loader on the server side.
   const didMount = useDidMount();
-  const { id } = useUser();
 
-  return didMount && id ? <RootInner {...props}/> : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
+  return didMount ? <RootInner {...props}/> : <div className="root__loading">Loading</div>; // TODO: loader before auth and check if tg
 }

@@ -12,7 +12,7 @@ export default function HeaderUser() {
 
       <div className="header-user__photo">
         <Image
-          src={tgPhotoUrl}
+          src={tgPhotoUrl as string}
           width={50}
           height={50}
           className="header-user__photo-img"

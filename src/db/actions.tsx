@@ -2,10 +2,10 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
+import { updateUserById, createTask } from './sql';
+import { getAuthUser, setSession } from '@/app/auth/session';
 import { depositFormSchema, withdrawFormSchema, newTaskFormSchema } from './schema';
 import { DepostitFormState, WithdrawFormState, NewTaskFormState, User} from '@/lib/definitions';
-import { getAuthUser, getSession, setSession } from '@/app/init-data/auth/session';
-import { updateUserById, createTask } from './sql';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');

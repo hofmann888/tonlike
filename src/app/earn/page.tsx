@@ -2,7 +2,7 @@
 
 import { fetchUserEarnTasks } from "@/db/sql";
 import { Task, User } from "@/lib/definitions";
-import { getAuthUser } from "../init-data/auth/session";
+import { getAuthUser } from "@/app/auth/session";
 import EarnItem from "@/components/EarnPage/EarnItem";
 import "@/css/earn.scss";
 
