@@ -91,7 +91,7 @@ async function seedTasks() {
       done INT NOT NULL DEFAULT 0,
       status TASK_STATUS NOT NULL DEFAULT 'active',
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP NOT NULL,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       deleted_at TIMESTAMP NULL,
 
       CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
@@ -99,7 +99,7 @@ async function seedTasks() {
       CONSTRAINT fk_action FOREIGN KEY(action_id) REFERENCES actions(id)
     );
   `);
-    // updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ?, probably nope
+    // updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ?, probably nope...or yep?
     // CONSTRAINT ... ON DELETE SET NULL | ON DELETE CASCADE
 }
 
