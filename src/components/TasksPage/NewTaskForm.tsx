@@ -1,14 +1,20 @@
 'use client'
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFormState } from "react-dom";
+import { useUser } from "@/hooks/useUser";
 import { NewTaskFormSubmit } from "@/db/actions";
 import { NewTaskFormState, Action, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
 
-// TODO: display task sum
+// TODO: format + validation
 export default function NewTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
   const linkInput = useRef<any>();
+  const { balance } = useUser();
+  const [price, setPrice] = useState(0.1);
+  const [count, setCount] = useState(1000);
+  const sum = price * count;
+  const submitText = `Create ($${sum})`;
 
   function changeService() {
     if (linkInput.current) {
@@ -88,7 +94,7 @@ export default function NewTaskForm({ actions, services }: { actions: Action[], 
 
       <div className="form-field">
         <label htmlFor="price">Price</label>
-        <input type="number" name="price" min="0.01" step="0.01" defaultValue="0.01" required />
+        <input type="number" name="price" min="0.01" step="0.01" defaultValue={price} onChange={(e: any) => setPrice(e.target.value)} required />
 
         <div aria-live="polite" aria-atomic="true">
           {state?.errors?.price &&
@@ -103,7 +109,7 @@ export default function NewTaskForm({ actions, services }: { actions: Action[], 
 
       <div className="form-field">
         <label htmlFor="count">Count</label>
-        <input type="number" name="count" min="10" step="1" defaultValue="1000" required />
+        <input type="number" name="count" min="10" step="1" defaultValue={count} onChange={(e: any) => setCount(e.target.value)}  required />
 
         <div aria-live="polite" aria-atomic="true">
           {state?.errors?.count &&
@@ -124,7 +130,7 @@ export default function NewTaskForm({ actions, services }: { actions: Action[], 
         }
       </div>
 
-      <SubmitButton text="Create" />
+      <SubmitButton text={submitText} disabled={sum > balance} />
     </form>
   )
 }
