@@ -32,14 +32,14 @@ export default async function RootLayout({
 }>) {
   console.log('layout.tsx');
   const session = await getSession();
-  console.log('layout.tsx session:'); console.log(session);
+  console.log('layout.tsx session:', session);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TWARoot>
           <QueryClientWrapper>
-            <UserProvider sessionData={session}>
+            <UserProvider userData={session?.user}>
               <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
                 <Header />
                 

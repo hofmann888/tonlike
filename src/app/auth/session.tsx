@@ -64,9 +64,7 @@ export async function updateSession(request: NextRequest) {
 
 export async function getSession() {
   console.log('getSession');
-
   const session = cookies().get('session')?.value;
-  console.log(session);
   if (!session) return null;
   return await decrypt(session);
 }

@@ -9,12 +9,20 @@ export const UserContext = createContext({
   updateUser: (data: any) => {}
 });
 
-export default function UserProvider({children, sessionData}: {children: React.ReactNode, sessionData: any}) {
-  console.log('UserProvider');
+export default function UserProvider({children, userData}: {children: React.ReactNode, userData: User}) {
+  console.log('UserProvider userData:', userData);
 
-  const [session, setSession] = useState(sessionData); // TODO: pass only user data? not the whole session?
+  const [user, setUser] = useState(userData);
+  
+  function updateUser(data: any) {
+    setUser(Object.assign({}, user, data));
+  }
 
-  if (!session?.user) {
+  useEffect(() => {
+    updateUser(userData);
+  }, [userData]);
+
+  if (!user) {
     const { initDataRaw } = retrieveLaunchParams();
     fetch('/auth', {
       method: 'POST',
@@ -28,28 +36,17 @@ export default function UserProvider({children, sessionData}: {children: React.R
     })
     .then(result => {
       console.log("Fetched auth data:", result);
-      if (!result.success) {
+      if (!result.success || !result.session?.user) {
         throw new Error('Authentication failed!');
       }
-      setSession(result.session);
+      setUser(result.session.user);
     })
     .catch(error => {
-      throw new Error(`Auth Request ${error}`); // TODO: import ErrorBoundary and other Error shit because this shit not being catched
+      throw new Error(`Auth Request ${error}`);
     });
   }
-  
-  const connectedUser: User = session?.user;
-  const [user, setUser] = useState(connectedUser);
-  
-  function updateUser(data: any) {
-    setUser(Object.assign({}, user, data));
-  }
 
-  useEffect(() => {
-    if (session?.user) {
-      updateUser(session.user);
-    }
-  }, [session]);
+  console.log('UserProvider user:', user);  
 
   const value = {
     user: user,
