@@ -1,11 +1,6 @@
-// import bcrypt from 'bcrypt';
-// import { db } from '@vercel/postgres';
 import { neon } from '@neondatabase/serverless';
-import { users, services, actions } from '@/db/seed';
+import { actions, services, tasks, tasksDone, users } from '@/db/seed';
 
-// TODO: use int/serial instead of big...? # big... returns string instead of number # max int = +2,147,483,647
-
-// const client = await db.connect();
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
@@ -24,16 +19,15 @@ async function seedUsers() {
     );
   `);
 
-  const insertedUsers = await Promise.all(
+  // const insertedUsers = await Promise.all(
     users.map(
-      (user) => sql(`
-        INSERT INTO users (tg_id, address, balance, reward)
-        VALUES ($1, $2, $3, $4)
-      `, [user.tg_id, user.address, user.balance, user.reward]),
-    ),
-  );
-
-  return insertedUsers;
+      async (user) => await sql(`
+        INSERT INTO users (id, tg_id, address, balance, reward)
+        VALUES ($1, $2, $3, $4, $5)
+      `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
+    );
+  // );
+  // return insertedUsers;
 }
 
 async function seedServices() {
@@ -44,16 +38,15 @@ async function seedServices() {
     );
   `);
 
-  const insertedServices = await Promise.all(
+  // const insertedServices = await Promise.all(
     services.map(
-      (service) => sql(`
-        INSERT INTO services (name)
-        VALUES ($1)
-      `, [service.name]),
-    ),
-  );
-
-  return insertedServices;
+      async (service) => await sql(`
+        INSERT INTO services (id, name)
+        VALUES ($1, $2)
+      `, [service.id, service.name]),
+    );
+  // );
+  // return insertedServices;
 }
 
 async function seedActions() {
@@ -65,16 +58,15 @@ async function seedActions() {
     );
   `);
 
-  const insertedActions = await Promise.all(
+  // const insertedActions = await Promise.all(
     actions.map(
-      (action) => sql(`
-        INSERT INTO actions (name, reward)
-        VALUES ($1, $2)
-      `, [action.name, action.reward]),
-    ),
-  );
-
-  return insertedActions;
+      async (action) => await sql(`
+        INSERT INTO actions (id, name, reward)
+        VALUES ($1, $2, $3)
+      `, [action.id, action.name, action.reward]),
+    );
+  // );
+  // return insertedActions;
 }
 
 async function seedTasks() {
@@ -101,6 +93,16 @@ async function seedTasks() {
   `);
     // updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ?, probably nope...or yep?
     // CONSTRAINT ... ON DELETE SET NULL | ON DELETE CASCADE
+
+    // const insertedTasks = await Promise.all(
+      tasks.map(
+        async (task) => await sql(`
+          INSERT INTO tasks (id, user_id, action_id, service_id, link, price, count, done, status)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        `, [task.id, task.user_id, task.action_id, task.service_id, task.link, task.price, task.count, task.done, task.status]),
+      );
+    // );
+    // return insertedTasks;
 }
 
 async function seedTasksDone() {
@@ -115,6 +117,16 @@ async function seedTasksDone() {
       CONSTRAINT fk_task FOREIGN KEY(task_id) REFERENCES tasks(id)
     );
   `);
+
+  // const insertedTasksDone = await Promise.all(
+    tasksDone.map(
+      async (taskDone) => await sql(`
+        INSERT INTO tasks_done (id, user_id, task_id)
+        VALUES ($1, $2, $3)
+      `, [taskDone.id, taskDone.user_id, taskDone.task_id]),
+    );
+  // );
+  // return insertedTasksDone;
 }
 
 export async function GET() {
