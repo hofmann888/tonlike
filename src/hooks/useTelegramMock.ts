@@ -1,7 +1,7 @@
 import { useClientOnce } from '@/hooks/useClientOnce';
 import {
-  isTMA,
   type LaunchParams,
+  isTMA,
   mockTelegramEnv,
   parseInitData,
   retrieveLaunchParams,

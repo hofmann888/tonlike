@@ -16,7 +16,7 @@ async function dropDB() {
 async function seedUsers() {
   await sql(`
     CREATE TABLE IF NOT EXISTS users (
-      id BIGSERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       tg_id BIGINT NOT NULL UNIQUE,
       address CHAR(48),
       balance FLOAT NOT NULL DEFAULT 0,
@@ -39,7 +39,7 @@ async function seedUsers() {
 async function seedServices() {
   await sql(`
     CREATE TABLE IF NOT EXISTS services (
-      id SERIAL PRIMARY KEY,
+      id SMALLSERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL
     );
   `);
@@ -59,7 +59,7 @@ async function seedServices() {
 async function seedActions() {
   await sql(`
     CREATE TABLE IF NOT EXISTS actions (
-      id SERIAL PRIMARY KEY,
+      id SMALLSERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       reward INT NOT NULL DEFAULT 0
     );
@@ -81,10 +81,10 @@ async function seedTasks() {
   await sql(`CREATE TYPE task_status AS ENUM('active','stop','done');`);
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
-      id BIGSERIAL PRIMARY KEY, 
-      user_id BIGINT NOT NULL,
-      action_id INT NOT NULL,
-      service_id INT NOT NULL,
+      id SERIAL PRIMARY KEY, 
+      user_id INT NOT NULL,
+      action_id SMALLINT NOT NULL,
+      service_id SMALLINT NOT NULL,
       link VARCHAR(255) NOT NULL,
       price FLOAT NOT NULL,
       count INT NOT NULL,
@@ -107,8 +107,8 @@ async function seedTasksDone() {
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks_done (
       id BIGSERIAL PRIMARY KEY,
-      user_id BIGINT NOT NULL,
-      task_id BIGINT NOT NULL,
+      user_id INT NOT NULL,
+      task_id INT NOT NULL,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
       CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),

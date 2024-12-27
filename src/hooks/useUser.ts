@@ -3,9 +3,9 @@ import { UserContext } from "@/components/Providers/UserProvider";
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 
 export function useUser() {
+  console.log('useUser');
   const { user, updateUser } = useContext(UserContext);
   const { initData } = retrieveLaunchParams();
-  console.log('useUser initdata:', initData);
 
   return {
     id: user?.id,
