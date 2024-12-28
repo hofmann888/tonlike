@@ -43,6 +43,7 @@ function RootInner({ children }: PropsWithChildren) {
   //   initDataUser && setLocale(initDataUser.languageCode);
   // }, [initDataUser]);
 
+  // TODO: move TonConnectUIProvider to providers?
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <AppRoot

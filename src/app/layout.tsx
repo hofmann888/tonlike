@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { getSession } from "./auth/session";
+import { Providers } from "@/components/Providers/Providers";
 import { TWARoot } from "@/components/TWA/TWARoot";
+import { getSession } from "./auth/session";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import UserProvider from "@/components/Providers/UserProvider";
-import QueryClientWrapper from "@/components/Providers/QueryClientWrapper";
+
 import "@/css/globals.scss";
 import "@/css/main.scss";
 
@@ -34,23 +34,26 @@ export default async function RootLayout({
   const session = await getSession();
   console.log('layout.tsx session:', session);
 
+  const defaultTheme = 'dark';
+
   return (
-    <html lang="en">
+    <html lang="en" className={defaultTheme}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TWARoot>
-          <QueryClientWrapper>
-            <UserProvider userData={session?.user}>
-              <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
-                <Header />
-                
-                <main className="layout-content">
-                  {children}
-                </main>
+          <Providers 
+            userData={session?.user}
+            themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
+          >
+            <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
+              <Header />
+              
+              <main className="layout-content">
+                {children}
+              </main>
 
-                <Footer />
-              </div>
-            </UserProvider>
-          </QueryClientWrapper>
+              <Footer />
+            </div>
+          </Providers>
         </TWARoot>
       </body>
     </html>
