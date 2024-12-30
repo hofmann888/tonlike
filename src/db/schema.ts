@@ -11,7 +11,7 @@ export const withdrawFormSchema = z.object({
 });
 
 
-export const newTaskFormSchema = z.object({
+export const createTaskFormSchema = z.object({
   actionId: z.coerce.number().positive().refine(async (id) => {
     const action = await fetchActionById(id);
     if (!action?.id) {

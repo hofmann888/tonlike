@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 import { updateUserById, createTask } from './sql';
 import { getAuthUser, setSession } from '@/app/auth/session';
-import { depositFormSchema, withdrawFormSchema, newTaskFormSchema } from './schema';
-import { DepostitFormState, WithdrawFormState, NewTaskFormState, User} from '@/lib/definitions';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema } from './schema';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User} from '@/lib/definitions';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
@@ -82,19 +82,19 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
   redirect('/wallet');
 }
 
-export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: FormData) {
-  console.log('NewTaskFormSubmit');
+export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
+  console.log('CreateTaskFormSubmit');
   try {
     const user: User = await getAuthUser(false);
 
-    const validated = await newTaskFormSchema.safeParseAsync({
+    const validated = await createTaskFormSchema.safeParseAsync({
       actionId: formData.get('actionId'),
       serviceId: formData.get('serviceId'),
       link: formData.get('link'),
       price: formData.get('price'),
       count: formData.get('count'),
     });
-    console.log('validated:'); console.log(validated);
+    console.log('validated:', validated);
 
     if (!validated.success) {
       return {
@@ -127,10 +127,5 @@ export async function NewTaskFormSubmit(prevState: NewTaskFormState, formData: F
   }
   
   revalidatePath('/tasks');
-  redirect('/tasks'); 
-  // TODO: there was error after first NewTaskForm submit after `npx next dev` 
-  // Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
-  // It's because useSession in condition
-  //- либо убираем из лейаута сессию и тянем ее через хук на фронте (хзхз)
-  //- либо при отсутвии сессии на фронте делаем не фетч а редирект (ну нет, мне же данные надо посылать туда...ну либо как гет параметры их отсылать я хуй знает)
+  redirect('/tasks');
 }

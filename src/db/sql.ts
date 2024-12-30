@@ -6,7 +6,7 @@ import { Action, Service, Task, TaskDTO, User } from '@/lib/definitions';
 
 export async function fetchActions() {
   try {
-    const data = await sql(`SELECT * FROM actions;`);
+    const data = await sql(`SELECT * FROM actions ORDER BY id;`);
     return data as Action[];
   } catch (error) {
     console.error('Database Error:', error);
@@ -26,7 +26,7 @@ export async function fetchActionById(id: number) {
 
 export async function fetchServices() {
   try {
-    const data = await sql(`SELECT * FROM services;`);
+    const data = await sql(`SELECT * FROM services ORDER BY id;`);
     return data as Service[];
   } catch (error) {
     console.error('Database Error:', error);

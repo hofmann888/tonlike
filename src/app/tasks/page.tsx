@@ -19,9 +19,9 @@ export default async function TasksPage() {
         ))}
       </div>
 
-      <div className="new-task">
-        <Link href="/new-task" className="new-task-btn">
-          New Task
+      <div className="tasks-create">
+        <Link href="/tasks/create" className="tasks-create-btn">
+          Create Task
         </Link>
       </div>
     </div>

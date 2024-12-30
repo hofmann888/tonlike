@@ -1,16 +1,16 @@
 'use server'
 
 import { fetchActions, fetchServices } from "@/db/sql";
-import NewTaskForm from "@/components/TasksPage/NewTaskForm";
+import CreateTaskForm from "@/components/TasksPage/CreateTaskForm";
 
-export default async function NewTaskPage() {
+export default async function CreateTaskPage() {
   const servicesPromise = fetchServices();
   const actionsPromise = fetchActions();
   const [services, actions] = await Promise.all([servicesPromise, actionsPromise]);
 
   return (
-    <div className="new-task-page">
-      <NewTaskForm services={services} actions={actions} />
+    <div className="create-task-page page-content">
+      <CreateTaskForm services={services} actions={actions} />
     </div>
   )
 }

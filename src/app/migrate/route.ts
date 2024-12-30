@@ -19,15 +19,14 @@ async function seedUsers() {
     );
   `);
 
-  // const insertedUsers = await Promise.all(
-    users.map(
-      async (user) => await sql(`
-        INSERT INTO users (id, tg_id, address, balance, reward)
-        VALUES ($1, $2, $3, $4, $5)
-      `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
-    );
-  // );
-  // return insertedUsers;
+  users.map(
+    async (user) => await sql(`
+      INSERT INTO users (id, tg_id, address, balance, reward)
+      VALUES ($1, $2, $3, $4, $5)
+    `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
+  );
+
+  await sql('ALTER SEQUENCE users_id_seq RESTART WITH 3;');
 }
 
 async function seedServices() {
@@ -38,15 +37,14 @@ async function seedServices() {
     );
   `);
 
-  // const insertedServices = await Promise.all(
-    services.map(
-      async (service) => await sql(`
-        INSERT INTO services (id, name)
-        VALUES ($1, $2)
-      `, [service.id, service.name]),
-    );
-  // );
-  // return insertedServices;
+  services.map(
+    async (service) => await sql(`
+      INSERT INTO services (id, name)
+      VALUES ($1, $2)
+    `, [service.id, service.name]),
+  );
+
+  await sql('ALTER SEQUENCE services_id_seq RESTART WITH 7;');
 }
 
 async function seedActions() {
@@ -58,15 +56,14 @@ async function seedActions() {
     );
   `);
 
-  // const insertedActions = await Promise.all(
-    actions.map(
-      async (action) => await sql(`
-        INSERT INTO actions (id, name, reward)
-        VALUES ($1, $2, $3)
-      `, [action.id, action.name, action.reward]),
-    );
-  // );
-  // return insertedActions;
+  actions.map(
+    async (action) => await sql(`
+      INSERT INTO actions (id, name, reward)
+      VALUES ($1, $2, $3)
+    `, [action.id, action.name, action.reward]),
+  );
+  
+  await sql('ALTER SEQUENCE actions_id_seq RESTART WITH 7;');
 }
 
 async function seedTasks() {
@@ -94,15 +91,14 @@ async function seedTasks() {
     // updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ?, probably nope...or yep?
     // CONSTRAINT ... ON DELETE SET NULL | ON DELETE CASCADE
 
-    // const insertedTasks = await Promise.all(
-      tasks.map(
-        async (task) => await sql(`
-          INSERT INTO tasks (id, user_id, action_id, service_id, link, price, count, done, status)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        `, [task.id, task.user_id, task.action_id, task.service_id, task.link, task.price, task.count, task.done, task.status]),
-      );
-    // );
-    // return insertedTasks;
+  tasks.map(
+    async (task) => await sql(`
+      INSERT INTO tasks (id, user_id, action_id, service_id, link, price, count, done, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `, [task.id, task.user_id, task.action_id, task.service_id, task.link, task.price, task.count, task.done, task.status]),
+  );
+
+  await sql('ALTER SEQUENCE tasks_id_seq RESTART WITH 9;');
 }
 
 async function seedTasksDone() {
@@ -118,15 +114,14 @@ async function seedTasksDone() {
     );
   `);
 
-  // const insertedTasksDone = await Promise.all(
-    tasksDone.map(
-      async (taskDone) => await sql(`
-        INSERT INTO tasks_done (id, user_id, task_id)
-        VALUES ($1, $2, $3)
-      `, [taskDone.id, taskDone.user_id, taskDone.task_id]),
-    );
-  // );
-  // return insertedTasksDone;
+  tasksDone.map(
+    async (taskDone) => await sql(`
+      INSERT INTO tasks_done (id, user_id, task_id)
+      VALUES ($1, $2, $3)
+    `, [taskDone.id, taskDone.user_id, taskDone.task_id]),
+  );
+
+  await sql('ALTER SEQUENCE tasks_done_id_seq RESTART WITH 2;');
 }
 
 export async function GET() {

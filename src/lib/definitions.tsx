@@ -24,7 +24,7 @@ export type WithdrawFormState = {
   message?: string | null;
 };
 
-export type NewTaskFormState = {
+export type CreateTaskFormState = {
   errors?: {
     actionId?: string[];
     serviceId?: string[];

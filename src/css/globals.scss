@@ -24,39 +24,10 @@ button.disabled {
     cursor: unset;
 }
 
-form {
-    padding: 30px;
-    text-align: center;
-
-    .form-field {
-        margin-bottom: 20px;
-
-        label {
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        input, select {
-            width: 100%;
-            color: #000;
-            height: 40px;
-            padding: 0 10px;
-        }
-    }
-
-    .submit-btn {
-        width: 100%;
-        padding: 15px;
-        margin-top: 20px;
-        background: aqua;
-        color: #000;
-    }
-
-    .submit-btn, input {
-        border-radius: 3px;
-    }
-}
-
 .hidden {
     display: none;
+}
+
+.page-content {
+    padding: 20px 0;
 }

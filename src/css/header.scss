@@ -4,6 +4,7 @@
     align-items: center;
     position: sticky;
     top: 0;
+    z-index: 100;
     border-bottom: 1px solid hsl(var(--nextui-foreground));
     background-color: hsl(var(--nextui-background));
 
