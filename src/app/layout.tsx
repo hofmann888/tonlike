@@ -5,7 +5,6 @@ import { getSession } from "./auth/session";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
 import "@/css/globals.scss";
 import "@/css/main.scss";
 

@@ -1,9 +1,11 @@
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: sticky;
     top: 0;
     border-bottom: 1px solid hsl(var(--nextui-foreground));
+    background-color: hsl(var(--nextui-background));
 
     .header-balance {
         display: flex;
@@ -11,12 +13,7 @@
         justify-content: center;
     }
 
-    .header-user {
-        display: flex;
-        align-items: center;
-
-        .header-user__username {
-            margin-right: 10px;
-        }
+    .header-user > button > div  {
+        align-items: flex-end;
     }
 }
