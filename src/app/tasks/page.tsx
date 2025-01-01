@@ -3,8 +3,9 @@
 import { Task, User } from "@/lib/definitions";
 import { getAuthUser } from "@/app/auth/session";
 import { fetchUserTasks } from "@/db/sql";
+import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
 import TaskItem from "@/components/TasksPage/TaskItem";
-import Link from "next/link";
 import "@/css/tasks.scss";
 
 export default async function TasksPage() {
@@ -20,9 +21,16 @@ export default async function TasksPage() {
       </div>
 
       <div className="tasks-create">
-        <Link href="/tasks/create" className="tasks-create-btn">
+        <Button
+          as={Link}
+          color="primary"
+          href="/tasks/create"
+          variant="shadow"
+          size="lg"
+          className="w-full mb-2 mt-2"
+        >
           Create Task
-        </Link>
+        </Button>
       </div>
     </div>
   )
