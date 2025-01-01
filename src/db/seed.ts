@@ -20,30 +20,37 @@ const services = [
   {
     id: 1,
     name: 'Telegram',
+    img: '/img/social/telegram.png'
   },
   {
     id: 2,
     name: 'X',
+    img: '/img/social/x.png'
   },
   {
     id: 3,
     name: 'Instagram',
+    img: '/img/social/instagram.png'
   },
   {
     id: 4,
     name: 'TikTok',
+    img: '/img/social/tiktok.png'
   },
   {
     id: 5,
     name: 'YouTube',
-  },
-  {
-    id: 5,
-    name: 'VK',
+    img: '/img/social/youtube.png'
   },
   {
     id: 6,
+    name: 'VK',
+    img: '/img/social/vk.png'
+  },
+  {
+    id: 7,
     name: 'Link',
+    img: '/img/social/link.png'
   },
 ];
 

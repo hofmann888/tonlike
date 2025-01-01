@@ -49,12 +49,13 @@ export type User = {
 export type Service = {
   id: number,
   name: string,
+  img: string,
 }
 
 export type Action = {
   id: number,
   name: string,
-  reward: number
+  reward: number,
 }
 
 export type Task = {
@@ -88,6 +89,7 @@ export type TaskDTO = {
   action_reward: number,
   service_id: number,
   service_name: string,
+  service_img: string,
 }
 
 export enum TaskStatus {

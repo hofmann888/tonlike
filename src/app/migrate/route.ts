@@ -33,15 +33,16 @@ async function seedServices() {
   await sql(`
     CREATE TABLE IF NOT EXISTS services (
       id SMALLSERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL
+      name VARCHAR(255) NOT NULL,
+      img VARCHAR(255) NULL
     );
   `);
 
   services.map(
     async (service) => await sql(`
-      INSERT INTO services (id, name)
-      VALUES ($1, $2)
-    `, [service.id, service.name]),
+      INSERT INTO services (id, name, img)
+      VALUES ($1, $2, $3)
+    `, [service.id, service.name, service.img]),
   );
 
   await sql('ALTER SEQUENCE services_id_seq RESTART WITH 7;');

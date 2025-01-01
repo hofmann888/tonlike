@@ -20,6 +20,7 @@ export function formatUserTaskDTO(dto: TaskDTO) {
     service: {
       id: dto?.action_id,
       name: dto?.service_name,
+      img: dto?.service_img,
     } as Service,
   } as Task;
 }

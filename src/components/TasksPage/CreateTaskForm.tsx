@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import { CreateTaskFormSubmit } from "@/db/actions";
@@ -41,7 +41,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
                 alt={item.data?.name}
                 className="flex-shrink-0"
                 size="sm"
-                src="https://flagcdn.com/ar.svg"
+                src={item.data?.img}
               />
               <div className="flex flex-col">
                 <span>{item.data?.name}</span>
@@ -54,7 +54,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           <SelectItem
             key={service.id}
             startContent={
-              <Avatar alt="Argentina" className="w-6 h-6" src="https://flagcdn.com/ar.svg" />
+              <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
             }
           >
             {service.name}
