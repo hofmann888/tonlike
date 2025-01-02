@@ -42,7 +42,13 @@ export default function TasksFilter({
   const [statusFilter, setStatusFilter] = useState(params.get('status'));
   const [sortFilter, setSortFilter] = useState(params.get('sort'));
 
-  function tabOnChange(key: string) {
+  const [pressSubText, setPressSubText] = useState('expand');
+
+  const filterOnPress = () => {
+    pressSubText === 'expand' ? setPressSubText('collapse') : setPressSubText('expand');
+  }
+
+  const tabOnChange = (key: string) => {
     setStatusFilter(key);
     setServicesFilter([]);
     setActionsFilter([]);
@@ -101,11 +107,15 @@ export default function TasksFilter({
       </Tabs>
 
       <Accordion>
-        <AccordionItem key="1" aria-label="Filter" title={
+        <AccordionItem 
+          key="1" 
+          aria-label="Filter"
+          onPress={filterOnPress}
+          title={
           <div className="flex justify-between items-center">
             <div>
               <p>Filter</p>
-              <p className="text-small text-foreground-400">Press to expand</p>
+              <p className="text-small text-foreground-400">Press to {pressSubText}</p>
             </div>
 
             <Select 
