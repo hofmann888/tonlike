@@ -112,3 +112,22 @@ export type TaskStatusMapItem = {
   icon: IconType,
   // count: number,
 }
+
+export enum TaskSort {
+  PRICE_ASC = 'price_asc',
+  PRICE_DESC = 'price_desc',
+  DATE_ASC = 'date_asc',
+  DATE_DESC = 'date_desc',
+}
+
+export enum TaskSortTitle {
+  PRICE_ASC = 'Price: Low to High',
+  PRICE_DESC = 'Price High to Low',
+  DATE_ASC = 'Date: Low to High',
+  DATE_DESC = 'Date: High to Low',
+}
+
+export type TaskSortMapItem = {
+  key: TaskSort.PRICE_ASC | TaskSort.PRICE_DESC | TaskSort.DATE_ASC | TaskSort.DATE_DESC,
+  title: TaskSortTitle.PRICE_ASC | TaskSortTitle.PRICE_DESC | TaskSortTitle.DATE_ASC | TaskSortTitle.DATE_DESC,
+}

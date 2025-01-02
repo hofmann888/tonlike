@@ -8,14 +8,26 @@ import { Chip } from "@nextui-org/chip";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaPlay, FaPause, FaCheck, FaTrashAlt } from "react-icons/fa";
-import { Action, Service, TaskStatusMapItem, TaskStatus, TaskStatusTitle } from "@/lib/definitions";
+import { 
+  Action, 
+  Service, 
+  TaskStatusMapItem, TaskStatus, TaskStatusTitle, 
+  TaskSortMapItem, TaskSort, TaskSortTitle 
+} from "@/lib/definitions";
 
-// TODO: combine map and status count?
+// TODO: combine status map and status count? # error on pass icon through component props cause its a function
+// TODO: remove enums and import object?
 const statusMap: TaskStatusMapItem[] = [
   { key: TaskStatus.ACTIVE, title: TaskStatusTitle.ACTIVE, icon: FaPlay },
   { key: TaskStatus.STOP, title: TaskStatusTitle.STOP, icon: FaPause },
   { key: TaskStatus.DONE, title: TaskStatusTitle.DONE, icon: FaCheck },
   { key: TaskStatus.DELETED, title: TaskStatusTitle.DELETED, icon: FaTrashAlt },
+]
+const sortMap: TaskSortMapItem[] = [
+  { key: TaskSort.PRICE_ASC, title: TaskSortTitle.PRICE_ASC },
+  { key: TaskSort.PRICE_DESC, title: TaskSortTitle.PRICE_DESC },
+  { key: TaskSort.DATE_ASC, title: TaskSortTitle.DATE_ASC },
+  { key: TaskSort.DATE_DESC, title: TaskSortTitle.DATE_DESC },
 ]
 
 export default function TasksFilter({
@@ -28,6 +40,7 @@ export default function TasksFilter({
   const [actionsFilter, setActionsFilter] = useState(params.get('actions')?.split(','));
   const [servicesFilter, setServicesFilter] = useState(params.get('services')?.split(','));
   const [statusFilter, setStatusFilter] = useState(params.get('status'));
+  const [sortFilter, setSortFilter] = useState(params.get('sort'));
 
   function tabOnChange(key: string) {
     setStatusFilter(key);
@@ -45,11 +58,14 @@ export default function TasksFilter({
     } 
     if (statusFilter?.length) {
       params += `status=${statusFilter}&`; 
+    }
+    if (sortFilter?.length) {
+      params += `sort=${sortFilter}&`;
     } 
     params = params.slice(0, -1); 
     
     router.push(`/tasks${params}`);
-  }, [actionsFilter, servicesFilter, statusFilter])
+  }, [actionsFilter, servicesFilter, statusFilter, sortFilter])
 
   return (
     <div className="flex flex-wrap gap-2 mb-4">
@@ -84,7 +100,6 @@ export default function TasksFilter({
         })}
       </Tabs>
 
-
       <Accordion>
         <AccordionItem key="1" aria-label="Filter" title={
           <div className="flex justify-between items-center">
@@ -99,9 +114,12 @@ export default function TasksFilter({
               size="sm"
               variant="bordered" 
               className="w-44"
+              items={sortMap}
+              onChange={(e) => setSortFilter(e.target?.value)}
             >
-              <SelectItem key={1}>Price</SelectItem>
-              <SelectItem key={2}>Date</SelectItem>
+              {sortMap.map((sort) => (
+                <SelectItem key={sort.key}>{sort.title}</SelectItem>
+              ))}
             </Select>
           </div>
         }>
