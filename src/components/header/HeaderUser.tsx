@@ -30,10 +30,6 @@ export default function HeaderUser() {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
-            <p className="font-bold">Signed in as</p>
-            <p className="font-bold">{`@${tgUserName}`}</p>
-          </DropdownItem>
           <DropdownItem key="theme" closeOnSelect={false}>
             <ThemeSwitcher />
           </DropdownItem>
