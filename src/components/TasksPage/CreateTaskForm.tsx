@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from "react";
-import { useFormState } from "react-dom";
-import { useUser } from "@/hooks/useUser";
-import { CreateTaskFormSubmit } from "@/db/actions";
 import { CreateTaskFormState, Action, Service } from "@/lib/definitions";
+import { CreateTaskFormSubmit } from "@/db/actions";
+import { useUser } from "@/hooks/useUser";
+import { useFormState } from "react-dom";
+import { useState } from "react";
 import { Form } from "@nextui-org/form";
-import { Select, SelectItem } from "@nextui-org/select";
-import { Avatar } from "@nextui-org/avatar";
 import { Input } from "@nextui-org/input";
+import { Avatar } from "@nextui-org/avatar";
+import { Select, SelectItem } from "@nextui-org/select";
 import SubmitButton from "@/components/Forms/SubmitButton";
 
 // TODO: format + validation
@@ -29,11 +29,11 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
         items={services}
         label="Service"
         variant="bordered"
-        onChange={() => setLink('')}
         classNames={{
           label: "group-data-[filled=true]:-translate-y-5",
           trigger: "min-h-16",
         }}
+        onChange={() => setLink('')}
         renderValue={(items) => {
           return items.map((item) => (
             <div key={item.key} className="flex items-center gap-2">

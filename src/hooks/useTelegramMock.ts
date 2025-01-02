@@ -27,8 +27,8 @@ export function useTelegramMock(): void {
         ['user', JSON.stringify({
           id: 6425951136,
           first_name: 'Andrew',
-          last_name: 'Rogue',
-          username: 'rogue',
+          last_name: 'Chill',
+          username: 'chill',
           language_code: 'en',
           is_premium: true,
           allows_write_to_pm: true,

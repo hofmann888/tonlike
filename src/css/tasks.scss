@@ -1,24 +1,11 @@
 .tasks-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 0 0;
-    height: 100%;
-
-    .tasks-create {
-        position: sticky;
-        bottom: 60px;
+    .tasks-tabs {
+        top: 80px;
         background: hsl(var(--nextui-background));
     }
-    
-    .task-list {
-        max-height: 100%;
-        overflow: auto;
-        .task-item {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #fff;
-            border-radius: 10px;
-        }
+
+    .tasks-create {
+        bottom: 60px;
+        background: hsl(var(--nextui-background));
     }
 }

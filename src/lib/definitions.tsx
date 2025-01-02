@@ -64,7 +64,7 @@ export type Task = {
   price: number,
   count: number,
   done: number,
-  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE,
+  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
 	created_at: number,
 	updated_at: number,
 	deleted_at: number,
@@ -79,7 +79,7 @@ export type TaskDTO = {
   price: number,
   count: number,
   done: number,
-  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE,
+  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
 	created_at: number,
 	updated_at: number,
 	deleted_at: number,
@@ -96,4 +96,19 @@ export enum TaskStatus {
   ACTIVE = 'active',
   STOP = 'stop',
   DONE = 'done',
+  DELETED = 'deleted', // TODO: archive?
+}
+
+export enum TaskStatusTitle {
+  ACTIVE = 'Active',
+  STOP = 'Stopped',
+  DONE = 'Done',
+  DELETED = 'Deleted',
+}
+
+export type TaskStatusMapItem = {
+  key: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
+  title: TaskStatusTitle.ACTIVE | TaskStatusTitle.STOP | TaskStatusTitle.DONE | TaskStatusTitle.DELETED,
+  icon: IconType,
+  // count: number,
 }

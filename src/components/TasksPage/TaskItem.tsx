@@ -1,17 +1,14 @@
 'use client'
 
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Card, CardHeader, CardFooter } from "@nextui-org/card";
 import { Progress } from "@nextui-org/progress";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { Task } from "@/lib/definitions";
-import { FaPause } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaPause, FaTrashAlt } from "react-icons/fa";
 
 export default function TaskItem({task}: {task: Task}) {
-  console.log(task);
-
   return (
     <Card 
       isBlurred
@@ -34,7 +31,7 @@ export default function TaskItem({task}: {task: Task}) {
           </div>
         </div>
 
-        <span className="text-medium">${task.price}</span>
+        <span className="text-medium text-green-600">${task.price}</span>
 
         <div className="flex gap-1">
           <Button isIconOnly aria-label="pause" color="warning" variant="faded">

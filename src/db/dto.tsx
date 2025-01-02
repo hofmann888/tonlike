@@ -18,7 +18,7 @@ export function formatUserTaskDTO(dto: TaskDTO) {
       reward: dto?.action_reward,
     } as Action,
     service: {
-      id: dto?.action_id,
+      id: dto?.service_id,
       name: dto?.service_name,
       img: dto?.service_img,
     } as Service,
