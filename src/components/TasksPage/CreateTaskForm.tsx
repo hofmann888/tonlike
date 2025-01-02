@@ -23,7 +23,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
 
   return (
-    <Form action={formAction} className="create-task-form" validationErrors={state.errors}>
+    <Form action={formAction} className="create-task-form" validationErrors={state?.errors}>
       <Select
         name="serviceId"
         items={services}
@@ -63,7 +63,6 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
       </Select>
 
       <Input name="link" label="Link" variant="bordered" value={link} onValueChange={setLink} isClearable />
-
 
       <Select name="actionId" items={actions} label="Action" variant="bordered">
         {actions.map((action) => (

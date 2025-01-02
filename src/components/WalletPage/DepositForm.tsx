@@ -1,5 +1,7 @@
 'use client'
 
+import { Form } from "@nextui-org/form";
+import { Input } from "@nextui-org/input";
 import { DepositFormSubmit } from "@/db/actions";
 import { DepostitFormState } from "@/lib/definitions";
 import { useFormState } from 'react-dom';
@@ -11,21 +13,21 @@ export default function DepositForm() {
   const [state, formAction] = useFormState(DepositFormSubmit, initialState);
 
   return (
-    <form action={formAction}>
-      <div className="form-field">
-        <label htmlFor="amount">Amount</label>
-        <input type="number" name="amount" step="0.1" min={min} defaultValue={min} />
-
-        <div id="amountError" aria-live="polite" aria-atomic="true">
-          {state?.errors?.amount &&
-            state.errors.amount.map((error: string) => (
-              <p className="mt-2 text-sm text-red-500" key={error}>
-                {error}
-              </p>
-            )
-          )}
-        </div>
-      </div>
+    <Form action={formAction} validationErrors={state?.errors}>
+      <Input
+        name="amount"
+        label="Amount"
+        type="number"
+        placeholder="0.00"
+        min={min}
+        step={0.1}
+        variant="bordered"
+        startContent={
+          <div className="pointer-events-none flex items-center">
+            <span className="text-default-400 text-small">$</span>
+          </div>
+        }
+      />
 
       <div id="fields-error" aria-live="polite" aria-atomic="true">
         {state?.message &&
@@ -36,6 +38,6 @@ export default function DepositForm() {
       </div>
 
       <SubmitButton text="Deposit" />
-    </form>
+    </Form>
   )
 }

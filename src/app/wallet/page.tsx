@@ -1,11 +1,10 @@
 'use client'
 
+import { Tabs, Tab } from "@nextui-org/tabs";
 import { useTonConnect } from "@/hooks/useTonConnect";
-import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import DepositForm from "@/components/WalletPage/DepositForm";
 import WithdrawForm from "@/components/WalletPage/WithdrawForm";
 import WalletConnect from "@/components/WalletPage/WalletConnect";
-import "@/css/wallet.scss";
 
 export default function Walletage() {
   const { connected } = useTonConnect();
@@ -18,21 +17,24 @@ export default function Walletage() {
 
   return (
     <div className="wallet-page">
-      <Tabs>
-        <TabList>
-          <Tab>Deposit</Tab>
-          <Tab>Withdraw</Tab>
-        </TabList>
-
-        <WalletConnect />
-
-        <TabPanel>
+      <Tabs
+        aria-label="Status"
+        // variant="underlined"
+        classNames={{
+          base: "w-full mb-5",
+          tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+          // cursor: "w-full bg-[#22d3ee]",
+          tab: "max-w-full px-0 h-12",
+          // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
+        }}
+      >
+        <Tab key="deposit" title="Deposit">
           <DepositForm />
-        </TabPanel>
-        
-        <TabPanel>
-          <WithdrawForm/>
-        </TabPanel>
+        </Tab>
+
+        <Tab key="withdraw" title="Withdraw">
+          <WithdrawForm />
+        </Tab>
       </Tabs>
     </div>
   )

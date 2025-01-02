@@ -8,13 +8,13 @@ export default function WalletConnect() {
   const { network } = useTonConnect();
   
   return (
-    <div className="wallet-connect">
+    <div className="flex items-center justify-end my-5">
       <div>
       {network
         ? network === CHAIN.MAINNET
           ? "mainnet"
           : "testnet"
-        : "N/A"}
+        : ""}
       </div>
 
       <TonConnectButton />
