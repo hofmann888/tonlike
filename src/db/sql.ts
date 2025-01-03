@@ -95,7 +95,7 @@ export async function fetchUserEarnTasks(userId: number) {
       SELECT 
         tasks.*, 
         actions.name as action_name, actions.reward as action_reward,
-        services.name as service_name
+        services.name as service_name, services.img as service_img
       FROM tasks 
       LEFT JOIN actions on tasks.action_id = actions.id 
       LEFT JOIN services on tasks.service_id = services.id

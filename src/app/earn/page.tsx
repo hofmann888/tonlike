@@ -11,7 +11,7 @@ export default async function EarnPage() {
   const tasks: Task[] = await fetchUserEarnTasks(user.id);
 
   return (
-    <div className="earn-page">
+    <div className="earn-page py-5">
       <div className="earn-list">
         {tasks.map((task) => (
           <EarnItem key={task.id} task={task} />
