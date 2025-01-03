@@ -1,5 +1,7 @@
 'use server'
 
+import 'server-only';
+
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
 import { Action, Service, Task, TaskDTO, User } from '@/lib/definitions';
