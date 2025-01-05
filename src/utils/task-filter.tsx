@@ -1,4 +1,4 @@
-import { Action, Service, Task, TaskStatus, TaskSort, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
+import { Action, Service, Task, TaskStatusEnum, TaskSortEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 
 export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
   const setFilter = (task: Task) => {
@@ -8,8 +8,8 @@ export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
         if (typeof filter.values === 'string') {
           filter.values = filter.values.split(',');
         }
-        if (filter.key === TasksFilterParam.ACTIONS && !filter.values.includes(`${task.action.id}`)
-        || filter.key === TasksFilterParam.SERVICES && !filter.values.includes(`${task.service.id}`)) {
+        if (filter.key === TasksFilterParamEnum.ACTIONS && !filter.values.includes(`${task.action.id}`)
+        || filter.key === TasksFilterParamEnum.SERVICES && !filter.values.includes(`${task.service.id}`)) {
           result = false;
           return false;
         }
@@ -30,16 +30,16 @@ export function tasksSort(tasks: Task[], sort: string) {
 
   const setSort = (a: Task, b: Task) => {
     switch (sort) {
-      case TaskSort.PRICE_ASC:
+      case TaskSortEnum.PRICE_ASC:
         if (a.price === b.price) return 0;
         return a.price < b.price ? -1 : 1;
-      case TaskSort.PRICE_DESC: 
+      case TaskSortEnum.PRICE_DESC: 
         if (a.price === b.price) return 0;
         return a.price > b.price ? -1 : 1;
-      case TaskSort.DATE_ASC: 
+      case TaskSortEnum.DATE_ASC: 
         if (a.created_at === b.created_at) return 0;
         return a.created_at < b.created_at ? -1 : 1;
-      case TaskSort.DATE_DESC: 
+      case TaskSortEnum.DATE_DESC: 
         if (a.created_at === b.created_at) return 0;
         return a.created_at > b.created_at ? -1 : 1;
       default:
@@ -69,10 +69,10 @@ export function tasksRelations(tasks: Task[]) {
 
 export function tasksStatusCount(tasks: Task[]) {
   const statusCount = {
-    [TaskStatus.ACTIVE]: 0,
-    [TaskStatus.STOP]: 0,
-    [TaskStatus.DONE]: 0,
-    [TaskStatus.DELETED]: 0,
+    [TaskStatusEnum.ACTIVE]: 0,
+    [TaskStatusEnum.STOP]: 0,
+    [TaskStatusEnum.DONE]: 0,
+    [TaskStatusEnum.DELETED]: 0,
   }
 
   if (tasks) {

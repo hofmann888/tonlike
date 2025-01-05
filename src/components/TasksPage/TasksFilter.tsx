@@ -11,23 +11,23 @@ import { FaPlay, FaPause, FaCheck, FaTrashAlt } from "react-icons/fa";
 import { 
   Action, 
   Service, 
-  TaskStatusMapItem, TaskStatus, TaskStatusTitle, 
-  TaskSortMapItem, TaskSort, TaskSortTitle 
+  TaskStatusMapItem, TaskStatusEnum, TaskStatusTitleEnum, 
+  TaskSortMapItem, TaskSortEnum, TaskSortTitleEnum 
 } from "@/lib/definitions";
 
 // TODO: combine status map and status count? # error on pass icon through component props cause its a function
 // TODO: remove enums and import object?
 const statusMap: TaskStatusMapItem[] = [
-  { key: TaskStatus.ACTIVE, title: TaskStatusTitle.ACTIVE, icon: FaPlay },
-  { key: TaskStatus.STOP, title: TaskStatusTitle.STOP, icon: FaPause },
-  { key: TaskStatus.DONE, title: TaskStatusTitle.DONE, icon: FaCheck },
-  { key: TaskStatus.DELETED, title: TaskStatusTitle.DELETED, icon: FaTrashAlt },
+  { key: TaskStatusEnum.ACTIVE, title: TaskStatusTitleEnum.ACTIVE, icon: FaPlay },
+  { key: TaskStatusEnum.STOP, title: TaskStatusTitleEnum.STOP, icon: FaPause },
+  { key: TaskStatusEnum.DONE, title: TaskStatusTitleEnum.DONE, icon: FaCheck },
+  { key: TaskStatusEnum.DELETED, title: TaskStatusTitleEnum.DELETED, icon: FaTrashAlt },
 ]
 const sortMap: TaskSortMapItem[] = [
-  { key: TaskSort.PRICE_ASC, title: TaskSortTitle.PRICE_ASC },
-  { key: TaskSort.PRICE_DESC, title: TaskSortTitle.PRICE_DESC },
-  { key: TaskSort.DATE_ASC, title: TaskSortTitle.DATE_ASC },
-  { key: TaskSort.DATE_DESC, title: TaskSortTitle.DATE_DESC },
+  { key: TaskSortEnum.PRICE_ASC, title: TaskSortTitleEnum.PRICE_ASC },
+  { key: TaskSortEnum.PRICE_DESC, title: TaskSortTitleEnum.PRICE_DESC },
+  { key: TaskSortEnum.DATE_ASC, title: TaskSortTitleEnum.DATE_ASC },
+  { key: TaskSortEnum.DATE_DESC, title: TaskSortTitleEnum.DATE_DESC },
 ]
 
 export default function TasksFilter({
@@ -38,6 +38,7 @@ export default function TasksFilter({
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
+  
   const [actionsFilter, setActionsFilter] = useState(params.get('actions')?.split(','));
   const [servicesFilter, setServicesFilter] = useState(params.get('services')?.split(','));
   const [statusFilter, setStatusFilter] = useState(params.get('status'));

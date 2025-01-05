@@ -64,7 +64,7 @@ export type Task = {
   price: number,
   count: number,
   done: number,
-  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
+  status: TaskStatus,
 	created_at: number,
 	updated_at: number,
 	deleted_at: number,
@@ -79,7 +79,7 @@ export type TaskDTO = {
   price: number,
   count: number,
   done: number,
-  status: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
+  status: TaskStatus,
 	created_at: number,
 	updated_at: number,
 	deleted_at: number,
@@ -92,53 +92,58 @@ export type TaskDTO = {
   service_img: string,
 }
 
-export enum TaskStatus {
+export enum TaskStatusEnum {
   ACTIVE = 'active',
-  STOP = 'stop',
+  STOP = 'stop', // TODO: pause?
   DONE = 'done',
   DELETED = 'deleted', // TODO: archive?
 }
+export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.STOP | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
 
-export enum TaskStatusTitle {
+export enum TaskStatusTitleEnum {
   ACTIVE = 'Active',
   STOP = 'Stopped',
   DONE = 'Done',
   DELETED = 'Deleted',
 }
+export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.STOP | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
 
 export type TaskStatusMapItem = {
-  key: TaskStatus.ACTIVE | TaskStatus.STOP | TaskStatus.DONE | TaskStatus.DELETED,
-  title: TaskStatusTitle.ACTIVE | TaskStatusTitle.STOP | TaskStatusTitle.DONE | TaskStatusTitle.DELETED,
+  key: TaskStatus,
+  title: TaskStatusTitle,
   icon: IconType,
   // count: number,
 }
 
-export enum TaskSort {
+export enum TaskSortEnum {
   PRICE_ASC = 'price_asc',
   PRICE_DESC = 'price_desc',
   DATE_ASC = 'date_asc',
   DATE_DESC = 'date_desc',
 }
+export type TaskSort = TaskSortEnum.PRICE_ASC | TaskSortEnum.PRICE_DESC | TaskSortEnum.DATE_ASC | TaskSortEnum.DATE_DESC;
 
-export enum TaskSortTitle {
+export enum TaskSortTitleEnum {
   PRICE_ASC = 'Price: Low to High',
   PRICE_DESC = 'Price High to Low',
   DATE_ASC = 'Date: Low to High',
   DATE_DESC = 'Date: High to Low',
 }
+export type TaskSortTitle = TaskSortTitleEnum.PRICE_ASC | TaskSortTitleEnum.PRICE_DESC | TaskSortTitleEnum.DATE_ASC | TaskSortTitleEnum.DATE_DESC;
 
 export type TaskSortMapItem = {
-  key: TaskSort.PRICE_ASC | TaskSort.PRICE_DESC | TaskSort.DATE_ASC | TaskSort.DATE_DESC,
-  title: TaskSortTitle.PRICE_ASC | TaskSortTitle.PRICE_DESC | TaskSortTitle.DATE_ASC | TaskSortTitle.DATE_DESC,
+  key: TaskSort,
+  title: TaskSortTitle,
 }
 
-export enum TasksFilterParam {
+export enum TasksFilterParamEnum {
   ACTIONS = 'actions',
   SERVICES = 'services',
   STATUS = 'status',
 }
+export type TasksFilterParam = TasksFilterParamEnum.ACTIONS | TasksFilterParamEnum.SERVICES | TasksFilterParamEnum.STATUS;
 
 export type TaskFilterItem = {
-  key: TasksFilterParam.ACTIONS | TasksFilterParam.SERVICES | TasksFilterParam.STATUS,
+  key: TasksFilterParam,
   values: string | string[]
 }

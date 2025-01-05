@@ -1,6 +1,6 @@
 'use server'
 
-import { User, Task, TaskStatus, TaskSort, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
+import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
 import { Button } from "@nextui-org/button";
@@ -22,15 +22,15 @@ export default async function TasksPage({
   const statusCount = tasksStatusCount(tasks);
 
   const actionsFilter: TaskFilterItem = { 
-    key: TasksFilterParam.ACTIONS, 
+    key: TasksFilterParamEnum.ACTIONS, 
     values: searchParams.actions ?? []
   };
   const servicesFilter: TaskFilterItem = { 
-    key: TasksFilterParam.SERVICES, 
+    key: TasksFilterParamEnum.SERVICES, 
     values: searchParams.services ?? []
   };
   const sortParam = searchParams.sort;
-  const statusParam = searchParams.status || TaskStatus.ACTIVE;
+  const statusParam = searchParams.status || TaskStatusEnum.ACTIVE;
 
   const tasksFilteredByStatus = tasks.filter((task) => task.status === statusParam);
 

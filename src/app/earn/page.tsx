@@ -1,6 +1,6 @@
 'use server'
 
-import { User, Task, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
+import { User, Task, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
 import { fetchUserEarnTasks } from "@/db/sql";
@@ -19,11 +19,11 @@ export default async function EarnPage({
   const { actions, services } = tasksRelations(tasks);
 
   const actionsFilter: TaskFilterItem = { 
-    key: TasksFilterParam.ACTIONS, 
+    key: TasksFilterParamEnum.ACTIONS, 
     values: searchParams.actions ?? []
   };
   const servicesFilter: TaskFilterItem = { 
-    key: TasksFilterParam.SERVICES, 
+    key: TasksFilterParamEnum.SERVICES, 
     values: searchParams.services ?? []
   };
   const sortParam = searchParams.sort;
