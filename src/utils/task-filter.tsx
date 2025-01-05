@@ -3,7 +3,7 @@ import { Action, Service, Task, TaskStatus, TaskSort, TasksFilterParam, TaskFilt
 export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
   const setFilter = (task: Task) => {
     let result = true;
-    filters.some((filter: TaskFilterItem) => {
+    filters.every((filter: TaskFilterItem) => {
       if (filter.values.length) {
         if (typeof filter.values === 'string') {
           filter.values = filter.values.split(',');
@@ -14,6 +14,7 @@ export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
           return false;
         }
       }
+      return true;
     });
     return result;
   }
