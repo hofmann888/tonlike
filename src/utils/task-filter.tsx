@@ -1,4 +1,4 @@
-import { Action, Service, Task, TaskSort, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
+import { Action, Service, Task, TaskStatus, TaskSort, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
 
 export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
   const setFilter = (task: Task) => {
@@ -23,6 +23,10 @@ export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
 
 
 export function tasksSort(tasks: Task[], sort: string) {
+  if (!sort.length) {
+    return tasks;
+  }
+
   const setSort = (a: Task, b: Task) => {
     switch (sort) {
       case TaskSort.PRICE_ASC:
@@ -60,4 +64,21 @@ export function tasksRelations(tasks: Task[]) {
   });
 
   return { actions, services };
+}
+
+export function tasksStatusCount(tasks: Task[]) {
+  const statusCount = {
+    [TaskStatus.ACTIVE]: 0,
+    [TaskStatus.STOP]: 0,
+    [TaskStatus.DONE]: 0,
+    [TaskStatus.DELETED]: 0,
+  }
+
+  if (tasks) {
+    tasks.map((task) => {
+      statusCount[task.status]++;
+    })
+  }
+
+  return statusCount;
 }

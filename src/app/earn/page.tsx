@@ -1,13 +1,13 @@
 'use server'
 
 import { User, Task, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
+import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
 import { fetchUserEarnTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import EarnItem from "@/components/EarnPage/EarnItem";
 import "@/css/earn.scss";
 
-import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 
 export default async function EarnPage({
   searchParams
@@ -39,10 +39,10 @@ export default async function EarnPage({
       <TasksFilter actions={actions} services={services} />
 
       <div className="earn-list">
-        {tasksFiltered.map((task) => (
-          <EarnItem key={task.id} task={task} />
-        ))}
-      </div>
+          {tasksFiltered.length ? tasksFiltered.map((task) => (
+            <EarnItem key={task.id} task={task} />
+          )) : <p className="text-center">No tasks found.</p>}
+        </div>
     </div>
   )
 }
