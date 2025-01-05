@@ -131,3 +131,14 @@ export type TaskSortMapItem = {
   key: TaskSort.PRICE_ASC | TaskSort.PRICE_DESC | TaskSort.DATE_ASC | TaskSort.DATE_DESC,
   title: TaskSortTitle.PRICE_ASC | TaskSortTitle.PRICE_DESC | TaskSortTitle.DATE_ASC | TaskSortTitle.DATE_DESC,
 }
+
+export enum TasksFilterParam {
+  ACTIONS = 'actions',
+  SERVICES = 'services',
+  STATUS = 'status',
+}
+
+export type TaskFilterItem = {
+  key: TasksFilterParam.ACTIONS | TasksFilterParam.SERVICES | TasksFilterParam.STATUS,
+  values: string | string[]
+}

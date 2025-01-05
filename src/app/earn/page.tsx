@@ -1,19 +1,45 @@
 'use server'
 
-import { fetchUserEarnTasks } from "@/db/sql";
-import { Task, User } from "@/lib/definitions";
+import { User, Task, TasksFilterParam, TaskFilterItem } from "@/lib/definitions";
 import { getAuthUser } from "@/app/auth/session";
+import { fetchUserEarnTasks } from "@/db/sql";
+import TasksFilter from "@/components/TasksPage/TasksFilter";
 import EarnItem from "@/components/EarnPage/EarnItem";
 import "@/css/earn.scss";
 
-export default async function EarnPage() {
+import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
+
+export default async function EarnPage({
+  searchParams
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   const user: User = await getAuthUser(false);
   const tasks: Task[] = await fetchUserEarnTasks(user.id);
+  const { actions, services } = tasksRelations(tasks);
+
+  const actionsFilter: TaskFilterItem = { 
+    key: TasksFilterParam.ACTIONS, 
+    values: searchParams.actions ?? []
+  };
+  const servicesFilter: TaskFilterItem = { 
+    key: TasksFilterParam.SERVICES, 
+    values: searchParams.services ?? []
+  };
+  const sortParam = searchParams.sort;
+
+  let tasksFiltered = tasksFilter(tasks, [actionsFilter, servicesFilter]);
+  if (sortParam?.length) {
+    tasksFiltered = tasksSort(tasksFiltered, sortParam as string);
+  }
 
   return (
     <div className="earn-page py-5">
+
+      <TasksFilter actions={actions} services={services} />
+
       <div className="earn-list">
-        {tasks.map((task) => (
+        {tasksFiltered.map((task) => (
           <EarnItem key={task.id} task={task} />
         ))}
       </div>

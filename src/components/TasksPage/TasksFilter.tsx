@@ -6,7 +6,7 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import { Avatar } from "@nextui-org/avatar";
 import { Chip } from "@nextui-org/chip";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { FaPlay, FaPause, FaCheck, FaTrashAlt } from "react-icons/fa";
 import { 
   Action, 
@@ -33,9 +33,10 @@ const sortMap: TaskSortMapItem[] = [
 export default function TasksFilter({
   actions, services, statusCount
 }: {
-  actions: Action[], services: Service[], statusCount: any
+  actions: Action[], services: Service[], statusCount?: any
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
   const [actionsFilter, setActionsFilter] = useState(params.get('actions')?.split(','));
   const [servicesFilter, setServicesFilter] = useState(params.get('services')?.split(','));
@@ -70,12 +71,12 @@ export default function TasksFilter({
     } 
     params = params.slice(0, -1); 
     
-    router.push(`/tasks${params}`);
+    router.push(`${pathname}${params}`);
   }, [actionsFilter, servicesFilter, statusFilter, sortFilter])
 
-  return (
+  return (  // TODO: move status tabs to separate component?
     <div className="flex flex-wrap gap-2 mb-4">
-      <Tabs
+      {statusCount?.length && <Tabs
         aria-label="Status"
         selectedKey={statusFilter}
         color="primary"
@@ -104,7 +105,7 @@ export default function TasksFilter({
             />
           )
         })}
-      </Tabs>
+      </Tabs>}
 
       <Accordion>
         <AccordionItem 
