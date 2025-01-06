@@ -7,7 +7,7 @@ import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { fetchUserTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
-import TaskItem from "@/components/TasksPage/TaskItem";
+import TaskList from "@/components/TasksPage/TaskList";
 import "@/css/tasks.scss";
 
 // TODO: optimize: prefetch, cache, pagination...
@@ -46,11 +46,7 @@ export default async function TasksPage({
       <div>
         <TasksFilter actions={actions} services={services} statusCount={statusCount} />
 
-        <div className="task-list">
-          {tasksFiltered.length ? tasksFiltered.map((task) => (
-            <TaskItem key={task.id} task={task} />
-          )) : <p className="text-center">No tasks found.</p>}
-        </div>
+        <TaskList tasks={tasksFiltered} />
       </div>
 
       <div className="tasks-create sticky">

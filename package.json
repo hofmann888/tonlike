@@ -19,6 +19,7 @@
     "@nextui-org/form": "^2.1.7",
     "@nextui-org/input": "^2.4.7",
     "@nextui-org/link": "^2.2.6",
+    "@nextui-org/modal": "^2.2.7",
     "@nextui-org/progress": "^2.2.5",
     "@nextui-org/select": "^2.4.8",
     "@nextui-org/switch": "^2.2.7",

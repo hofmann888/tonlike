@@ -22,7 +22,6 @@ export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
   return tasks.filter(setFilter);
 }
 
-
 export function tasksSort(tasks: Task[], sort: string) {
   if (!sort.length) {
     return tasks;
@@ -49,7 +48,6 @@ export function tasksSort(tasks: Task[], sort: string) {
 
   return tasks.sort(setSort); 
 }
-
 
 export function tasksRelations(tasks: Task[]) {
   const actions: Action[] = [];

@@ -4,7 +4,7 @@ import 'server-only';
 
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
-import { Action, Service, Task, TaskDTO, User } from '@/lib/definitions';
+import { Action, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User } from '@/lib/definitions';
 
 export async function fetchActions() {
   try {
@@ -118,6 +118,42 @@ export async function fetchUserEarnTasks(userId: number) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch action data.');
+  }
+}
+
+export async function updateTaskStatus(taskId: number, status: TaskStatus) {
+  try {
+    console.log('updateTaskStatus');
+    const [data] = await sql(`UPDATE tasks SET status = $1 WHERE id = $2 RETURNING id;`, [status, taskId]);
+    console.log('updateTaskStatus data:', data);
+    return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch revenue data.');
+  }
+}
+
+export async function deleteTask(taskId: number) {
+  try {
+    console.log('deleteTask');
+    const [data] = await sql(`UPDATE tasks SET status = $1, deleted_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id;`, [TaskStatusEnum.DELETED, taskId]);
+    console.log('deleteTask data:', data);
+    return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch revenue data.');
+  }
+}
+
+export async function userHasTask(taskId: number, userId: number) {
+  try {
+    console.log('userHasTask');
+    const [data] = await sql(`SELECT EXISTS (SELECT 1 FROM tasks WHERE id = $1 AND user_id = $2);`, [taskId, userId]);
+    console.log('userHasTask data:', data);
+    return data?.exists;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
   }
 }
 

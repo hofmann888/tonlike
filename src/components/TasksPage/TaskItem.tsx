@@ -8,7 +8,16 @@ import { Link } from "@nextui-org/link";
 import { Task } from "@/lib/definitions";
 import { FaPause, FaTrashAlt } from "react-icons/fa";
 
-export default function TaskItem({task}: {task: Task}) {
+
+export default function TaskItem({
+  task, 
+  onStopClick, 
+  onDeleteClick
+}: {
+  task: Task, 
+  onStopClick: (id: number) => void,
+  onDeleteClick: (id: number) => void
+}) {
   return (
     <Card 
       isBlurred
@@ -34,14 +43,15 @@ export default function TaskItem({task}: {task: Task}) {
         <span className="text-medium text-green-600">${task.price}</span>
 
         <div className="flex gap-1">
-          <Button isIconOnly aria-label="pause" color="warning" variant="faded">
+          <Button isIconOnly aria-label="stop" color="warning" variant="faded" onPress={() => onStopClick(task.id)}>
             <FaPause />
           </Button>
-          <Button isIconOnly aria-label="delete" color="danger" variant="faded">
+          <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
             <FaTrashAlt />
           </Button>
         </div>
       </CardHeader>
+
       <CardFooter className="pt-2">
         <Progress
           classNames={{

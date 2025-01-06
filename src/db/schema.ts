@@ -32,18 +32,3 @@ export const createTaskFormSchema = z.object({
   price: z.coerce.number().min(0.01, { message: 'Please enter a price greater or equal $0.01.'}),
   count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
 });
-
-
-
-
-
-
-
-
-// export const userSchema = z.object({
-//   id: z.bigint().positive(),
-//   tg_id: z.bigint().positive(),
-//   address: z.string().length(48, { message: "Wrong address" }),
-// 	balance: z.number().positive(),
-// 	reward: z.number().positive(),
-// });

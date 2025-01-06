@@ -2,10 +2,10 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
-import { updateUserById, createTask } from './sql';
+import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask } from './sql';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema } from './schema';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User} from '@/lib/definitions';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum} from '@/lib/definitions';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
@@ -126,6 +126,32 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     };
   }
   
+  revalidatePath('/tasks');
+  redirect('/tasks');
+}
+
+
+export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
+  console.log('ChangeTaskStatus');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    if (status === TaskStatusEnum.DELETED) { // TODO: seperate action for delete?
+      await deleteTask(taskId);
+    } else {
+      await updateTaskStatus(taskId, status);
+    }
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to update task.',
+    };
+  }
+
   revalidatePath('/tasks');
   redirect('/tasks');
 }
