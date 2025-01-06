@@ -68,7 +68,7 @@ async function seedActions() {
 }
 
 async function seedTasks() {
-  await sql(`CREATE TYPE task_status AS ENUM('active','stop','done','deleted');`);
+  await sql(`CREATE TYPE task_status AS ENUM('active','paused','scheduled','done','deleted');`);
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
       id SERIAL PRIMARY KEY, 

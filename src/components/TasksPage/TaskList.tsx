@@ -27,10 +27,10 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
     onClose();
   }
 
-  const stopButtonClick = (id: number) => {
+  const pauseButtonClick = (id: number) => {
     setModalText('Pause');
     setModalTaskId(id);
-    setNewStatus(TaskStatusEnum.STOP);
+    setNewStatus(TaskStatusEnum.PAUSED);
     onOpen();
   }
 
@@ -47,7 +47,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
         <TaskItem 
           key={task.id} 
           task={task} 
-          onStopClick={() => stopButtonClick(task.id)} 
+          onPauseClick={() => pauseButtonClick(task.id)} 
           onDeleteClick={() => deleteButtonClick(task.id)} 
           />
       )) : <p className="text-center">No tasks found.</p>}

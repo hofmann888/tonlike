@@ -94,19 +94,21 @@ export type TaskDTO = {
 
 export enum TaskStatusEnum {
   ACTIVE = 'active',
-  STOP = 'stop', // TODO: pause?
+  PAUSED = 'paused',
+  SCHEDULED = 'scheduled',
   DONE = 'done',
   DELETED = 'deleted', // TODO: archive?
 }
-export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.STOP | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
+export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.SCHEDULED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
 
 export enum TaskStatusTitleEnum {
   ACTIVE = 'Active',
-  STOP = 'Stopped',
+  PAUSED = 'Paused',
+  SCHEDULED = 'Scheduled',
   DONE = 'Done',
   DELETED = 'Deleted',
 }
-export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.STOP | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
+export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.PAUSED | TaskStatusTitleEnum.SCHEDULED | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
 
 export type TaskStatusMapItem = {
   key: TaskStatus,

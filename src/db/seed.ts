@@ -119,7 +119,7 @@ const tasks = [
     price: 0.03,
     count: 333,
     done: 33,
-    status: 'stop',
+    status: 'paused',
   },
   {
     id: 4,
@@ -141,7 +141,7 @@ const tasks = [
     price: 0.05,
     count: 555,
     done: 55,
-    status: 'stop',
+    status: 'paused',
   },
   {
     id: 6,

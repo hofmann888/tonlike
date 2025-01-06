@@ -19,7 +19,7 @@ import {
 // TODO: remove enums and import object?
 const statusMap: TaskStatusMapItem[] = [
   { key: TaskStatusEnum.ACTIVE, title: TaskStatusTitleEnum.ACTIVE, icon: FaPlay },
-  { key: TaskStatusEnum.STOP, title: TaskStatusTitleEnum.STOP, icon: FaPause },
+  { key: TaskStatusEnum.PAUSED, title: TaskStatusTitleEnum.PAUSED, icon: FaPause },
   { key: TaskStatusEnum.DONE, title: TaskStatusTitleEnum.DONE, icon: FaCheck },
   { key: TaskStatusEnum.DELETED, title: TaskStatusTitleEnum.DELETED, icon: FaTrashAlt },
 ]

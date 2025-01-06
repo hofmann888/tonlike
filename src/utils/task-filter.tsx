@@ -68,7 +68,7 @@ export function tasksRelations(tasks: Task[]) {
 export function tasksStatusCount(tasks: Task[]) {
   const statusCount = {
     [TaskStatusEnum.ACTIVE]: 0,
-    [TaskStatusEnum.STOP]: 0,
+    [TaskStatusEnum.PAUSED]: 0,
     [TaskStatusEnum.DONE]: 0,
     [TaskStatusEnum.DELETED]: 0,
   }

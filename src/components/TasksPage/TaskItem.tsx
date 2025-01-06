@@ -11,11 +11,11 @@ import { FaPause, FaTrashAlt } from "react-icons/fa";
 
 export default function TaskItem({
   task, 
-  onStopClick, 
+  onPauseClick, 
   onDeleteClick
 }: {
   task: Task, 
-  onStopClick: (id: number) => void,
+  onPauseClick: (id: number) => void,
   onDeleteClick: (id: number) => void
 }) {
   return (
@@ -43,7 +43,7 @@ export default function TaskItem({
         <span className="text-medium text-green-600">${task.price}</span>
 
         <div className="flex gap-1">
-          <Button isIconOnly aria-label="stop" color="warning" variant="faded" onPress={() => onStopClick(task.id)}>
+          <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
             <FaPause />
           </Button>
           <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
