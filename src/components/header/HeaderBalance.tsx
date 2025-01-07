@@ -7,8 +7,8 @@ export default function HeaderBalance() {
 
   return (
     <div className="header-balance">
-      <p>Balance: {balance}</p>
-      <p>Reward: {reward}</p>
+      <p className="text-large">Balance: ${balance}</p>
+      <p className="text-large">Reward: {reward}</p>
     </div>
   );
 }
