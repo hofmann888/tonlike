@@ -27,6 +27,13 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
     onClose();
   }
 
+  const activateButtonClick = (id: number) => {
+    setModalText('Activate');
+    setModalTaskId(id);
+    setNewStatus(TaskStatusEnum.ACTIVE);
+    onOpen();
+  }
+
   const pauseButtonClick = (id: number) => {
     setModalText('Pause');
     setModalTaskId(id);
@@ -49,6 +56,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           task={task} 
           onPauseClick={() => pauseButtonClick(task.id)} 
           onDeleteClick={() => deleteButtonClick(task.id)} 
+          onActivateClick={() => activateButtonClick(task.id)} 
           />
       )) : <p className="text-center">No tasks found.</p>}
 

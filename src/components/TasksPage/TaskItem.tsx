@@ -5,18 +5,20 @@ import { Progress } from "@nextui-org/progress";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
-import { Task } from "@/lib/definitions";
-import { FaPause, FaTrashAlt } from "react-icons/fa";
+import { Task, TaskStatusEnum } from "@/lib/definitions";
+import { FaPause, FaPlay, FaTrashAlt } from "react-icons/fa";
 
 
 export default function TaskItem({
   task, 
   onPauseClick, 
-  onDeleteClick
+  onDeleteClick,
+  onActivateClick,
 }: {
   task: Task, 
   onPauseClick: (id: number) => void,
-  onDeleteClick: (id: number) => void
+  onDeleteClick: (id: number) => void,
+  onActivateClick: (id: number) => void
 }) {
   return (
     <Card 
@@ -43,12 +45,19 @@ export default function TaskItem({
         <span className="text-medium text-green-600">${task.price}</span>
 
         <div className="flex gap-1">
-          <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
-            <FaPause />
-          </Button>
-          <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
-            <FaTrashAlt />
-          </Button>
+          {task.status === TaskStatusEnum.ACTIVE && 
+            <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
+              <FaPause />
+            </Button>}
+          {task.status === TaskStatusEnum.PAUSED && 
+            <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
+              <FaPlay />
+            </Button>}
+
+          {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
+            <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
+              <FaTrashAlt />
+            </Button>}
         </div>
       </CardHeader>
 

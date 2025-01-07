@@ -69,6 +69,7 @@ export function tasksStatusCount(tasks: Task[]) {
   const statusCount = {
     [TaskStatusEnum.ACTIVE]: 0,
     [TaskStatusEnum.PAUSED]: 0,
+    [TaskStatusEnum.SCHEDULED]: 0,
     [TaskStatusEnum.DONE]: 0,
     [TaskStatusEnum.DELETED]: 0,
   }
