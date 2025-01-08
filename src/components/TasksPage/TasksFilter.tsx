@@ -108,94 +108,96 @@ export default function TasksFilter({
         })}
       </Tabs>}
 
-      <Accordion>
-        <AccordionItem 
-          key="1" 
-          aria-label="Filter"
-          onPress={filterOnPress}
-          title={
-          <div className="flex justify-between items-center">
-            <div>
-              <p>Filter</p>
-              <p className="text-small text-foreground-400">Press to {pressSubText}</p>
+      <div className="w-full relative">
+        <Select 
+          name="sort" 
+          label="Sort By" 
+          size="sm"
+          variant="bordered" 
+          className="w-44 absolute top-[15px] right-[50px]"
+          items={sortMap}
+          onChange={(e) => setSortFilter(e.target?.value)}
+        >
+          {sortMap.map((sort) => (
+            <SelectItem key={sort.key}>{sort.title}</SelectItem>
+          ))}
+        </Select>
+
+        <Accordion>
+          <AccordionItem 
+            key="1" 
+            aria-label="Filter"
+            onPress={filterOnPress}
+            title={
+            <div className="flex justify-between items-center">
+              <div>
+                <p>Filter</p>
+                <p className="text-small text-foreground-400">Press to {pressSubText}</p>
+              </div>
             </div>
-
-            <Select 
-              name="sort" 
-              label="Sort By" 
-              size="sm"
-              variant="bordered" 
-              className="w-44"
-              items={sortMap}
-              onChange={(e) => setSortFilter(e.target?.value)}
-            >
-              {sortMap.map((sort) => (
-                <SelectItem key={sort.key}>{sort.title}</SelectItem>
-              ))}
-            </Select>
-          </div>
-        }>
-          <div className="flex flex-wrap gap-2">
-            <Select
-              name="services"
-              label="Services"
-              variant="bordered"
-              selectionMode="multiple"
-              classNames={{
-                label: "group-data-[filled=true]:-translate-y-5",
-                trigger: "min-h-16",
-              }}
-              items={services}
-              selectedKeys={servicesFilter}
-              onChange={(e) => setServicesFilter(e.target?.value.split(','))}
-              renderValue={(items) => {
-                return (
-                  <div className="flex items-center gap-2">
-                    {items.map((item) => (
-                      <div key={item.key} className="flex items-center gap-2">
-                        <Avatar
-                          alt={item.data?.name}
-                          className="flex-shrink-0"
-                          size="sm"
-                          src={item.data?.img}
-                        />
-                        <div className="flex flex-col">
-                          <span>{item.data?.name}</span>
+          }>
+            <div className="flex flex-wrap gap-2">
+              <Select
+                name="services"
+                label="Services"
+                variant="bordered"
+                selectionMode="multiple"
+                classNames={{
+                  label: "group-data-[filled=true]:-translate-y-5",
+                  trigger: "min-h-16",
+                }}
+                items={services}
+                selectedKeys={servicesFilter}
+                onChange={(e) => setServicesFilter(e.target?.value.split(','))}
+                renderValue={(items) => {
+                  return (
+                    <div className="flex items-center gap-2">
+                      {items.map((item) => (
+                        <div key={item.key} className="flex items-center gap-2">
+                          <Avatar
+                            alt={item.data?.name}
+                            className="flex-shrink-0"
+                            size="sm"
+                            src={item.data?.img}
+                          />
+                          <div className="flex flex-col">
+                            <span>{item.data?.name}</span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                );
-              }}
-            >
-              {(service) => (
-                <SelectItem
-                  key={service.id}
-                  startContent={
-                    <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
-                  }
-                >
-                  {service.name}
-                </SelectItem>
-              )}
-            </Select>
+                      ))}
+                    </div>
+                  );
+                }}
+              >
+                {(service) => (
+                  <SelectItem
+                    key={service.id}
+                    startContent={
+                      <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
+                    }
+                  >
+                    {service.name}
+                  </SelectItem>
+                )}
+              </Select>
 
-            <Select 
-              name="actions" 
-              label="Actions" 
-              variant="bordered"
-              selectionMode="multiple"
-              items={actions} 
-              selectedKeys={actionsFilter}
-              onChange={(e) => setActionsFilter(e.target?.value.split(','))}
-            >
-              {actions.map((action) => (
-                <SelectItem key={action.id}>{action.name}</SelectItem>
-              ))}
-            </Select>
-          </div>
-        </AccordionItem>
-      </Accordion>
+              <Select 
+                name="actions" 
+                label="Actions" 
+                variant="bordered"
+                selectionMode="multiple"
+                items={actions} 
+                selectedKeys={actionsFilter}
+                onChange={(e) => setActionsFilter(e.target?.value.split(','))}
+              >
+                {actions.map((action) => (
+                  <SelectItem key={action.id}>{action.name}</SelectItem>
+                ))}
+              </Select>
+            </div>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </div>
   )
 }

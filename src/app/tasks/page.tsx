@@ -49,7 +49,7 @@ export default async function TasksPage({
         <TaskList tasks={tasksFiltered} />
       </div>
 
-      <div className="tasks-create sticky">
+      <div className="tasks-create sticky bottom-[60px]">
         <Button
           as={Link}
           color="primary"
