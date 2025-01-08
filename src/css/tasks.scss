@@ -2,6 +2,7 @@
     .tasks-tabs {
         top: 80px;
         background: hsl(var(--nextui-background));
+        max-width: 100vw;
     }
 
     .tasks-create {

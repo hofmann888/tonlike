@@ -1,6 +1,7 @@
 'use client'
 
 import { User } from "@/lib/definitions";
+import { authRequest } from "@/utils/requests";
 import { createContext, useEffect, useState } from "react";
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 
@@ -11,11 +12,19 @@ export const UserContext = createContext({
 
 export default function UserProvider({children, userData}: {children: React.ReactNode, userData: User}) {
   console.log('UserProvider userData:', userData);
-
   const [user, setUser] = useState(userData);
   
   function updateUser(data: any) {
     setUser(Object.assign({}, user, data));
+  }
+
+  async function makeAuthRequest() {
+    const { initDataRaw } = retrieveLaunchParams();
+    const result: any = await authRequest(initDataRaw);
+    if (!result.success || !result.session?.user) {
+      throw new Error('Authentication failed!');
+    }
+    setUser(result.session.user);
   }
 
   useEffect(() => {
@@ -23,27 +32,7 @@ export default function UserProvider({children, userData}: {children: React.Reac
   }, [userData]);
 
   if (!user) {
-    const { initDataRaw } = retrieveLaunchParams();
-    fetch('/auth', {
-      method: 'POST',
-      headers: { Authorization: `${initDataRaw}` },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(result => {
-      console.log("Fetched auth data:", result);
-      if (!result.success || !result.session?.user) {
-        throw new Error('Authentication failed!');
-      }
-      setUser(result.session.user);
-    })
-    .catch(error => {
-      throw new Error(`Auth Request ${error}`);
-    });
+    makeAuthRequest();
   }
 
   console.log('UserProvider user:', user);  
