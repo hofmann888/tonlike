@@ -13,27 +13,29 @@ export async function POST() {
     const token = process.env.TWA_API_TOKEN;
     let session: any = null;
     
-    if (authData && token) {
-      if (process.env.NODE_ENV === 'production') {
-        validate(authData, token, {
-          expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
-        });
-      }
-
-      const initData = parse(authData);
-      console.log('post auth parsed initData:', initData);
-
-      const tgId = initData?.user?.id;
-      if (!tgId) {
-        throw Error('Undefined tg user ID!');
-      }
-      let user = await fetchUserByTgId(tgId);
-      if (!user) { 
-        user = await createUser(tgId);
-      }
-      await setSession(user);
-      session = await getSession();
+    if (!authData || !token) {
+      throw Error('Bad request: missing authData or token');
     }
+
+    if (['producntion', 'test'].includes(process.env.NODE_ENV)) {
+      validate(authData, token, {
+        expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
+      });
+    }
+
+    const initData = parse(authData);
+    console.log('post auth parsed initData:', initData);
+
+    const tgId = initData?.user?.id;
+    if (!tgId) {
+      throw Error('Undefined tg user ID!');
+    }
+    let user = await fetchUserByTgId(tgId);
+    if (!user) { 
+      user = await createUser(tgId);
+    }
+    await setSession(user);
+    session = await getSession();
 
     return Response.json({ success: true, session: session });
   } catch (error: any) {
