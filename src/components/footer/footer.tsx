@@ -1,8 +1,7 @@
 'use client'
 
 import "@/css/footer.scss";
-import { FaCoins, FaWallet, FaTasks } from "react-icons/fa";
-import { MdLeaderboard } from "react-icons/md";
+import { FaCoins, FaTasks, FaTrophy, FaWallet } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
 import { Tabs, Tab } from "@nextui-org/tabs";
@@ -10,7 +9,7 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 const navLinks: NavLink[] = [
   { href: '/earn', icon: FaCoins },
   { href: '/tasks', icon: FaTasks },
-  { href: '/leaderboard', icon: MdLeaderboard },
+  { href: '/leaderboard', icon: FaTrophy },
   { href: '/wallet', icon: FaWallet },
 ]
 
