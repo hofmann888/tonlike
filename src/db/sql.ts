@@ -5,6 +5,7 @@ import 'server-only';
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
 import { Action, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User } from '@/lib/definitions';
+import { User as tgUser } from '@telegram-apps/sdk-react';
 
 export async function fetchActions() {
   try {
@@ -157,10 +158,13 @@ export async function userHasTask(taskId: number, userId: number) {
   }
 }
 
-export async function createUser(tgId: number) {
+export async function createUserByTg(tgUser: tgUser) {
   try {
     console.log('createUser');
-    const [data] = await sql(`INSERT INTO users (tg_id) VALUES ($1) ON CONFLICT DO NOTHING RETURNING *;`, [tgId]);
+    const [data] = await sql(
+      `INSERT INTO users (tg_id, tg_username, tg_photo_url) VALUES ($1) ON CONFLICT DO NOTHING RETURNING *;`, 
+      [tgUser.id, tgUser.username, tgUser.photoUrl]
+    );
     console.log('createUser data'); console.log(data);
     return data as User;
   } catch (error) {
@@ -213,6 +217,18 @@ export async function fetchUserByAddress(address: string) {
   try {
     const [data] = await sql(`SELECT * FROM users WHERE address = $1;`, [address]);
     return data as User;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
+export async function fetchUsersLeaderboard() {
+  try {
+    console.log('fetchUsers');
+    const data = await sql(`SELECT * FROM users ORDER BY reward DESC;`);
+    console.log('fetchUsers data:', data);
+    return data as User[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');

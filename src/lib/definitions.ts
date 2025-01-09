@@ -39,10 +39,12 @@ export type CreateTaskFormState = {
 
 export type User = {
   id: number,
-  tg_id: number,
   address: string,
   balance: number,
   reward: number,
+  tg_id: number,
+  tg_username: string,
+  tg_photo_url: string,
 }
 
 export type Service = {

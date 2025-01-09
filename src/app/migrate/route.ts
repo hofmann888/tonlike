@@ -12,18 +12,20 @@ async function seedUsers() {
   await sql(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
-      tg_id BIGINT NOT NULL UNIQUE,
       address CHAR(48),
       balance FLOAT NOT NULL DEFAULT 0,
-      reward BIGINT NOT NULL DEFAULT 0
+      reward BIGINT NOT NULL DEFAULT 0,
+      tg_id BIGINT NOT NULL UNIQUE,
+      tg_username VARCHAR(255) NOT NULL,
+      tg_photo_url VARCHAR(255)
     );
   `);
 
   users.map(
     async (user) => await sql(`
-      INSERT INTO users (id, tg_id, address, balance, reward)
-      VALUES ($1, $2, $3, $4, $5)
-    `, [user.id, user.tg_id, user.address, user.balance, user.reward]),
+      INSERT INTO users (id, address, balance, reward, tg_id, tg_username, tg_photo_url)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `, [user.id, user.address, user.balance, user.reward, user.tg_id, user.tg_username, user.tg_photo_url]),
   );
 
   await sql('ALTER SEQUENCE users_id_seq RESTART WITH 3;');

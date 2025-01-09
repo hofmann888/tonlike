@@ -28,7 +28,7 @@ export function useTelegramMock(): void {
           id: 6425951136,
           first_name: 'Andrew',
           last_name: 'Chill',
-          username: 'chill',
+          username: 'phnx888',
           language_code: 'en',
           is_premium: true,
           allows_write_to_pm: true,

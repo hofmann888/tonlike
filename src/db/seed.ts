@@ -2,17 +2,21 @@
 const users = [
   {
     id: 1,
-    tg_id: 6425951136,
     address: '0QCXwrih_8H9sGnGUBtgT0PpOzcoNZJkfWy901UjbmN6j8te', // dev v4
     balance: 8.00,
     reward: 888,
+    tg_id: 6425951136,
+    tg_username: 'phnx888',
+    tg_photo_url: '/globe.svg',
   },
   {
     id: 2,
-    tg_id: 123,
     address: '0QAlxQyTt5ru_L9MUXggLciPxv-8HCjNbVrgn7LFVwDxxH7v', // dev w5 (desktop)
     balance: 0.00,
     reward: 0,
+    tg_id: 123,
+    tg_username: 'someusername',
+    tg_photo_url: '/globe.svg',
   },
 ];
 
