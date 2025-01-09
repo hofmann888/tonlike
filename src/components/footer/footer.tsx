@@ -2,15 +2,16 @@
 
 import "@/css/footer.scss";
 import { FaCoins, FaWallet, FaTasks } from "react-icons/fa";
+import { MdLeaderboard } from "react-icons/md";
 import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
-import Link from 'next/link';
-import clsx from 'clsx';
+import { Tabs, Tab } from "@nextui-org/tabs";
 
 const navLinks: NavLink[] = [
-  { name: 'earn', href: '/earn', icon: FaCoins },
-  { name: 'tasks', href: '/tasks', icon: FaTasks },
-  { name: 'wallet', href: '/wallet', icon: FaWallet },
+  { href: '/earn', icon: FaCoins },
+  { href: '/tasks', icon: FaTasks },
+  { href: '/leaderboard', icon: MdLeaderboard },
+  { href: '/wallet', icon: FaWallet },
 ]
 
 export default function Footer() {
@@ -18,25 +19,32 @@ export default function Footer() {
 
   return (
     <footer className="footer row-start-3">
-      <nav className="footer-nav">
-        {navLinks.map((link) => {
-          const LinkIcon = link.icon;
-
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={clsx(
-                'footer-nav-link',
-                {
-                  'active': pathname === link.href,
-                },
-              )}
-            >
-              <LinkIcon className="w-7 h-7" />
-            </Link>
-          );
-        })}
+      <nav className="footer-nav h-full">
+        <Tabs 
+          selectedKey={pathname} 
+          aria-label="Navigation"
+          variant="underlined"
+          classNames={{ 
+            base: "w-full h-full", 
+            tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
+            tab: "h-full",
+            cursor: "w-full bg-[#22d3ee]",
+            // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
+          }}
+        >
+          {navLinks.map((link, idx) => {
+            const LinkIcon = link.icon;
+            return (
+              <Tab 
+                key={link.href} 
+                href={link.href}
+                title={
+                  <LinkIcon className="w-7 h-7" />
+                }
+              />
+            );
+          })}
+        </Tabs>
       </nav>
     </footer>
   )

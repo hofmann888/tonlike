@@ -1,7 +1,6 @@
 import { IconType } from "react-icons"
 
 export type NavLink = {
-  name: string,
   href: string,
   icon: IconType,
 }

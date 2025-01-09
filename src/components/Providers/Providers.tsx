@@ -4,8 +4,8 @@ import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { User } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
-import { NextUIProvider } from "@nextui-org/system";
 import { ThemeProvider } from "next-themes";
+import { NextUIProvider } from "@nextui-org/system";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "@/components/Providers/UserProvider";
 
@@ -17,9 +17,7 @@ export interface ProvidersProps {
 
 declare module "@react-types/shared" {
   interface RouterConfig {
-    routerOptions: NonNullable<
-      Parameters<ReturnType<typeof useRouter>["push"]>[1]
-    >;
+    routerOptions: NonNullable<Parameters<ReturnType<typeof useRouter>["push"]>[1]>;
   }
 }
 
