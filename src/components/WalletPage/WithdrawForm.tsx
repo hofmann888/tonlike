@@ -39,7 +39,7 @@ export default function WithdrawForm() {
         }
       </div>
 
-      <SubmitButton text="Withdraw" />
+      <SubmitButton content="Withdraw" />
     </Form>
   )
 }

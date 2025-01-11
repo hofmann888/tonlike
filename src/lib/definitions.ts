@@ -150,3 +150,15 @@ export type TaskFilterItem = {
   key: TasksFilterParam,
   values: string | string[]
 }
+
+export type CurrencyMapItem = {
+  key: Currency,
+  title: string,
+  icon: IconType,
+}
+
+export enum CurrencyEnum {
+  COIN = 'coin',
+  USDT = 'usdt',
+}
+export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;

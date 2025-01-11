@@ -37,7 +37,7 @@ export default function DepositForm() {
         }
       </div>
 
-      <SubmitButton text="Deposit" />
+      <SubmitButton content="Deposit" />
     </Form>
   )
 }

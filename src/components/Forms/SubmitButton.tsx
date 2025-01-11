@@ -1,20 +1,27 @@
+'use client'
+
 import { useFormStatus } from 'react-dom';
 import { Button } from '@nextui-org/button';
+import { ReactNode } from 'react';
 
-export default function SubmitButton({ text, disabled = false }: { text: string, disabled?: boolean }) {
+export default function SubmitButton({ 
+  content, disabled = false, className 
+}: { 
+  content: string | ReactNode, disabled?: boolean, className?: string 
+}) {
   const { pending } = useFormStatus();
 
   return (
     <Button 
       color="primary" 
       type="submit"
-      className="submit-btn w-full"
+      className={`submit-btn w-full ${className}`}
       size="lg"
       variant="shadow"
       isLoading={pending}
       isDisabled={disabled || pending}
     >
-      {text}
+      {content}
     </Button>
   );
 }
