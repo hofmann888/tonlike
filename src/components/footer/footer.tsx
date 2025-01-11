@@ -1,10 +1,10 @@
 'use client'
 
-import "@/css/footer.scss";
 import { FaCoins, FaTasks, FaTrophy, FaWallet } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
 import { Tabs, Tab } from "@nextui-org/tabs";
+import "@/css/footer.scss";
 
 const navLinks: NavLink[] = [
   { href: '/earn', icon: FaCoins },
@@ -16,11 +16,16 @@ const navLinks: NavLink[] = [
 export default function Footer() {
   const pathname = usePathname();
 
+  let selectedNav = pathname;
+  if (pathname === '/tasks/create') {
+    selectedNav = '/tasks';
+  }
+
   return (
     <footer className="footer row-start-3">
       <nav className="footer-nav h-full">
         <Tabs 
-          selectedKey={pathname} 
+          selectedKey={selectedNav} 
           aria-label="Navigation"
           variant="underlined"
           classNames={{ 
@@ -31,7 +36,7 @@ export default function Footer() {
             // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
           }}
         >
-          {navLinks.map((link, idx) => {
+          {navLinks.map((link) => {
             const LinkIcon = link.icon;
             return (
               <Tab 
