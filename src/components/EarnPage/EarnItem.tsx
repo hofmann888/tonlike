@@ -1,9 +1,18 @@
+'use client'
+
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem
+} from "@nextui-org/dropdown";
 import { Card, CardBody } from "@nextui-org/card";
 import { Avatar } from "@nextui-org/avatar";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { Task } from "@/lib/definitions";
-// import { MdArrowForwardIos } from "react-icons/md";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 
 
 export default function EarnItem({task}: {task: Task}) {
@@ -34,8 +43,28 @@ export default function EarnItem({task}: {task: Task}) {
           <p className="text-medium text-yellow-600">+ {task.action.reward}</p>
         </div>
 
-        <Button color="primary" variant="bordered" className="btn-border-shadow">Start</Button>
-        {/* <MdArrowForwardIos /> */}
+        <div className="flex items-center">
+          <Button color="primary" variant="bordered" className="btn-border-shadow mr-3">Start</Button>
+          
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly aria-label="Earn Task Actions Button" variant="light">
+                <PiDotsThreeOutlineVerticalFill />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Earn Task Actions">
+              <DropdownItem key="hide" startContent={<FaEyeSlash />}>Hide</DropdownItem>
+              <DropdownItem 
+                key="report" 
+                className="text-danger"
+                color="danger" 
+                startContent={<FaExclamationCircle />}
+              >
+                Report
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </CardBody>
     </Card>
   )
