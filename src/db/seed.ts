@@ -24,37 +24,44 @@ const services = [
   {
     id: 1,
     name: 'Telegram',
-    img: '/img/social/telegram.png'
+    img: '/img/social/telegram.png',
+    active: true,
   },
   {
     id: 2,
     name: 'X',
-    img: '/img/social/x.png'
+    img: '/img/social/x.png',
+    active: true,
   },
   {
     id: 3,
     name: 'Instagram',
-    img: '/img/social/instagram.png'
+    img: '/img/social/instagram.png',
+    active: true,
   },
   {
     id: 4,
     name: 'TikTok',
-    img: '/img/social/tiktok.png'
+    img: '/img/social/tiktok.png',
+    active: true,
   },
   {
     id: 5,
     name: 'YouTube',
-    img: '/img/social/youtube.png'
+    img: '/img/social/youtube.png',
+    active: true,
   },
   {
     id: 6,
     name: 'VK',
-    img: '/img/social/vk.png'
+    img: '/img/social/vk.png',
+    active: true,
   },
   {
     id: 7,
     name: 'Link',
-    img: '/img/social/link.png'
+    img: '/img/social/link.png',
+    active: true,
   },
 ];
 
@@ -63,33 +70,223 @@ const actions = [
     id: 1,
     name: 'View',
     reward: 1,
+    active: true,
   },
   {
     id: 2,
     name: 'Like',
     reward: 2,
+    active: true,
   },
   {
     id: 3,
     name: 'Repost',
     reward: 3,
+    active: true,
   },
   {
     id: 4,
-    name: 'Subscribe',
+    name: 'Comment',
     reward: 4,
+    active: true,
   },
   {
     id: 5,
-    name: 'Comment',
+    name: 'Vote',
     reward: 5,
+    active: true,
   },
   {
     id: 6,
-    name: 'Vote',
+    name: 'Subscribe',
     reward: 6,
+    active: true,
+  },
+  {
+    id: 7,
+    name: 'Boost',
+    reward: 7,
+    active: true,
   },
 ];
+
+const serviceActions = [
+  // Telegram
+  {
+    id: 1,
+    service_id: 1,
+    action_id: 1,
+    active: true,
+  },
+  {
+    id: 2,
+    service_id: 1,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 3,
+    service_id: 1,
+    action_id: 4,
+    active: true,
+  },
+  {
+    id: 4,
+    service_id: 1,
+    action_id: 5,
+    active: true,
+  },
+  {
+    id: 5,
+    service_id: 1,
+    action_id: 6,
+    active: true,
+  },
+  {
+    id: 6,
+    service_id: 1,
+    action_id: 7,
+    active: true,
+  },
+  // X
+  {
+    id: 7,
+    service_id: 2,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 8,
+    service_id: 2,
+    action_id: 3,
+    active: true,
+  },
+  {
+    id: 9,
+    service_id: 2,
+    action_id: 4,
+    active: true,
+  },
+  {
+    id: 10,
+    service_id: 2,
+    action_id: 6,
+    active: true,
+  },
+  // Instagram
+  {
+    id: 11,
+    service_id: 3,
+    action_id: 1,
+    active: true,
+  },
+  {
+    id: 12,
+    service_id: 3,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 13,
+    service_id: 3,
+    action_id: 4,
+    active: true,
+  },
+  {
+    id: 14,
+    service_id: 3,
+    action_id: 6,
+    active: true,
+  },
+  // TikTok
+  {
+    id: 15,
+    service_id: 4,
+    action_id: 1,
+    active: true,
+  },
+  {
+    id: 16,
+    service_id: 4,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 17,
+    service_id: 4,
+    action_id: 4,
+    active: false,
+  },
+  {
+    id: 18,
+    service_id: 4,
+    action_id: 6,
+    active: true,
+  },
+  // Youtube
+  {
+    id: 19,
+    service_id: 5,
+    action_id: 1,
+    active: true,
+  },
+  {
+    id: 20,
+    service_id: 5,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 21,
+    service_id: 5,
+    action_id: 6,
+    active: false,
+  },
+  // VK
+  {
+    id: 22,
+    service_id: 6,
+    action_id: 1,
+    active: true,
+  },
+  {
+    id: 23,
+    service_id: 6,
+    action_id: 2,
+    active: true,
+  },
+  {
+    id: 24,
+    service_id: 6,
+    action_id: 3,
+    active: true,
+  },
+  {
+    id: 25,
+    service_id: 6,
+    action_id: 4,
+    active: true,
+  },
+  {
+    id: 26,
+    service_id: 6,
+    action_id: 5,
+    active: true,
+  },
+  {
+    id: 27,
+    service_id: 6,
+    action_id: 6,
+    active: true,
+  },
+  // Link
+  {
+    id: 28,
+    service_id: 7,
+    action_id: 1,
+    active: true,
+  },
+]
 
 const tasks = [
   {
@@ -190,4 +387,4 @@ const tasksDone = [
   }
 ];
 
-export { actions, services, tasks, tasksDone, users };
+export { services, actions, serviceActions, tasks, tasksDone, users };

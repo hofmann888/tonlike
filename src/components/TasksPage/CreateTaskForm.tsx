@@ -18,12 +18,15 @@ import SubmitButton from "@/components/Forms/SubmitButton";
 const currencyMap: CurrencyMapItem[] = [
   { key: CurrencyEnum.COIN, title: "COIN", icon: PiCoinVertical },
   { key: CurrencyEnum.USDT, title: "USDT", icon: BsCurrencyDollar },
-]
+];
 
 // TODO: format + validation (numbers float, link)
+// TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
   const { balance, reward } = useUser();
 
+  const [serviceId, setServiceId] = useState('1');
+  const [actionId, setActionId] = useState('1');
   const [link, setLink] = useState('');
   const [currency, setCurrency] = useState(CurrencyEnum.COIN);
   const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input
@@ -31,7 +34,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   const [reserve, setReserve] = useState(reward);
   const [priceStep, setPriceStep] = useState(1);
   const [sum, setSum] = useState(0);
-
+  
   const currencyMapItem = currencyMap.find((currencyMapItem) => currencyMapItem.key === currency);
   const CurrencyIcon = currencyMapItem?.icon as IconType;
   const maxCount = price ? Math.floor(reserve / Number(price)) : 10;
@@ -39,7 +42,18 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
 
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
+
+  const service = services.find((service) => `${service.id}` === serviceId);
+  const actionsFiltered = actions.filter((action: Action) => service?.actionIds && service.actionIds.includes(action.id));
   
+  useEffect(() => {
+    service?.actionIds && setActionId(`${service?.actionIds[0]}`);
+  }, [serviceId]);
+
+  useEffect(() => {
+    setLink('');
+  }, [serviceId, actionId]);
+
   useEffect(() => {
     setSum(Number((price * Number(count)).toFixed(2)));
   }, [price, count]);
@@ -70,14 +84,16 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
     <Form action={formAction} className="create-task-form" validationErrors={state?.errors}>
       <Select
         name="serviceId"
-        items={services}
         label="Service"
         variant="bordered"
         classNames={{
           label: "group-data-[filled=true]:-translate-y-5",
           trigger: "min-h-16",
         }}
-        onChange={() => setLink('')}
+        items={services}
+        selectedKeys={[serviceId]}
+        onChange={(e) => setServiceId(e.target.value)}
+        disallowEmptySelection
         renderValue={(items) => {
           return items.map((item) => (
             <div key={item.key} className="flex items-center gap-2">
@@ -106,13 +122,29 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
         )}
       </Select>
 
-      <Input name="link" label="Link" variant="bordered" value={link} onValueChange={setLink} isClearable />
-
-      <Select name="actionId" items={actions} label="Action" variant="bordered">
-        {actions.map((action) => (
+      <Select 
+        name="actionId" 
+        label="Action" 
+        variant="bordered"
+        items={actionsFiltered}
+        selectedKeys={[actionId]}
+        onChange={(e) => setActionId(e.target.value)}
+        disallowEmptySelection
+      >
+        {actionsFiltered.map((action) => (
           <SelectItem key={action.id}>{action.name}</SelectItem>
         ))}
       </Select>
+
+      <Input 
+        name="link" 
+        label="Link" 
+        variant="bordered" 
+        placeholder=""
+        value={link} 
+        onValueChange={setLink}
+        isClearable 
+      />
 
       <div className="flex w-full">
         <Input

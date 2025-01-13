@@ -79,5 +79,5 @@ export async function getAuthUser(safe: boolean = true) {
   if (!session?.user.id && !safe) {
     throw new Error('Not authorized.');
   }
-  return session?.user as User; // TODO: validate user from session?
+  return session?.user as User; // TODO: validate user from session? // decompose object?
 }

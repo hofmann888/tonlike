@@ -51,12 +51,15 @@ export type Service = {
   id: number,
   name: string,
   img: string,
+  active: boolean,
+  actionIds?: number[]
 }
 
 export type Action = {
   id: number,
   name: string,
   reward: number,
+  active: boolean,
 }
 
 export type Task = {

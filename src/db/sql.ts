@@ -37,6 +37,26 @@ export async function fetchServices() {
   }
 }
 
+export async function fetchServicesWithActionIds() {
+  try {
+    console.log('fetchServicesWithActionIds');
+    const data = await sql(`
+      SELECT 
+        services.*, 
+        array_agg(service_actions.action_id ORDER BY service_actions.action_id) as "actionIds" 
+      FROM services 
+      LEFT JOIN service_actions ON services.id = service_actions.service_id
+      WHERE services.active = true AND service_actions.active = true
+      GROUP BY services.id
+      ORDER BY services.id;
+    `);
+    return data as Service[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch services data.');
+  }
+}
+
 export async function fetchServiceById(id: number) {
   try {
     const [data] = await sql(`SELECT * FROM services WHERE id = $1;`, [id]);

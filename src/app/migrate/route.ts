@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { actions, services, tasks, tasksDone, users } from '@/db/seed';
+import { services, actions, serviceActions, tasks, tasksDone, users } from '@/db/seed';
 
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
@@ -36,18 +36,19 @@ async function seedServices() {
     CREATE TABLE IF NOT EXISTS services (
       id SMALLSERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
-      img VARCHAR(255) NULL
+      img VARCHAR(255) NULL,
+      active BOOLEAN NOT NULL DEFAULT TRUE
     );
   `);
 
   services.map(
     async (service) => await sql(`
-      INSERT INTO services (id, name, img)
-      VALUES ($1, $2, $3)
-    `, [service.id, service.name, service.img]),
+      INSERT INTO services (id, name, img, active)
+      VALUES ($1, $2, $3, $4)
+    `, [service.id, service.name, service.img, service.active]),
   );
 
-  await sql('ALTER SEQUENCE services_id_seq RESTART WITH 7;');
+  await sql('ALTER SEQUENCE services_id_seq RESTART WITH 8;');
 }
 
 async function seedActions() {
@@ -55,28 +56,49 @@ async function seedActions() {
     CREATE TABLE IF NOT EXISTS actions (
       id SMALLSERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
-      reward INT NOT NULL DEFAULT 0
+      reward INT NOT NULL DEFAULT 0,
+      active BOOLEAN NOT NULL DEFAULT TRUE
     );
   `);
 
   actions.map(
     async (action) => await sql(`
-      INSERT INTO actions (id, name, reward)
-      VALUES ($1, $2, $3)
-    `, [action.id, action.name, action.reward]),
+      INSERT INTO actions (id, name, reward, active)
+      VALUES ($1, $2, $3, $4)
+    `, [action.id, action.name, action.reward, action.active]),
   );
   
-  await sql('ALTER SEQUENCE actions_id_seq RESTART WITH 7;');
+  await sql('ALTER SEQUENCE actions_id_seq RESTART WITH 8;');
 }
 
-async function seedTasks() {
+async function seedServiceActions() { // TODO: store as ARRAY type in services table? // FK
+  await sql(`
+    CREATE TABLE IF NOT EXISTS service_actions (
+      id SERIAL PRIMARY KEY,
+      service_id SMALLINT NOT NULL,
+      action_id SMALLINT NOT NULL,
+      active BOOLEAN NOT NULL DEFAULT TRUE
+    );
+  `);
+
+  serviceActions.map(
+    async (serviceAction) => await sql(`
+      INSERT INTO service_actions (id, service_id, action_id, active)
+      VALUES ($1, $2, $3, $4)
+    `, [serviceAction.id, serviceAction.service_id, serviceAction.action_id, serviceAction.active]),
+  );
+  
+  await sql('ALTER SEQUENCE service_actions_id_seq RESTART WITH 29;');
+}
+
+async function seedTasks() { // TODO: service_action_id 
   await sql(`CREATE TYPE task_status AS ENUM('active','paused','scheduled','done','deleted');`);
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
       id SERIAL PRIMARY KEY, 
       user_id INT NOT NULL,
-      action_id SMALLINT NOT NULL,
       service_id SMALLINT NOT NULL,
+      action_id SMALLINT NOT NULL,
       link VARCHAR(255) NOT NULL,
       price FLOAT NOT NULL,
       count INT NOT NULL,
@@ -134,6 +156,7 @@ export async function GET() {
     await seedUsers();
     await seedServices();
     await seedActions();
+    await seedServiceActions();
     await seedTasks();
     await seedTasksDone();
     await sql(`COMMIT`);
