@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { fetchActionById, fetchServiceById } from './sql';
+import { CurrencyEnum } from '@/lib/definitions';
 
 export const depositFormSchema = z.object({
   amount: z.coerce.number().min(1, { message: 'Please enter an amount greater or equal $1.'}),
@@ -30,5 +31,6 @@ export const createTaskFormSchema = z.object({
     .min(3, { message:'Must be 3 or more characters long' })
     .max(255, { message: "Must be 255 or fewer characters long" }),
   price: z.coerce.number().min(0.01, { message: 'Please enter a price greater or equal $0.01.'}),
+  currency: z.enum([CurrencyEnum.COIN]), //CurrencyEnum.USDT
   count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
 });

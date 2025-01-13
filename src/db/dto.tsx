@@ -5,6 +5,7 @@ export function formatUserTaskDTO(dto: TaskDTO) {
     id: dto?.id,
     link: dto?.link,
     price: dto?.price,
+    currency: dto?.currency,
     count: dto?.count,
     done: dto?.done,
     status: dto?.status,

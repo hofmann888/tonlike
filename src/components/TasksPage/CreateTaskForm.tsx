@@ -22,6 +22,7 @@ const currencyMap: CurrencyMapItem[] = [
 
 // TODO: format + validation (numbers float, link)
 // TODO: extended settings (schedule, timeout...)
+// TODO: errors view (currency and count)
 export default function CreateTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
   const { balance, reward } = useUser();
 
@@ -75,7 +76,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
         break;
       case CurrencyEnum.USDT:
         setReserve(balance);
-        setPriceStep(0.1);
+        setPriceStep(0.01);
         break;
     }
   }
@@ -151,7 +152,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           name="price"
           label="Price"
           type="number"
-          placeholder="0.00"
+          placeholder="0"
           value={`${price}`}
           onValueChange={(value) => setPrice(Number(value))}
           min={priceStep}

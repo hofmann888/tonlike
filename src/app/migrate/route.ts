@@ -6,6 +6,7 @@ const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 async function dropDB() {
     await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, tasks_done;`);
     await sql(`DROP TYPE IF EXISTS task_status;`);
+    await sql(`DROP TYPE IF EXISTS currency;`);
 }
 
 async function seedUsers() {
@@ -13,7 +14,7 @@ async function seedUsers() {
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       address CHAR(48),
-      balance FLOAT NOT NULL DEFAULT 0,
+      balance BIGINT NOT NULL DEFAULT 0,
       reward BIGINT NOT NULL DEFAULT 0,
       tg_id BIGINT NOT NULL UNIQUE,
       tg_username VARCHAR(255) NOT NULL,
@@ -91,8 +92,11 @@ async function seedServiceActions() { // TODO: store as ARRAY type in services t
   await sql('ALTER SEQUENCE service_actions_id_seq RESTART WITH 29;');
 }
 
-async function seedTasks() { // TODO: service_action_id 
+// TODO: service_action_id 
+// price type - int and usdt_cents enum!
+async function seedTasks() {
   await sql(`CREATE TYPE task_status AS ENUM('active','paused','scheduled','done','deleted');`);
+  await sql(`CREATE TYPE currency AS ENUM('coin','usdt');`);
   await sql(`
     CREATE TABLE IF NOT EXISTS tasks (
       id SERIAL PRIMARY KEY, 
@@ -100,7 +104,8 @@ async function seedTasks() { // TODO: service_action_id
       service_id SMALLINT NOT NULL,
       action_id SMALLINT NOT NULL,
       link VARCHAR(255) NOT NULL,
-      price FLOAT NOT NULL,
+      price BIGINT NOT NULL,
+      currency CURRENCY NOT NULL,
       count INT NOT NULL,
       done INT NOT NULL DEFAULT 0,
       status TASK_STATUS NOT NULL DEFAULT 'active',
@@ -118,9 +123,9 @@ async function seedTasks() { // TODO: service_action_id
 
   tasks.map(
     async (task) => await sql(`
-      INSERT INTO tasks (id, user_id, action_id, service_id, link, price, count, done, status)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    `, [task.id, task.user_id, task.action_id, task.service_id, task.link, task.price, task.count, task.done, task.status]),
+      INSERT INTO tasks (id, user_id, action_id, service_id, link, price, currency, count, done, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    `, [task.id, task.user_id, task.action_id, task.service_id, task.link, task.price, task.currency, task.count, task.done, task.status]),
   );
 
   await sql('ALTER SEQUENCE tasks_id_seq RESTART WITH 9;');

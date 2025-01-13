@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask } from './sql';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema } from './schema';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum} from '@/lib/definitions';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, CurrencyEnum } from '@/lib/definitions';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
@@ -92,6 +92,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       serviceId: formData.get('serviceId'),
       link: formData.get('link'),
       price: formData.get('price'),
+      currency: formData.get('currency'),
       count: formData.get('count'),
     });
     console.log('validated:', validated);
@@ -105,8 +106,9 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 
     const data = { userId: user.id, ...validated.data };
 
+    const reserve = data.currency === CurrencyEnum.COIN ? user.reward : user.balance;
     const countPrice = data.count * data.price;
-    if (user.balance < countPrice) { // TODO: refactor zod refine?
+    if (reserve < countPrice) { // TODO: refactor zod refine?
       return {
         errors: { count: ['Lower the count'], price: ['Lower the price']},
         message: `Not enough balance to create task. Need at least $${countPrice}.`,
