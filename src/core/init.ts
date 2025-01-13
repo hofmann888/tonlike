@@ -25,10 +25,10 @@ export function init(debug: boolean): void {
   miniApp.mount();
   themeParams.mount();
   initData.restore();
-  !viewport.isMounting() && void viewport.mount().then(() => {
+  !viewport.isMounting() && !viewport.isMounted() && void viewport.mount().then(() => {
     !viewport.isCssVarsBound() && viewport.bindCssVars();
   }).catch(e => {
-    console.error('Something went wrong mounting the viewport', e);
+    console.error('Something went wrong mounting the viewport', e); // TODO: init.ts:31 Something went wrong mounting the viewport ir: The viewport component is already mounting
   });
 
   // Define components-related CSS variables.
