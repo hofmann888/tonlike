@@ -370,12 +370,14 @@ const tasks = [
   },
 ];
 
-const tasksDone = [
+const userEarnings = [
   {
     id: 1,
     user_id: 1,
     task_id: 7,
+    profit: 7,
+    status: 'done',
   }
 ];
 
-export { services, actions, serviceActions, tasks, tasksDone, users };
+export { services, actions, serviceActions, tasks, userEarnings, users };

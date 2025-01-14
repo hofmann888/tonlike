@@ -122,8 +122,8 @@ export async function fetchUserEarnTasks(userId: number) {
       FROM tasks 
       LEFT JOIN actions on tasks.action_id = actions.id 
       LEFT JOIN services on tasks.service_id = services.id
-      LEFT JOIN tasks_done on tasks.id = tasks_done.task_id 
-      WHERE tasks.user_id != $1 AND tasks_done.id IS NULL
+      LEFT JOIN user_earnings on tasks.id = user_earnings.task_id 
+      WHERE tasks.user_id != $1 AND user_earnings.id IS NULL
       ORDER BY tasks.created_at DESC;
     `, [userId]);
 
@@ -138,7 +138,7 @@ export async function fetchUserEarnTasks(userId: number) {
     return formatedData as Task[];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch action data.');
+    throw new Error('Failed to fetch user earn tasks.');
   }
 }
 
@@ -150,7 +150,7 @@ export async function updateTaskStatus(taskId: number, status: TaskStatus) {
     return data?.id;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    throw new Error('Failed to update task status.');
   }
 }
 
@@ -162,7 +162,7 @@ export async function deleteTask(taskId: number) {
     return data?.id;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    throw new Error('Failed to delete task.');
   }
 }
 
@@ -189,7 +189,7 @@ export async function createUserByTg(tgUser: tgUser) {
     return data as User;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch revenue data.');
+    throw new Error('Failed to create user.');
   }
 }
 

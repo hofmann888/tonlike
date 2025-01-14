@@ -1,12 +1,12 @@
 import { neon } from '@neondatabase/serverless';
-import { services, actions, serviceActions, tasks, tasksDone, users } from '@/db/seed';
+import { services, actions, serviceActions, tasks, userEarnings, users } from '@/db/seed';
 
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
-    await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, tasks_done, task_done, task_earnings;`);
+    await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, user_earnings;`);
     await sql(`DROP TYPE IF EXISTS task_status;`);
-    // await sql(`DROP TYPE IF EXISTS currency;`);
+    await sql(`DROP TYPE IF EXISTS user_earning_status;`);
 }
 
 async function seedUsers() {
@@ -128,12 +128,18 @@ async function seedTasks() {
   await sql('ALTER SEQUENCE tasks_id_seq RESTART WITH 9;');
 }
 
-async function seedTasksDone() {
+// TODO?: user_tasks
+// TODO?: reward
+async function seedUserEarnings() {
+  await sql(`CREATE TYPE user_earning_status AS ENUM('done','hidden');`);
+
   await sql(`
-    CREATE TABLE IF NOT EXISTS tasks_done (
+    CREATE TABLE IF NOT EXISTS user_earnings (
       id BIGSERIAL PRIMARY KEY,
       user_id INT NOT NULL,
       task_id INT NOT NULL,
+      profit BIGINT NOT NULL DEFAULT 0,
+      status USER_EARNING_STATUS NOT NULL,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
       CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
@@ -141,14 +147,14 @@ async function seedTasksDone() {
     );
   `);
 
-  tasksDone.map(
-    async (taskDone) => await sql(`
-      INSERT INTO tasks_done (id, user_id, task_id)
-      VALUES ($1, $2, $3)
-    `, [taskDone.id, taskDone.user_id, taskDone.task_id]),
+  userEarnings.map(
+    async (userEarning) => await sql(`
+      INSERT INTO user_earnings (id, user_id, task_id, profit, status)
+      VALUES ($1, $2, $3, $4, $5)
+    `, [userEarning.id, userEarning.user_id, userEarning.task_id, userEarning.profit, userEarning.status]),
   );
 
-  await sql('ALTER SEQUENCE tasks_done_id_seq RESTART WITH 2;');
+  await sql('ALTER SEQUENCE user_earnings_id_seq RESTART WITH 2;');
 }
 
 export async function GET() {
@@ -160,7 +166,7 @@ export async function GET() {
     await seedActions();
     await seedServiceActions();
     await seedTasks();
-    await seedTasksDone();
+    await seedUserEarnings();
     await sql(`COMMIT`);
 
     return Response.json({ message: 'Database seeded successfully' });
