@@ -11,9 +11,8 @@ import { Avatar } from "@nextui-org/avatar";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { Task } from "@/lib/definitions";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
-
 
 export default function EarnItem({task}: {task: Task}) {
   return (
@@ -38,9 +37,7 @@ export default function EarnItem({task}: {task: Task}) {
           </div>
         </div>
 
-        <div>
-          <p className="text-medium text-green-600">+ ${task.price}</p>
-        </div>
+        <div className="flex items-center text-medium"><span className="text-green-600">+</span> <PiCoinVertical /> {task.price}</div>
 
         <div className="flex items-center">
           <Button color="primary" variant="bordered" className="btn-border-shadow mr-3">Start</Button>

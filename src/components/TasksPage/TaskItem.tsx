@@ -1,12 +1,13 @@
 'use client'
 
-import { Card, CardHeader, CardFooter } from "@nextui-org/card";
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Progress } from "@nextui-org/progress";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { Task, TaskStatusEnum } from "@/lib/definitions";
 import { FaPause, FaPlay, FaTrashAlt } from "react-icons/fa";
+import { PiCoinVertical } from "react-icons/pi";
 
 
 export default function TaskItem({
@@ -26,8 +27,8 @@ export default function TaskItem({
       className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
       shadow="sm"
     >
-      <CardHeader className="justify-between pb-2">
-        <div className="flex items-center gap-2">
+      <CardBody className="flex-row justify-between pb-2">
+        <div className="flex items-center gap-2 w-1/4">
           <Avatar
             alt={task.service.name}
             className="flex-shrink-0"
@@ -36,13 +37,13 @@ export default function TaskItem({
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>
-              {task.link}
+              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
             <span className="text-small text-foreground-400">{task.action.name}</span>
           </div>
         </div>
 
-        <span className="text-medium text-green-600">${task.price}</span>
+        <div className="flex items-center text-medium"> <PiCoinVertical /> {task.price}</div>
 
         <div className="flex gap-1">
           {task.status === TaskStatusEnum.ACTIVE && 
@@ -59,7 +60,7 @@ export default function TaskItem({
               <FaTrashAlt />
             </Button>}
         </div>
-      </CardHeader>
+      </CardBody>
 
       <CardFooter className="pt-2">
         <Progress
