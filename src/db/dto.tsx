@@ -5,7 +5,7 @@ export function formatUserTaskDTO(dto: TaskDTO) {
     id: dto?.id,
     link: dto?.link,
     price: dto?.price,
-    currency: dto?.currency,
+    // currency: dto?.currency,
     count: dto?.count,
     done: dto?.done,
     status: dto?.status,
@@ -16,7 +16,6 @@ export function formatUserTaskDTO(dto: TaskDTO) {
     action: {
       id: dto?.action_id,
       name: dto?.action_name,
-      reward: dto?.action_reward,
     } as Action,
     service: {
       id: dto?.service_id,

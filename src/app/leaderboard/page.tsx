@@ -11,7 +11,7 @@ export default async function LeaderboardPage() {
   return (
     <div className="py-5">
       {users.map((user, idx) => (
-        <Card isBlurred className="border-none bg-background/60 dark:bg-default-100/50">
+        <Card key={idx} isBlurred className="border-none bg-background/60 dark:bg-default-100/50">
           <CardBody className="flex flex-row justify-between items-center">
             <span
               className={clsx(
@@ -34,7 +34,7 @@ export default async function LeaderboardPage() {
               name={`@${user.tg_username}`}
             />
 
-            <span className="w-1/6 text-right text-medium">{user.reward}</span>
+            <span className="w-1/6 text-right text-medium">{user.balance}</span>
           </CardBody>
         </Card>
       ))}

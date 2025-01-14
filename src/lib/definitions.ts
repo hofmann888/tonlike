@@ -41,7 +41,6 @@ export type User = {
   id: number,
   address: string,
   balance: number,
-  reward: number,
   tg_id: number,
   tg_username: string,
   tg_photo_url: string,
@@ -58,7 +57,6 @@ export type Service = {
 export type Action = {
   id: number,
   name: string,
-  reward: number,
   active: boolean,
 }
 
@@ -66,7 +64,7 @@ export type Task = {
   id: number,
   link: string,
   price: number,
-  currency: Currency,
+  // currency: Currency,
   count: number,
   done: number,
   status: TaskStatus,
@@ -82,7 +80,7 @@ export type TaskDTO = {
   id: number,
   link: string,
   price: number,
-  currency: Currency,
+  // currency: Currency,
   count: number,
   done: number,
   status: TaskStatus,
@@ -92,7 +90,6 @@ export type TaskDTO = {
   user_id: number,
   action_id: number,
   action_name: string,
-  action_reward: number,
   service_id: number,
   service_name: string,
   service_img: string,
@@ -156,14 +153,13 @@ export type TaskFilterItem = {
   values: string | string[]
 }
 
-export type CurrencyMapItem = {
-  key: Currency,
-  title: string,
-  icon: IconType,
-}
-
-export enum CurrencyEnum {
-  COIN = 'coin',
-  USDT = 'usdt',
-}
-export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;
+// export type CurrencyMapItem = {
+//   key: Currency,
+//   title: string,
+//   icon: IconType,
+// }
+// export enum CurrencyEnum {
+//   COIN = 'coin',
+//   USDT = 'usdt',
+// }
+// export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;

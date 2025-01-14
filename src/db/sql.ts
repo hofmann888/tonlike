@@ -87,7 +87,7 @@ export async function fetchUserTasks(userId: number) {
     const data = await sql(`
       SELECT 
         tasks.*, 
-        actions.name as action_name, actions.reward as action_reward,
+        actions.name as action_name,
         services.name as service_name, services.img as service_img
       FROM tasks 
       LEFT JOIN actions on tasks.action_id = actions.id 
@@ -117,7 +117,7 @@ export async function fetchUserEarnTasks(userId: number) {
     const data = await sql(`
       SELECT 
         tasks.*, 
-        actions.name as action_name, actions.reward as action_reward,
+        actions.name as action_name,
         services.name as service_name, services.img as service_img
       FROM tasks 
       LEFT JOIN actions on tasks.action_id = actions.id 
@@ -246,7 +246,7 @@ export async function fetchUserByAddress(address: string) {
 export async function fetchUsersLeaderboard() {
   try {
     console.log('fetchUsers');
-    const data = await sql(`SELECT * FROM users ORDER BY reward DESC;`);
+    const data = await sql(`SELECT * FROM users ORDER BY balance DESC;`); // TODO?: select only needed fields
     console.log('fetchUsers data:', data);
     return data as User[];
   } catch (error) {

@@ -1,14 +1,14 @@
 'use client'
 
 import { useUser } from "@/hooks/useUser";
+import { PiCoinVertical } from "react-icons/pi";
 
 export default function HeaderBalance() {
-  const { balance, reward } = useUser();
+  const { balance } = useUser();
 
   return (
     <div className="header-balance">
-      <p className="text-large">Balance: ${balance}</p>
-      <p className="text-large">Reward: {reward}</p>
+      <p className="flex items-center text-large">Balance: <PiCoinVertical />{balance}</p>
     </div>
   );
 }

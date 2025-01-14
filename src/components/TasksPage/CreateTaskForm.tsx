@@ -8,38 +8,27 @@ import { Form } from "@nextui-org/form";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
-import { IconType } from "react-icons";
 import { PiCoinVertical } from "react-icons/pi";
-import { BsCurrencyDollar } from "react-icons/bs";
 import { CreateTaskFormSubmit } from "@/db/actions";
-import { CreateTaskFormState, Action, Service, Currency, CurrencyEnum, CurrencyMapItem } from "@/lib/definitions";
+import { CreateTaskFormState, Action, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
 
-const currencyMap: CurrencyMapItem[] = [
-  { key: CurrencyEnum.COIN, title: "COIN", icon: PiCoinVertical },
-  { key: CurrencyEnum.USDT, title: "USDT", icon: BsCurrencyDollar },
-];
 
 // TODO: format + validation (numbers float, link)
 // TODO: extended settings (schedule, timeout...)
 // TODO: errors view (currency and count)
 export default function CreateTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
-  const { balance, reward } = useUser();
+  const { balance } = useUser();
 
   const [serviceId, setServiceId] = useState('1');
   const [actionId, setActionId] = useState('1');
   const [link, setLink] = useState('');
-  const [currency, setCurrency] = useState(CurrencyEnum.COIN);
-  const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input
+  const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input or remove decimals
   const [count, setCount] = useState<SliderValue>(10);
-  const [reserve, setReserve] = useState(reward);
-  const [priceStep, setPriceStep] = useState(1);
   const [sum, setSum] = useState(0);
   
-  const currencyMapItem = currencyMap.find((currencyMapItem) => currencyMapItem.key === currency);
-  const CurrencyIcon = currencyMapItem?.icon as IconType;
-  const maxCount = price ? Math.floor(reserve / Number(price)) : 10;
-  const submitContent = <div className="flex items-center">Create (<CurrencyIcon className="inline" />{sum})</div>;
+  const maxCount = price ? Math.floor(balance / Number(price)) : 10;
+  const submitContent = <div className="flex items-center">Create (<PiCoinVertical className="inline" />{sum})</div>;
 
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
@@ -56,30 +45,14 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   }, [serviceId, actionId]);
 
   useEffect(() => {
-    setSum(Number((price * Number(count)).toFixed(2)));
+    setSum(price * Number(count));
   }, [price, count]);
 
   useEffect(() => {
-    if (sum > reserve) {
+    if (sum > balance) {
       setCount(maxCount);
     }
   }, [sum]);
-
-  function currencyChange(value: Currency) {
-    setCurrency(value);
-    setCount(10);
-
-    switch (value) {
-      case CurrencyEnum.COIN:
-        setReserve(reward); 
-        setPriceStep(1);
-        break;
-      case CurrencyEnum.USDT:
-        setReserve(balance);
-        setPriceStep(0.01);
-        break;
-    }
-  }
 
   return (
     <Form action={formAction} className="create-task-form" validationErrors={state?.errors}>
@@ -155,13 +128,13 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           placeholder="0"
           value={`${price}`}
           onValueChange={(value) => setPrice(Number(value))}
-          min={priceStep}
-          step={priceStep}
+          min={1}
+          step={1}
           variant="bordered"
           className="w-3/4 mr-2"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <CurrencyIcon className="text-default-400 text-large" />
+              <PiCoinVertical className="text-default-400 text-large" />
             </div>
           }
         />
@@ -172,18 +145,12 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           variant="bordered" 
           className="w-1/4"
           disallowEmptySelection
-          items={currencyMap}
-          selectedKeys={[currency]}
-          onChange={(e) => currencyChange(e.target.value as Currency)}
+          selectedKeys={['coin']}
+          isDisabled
         >
-          {currencyMap.map((currency) => {
-            const CurrencyIcon = currency.icon;
-            return (
-              <SelectItem key={currency.key} startContent={<CurrencyIcon className="text-default-400" />}>
-                {currency.title}
-              </SelectItem>
-            )
-          })}
+          <SelectItem key='coin' startContent={<PiCoinVertical className="text-default-400" />}>
+            COIN
+          </SelectItem>
         </Select>
       </div>
 
@@ -234,7 +201,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
         }
       </div>
 
-      <SubmitButton content={submitContent} disabled={!sum || sum > reserve} className="mt-4" />
+      <SubmitButton content={submitContent} disabled={!sum || sum > balance} className="mt-4" />
     </Form>
   )
 }

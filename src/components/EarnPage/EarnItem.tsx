@@ -40,7 +40,6 @@ export default function EarnItem({task}: {task: Task}) {
 
         <div>
           <p className="text-medium text-green-600">+ ${task.price}</p>
-          <p className="text-medium text-yellow-600">+ {task.action.reward}</p>
         </div>
 
         <div className="flex items-center">

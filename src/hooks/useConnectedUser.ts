@@ -30,6 +30,5 @@ export function useConnectedUser() {
     id: data?.id ?? null,
     address: data?.address ?? null,
     balance: data?.balance ?? 0,
-    reward: data?.reward ?? 0,
   };
 }
