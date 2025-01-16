@@ -128,7 +128,7 @@ async function seedTasks() {
   await sql('ALTER SEQUENCE tasks_id_seq RESTART WITH 9;');
 }
 
-// TODO?: user_tasks
+// TODO?: user_tasks | earn_tasks?
 // TODO?: reward
 async function seedUserEarnings() {
   await sql(`CREATE TYPE user_earning_status AS ENUM('done','hidden');`);

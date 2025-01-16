@@ -153,6 +153,20 @@ export type TaskFilterItem = {
   values: string | string[]
 }
 
+export enum UserEarningStatusEnum {
+  DONE = 'done',
+  HIDDEN = 'hidden',
+}
+export type UserEarningStatus = UserEarningStatusEnum.DONE | UserEarningStatusEnum.HIDDEN;
+
+export type UserEarning = {
+  task_id: number,
+  user_id: number,
+  profit: number,
+  status: UserEarningStatus,
+  created_at: number,
+}
+
 // export type CurrencyMapItem = {
 //   key: Currency,
 //   title: string,

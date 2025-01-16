@@ -14,7 +14,15 @@ import { Task } from "@/lib/definitions";
 import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 
-export default function EarnItem({task}: {task: Task}) {
+export default function EarnItem({
+  task,
+  onHideClick,
+  onReportClick
+}: {
+  task: Task,
+  onHideClick: (id: number) => void,
+  onReportClick: (id: number) => void
+}) {
   return (
     <Card 
       isBlurred
@@ -49,12 +57,13 @@ export default function EarnItem({task}: {task: Task}) {
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Earn Task Actions">
-              <DropdownItem key="hide" startContent={<FaEyeSlash />}>Hide</DropdownItem>
+              <DropdownItem key="hide" startContent={<FaEyeSlash />} onPress={() => onHideClick(task.id)}>Hide</DropdownItem>
               <DropdownItem 
                 key="report" 
                 className="text-danger"
                 color="danger" 
                 startContent={<FaExclamationCircle />}
+                onPress={() => onReportClick(task.id)}
               >
                 Report
               </DropdownItem>

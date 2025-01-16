@@ -5,7 +5,7 @@ import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
 import { fetchUserEarnTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
-import EarnItem from "@/components/EarnPage/EarnItem";
+import EarnList from "@/components/EarnPage/EarnList";
 import "@/css/earn.scss";
 
 
@@ -36,13 +36,9 @@ export default async function EarnPage({
   return (
     <div className="earn-page py-5">
 
-      <TasksFilter actions={actions} services={services} />
+      {!!tasks.length && <TasksFilter actions={actions} services={services} />}
 
-      <div className="earn-list">
-          {tasksFiltered.length ? tasksFiltered.map((task) => (
-            <EarnItem key={task.id} task={task} />
-          )) : <p className="text-center">No tasks found.</p>}
-        </div>
+      <EarnList tasks={tasksFiltered} />
     </div>
   )
 }

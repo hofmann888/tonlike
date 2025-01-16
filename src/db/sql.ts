@@ -4,7 +4,7 @@ import 'server-only';
 
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
-import { Action, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User, UserEarningStatusEnum } from '@/lib/definitions';
 import { User as tgUser } from '@telegram-apps/sdk-react';
 
 export async function fetchActions() {
@@ -123,9 +123,9 @@ export async function fetchUserEarnTasks(userId: number) {
       LEFT JOIN actions on tasks.action_id = actions.id 
       LEFT JOIN services on tasks.service_id = services.id
       LEFT JOIN user_earnings on tasks.id = user_earnings.task_id 
-      WHERE tasks.user_id != $1 AND user_earnings.id IS NULL
+      WHERE tasks.user_id != $1 AND tasks.status = $2 AND user_earnings.id IS NULL
       ORDER BY tasks.created_at DESC;
-    `, [userId]);
+    `, [userId, TaskStatusEnum.ACTIVE]);
 
     const formatedData: Task[] = []; 
 
@@ -252,5 +252,38 @@ export async function fetchUsersLeaderboard() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');
+  }
+}
+
+export async function checkUserEarnTask(userId: number, taskId: number) {
+  try {
+    console.log('checkUserEarning');
+    const [data] = await sql(`
+      SELECT EXISTS (
+        SELECT 1 FROM tasks 
+        LEFT JOIN user_earnings on tasks.id = user_earnings.task_id AND user_earnings.user_id = $1
+        WHERE tasks.id = $2 AND tasks.user_id != $1 AND tasks.status = $3 AND user_earnings.id IS NULL
+      );`, 
+      [userId, taskId, TaskStatusEnum.ACTIVE]
+    );
+    console.log('checkUserEarning data:', data);
+    return data?.exists;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function hideUserEarning(userId: number, taskId: number) {
+  try {
+    console.log('hideUserEarning');
+    const [data] = await sql(`INSERT INTO user_earnings (user_id, task_id, status) VALUES ($1, $2, $3) RETURNING id;`, 
+      [userId, taskId, UserEarningStatusEnum.HIDDEN]
+    );
+    console.log('hideUserEarning data:', data);
+    return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to insert data.');
   }
 }

@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
-import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask } from './sql';
+import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask } from './sql';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema } from './schema';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum } from '@/lib/definitions';
@@ -155,4 +155,24 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
 
   revalidatePath('/tasks');
   redirect('/tasks');
+}
+
+export async function HideUserEarnTask(taskId: number) {
+  console.log('HideUserEarnTask');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await checkUserEarnTask(user.id, taskId)) {
+      throw new Error("Wrong task!");
+    }
+    
+    return await hideUserEarning(user.id, taskId);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to hide task.',
+    };
+  }
+  // revalidatePath('/tasks');
+  // redirect('/tasks');
 }
