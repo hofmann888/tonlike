@@ -380,4 +380,14 @@ const userEarnings = [
   }
 ];
 
-export { services, actions, serviceActions, tasks, userEarnings, users };
+const reports = [
+  {
+    id: 1,
+    user_id: 1,
+    task_id: 5,
+    reasons: ['unavailable', 'content'],
+    comment: 'stupid motherfucker and fucking piece of shit with a dead brain',
+  },
+];
+
+export { users, services, actions, serviceActions, tasks, userEarnings, reports };

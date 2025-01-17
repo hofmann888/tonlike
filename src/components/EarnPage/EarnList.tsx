@@ -37,7 +37,7 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
         />
       )) : <p className="text-center mt-4">No tasks found.</p>}
 
-      {/* <EarnItemReportModal isOpen={isOpen} onOpenChange={onOpenChange} taskId={reportTaskId} /> */}
+      <EarnItemReportModal isOpen={isOpen} onOpenChange={onOpenChange} taskId={reportTaskId} />
     </>
   )
 }

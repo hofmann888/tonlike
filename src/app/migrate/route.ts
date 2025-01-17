@@ -1,12 +1,11 @@
 import { neon } from '@neondatabase/serverless';
-import { services, actions, serviceActions, tasks, userEarnings, users } from '@/db/seed';
+import { users, services, actions, serviceActions, tasks, userEarnings, reports } from '@/db/seed';
 
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
-    await sql(`DROP TABLE IF EXISTS users, services, actions, tasks, user_earnings;`);
-    await sql(`DROP TYPE IF EXISTS task_status;`);
-    await sql(`DROP TYPE IF EXISTS user_earning_status;`);
+    await sql(`DROP TABLE IF EXISTS reports, user_earnings, tasks, users, service_actions, services, actions;`);
+    await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason;`);
 }
 
 async function seedUsers() {
@@ -76,7 +75,10 @@ async function seedServiceActions() { // TODO: store as ARRAY type in services t
       id SERIAL PRIMARY KEY,
       service_id SMALLINT NOT NULL,
       action_id SMALLINT NOT NULL,
-      active BOOLEAN NOT NULL DEFAULT TRUE
+      active BOOLEAN NOT NULL DEFAULT TRUE,
+
+      CONSTRAINT fk_service FOREIGN KEY(service_id) REFERENCES services(id),
+      CONSTRAINT fk_action FOREIGN KEY(action_id) REFERENCES actions(id)
     );
   `);
 
@@ -157,6 +159,33 @@ async function seedUserEarnings() {
   await sql('ALTER SEQUENCE user_earnings_id_seq RESTART WITH 2;');
 }
 
+async function seedReports() {
+  await sql(`CREATE TYPE report_reason AS ENUM('unavailable','scam','spam','copyright','content');`);
+
+  await sql(`
+    CREATE TABLE IF NOT EXISTS reports (
+      id BIGSERIAL PRIMARY KEY,
+      user_id INT NOT NULL,
+      task_id INT NOT NULL,
+      reasons REPORT_REASON[] NOT NULL,
+      comment TEXT NULL,  
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
+      CONSTRAINT fk_task FOREIGN KEY(task_id) REFERENCES tasks(id)
+    );
+  `);
+  
+  reports.map(
+    async (report) => await sql(`
+      INSERT INTO reports (id, user_id, task_id, reasons, comment)
+      VALUES ($1, $2, $3, $4, $5)
+    `, [report.id, report.user_id, report.task_id, report.reasons, report.comment]),
+  );
+
+  await sql('ALTER SEQUENCE reports_id_seq RESTART WITH 2;');
+}
+
 export async function GET() {
   try {
     await sql(`BEGIN`);
@@ -167,6 +196,7 @@ export async function GET() {
     await seedServiceActions();
     await seedTasks();
     await seedUserEarnings();
+    await seedReports();
     await sql(`COMMIT`);
 
     return Response.json({ message: 'Database seeded successfully' });

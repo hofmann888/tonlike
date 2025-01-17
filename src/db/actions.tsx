@@ -176,3 +176,23 @@ export async function HideUserEarnTask(taskId: number) {
   // revalidatePath('/tasks');
   // redirect('/tasks');
 }
+
+// export async function ReportUserEarnTask(prevState: WithdrawFormState, formData: FormData) {
+//   console.log('ReportUserEarnTask');
+//   try {
+//     const user: User = await getAuthUser(false);
+
+//     if (!await checkUserEarnTask(user.id, taskId)) {
+//       throw new Error("Wrong task!");
+//     }
+    
+//     return await hideUserEarning(user.id, taskId);
+//   } catch (error) {
+//     console.log('Operation Error:', error);
+//     return {
+//       message: 'Operation Error: Failed to hide task.',
+//     };
+//   }
+//   // revalidatePath('/tasks');
+//   // redirect('/tasks');
+// }
