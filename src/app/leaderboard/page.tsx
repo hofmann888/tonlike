@@ -1,8 +1,8 @@
 'use server'
 
 import { fetchUsersLeaderboard } from "@/db/sql";
-import { Card, CardBody } from "@nextui-org/card";
-import { User } from "@nextui-org/user";
+import { Card, CardBody } from "@heroui/card";
+import { User } from "@heroui/user";
 import clsx from 'clsx';
 
 export default async function LeaderboardPage() {

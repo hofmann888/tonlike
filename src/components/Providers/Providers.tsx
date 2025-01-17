@@ -5,7 +5,7 @@ import * as React from "react";
 import { User } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 import { ThemeProvider } from "next-themes";
-import { NextUIProvider } from "@nextui-org/system";
+import { HeroUIProvider } from "@heroui/system";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "@/components/Providers/UserProvider";
 
@@ -15,18 +15,19 @@ export interface ProvidersProps {
   userData: User;
 }
 
-declare module "@react-types/shared" {
-  interface RouterConfig {
-    routerOptions: NonNullable<Parameters<ReturnType<typeof useRouter>["push"]>[1]>;
-  }
-}
+// declare module "@react-types/shared" {
+//   interface RouterConfig {
+//     routerOptions: NonNullable<Parameters<ReturnType<typeof useRouter>["push"]>[1]>;
+//   }
+// }
 
+// TODO: HeroUIProvider not working
 export function Providers({ children, themeProps, userData }: ProvidersProps) {
   const router = useRouter();
   const queryClient = new QueryClient();
 
   return (
-    <NextUIProvider navigate={router.push}>
+    <HeroUIProvider navigate={router.push}>
       <ThemeProvider {...themeProps}>
         <QueryClientProvider client={queryClient}>
           <UserProvider userData={userData}>
@@ -34,6 +35,6 @@ export function Providers({ children, themeProps, userData }: ProvidersProps) {
           </UserProvider>
         </QueryClientProvider>
       </ThemeProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   );
 }

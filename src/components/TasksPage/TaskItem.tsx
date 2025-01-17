@@ -1,10 +1,10 @@
 'use client'
 
-import { Card, CardBody, CardFooter } from "@nextui-org/card";
-import { Progress } from "@nextui-org/progress";
-import { Avatar } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { Progress } from "@heroui/progress";
+import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
 import { Task, TaskStatusEnum } from "@/lib/definitions";
 import { FaPause, FaPlay, FaTrashAlt } from "react-icons/fa";
 import { PiCoinVertical } from "react-icons/pi";

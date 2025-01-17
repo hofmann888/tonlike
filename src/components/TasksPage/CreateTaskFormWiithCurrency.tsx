@@ -1,10 +1,10 @@
 // 'use client'
 
-// import { type SliderValue, Slider } from "@nextui-org/slider";
-// import { Select, SelectItem } from "@nextui-org/select";
-// import { Avatar } from "@nextui-org/avatar";
-// import { Input } from "@nextui-org/input";
-// import { Form } from "@nextui-org/form";
+// import { type SliderValue, Slider } from "@heroui/slider";
+// import { Select, SelectItem } from "@heroui/select";
+// import { Avatar } from "@heroui/avatar";
+// import { Input } from "@heroui/input";
+// import { Form } from "@heroui/form";
 // import { useFormState } from "react-dom";
 // import { useEffect, useState } from "react";
 // import { useUser } from "@/hooks/useUser";

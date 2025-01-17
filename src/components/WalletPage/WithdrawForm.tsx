@@ -1,5 +1,5 @@
-import { Form } from "@nextui-org/form";
-import { Input } from "@nextui-org/input";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
 import { WithdrawFormState } from "@/lib/definitions";
 import { WithdrawFormSubmit } from "@/db/actions";
 import { useTonConnect } from "@/hooks/useTonConnect";

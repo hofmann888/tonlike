@@ -1,7 +1,7 @@
 'use client'
 
 import { tgCheckMembershipRequest } from "@/utils/requests";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import "@/css/main.scss";
 
 

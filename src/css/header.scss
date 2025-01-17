@@ -5,8 +5,8 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid hsl(var(--nextui-foreground));
-    background-color: hsl(var(--nextui-background));
+    border-bottom: 1px solid hsl(var(--heroui-foreground));
+    background-color: hsl(var(--heroui-background));
 
     .header-balance {
         display: flex;

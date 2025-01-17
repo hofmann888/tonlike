@@ -3,7 +3,8 @@
 import { FaCoins, FaTasks, FaTrophy, FaWallet } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
-import { Tabs, Tab } from "@nextui-org/tabs";
+import { Tabs, Tab } from "@heroui/tabs";
+import Link from "next/link";
 import "@/css/footer.scss";
 
 const navLinks: NavLink[] = [
@@ -21,6 +22,7 @@ export default function Footer() {
     selectedNav = '/tasks';
   }
 
+  // TODO replace Link with Tab.href after fixing HeroUIProvider
   return (
     <footer className="footer row-start-3">
       <nav className="footer-nav h-full">
@@ -31,7 +33,8 @@ export default function Footer() {
           classNames={{ 
             base: "w-full h-full", 
             tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
-            tab: "h-full",
+            tabContent: "w-full h-full",
+            tab: "h-full p-0",
             cursor: "w-full bg-[#22d3ee]",
             // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
           }}
@@ -41,9 +44,11 @@ export default function Footer() {
             return (
               <Tab 
                 key={link.href} 
-                href={link.href}
+                // href={link.href}
                 title={
-                  <LinkIcon className="w-7 h-7" />
+                  <Link href={link.href} className="flex items-center justify-center w-full h-full">
+                    <LinkIcon className="w-7 h-7" />
+                  </Link>  
                 }
               />
             );

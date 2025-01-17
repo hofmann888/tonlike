@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { Switch } from "@nextui-org/switch";
+import { Switch } from "@heroui/switch";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 export default function ThemeSwitcher() {

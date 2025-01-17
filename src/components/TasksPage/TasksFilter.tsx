@@ -1,10 +1,10 @@
 'use client'
 
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { Select, SelectItem } from "@nextui-org/select";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import { Avatar } from "@nextui-org/avatar";
-import { Chip } from "@nextui-org/chip";
+import { Accordion, AccordionItem } from "@heroui/accordion";
+import { Select, SelectItem } from "@heroui/select";
+import { Tabs, Tab } from "@heroui/tabs";
+import { Avatar } from "@heroui/avatar";
+import { Chip } from "@heroui/chip";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { FaPlay, FaPause, FaCheck, FaTrashAlt } from "react-icons/fa";

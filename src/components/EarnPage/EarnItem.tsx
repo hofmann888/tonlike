@@ -5,11 +5,11 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem
-} from "@nextui-org/dropdown";
-import { Card, CardBody } from "@nextui-org/card";
-import { Avatar } from "@nextui-org/avatar";
-import { Link } from "@nextui-org/link";
-import { Button } from "@nextui-org/button";
+} from "@heroui/dropdown";
+import { Card, CardBody } from "@heroui/card";
+import { Avatar } from "@heroui/avatar";
+import { Link } from "@heroui/link";
+import { Button } from "@heroui/button";
 import { Task } from "@/lib/definitions";
 import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";

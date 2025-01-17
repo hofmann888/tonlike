@@ -3,8 +3,8 @@
 import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
+import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
 import { fetchUserTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import TaskList from "@/components/TasksPage/TaskList";

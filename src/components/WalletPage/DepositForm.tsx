@@ -1,7 +1,7 @@
 'use client'
 
-import { Form } from "@nextui-org/form";
-import { Input } from "@nextui-org/input";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
 import { DepositFormSubmit } from "@/db/actions";
 import { DepostitFormState } from "@/lib/definitions";
 import { useFormState } from 'react-dom';

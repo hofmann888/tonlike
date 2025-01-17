@@ -2,7 +2,7 @@
 
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
 import { ChangeTaskStatus } from "@/db/actions";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
@@ -10,7 +10,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure
-} from "@nextui-org/modal";
+} from "@heroui/modal";
 import { useState } from "react";
 import TaskItem from "./TaskItem";
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Tabs, Tab } from "@nextui-org/tabs";
+import { Tabs, Tab } from "@heroui/tabs";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import DepositForm from "@/components/WalletPage/DepositForm";
 import WithdrawForm from "@/components/WalletPage/WithdrawForm";

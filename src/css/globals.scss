@@ -25,10 +25,10 @@ body {
 }
 
 .btn-border-shadow {
-    box-shadow: 0px 0px 10px 0px hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-text-opacity)));
+    box-shadow: 0px 0px 10px 0px hsl(var(--heroui-primary) / var(--heroui-primary-opacity, var(--tw-text-opacity)));
     transition: all 0.5s ease-out;
 }
 
 .btn-border-shadow:hover {
-    box-shadow: 0px 0px 20px 0px hsl(var(--nextui-primary) / var(--nextui-primary-opacity, var(--tw-text-opacity)));
+    box-shadow: 0px 0px 20px 0px hsl(var(--heroui-primary) / var(--heroui-primary-opacity, var(--tw-text-opacity)));
 }

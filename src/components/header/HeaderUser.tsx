@@ -1,14 +1,14 @@
 'use client'
 
 import { useUser } from "@/hooks/useUser";
-import { User } from "@nextui-org/user";
+import { User } from "@heroui/user";
 import ThemeSwitcher from "@/components/Theme/ThemeSwither";
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem
-} from "@nextui-org/dropdown";
+} from "@heroui/dropdown";
 
 export default function HeaderUser() {
   const { tgUserName, tgFirstName, tgLastName, tgPhotoUrl } = useUser();

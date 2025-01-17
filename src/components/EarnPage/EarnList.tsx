@@ -1,6 +1,6 @@
 'use client'
 
-import { useDisclosure } from "@nextui-org/modal";
+import { useDisclosure } from "@heroui/modal";
 import { useState } from "react";
 import { Task } from "@/lib/definitions";
 import { HideUserEarnTask } from "@/db/actions";
