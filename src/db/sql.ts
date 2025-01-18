@@ -4,7 +4,7 @@ import 'server-only';
 
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
-import { Action, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User, UserEarningStatusEnum } from '@/lib/definitions';
+import { Action, Report, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User, UserEarningStatusEnum } from '@/lib/definitions';
 import { User as tgUser } from '@telegram-apps/sdk-react';
 
 export async function fetchActions() {
@@ -120,10 +120,11 @@ export async function fetchUserEarnTasks(userId: number) {
         actions.name as action_name,
         services.name as service_name, services.img as service_img
       FROM tasks 
-      LEFT JOIN actions on tasks.action_id = actions.id 
-      LEFT JOIN services on tasks.service_id = services.id
-      LEFT JOIN user_earnings on tasks.id = user_earnings.task_id 
-      WHERE tasks.user_id != $1 AND tasks.status = $2 AND user_earnings.id IS NULL
+      LEFT JOIN actions on actions.id = tasks.action_id
+      LEFT JOIN services on services.id = tasks.service_id
+      LEFT JOIN user_earnings on user_earnings.task_id = tasks.id AND user_earnings.user_id = $1
+      LEFT JOIN reports on reports.task_id = tasks.id AND reports.user_id = $1
+      WHERE tasks.user_id != $1 AND tasks.status = $2 AND user_earnings.id IS NULL AND reports.id IS NULL
       ORDER BY tasks.created_at DESC;
     `, [userId, TaskStatusEnum.ACTIVE]);
 
@@ -282,6 +283,21 @@ export async function hideUserEarning(userId: number, taskId: number) {
     );
     console.log('hideUserEarning data:', data);
     return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to insert data.');
+  }
+}
+
+export async function createReport(reportData: any) {
+  try {
+    console.log('createReport');
+    const [data] = await sql(
+      `INSERT INTO reports (user_id, task_id, reasons, comment) VALUES ($1, $2, $3, $4) RETURNING *;`, 
+      [reportData.userId, reportData.taskId, reportData.reasons, reportData.comment]
+    );
+    console.log('createReport data:', data);
+    return data as Report;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to insert data.');

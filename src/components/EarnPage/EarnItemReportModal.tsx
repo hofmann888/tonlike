@@ -6,35 +6,56 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import { Button } from "@heroui/button";
-import { Form } from "@heroui/form";
-import { Textarea } from "@heroui/input";
+import { useRef, useState } from 'react';
+import EarnItemReportForm from "./EarnItemReportForm";
 
 export default function EarnItemReportModal({ 
-  isOpen, onOpenChange, taskId
+  taskId, isOpen, onOpenChange, earnItemReported
 }: {
+  taskId: number,
   isOpen: boolean,
   onOpenChange: () => void,
-  taskId: number,
+  earnItemReported: (id: number) => void
 }) {
+  const formRef: any = useRef(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  function onReportClick() {
+    setSubmitLoading(true);
+    formRef.current.requestSubmit();
+  }
+
+  function afterSubmit(success: boolean, id: number) {
+    setSubmitLoading(false);
+
+    if (success) {
+      setMessage('Task has been successfuly reported.');
+      earnItemReported(id);
+    }
+  }
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Report Task #{taskId}</ModalHeader>
+
               <ModalBody>
-                {/* <Form action={formAction} className="create-task-form" validationErrors={state?.errors}> */}
-                <Form>
-                  <Textarea label="Description" placeholder="Enter your description" />
-                </Form>
+                {message.length 
+                  ? message 
+                  : <EarnItemReportForm taskId={taskId} formRef={formRef} afterSubmit={afterSubmit} />
+                }
               </ModalBody>
+
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary">
+                {!message.length && <Button color="primary" onPress={onReportClick} isLoading={submitLoading}>
                   Report
-                </Button>
+                </Button>}
               </ModalFooter>
             </>
           )}

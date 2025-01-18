@@ -1,11 +1,11 @@
 'use server'
 
+import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport } from './sql';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState } from '@/lib/definitions';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, EarnItemReportFormSchema } from './schema';
+import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
-import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask } from './sql';
-import { getAuthUser, setSession } from '@/app/auth/session';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema } from './schema';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum } from '@/lib/definitions';
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
@@ -177,22 +177,44 @@ export async function HideUserEarnTask(taskId: number) {
   // redirect('/tasks');
 }
 
-// export async function ReportUserEarnTask(prevState: WithdrawFormState, formData: FormData) {
-//   console.log('ReportUserEarnTask');
-//   try {
-//     const user: User = await getAuthUser(false);
+// TODO?: EarnTask
+export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
+  console.log('ReportUserEarnTask');
 
-//     if (!await checkUserEarnTask(user.id, taskId)) {
-//       throw new Error("Wrong task!");
-//     }
+  try {
+    const user: User = await getAuthUser(false);
+
+    console.log('formData:', formData);
+
+    const validated = EarnItemReportFormSchema.safeParse({
+      reasons: formData.getAll('reasons'),
+      comment: formData.get('comment'),
+    });
+    console.log('validated:', validated);
+
     
-//     return await hideUserEarning(user.id, taskId);
-//   } catch (error) {
-//     console.log('Operation Error:', error);
-//     return {
-//       message: 'Operation Error: Failed to hide task.',
-//     };
-//   }
-//   // revalidatePath('/tasks');
-//   // redirect('/tasks');
-// }
+    if (!validated.success) {
+      console.log('errors', validated.error.flatten().fieldErrors);
+      return {
+        errors: validated.error.flatten().fieldErrors,
+        message: 'Failed to report task.',
+        success: false
+      };
+    }
+
+    if (!await checkUserEarnTask(user.id, taskId)) {
+      throw new Error("Wrong task!");
+    }
+
+    const data = { userId: user.id, taskId: taskId, ...validated.data };
+
+    await createReport(data);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to report task.',
+      success: false
+    };
+  }
+  return { success: true };
+}

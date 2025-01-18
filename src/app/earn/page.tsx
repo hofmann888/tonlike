@@ -8,7 +8,6 @@ import TasksFilter from "@/components/TasksPage/TasksFilter";
 import EarnList from "@/components/EarnPage/EarnList";
 import "@/css/earn.scss";
 
-
 export default async function EarnPage({
   searchParams
 }: {

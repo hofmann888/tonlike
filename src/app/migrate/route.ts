@@ -160,7 +160,7 @@ async function seedUserEarnings() {
 }
 
 async function seedReports() {
-  await sql(`CREATE TYPE report_reason AS ENUM('unavailable','scam','spam','copyright','content');`);
+  await sql(`CREATE TYPE report_reason AS ENUM('unavailable','scam','spam','copyright','content', 'other');`);
 
   await sql(`
     CREATE TABLE IF NOT EXISTS reports (

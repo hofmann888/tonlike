@@ -24,6 +24,11 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
     onOpen();
   }
 
+  function earnItemReported(id: number) {
+    const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
+    setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
+  }
+
   console.log('tasks:', tasks);
 
   return (
@@ -37,7 +42,12 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
         />
       )) : <p className="text-center mt-4">No tasks found.</p>}
 
-      <EarnItemReportModal isOpen={isOpen} onOpenChange={onOpenChange} taskId={reportTaskId} />
+      <EarnItemReportModal 
+        taskId={reportTaskId} 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange} 
+        earnItemReported={earnItemReported} 
+      />
     </>
   )
 }

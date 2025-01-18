@@ -34,6 +34,15 @@ export type CreateTaskFormState = {
   message?: string | null;
 };
 
+export type EarnItemReportFormState = {
+  errors?: {
+    reasons?: string[];
+    comment?: string[];
+  };
+  message?: string | null;
+  success?: boolean;
+};
+
 
 //========== DB
 
@@ -160,11 +169,36 @@ export enum UserEarningStatusEnum {
 export type UserEarningStatus = UserEarningStatusEnum.DONE | UserEarningStatusEnum.HIDDEN;
 
 export type UserEarning = {
+  id: number,
   task_id: number,
   user_id: number,
   profit: number,
   status: UserEarningStatus,
   created_at: number,
+}
+
+export type Report = {
+  id: number,
+  user_id: number,
+  task_id: number,
+  reasons: ReportReason[],
+  comment: string,
+  created_at: number,
+} 
+
+export enum ReportReasonEnum {
+  UNAVAILABLE = 'unavailable',
+  SCAM = 'scam',
+  SPAM = 'spam',
+  COPYRIGHT = 'copyright',
+  CONTENT = 'content',
+  OTHER = 'other'
+}
+export type ReportReason = ReportReasonEnum.UNAVAILABLE | ReportReasonEnum.SCAM | ReportReasonEnum.SPAM | ReportReasonEnum.COPYRIGHT | ReportReasonEnum.CONTENT | ReportReasonEnum.OTHER;
+
+export type ReportReasonsMapItem = {
+  key: ReportReason,
+  title: string,
 }
 
 // export type CurrencyMapItem = {
