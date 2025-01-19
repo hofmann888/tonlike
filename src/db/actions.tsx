@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport } from './sql';
+import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport, fetchTaskPerformers } from './sql';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, EarnItemReportFormSchema } from './schema';
 import { getAuthUser, setSession } from '@/app/auth/session';
@@ -131,52 +131,6 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
   redirect('/tasks');
 }
 
-
-export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
-  console.log('ChangeTaskStatus');
-  try {
-    const user: User = await getAuthUser(false);
-
-    if (!await userHasTask(taskId, user.id)) {
-      throw new Error("Wrong task!");
-    }
-
-    if (status === TaskStatusEnum.DELETED) { // TODO: seperate action for delete?
-      await deleteTask(taskId);
-    } else {
-      await updateTaskStatus(taskId, status);
-    }
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to update task.',
-    };
-  }
-
-  revalidatePath('/tasks');
-  redirect('/tasks');
-}
-
-export async function HideUserEarnTask(taskId: number) {
-  console.log('HideUserEarnTask');
-  try {
-    const user: User = await getAuthUser(false);
-
-    if (!await checkUserEarnTask(user.id, taskId)) {
-      throw new Error("Wrong task!");
-    }
-    
-    return await hideUserEarning(user.id, taskId);
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to hide task.',
-    };
-  }
-  // revalidatePath('/tasks');
-  // redirect('/tasks');
-}
-
 // TODO?: EarnTask
 export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
   console.log('ReportUserEarnTask');
@@ -217,4 +171,69 @@ export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnIt
     };
   }
   return { success: true };
+}
+
+
+export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
+  console.log('ChangeTaskStatus');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    if (status === TaskStatusEnum.DELETED) { // TODO: seperate action for delete?
+      await deleteTask(taskId);
+    } else {
+      await updateTaskStatus(taskId, status);
+    }
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to update task.',
+    };
+  }
+
+  revalidatePath('/tasks');
+  redirect('/tasks');
+}
+
+export async function GetTaskPerformers(taskId: number) {
+  console.log('GetTaskPerformers');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    const data = await fetchTaskPerformers(taskId);
+    return { data };
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to update task.',
+    };
+  }
+}
+
+export async function HideUserEarnTask(taskId: number) {
+  console.log('HideUserEarnTask');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await checkUserEarnTask(user.id, taskId)) {
+      throw new Error("Wrong task!");
+    }
+    
+    return await hideUserEarning(user.id, taskId);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to hide task.',
+    };
+  }
+  // revalidatePath('/tasks');
+  // redirect('/tasks');
 }

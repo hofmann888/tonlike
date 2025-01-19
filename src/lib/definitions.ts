@@ -201,6 +201,14 @@ export type ReportReasonsMapItem = {
   title: string,
 }
 
+export type Performer = {
+  id: number,
+  tg_username: string,
+  tg_photo_url: string,
+  created_at: number,
+  // status: string,
+}
+
 // export type CurrencyMapItem = {
 //   key: Currency,
 //   title: string,

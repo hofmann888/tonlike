@@ -4,7 +4,7 @@ import 'server-only';
 
 import { sql } from './connection';
 import { formatUserTaskDTO } from './dto';
-import { Action, Report, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User, UserEarningStatusEnum } from '@/lib/definitions';
+import { Action, Performer, Report, Service, Task, TaskDTO, TaskStatus, TaskStatusEnum, User, UserEarningStatusEnum } from '@/lib/definitions';
 import { User as tgUser } from '@telegram-apps/sdk-react';
 
 export async function fetchActions() {
@@ -250,6 +250,35 @@ export async function fetchUsersLeaderboard() {
     const data = await sql(`SELECT * FROM users ORDER BY balance DESC;`); // TODO?: select only needed fields
     console.log('fetchUsers data:', data);
     return data as User[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
+export async function fetchTaskPerformers(taskId: number) {
+  try {
+    console.log('fetchTaskPerformers');
+    const data = await sql(`
+      SELECT
+        users.id, users.tg_username, users.tg_photo_url,
+        user_earnings.created_at
+      FROM user_earnings 
+      LEFT JOIN users on users.id = user_earnings.user_id
+      WHERE user_earnings.task_id = $1 AND user_earnings.status = $2
+      ORDER BY balance DESC;`, 
+      [taskId, UserEarningStatusEnum.DONE]
+    );
+
+    console.log('fetchTaskPerformers data:', data);
+    // const formatedData: Performer[] = []; 
+    // if (data) {
+    //   data.map((dataPerformer) => {
+    //     const performer = formatPerformerDTO(dataPerformer as PerformerDTO);
+    //     formatedData.push(performer);
+    //   });
+    // }
+    return data as Performer[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');

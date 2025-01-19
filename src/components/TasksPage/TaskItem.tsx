@@ -1,14 +1,20 @@
-'use client'
-
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem
+} from "@heroui/dropdown";
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Progress } from "@heroui/progress";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { Task, TaskStatusEnum } from "@/lib/definitions";
-import { FaPause, FaPlay, FaTrashAlt } from "react-icons/fa";
-import { PiCoinVertical } from "react-icons/pi";
-
+import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
+import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa";
+import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
+import { useState } from "react";
+import TaskPerformersList from "./TaskPerformersList";
+import { GetTaskPerformers } from "@/db/actions";
 
 export default function TaskItem({
   task, 
@@ -21,6 +27,26 @@ export default function TaskItem({
   onDeleteClick: (id: number) => void,
   onActivateClick: (id: number) => void
 }) {
+  const [performers, setPerformers] = useState([] as Performer[]);
+  const [showPerformers, setShowPerformers] = useState(false);
+
+  async function onPerformersClick() {
+    if (showPerformers) {
+      setShowPerformers(false);
+      return;
+    }
+
+    const { data } = await GetTaskPerformers(task.id); // cache and prefetch
+    if (data?.length) {
+      setPerformers(data as Performer[]);
+      setShowPerformers(true);
+    }
+  }
+
+  function onEditClick() {
+    console.log('onEditClick');
+  }
+
   return (
     <Card 
       isBlurred
@@ -49,33 +75,60 @@ export default function TaskItem({
           {task.status === TaskStatusEnum.ACTIVE && 
             <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
               <FaPause />
-            </Button>}
+            </Button>
+          }
           {task.status === TaskStatusEnum.PAUSED && 
             <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
               <FaPlay />
-            </Button>}
+            </Button>
+          }
 
           {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
             <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
               <FaTrashAlt />
-            </Button>}
+            </Button>
+          }
+
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly aria-label="Task Actions Button" variant="light">
+                <PiDotsThreeOutlineVerticalFill />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Task Actions">
+              <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+              <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </CardBody>
 
-      <CardFooter className="pt-2">
-        <Progress
-          classNames={{
-            track: "drop-shadow-md border border-default",
-            indicator: "bg-gradient-to-r from-pink-500 to-blue-500",
-            label: "tracking-wider font-medium text-default-600",
-            value: "text-foreground/60",
-          }}
-          label={`Progress: ${task.done} / ${task.count}`}
-          showValueLabel={true}
-          size="sm"
-          value={task.done}
-          maxValue={task.count}
-        />
+      <CardFooter className="pt-2 flex-col">
+        <Button variant="light" className="w-full p-0" data-hover="false" onPress={() => onPerformersClick()}>
+          <Progress
+            classNames={{
+              track: "drop-shadow-md border border-default",
+              indicator: "bg-gradient-to-r from-pink-500 to-blue-500",
+              label: "tracking-wider font-medium text-default-600",
+              value: "text-foreground/60",
+            }}
+            label={`Progress: ${task.done} / ${task.count}`}
+            showValueLabel={true}
+            size="sm"
+            value={task.done}
+            maxValue={task.count}
+          />
+        </Button>
+
+        {showPerformers && 
+          <>
+            <TaskPerformersList performers={performers} /> 
+
+            <Button color="danger" variant="light" className="mt-4 w-28" onPress={() => setShowPerformers(false)}>
+              Close
+            </Button>
+          </>
+        }
       </CardFooter>
     </Card>
   )
