@@ -1,11 +1,11 @@
 import { neon } from '@neondatabase/serverless';
-import { users, services, actions, serviceActions, tasks, userEarnings, reports } from '@/db/seed';
+import { users, services, actions, serviceActions, tasks, userEarnings, reports, blackList } from '@/db/seed';
 
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
-    await sql(`DROP TABLE IF EXISTS reports, user_earnings, tasks, users, service_actions, services, actions;`);
-    await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason;`);
+    await sql(`DROP TABLE IF EXISTS black_list, reports, user_earnings, tasks, users, service_actions, services, actions;`);
+    await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason, black_list_reason;`);
 }
 
 async function seedUsers() {
@@ -186,6 +186,35 @@ async function seedReports() {
   await sql('ALTER SEQUENCE reports_id_seq RESTART WITH 2;');
 }
 
+async function seedBlackList() {
+  await sql(`CREATE TYPE black_list_reason AS ENUM('task','account','behavior','other');`);
+
+  await sql(`
+    CREATE TABLE IF NOT EXISTS black_list (
+      id BIGSERIAL PRIMARY KEY,
+      user_id INT NOT NULL,
+      blocked_user_id INT NOT NULL,
+      task_id INT NOT NULL,
+      reasons BLACK_LIST_REASON[] NOT NULL,
+      comment TEXT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
+      CONSTRAINT fk_blocked_user FOREIGN KEY(blocked_user_id) REFERENCES users(id),
+      CONSTRAINT fk_task FOREIGN KEY(task_id) REFERENCES tasks(id)
+    );
+  `);
+  
+  blackList.map(
+    async (blackListItem) => await sql(`
+      INSERT INTO black_list (id, user_id, blocked_user_id, task_id, reasons, comment)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [blackListItem.id, blackListItem.user_id, blackListItem.blocked_user_id, blackListItem.task_id, blackListItem.reasons, blackListItem.comment]),
+  );
+
+  await sql('ALTER SEQUENCE black_list_id_seq RESTART WITH 2;');
+}
+
 export async function GET() {
   try {
     await sql(`BEGIN`);
@@ -197,6 +226,7 @@ export async function GET() {
     await seedTasks();
     await seedUserEarnings();
     await seedReports();
+    await seedBlackList();
     await sql(`COMMIT`);
 
     return Response.json({ message: 'Database seeded successfully' });
