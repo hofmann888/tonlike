@@ -256,32 +256,75 @@ export async function fetchUsersLeaderboard() {
   }
 }
 
-export async function fetchTaskPerformers(taskId: number) {
+export async function fetchTaskPerformers(taskId: number, taskUserId: number) {
   try {
     console.log('fetchTaskPerformers');
     const data = await sql(`
       SELECT
         users.id, users.tg_username, users.tg_photo_url,
-        user_earnings.created_at
+        user_earnings.created_at,
+        CASE 
+          WHEN black_list.id IS NOT NULL THEN TRUE 
+          ELSE FALSE 
+        END AS is_blocked
       FROM user_earnings 
-      LEFT JOIN users on users.id = user_earnings.user_id
-      WHERE user_earnings.task_id = $1 AND user_earnings.status = $2
-      ORDER BY balance DESC;`, 
-      [taskId, UserEarningStatusEnum.DONE]
+      LEFT JOIN users ON users.id = user_earnings.user_id
+      LEFT JOIN black_list ON black_list.blocked_user_id = user_earnings.user_id AND black_list.user_id = $1
+      WHERE user_earnings.task_id = $2 AND user_earnings.status = $3;`, 
+      [taskUserId, taskId, UserEarningStatusEnum.DONE]
     );
 
     console.log('fetchTaskPerformers data:', data);
-    // const formatedData: Performer[] = []; 
-    // if (data) {
-    //   data.map((dataPerformer) => {
-    //     const performer = formatPerformerDTO(dataPerformer as PerformerDTO);
-    //     formatedData.push(performer);
-    //   });
-    // }
     return data as Performer[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');
+  }
+}
+
+export async function performerCanBeBlocked(userId: number, blockUserId: number, taskId: number) {
+  try {
+    console.log('performerCanBeBlocked');
+    const [data] = await sql(`
+      SELECT EXISTS (
+        SELECT 1 FROM user_earnings 
+        LEFT JOIN black_list ON black_list.user_id = $1 AND black_list.blocked_user_id = $2
+        WHERE user_earnings.user_id = $2 AND user_earnings.task_id = $3 AND black_list.id IS NULL
+      );`, 
+      [userId, blockUserId, taskId]
+    );
+    console.log('performerCanBeBlocked data:', data);
+    return !!data?.exists;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function addUserToBlackList(blackListData: any) {
+  try {
+    console.log('addUserToBlackList');
+    const [data] = await sql(
+      `INSERT INTO black_list (user_id, blocked_user_id, task_id, reasons, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *;`, 
+      [blackListData.userId, blackListData.blockUserId, blackListData.taskId, blackListData.reasons, blackListData.comment]
+    );
+    console.log('addUserToBlackList data:', data);
+    return data as Report;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to insert data.');
+  }
+}
+
+export async function removeUserFromBlackList(userId: number, blockedUserId: number) {
+  try {
+    console.log('removeUserFromBlackList');
+    const [data] = await sql(`DELETE FROM black_list WHERE user_id = $1 AND blocked_user_id = $2 RETURNING id;`, [userId, blockedUserId]);
+    console.log('removeUserFromBlackList data:', data);
+    return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete task.');
   }
 }
 

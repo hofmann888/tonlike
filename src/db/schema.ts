@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fetchActionById, fetchServiceById } from './sql';
-import { ReportReasonEnum } from '@/lib/definitions';
+import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
 // import { CurrencyEnum } from '@/lib/definitions';
 
 export const depositFormSchema = z.object({
@@ -41,6 +41,16 @@ export const EarnItemReportFormSchema = z.object({
     ReportReasonEnum.SPAM, 
     ReportReasonEnum.COPYRIGHT, 
     ReportReasonEnum.CONTENT, 
+    ReportReasonEnum.OTHER
+  ]).array().nonempty({ message: "Choose at least one reason" }),
+  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
+});
+
+export const PerformerBlockFormSchema = z.object({
+  reasons: z.enum([
+    BlackListReasonEnum.TASK, 
+    BlackListReasonEnum.ACCOUNT, 
+    BlackListReasonEnum.BEHAVIOUR, 
     ReportReasonEnum.OTHER
   ]).array().nonempty({ message: "Choose at least one reason" }),
   comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),

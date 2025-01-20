@@ -122,7 +122,7 @@ export default function TaskItem({
 
         {showPerformers && 
           <>
-            <TaskPerformersList performers={performers} /> 
+            <TaskPerformersList taskId={task.id} performers={performers} /> 
 
             <Button color="danger" variant="light" className="mt-4 w-28" onPress={() => setShowPerformers(false)}>
               Close

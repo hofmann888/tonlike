@@ -43,6 +43,15 @@ export type EarnItemReportFormState = {
   success?: boolean;
 };
 
+export type PerformerBlockFormState = {
+  errors?: {
+    reasons?: string[];
+    comment?: string[];
+  };
+  message?: string | null;
+  success?: boolean;
+};
+
 
 //========== DB
 
@@ -206,7 +215,20 @@ export type Performer = {
   tg_username: string,
   tg_photo_url: string,
   created_at: number,
-  // status: string,
+  is_blocked: boolean,
+}
+
+export enum BlackListReasonEnum {
+  TASK = 'task',
+  ACCOUNT = 'account',
+  BEHAVIOUR = 'behavior',
+  OTHER = 'other'
+}
+export type BlackListReason = BlackListReasonEnum.TASK | BlackListReasonEnum.ACCOUNT | BlackListReasonEnum.BEHAVIOUR | BlackListReasonEnum.OTHER;
+
+export type BlackListReasonsMapItem = {
+  key: BlackListReason,
+  title: string,
 }
 
 // export type CurrencyMapItem = {

@@ -1,8 +1,21 @@
 'use server'
 
-import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport, fetchTaskPerformers } from './sql';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState } from '@/lib/definitions';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, EarnItemReportFormSchema } from './schema';
+import { 
+  updateUserById, 
+  createTask, 
+  updateTaskStatus, 
+  userHasTask, 
+  deleteTask, 
+  hideUserEarning, 
+  checkUserEarnTask, 
+  createReport, 
+  fetchTaskPerformers, 
+  performerCanBeBlocked, 
+  addUserToBlackList, 
+  removeUserFromBlackList 
+} from './sql';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './schema';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
@@ -208,7 +221,7 @@ export async function GetTaskPerformers(taskId: number) {
       throw new Error("Wrong task!");
     }
 
-    const data = await fetchTaskPerformers(taskId);
+    const data = await fetchTaskPerformers(taskId, user.id);
     return { data };
   } catch (error) {
     console.log('Operation Error:', error);
@@ -234,6 +247,67 @@ export async function HideUserEarnTask(taskId: number) {
       message: 'Operation Error: Failed to hide task.',
     };
   }
-  // revalidatePath('/tasks');
-  // redirect('/tasks');
+}
+
+export async function PerformerBlockFormSubmit(blockUserId: number, taskId: number, prevState: PerformerBlockFormState, formData: FormData) {
+  console.log('PerformerBlockFormSubmit');
+
+  try {
+    const user: User = await getAuthUser(false);
+
+    console.log('formData:', formData);
+
+    const validated = PerformerBlockFormSchema.safeParse({
+      reasons: formData.getAll('reasons'),
+      comment: formData.get('comment'),
+    });
+    console.log('validated:', validated);
+
+    if (!validated.success) {
+      console.log('errors', validated.error.flatten().fieldErrors);
+      return {
+        errors: validated.error.flatten().fieldErrors,
+        message: 'Failed to block user.',
+        success: false
+      };
+    }
+
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    if (!await performerCanBeBlocked(user.id, blockUserId, taskId)) {
+      throw new Error("Can't block user!");
+    }
+
+    const data = { userId: user.id, blockUserId, taskId, ...validated.data };
+
+    await addUserToBlackList(data);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to block user.',
+      success: false
+    };
+  }
+  return { success: true };
+}
+
+export async function PerformerUnblock(unblockUserId: number) {
+  console.log('HideUserEarnTask');
+  try {
+    const user: User = await getAuthUser(false);
+    
+    const result = await removeUserFromBlackList(user.id, unblockUserId);
+    if (!result) {
+      throw new Error('Wrong unblockUserId!');
+    }
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to unblock user.',
+      success: false,
+    };
+  }
+  return { success: true };
 }
