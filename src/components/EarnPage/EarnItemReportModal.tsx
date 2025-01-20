@@ -6,7 +6,7 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import { Button } from "@heroui/button";
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import EarnItemReportForm from "./EarnItemReportForm";
 
 export default function EarnItemReportModal({ 
@@ -20,6 +20,12 @@ export default function EarnItemReportModal({
   const formRef: any = useRef(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMessage('');
+    }
+  }, [isOpen]);
 
   function onReportClick() {
     setSubmitLoading(true);
@@ -37,29 +43,29 @@ export default function EarnItemReportModal({
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">Report Task #{taskId}</ModalHeader>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">Report Task #{taskId}</ModalHeader>
 
-              <ModalBody>
-                {message.length 
-                  ? message 
-                  : <EarnItemReportForm taskId={taskId} formRef={formRef} afterSubmit={afterSubmit} />
-                }
-              </ModalBody>
+            <ModalBody>
+              {message.length 
+                ? message 
+                : <EarnItemReportForm taskId={taskId} formRef={formRef} afterSubmit={afterSubmit} />
+              }
+            </ModalBody>
 
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                {!message.length && <Button color="primary" onPress={onReportClick} isLoading={submitLoading}>
-                  Report
-                </Button>}
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+            <ModalFooter>
+              <Button color="danger" variant="light" onPress={onClose}>
+                Close
+              </Button>
+              {!message.length && <Button color="primary" onPress={onReportClick} isLoading={submitLoading}>
+                Report
+              </Button>}
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   )
 }
