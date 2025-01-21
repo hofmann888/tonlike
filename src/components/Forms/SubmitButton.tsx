@@ -5,9 +5,13 @@ import { Button } from "@heroui/button";
 import { ReactNode } from 'react';
 
 export default function SubmitButton({ 
-  content, disabled = false, className 
+  disabled = false, size = 'lg', variant = 'shadow', className, content
 }: { 
-  content: string | ReactNode, disabled?: boolean, className?: string 
+  disabled?: boolean, 
+  size?: 'sm' | 'md' | 'lg',
+  variant?: "shadow" | "solid" | "bordered" | "light" | "flat" | "faded" | "ghost",
+  className?: string 
+  content: string | ReactNode, 
 }) {
   const { pending } = useFormStatus();
 
@@ -16,8 +20,8 @@ export default function SubmitButton({
       color="primary" 
       type="submit"
       className={`submit-btn w-full ${className}`}
-      size="lg"
-      variant="shadow"
+      size={size}
+      variant={variant}
       isLoading={pending}
       isDisabled={disabled || pending}
     >
