@@ -156,7 +156,7 @@ export async function fetchUserEarnTasks(userId: number) {
 export async function updateTaskSum(taskId: number, price: number, count: number) { // TODO: refactor
   try {
     console.log('updateTaskSum');
-    const [data] = await sql(`UPDATE tasks SET price = $1, count = $2 WHERE id = $3 RETURNING id;`, [price, count, taskId]);
+    const [data] = await sql(`UPDATE tasks SET price = $1, count = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING id;`, [price, count, taskId]);
     console.log('updateTaskSum data:', data);
     return data?.id;
   } catch (error) {
@@ -168,7 +168,7 @@ export async function updateTaskSum(taskId: number, price: number, count: number
 export async function updateTaskStatus(taskId: number, status: TaskStatus) {
   try {
     console.log('updateTaskStatus');
-    const [data] = await sql(`UPDATE tasks SET status = $1 WHERE id = $2 RETURNING id;`, [status, taskId]);
+    const [data] = await sql(`UPDATE tasks SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id;`, [status, taskId]);
     console.log('updateTaskStatus data:', data);
     return data?.id;
   } catch (error) {
@@ -235,7 +235,7 @@ export async function updateUserById(id: number, fields: any) {
     setString = setString.slice(0, -2);
     values.push(id);
 
-    const [data] = await sql(`UPDATE users SET ${setString} WHERE id = $${varIdx} RETURNING *;`, values);
+    const [data] = await sql(`UPDATE users SET updated_at = CURRENT_TIMESTAMP, ${setString} WHERE id = $${varIdx} RETURNING *;`, values);
     console.log('updateUserById data:', data);
     return data as User;
   } catch (error) {
