@@ -30,7 +30,7 @@ export default function TaskItem({
 }) {
   const [performers, setPerformers] = useState([] as Performer[]);
   const [showPerformers, setShowPerformers] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false); // TODO: button to hide form
+  const [showEditForm, setShowEditForm] = useState(false);
 
   async function onPerformersClick() {
     if (showPerformers) {
@@ -129,13 +129,21 @@ export default function TaskItem({
           <>
             <TaskPerformersList taskId={task.id} performers={performers} /> 
 
-            <Button color="danger" variant="flat" className="mt-4 w-full" onPress={() => setShowPerformers(false)}>
+            <Button color="danger" variant="light" className="mt-4 w-full" onPress={() => setShowPerformers(false)}>
               Close
             </Button>
           </>
         }
 
-        {showEditForm && <EditTaskForm task={task} />}
+        {showEditForm && 
+          <>
+            <EditTaskForm task={task} />
+
+            <Button color="danger" variant="light" className="mt-2 w-full" onPress={() => setShowEditForm(false)}>
+              Close
+            </Button>
+          </>
+        }
       </CardFooter>
     </Card>
   )
