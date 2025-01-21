@@ -25,8 +25,13 @@ export const createTaskFormSchema = z.object({
   link: z.string()
     .min(3, { message:'Must be 3 or more characters long' })
     .max(255, { message: "Must be 255 or fewer characters long" }),
-  price: z.coerce.number().min(0.01, { message: 'Please enter a price greater or equal $0.01.'}),
+  price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
   // currency: z.enum([CurrencyEnum.COIN]), //CurrencyEnum.USDT
+  count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
+});
+
+export const editTaskFormSchema = z.object({
+  price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
   count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
 });
 

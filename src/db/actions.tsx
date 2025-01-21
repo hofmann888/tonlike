@@ -1,21 +1,8 @@
 'use server'
 
-import { 
-  updateUserById, 
-  createTask, 
-  updateTaskStatus, 
-  userHasTask, 
-  deleteTask, 
-  hideUserEarning, 
-  checkUserEarnTask, 
-  createReport, 
-  fetchTaskPerformers, 
-  performerCanBeBlocked, 
-  addUserToBlackList, 
-  removeUserFromBlackList 
-} from './sql';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './schema';
+import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport, fetchTaskPerformers, performerCanBeBlocked, addUserToBlackList, removeUserFromBlackList, fetchTaskById, updateTaskSum } from './sql';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './schema';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
@@ -118,12 +105,12 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     }
 
     const data = { userId: user.id, ...validated.data };
+    const sum = data.count * data.price;
 
-    const countPrice = data.count * data.price;
-    if (user.balance < countPrice) { // TODO: refactor zod refine?
+    if (user.balance < sum) { // TODO: refactor zod refine?
       return {
         errors: { count: ['Lower the count'], price: ['Lower the price']},
-        message: `Not enough balance to create task. Need at least $${countPrice}.`,
+        message: `Not enough balance to create task. Need at least $${sum}.`,
       }
     }
 
@@ -142,6 +129,75 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
   
   revalidatePath('/tasks');
   redirect('/tasks');
+}
+
+export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskFormState, formData: FormData) {
+  console.log('EditTaskFormSubmit');
+  try {
+    const user: User = await getAuthUser(false);
+
+    const validated = await editTaskFormSchema.safeParseAsync({
+      price: formData.get('price'),
+      count: formData.get('count'),
+    });
+    console.log('validated:', validated);
+
+    if (!validated.success) {
+      return {
+        errors: validated.error.flatten().fieldErrors,
+        message: 'Failed to edit task.',
+      };
+    }
+
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    const data = validated.data;
+    const task = await fetchTaskById(taskId);
+    const reserve = Number(user.balance) + task.price * task.count - task.price * task.done;
+    const sum = data.count * data.price;
+
+    if (reserve < sum) { // TODO: refactor zod refine?
+      return {
+        errors: { count: ['Lower the count'], price: ['Lower the price']},
+        message: `Not enough balance to create task. Need at least $${sum - reserve}.`,
+      }
+    }
+
+    await updateTaskSum(taskId, data.price, data.count);
+
+    // TODO: update balance here? Yep: fix and return if task canceled
+    // const balance = user.balance + task.price * task.count - task.price * task.done - sum;
+    // const updatedUser = await updateUserById(user.id, { balance });
+    // await setSession(updatedUser);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to create task.',
+    };
+  }
+  
+  revalidatePath('/tasks');
+  redirect('/tasks');
+}
+
+export async function HideUserEarnTask(taskId: number) {
+  console.log('HideUserEarnTask');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await checkUserEarnTask(user.id, taskId)) {
+      throw new Error("Wrong task!");
+    }
+    
+    return await hideUserEarning(user.id, taskId);
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to hide task.',
+    };
+  }
 }
 
 // TODO?: EarnTask
@@ -231,24 +287,6 @@ export async function GetTaskPerformers(taskId: number) {
   }
 }
 
-export async function HideUserEarnTask(taskId: number) {
-  console.log('HideUserEarnTask');
-  try {
-    const user: User = await getAuthUser(false);
-
-    if (!await checkUserEarnTask(user.id, taskId)) {
-      throw new Error("Wrong task!");
-    }
-    
-    return await hideUserEarning(user.id, taskId);
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to hide task.',
-    };
-  }
-}
-
 export async function PerformerBlockFormSubmit(blockUserId: number, taskId: number, prevState: PerformerBlockFormState, formData: FormData) {
   console.log('PerformerBlockFormSubmit');
 
@@ -290,7 +328,9 @@ export async function PerformerBlockFormSubmit(blockUserId: number, taskId: numb
       success: false
     };
   }
-  return { success: true };
+  return { success: true }; // TODO: check with revalidatePath and redirect
+  // revalidatePath('/tasks');
+  // redirect('/tasks');
 }
 
 export async function PerformerUnblock(unblockUserId: number) {

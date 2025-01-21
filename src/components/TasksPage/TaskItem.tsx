@@ -15,6 +15,7 @@ import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
 import { GetTaskPerformers } from "@/db/actions";
+import EditTaskForm from "./EditTaskForm";
 
 export default function TaskItem({
   task, 
@@ -29,12 +30,15 @@ export default function TaskItem({
 }) {
   const [performers, setPerformers] = useState([] as Performer[]);
   const [showPerformers, setShowPerformers] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false); // TODO: button to hide form
 
   async function onPerformersClick() {
     if (showPerformers) {
       setShowPerformers(false);
       return;
     }
+
+    showEditForm && setShowEditForm(false);
 
     const { data } = await GetTaskPerformers(task.id); // cache and prefetch
     if (data?.length) {
@@ -44,7 +48,8 @@ export default function TaskItem({
   }
 
   function onEditClick() {
-    console.log('onEditClick');
+    showPerformers && setShowPerformers(false);
+    setShowEditForm(!showEditForm);
   }
 
   return (
@@ -124,11 +129,13 @@ export default function TaskItem({
           <>
             <TaskPerformersList taskId={task.id} performers={performers} /> 
 
-            <Button color="danger" variant="light" className="mt-4 w-28" onPress={() => setShowPerformers(false)}>
+            <Button color="danger" variant="flat" className="mt-4 w-full" onPress={() => setShowPerformers(false)}>
               Close
             </Button>
           </>
         }
+
+        {showEditForm && <EditTaskForm task={task} />}
       </CardFooter>
     </Card>
   )

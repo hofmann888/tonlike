@@ -49,6 +49,7 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
     setPerformersState(performersUpdate);
   }
 
+  // TODO: show no performers message on empty list
   return (
     <ScrollShadow className="w-full mt-2 pt-2 max-h-44 overflow-auto">
       {performersState.map((performer) => {

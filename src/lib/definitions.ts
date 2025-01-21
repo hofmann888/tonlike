@@ -34,6 +34,14 @@ export type CreateTaskFormState = {
   message?: string | null;
 };
 
+export type EditTaskFormState = {
+  errors?: {
+    price?: string[];
+    count?: string[];
+  };
+  message?: string | null;
+};
+
 export type EarnItemReportFormState = {
   errors?: {
     reasons?: string[];
@@ -58,7 +66,7 @@ export type PerformerBlockFormState = {
 export type User = {
   id: number,
   address: string,
-  balance: number,
+  balance: number, // TODO: bigint?
   tg_id: number,
   tg_username: string,
   tg_photo_url: string,

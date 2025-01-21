@@ -81,6 +81,16 @@ export async function createTask(taskData: any) {
   }
 }
 
+export async function fetchTaskById(id: number) {
+  try {
+    const [data] = await sql(`SELECT * FROM tasks WHERE id = $1;`, [id]);
+    return data as Task; // TODO?: relations? Use TaskDTO? separate models for Task and TaskWithRelations?
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch service data.');
+  }
+}
+
 export async function fetchUserTasks(userId: number) {
   try {
     console.log('fetchUserTasks');
@@ -140,6 +150,18 @@ export async function fetchUserEarnTasks(userId: number) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user earn tasks.');
+  }
+}
+
+export async function updateTaskSum(taskId: number, price: number, count: number) { // TODO: refactor
+  try {
+    console.log('updateTaskSum');
+    const [data] = await sql(`UPDATE tasks SET price = $1, count = $2 WHERE id = $3 RETURNING id;`, [price, count, taskId]);
+    console.log('updateTaskSum data:', data);
+    return data?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to update task status.');
   }
 }
 
