@@ -11,6 +11,8 @@ export function useUser() {
     id: user?.id,
     address: user?.address,
     balance: user?.balance,
+    createdAt: user?.created_at,
+    updatedAt: user?.updated_at,
     tgId: initData?.user?.id,
     tgUserName: initData?.user?.username,
     tgFirstName: initData?.user?.firstName,

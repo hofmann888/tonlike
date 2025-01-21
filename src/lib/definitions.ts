@@ -70,9 +70,11 @@ export type User = {
   tg_id: number,
   tg_username: string,
   tg_photo_url: string,
+  created_at: number,
+	updated_at: number,
 }
 
-export type Service = {
+export type Service = { // TODO: timestamps
   id: number,
   name: string,
   img: string,

@@ -4,11 +4,15 @@ import { users, services, actions, serviceActions, tasks, userEarnings, reports,
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
-    await sql(`DROP TABLE IF EXISTS black_list, reports, user_earnings, tasks, users, service_actions, services, actions;`);
-    await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason, black_list_reason;`);
+  console.log('dropDB');
+
+  await sql(`DROP TABLE IF EXISTS black_list, reports, user_earnings, tasks, users, service_actions, services, actions;`);
+  await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason, black_list_reason;`);
 }
 
 async function seedUsers() {
+  console.log('seedUsers');
+
   await sql(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -16,7 +20,9 @@ async function seedUsers() {
       balance BIGINT NOT NULL DEFAULT 0,
       tg_id BIGINT NOT NULL UNIQUE,
       tg_username VARCHAR(255) NOT NULL,
-      tg_photo_url VARCHAR(255)
+      tg_photo_url VARCHAR(255),
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
   `);
 
@@ -31,6 +37,8 @@ async function seedUsers() {
 }
 
 async function seedServices() {
+  console.log('seedServices');
+
   await sql(`
     CREATE TABLE IF NOT EXISTS services (
       id SMALLSERIAL PRIMARY KEY,
@@ -51,6 +59,8 @@ async function seedServices() {
 }
 
 async function seedActions() {
+  console.log('seedActions');
+
   await sql(`
     CREATE TABLE IF NOT EXISTS actions (
       id SMALLSERIAL PRIMARY KEY,
@@ -70,6 +80,8 @@ async function seedActions() {
 }
 
 async function seedServiceActions() { // TODO: store as ARRAY type in services table? // FK
+  console.log('seedServiceActions');
+
   await sql(`
     CREATE TABLE IF NOT EXISTS service_actions (
       id SERIAL PRIMARY KEY,
@@ -95,6 +107,8 @@ async function seedServiceActions() { // TODO: store as ARRAY type in services t
 // TODO: service_action_id 
 // price type - int and usdt_cents enum!
 async function seedTasks() {
+  console.log('seedTasks');
+
   await sql(`CREATE TYPE task_status AS ENUM('active','paused','scheduled','done','deleted');`);
   // TODO?: await sql(`CREATE TYPE currency AS ENUM('coin','usdt');`); // currency CURRENCY NOT NULL,
   await sql(`
@@ -133,6 +147,8 @@ async function seedTasks() {
 // TODO?: user_tasks | earn_tasks?
 // TODO?: reward
 async function seedUserEarnings() {
+  console.log('seedUserEarnings');
+
   await sql(`CREATE TYPE user_earning_status AS ENUM('done','hidden');`);
 
   await sql(`
@@ -160,6 +176,8 @@ async function seedUserEarnings() {
 }
 
 async function seedReports() {
+  console.log('seedReports');
+
   await sql(`CREATE TYPE report_reason AS ENUM('unavailable','scam','spam','copyright','content', 'other');`);
 
   await sql(`
@@ -187,6 +205,8 @@ async function seedReports() {
 }
 
 async function seedBlackList() {
+  console.log('seedBlackList');
+
   await sql(`CREATE TYPE black_list_reason AS ENUM('task','account','behavior','other');`);
 
   await sql(`
