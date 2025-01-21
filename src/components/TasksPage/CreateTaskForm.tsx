@@ -55,7 +55,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   }, [sum]);
 
   return (
-    <Form action={formAction} className="create-task-form" validationErrors={state?.errors}>
+    <Form action={formAction} validationErrors={state?.errors}>
       <Select
         name="serviceId"
         label="Service"
