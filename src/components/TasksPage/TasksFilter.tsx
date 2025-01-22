@@ -77,13 +77,14 @@ export default function TasksFilter({
 
   return (  // TODO: move status tabs to separate component?
     <div className="flex flex-wrap gap-2 mb-4">
-      {statusCount && <Tabs
+      {statusCount && 
+      <Tabs
         aria-label="Status"
         selectedKey={statusFilter}
         color="primary"
         variant="underlined"
         classNames={{
-          base: "w-full sticky tasks-tabs z-50",
+          base: "w-full max-w-[100vw] sticky top-[80px] bg-background z-50",
           tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
           cursor: "w-full bg-[#22d3ee]",
           tab: "max-w-full px-0 h-12",

@@ -8,7 +8,6 @@ import { Link } from "@heroui/link";
 import { fetchUserTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import TaskList from "@/components/TasksPage/TaskList";
-import "@/css/tasks.scss";
 
 // TODO: optimize: prefetch, cache, pagination...
 // TODO: suspend, skeletons...
@@ -49,7 +48,7 @@ export default async function TasksPage({
         <TaskList tasks={tasksFiltered} />
       </div>
 
-      <div className="tasks-create sticky bottom-[60px]">
+      <div className="sticky bottom-[60px] z-50 bg-background">
         <Button
           as={Link}
           color="primary"
