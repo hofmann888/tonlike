@@ -1,9 +1,11 @@
 'use server'
 
-import { fetchUsersLeaderboard } from "@/db/sql";
-import { Card, CardBody } from "@heroui/card";
 import { User } from "@heroui/user";
+import { Card, CardBody } from "@heroui/card";
+import { fetchUsersLeaderboard } from "@/db/sql";
+import CoinValue from "@/components/Common/CoinValue";
 import clsx from 'clsx';
+
 
 export default async function LeaderboardPage() {
   const users = await fetchUsersLeaderboard();
@@ -34,7 +36,7 @@ export default async function LeaderboardPage() {
               name={`@${user.tg_username}`}
             />
 
-            <span className="w-1/6 text-right text-medium">{user.balance}</span>
+            <div className="w-1/6 text-right text-medium"> <CoinValue value={user.balance} /></div>
           </CardBody>
         </Card>
       ))}

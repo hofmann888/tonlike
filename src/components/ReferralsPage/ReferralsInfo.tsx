@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardBody } from "@heroui/card";
-import { PiCoinVertical } from "react-icons/pi";
+import CoinValue from "../Common/CoinValue";
 
 export default function ReferralsInfo({ 
   count, profit, profitToday 
@@ -27,14 +27,14 @@ export default function ReferralsInfo({
       <Card className="w-1/2 mr-2">
           <CardHeader>Profit today</CardHeader>
           <CardBody>
-            <div className="flex items-center"><PiCoinVertical /> {profitToday}</div>
+            <CoinValue value={profitToday} />
           </CardBody>
         </Card>
 
         <Card className="w-1/2 ml-2">
           <CardHeader>Profit</CardHeader>
           <CardBody>
-            <div className="flex items-center"><PiCoinVertical /> {profit}</div>
+            <CoinValue value={profit} />
           </CardBody>
         </Card>
       </div>

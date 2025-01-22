@@ -9,8 +9,9 @@ import { Avatar } from "@heroui/avatar";
 import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
 import { Task } from "@/lib/definitions";
-import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
+import CoinValue from "../Common/CoinValue";
 
 export default function EarnItem({
   task,
@@ -43,7 +44,7 @@ export default function EarnItem({
           </div>
         </div>
 
-        <div className="flex items-center text-medium"><span className="text-green-600">+</span> <PiCoinVertical /> {task.price}</div>
+        <div className="flex items-center text-medium"><span className="text-green-600">+</span> <CoinValue value={task.price} /></div>
 
         <div className="flex items-center">
           <Button color="primary" variant="bordered" className="btn-border-shadow mr-3">Start</Button>

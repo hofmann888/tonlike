@@ -8,10 +8,10 @@ import { Form } from "@heroui/form";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
-import { PiCoinVertical } from "react-icons/pi";
 import { CreateTaskFormSubmit } from "@/db/actions";
 import { CreateTaskFormState, Action, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
+import CoinIcon from "../Common/CoinIcon";
 
 
 // TODO: format + validation (numbers float, link)
@@ -28,7 +28,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   const [sum, setSum] = useState(0);
   
   const maxCount = price ? Math.floor(balance / Number(price)) : 10;
-  const submitContent = <div className="flex items-center">Create (<PiCoinVertical className="inline" />{sum})</div>;
+  const submitContent = <div className="flex items-center">Create (<CoinIcon className="inline" />{sum})</div>;
 
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
@@ -134,7 +134,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           className="w-3/4 mr-2"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <PiCoinVertical className="text-default-400 text-large" />
+              <CoinIcon className="text-default-400 text-large" />
             </div>
           }
         />
@@ -148,7 +148,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           selectedKeys={['coin']}
           isDisabled
         >
-          <SelectItem key='coin' startContent={<PiCoinVertical className="text-default-400" />}>
+          <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
             COIN
           </SelectItem>
         </Select>

@@ -9,13 +9,15 @@ import { Progress } from "@heroui/progress";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa";
-import { PiDotsThreeOutlineVerticalFill, PiCoinVertical } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
+import { GetTaskPerformers } from "@/db/actions";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
-import { GetTaskPerformers } from "@/db/actions";
 import EditTaskForm from "./EditTaskForm";
+import CoinValue from "../Common/CoinValue";
+
 
 export default function TaskItem({
   task, 
@@ -74,7 +76,7 @@ export default function TaskItem({
           </div>
         </div>
 
-        <div className="flex items-center text-medium"> <PiCoinVertical /> {task.price}</div>
+        <CoinValue value={task.price} className="text-medium" />
 
         <div className="flex gap-1">
           {task.status === TaskStatusEnum.ACTIVE && 

@@ -1,8 +1,8 @@
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import { Card, CardBody } from "@heroui/card";
 import { User as UserUI } from "@heroui/user";
-import { PiCoinVertical } from "react-icons/pi";
 import { User } from "@/lib/definitions";
+import CoinValue from "../Common/CoinValue";
 
 export default function ReferralsList({ referrals }: { referrals: User[] }) {
   return (
@@ -25,7 +25,7 @@ export default function ReferralsList({ referrals }: { referrals: User[] }) {
                 name={`@${referral.tg_username}`}
               />
 
-              <div className="flex items-center text-medium"><PiCoinVertical /> 888</div>
+              <CoinValue value={888} className="text-medium" />
             </CardBody>
           </Card>
         )) : <p>You haven't invited any friends yet</p>

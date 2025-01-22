@@ -4,11 +4,13 @@ import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { EditTaskFormState, Task } from "@/lib/definitions";
 import { EditTaskFormSubmit } from "@/db/actions";
-import { PiCoinVertical } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import SubmitButton from "../Forms/SubmitButton";
+import CoinValue from "../Common/CoinValue";
+import CoinIcon from "../Common/CoinIcon";
+
 
 export default function EditTaskForm({ task }: { task: Task }) {
   const { balance } = useUser();
@@ -39,9 +41,9 @@ export default function EditTaskForm({ task }: { task: Task }) {
   return (
     <Form action={formAction} validationErrors={state?.errors} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
-        <span className="flex items-center">Sum: <PiCoinVertical className="ml-1" /> { task.price * task.count }</span>
-        <span className="flex items-center">Spent: <PiCoinVertical className="ml-1" /> { task.price * task.done }</span>
-        <span className="flex items-center">New sum: <PiCoinVertical className="ml-1" /> { sum }</span>
+        <CoinValue value={task.price * task.count} textBefore="Sum:" />
+        <CoinValue value={task.price * task.done} textBefore="Spent:" />
+        <CoinValue value={sum} textBefore="New sum:" />
       </div>
 
       <div className="flex w-full">
@@ -58,7 +60,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           className="w-3/4 mr-2"
           startContent={
             <div className="pointer-events-none flex items-center">
-              <PiCoinVertical className="text-default-400 text-large" />
+              <CoinIcon className="text-default-400 text-large" />
             </div>
           }
         />
@@ -72,7 +74,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           selectedKeys={['coin']}
           isDisabled
         >
-          <SelectItem key='coin' startContent={<PiCoinVertical className="text-default-400" />}>
+          <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
             COIN
           </SelectItem>
         </Select>
