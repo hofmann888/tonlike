@@ -10,7 +10,7 @@ export async function POST() {
   try {
     const headersList = headers();
     const authData = headersList.get('Authorization');
-    const token = process.env.TWA_API_TOKEN;
+    const token = process.env.TG_BOT_TOKEN;
     let session: any = null;
     
     if (!authData || !token) {

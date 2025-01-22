@@ -1,7 +1,7 @@
 'use server'
 
 export async function tgApiRequest(method: string, params: URLSearchParams) {
-  const token = process.env.TWA_API_TOKEN;
+  const token = process.env.TG_BOT_TOKEN;
   if (!token) {
     throw new Error('Telegram bot token is missing.');
   }
