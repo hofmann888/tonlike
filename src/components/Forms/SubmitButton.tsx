@@ -24,6 +24,7 @@ export default function SubmitButton({
       variant={variant}
       isLoading={pending}
       isDisabled={disabled || pending}
+      aria-label="Submit"
     >
       {content}
     </Button>

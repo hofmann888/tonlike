@@ -1,5 +1,5 @@
 // https://nextjs.org/learn/dashboard-app/fetching-data
-const users = [
+export const users = [
   {
     id: 1,
     address: '0QCXwrih_8H9sGnGUBtgT0PpOzcoNZJkfWy901UjbmN6j8te', // dev v4
@@ -18,7 +18,15 @@ const users = [
   },
 ];
 
-const services = [
+export const userRefs = [
+  {
+    id: 1,
+    user_id: 1,
+    ref_user_id: 2,
+  }
+]
+
+export const services = [
   {
     id: 1,
     name: 'Telegram',
@@ -63,7 +71,7 @@ const services = [
   },
 ];
 
-const actions = [
+export const actions = [
   {
     id: 1,
     name: 'View',
@@ -101,7 +109,7 @@ const actions = [
   },
 ];
 
-const serviceActions = [
+export const serviceActions = [
   // Telegram
   {
     id: 1,
@@ -279,7 +287,7 @@ const serviceActions = [
   },
 ]
 
-const tasks = [
+export const tasks = [
   {
     id: 1,
     user_id: 1,
@@ -370,7 +378,7 @@ const tasks = [
   },
 ];
 
-const userEarnings = [
+export const userEarnings = [
   {
     id: 1,
     user_id: 1,
@@ -380,7 +388,7 @@ const userEarnings = [
   }
 ];
 
-const reports = [
+export const reports = [
   {
     id: 1,
     user_id: 1,
@@ -390,7 +398,7 @@ const reports = [
   },
 ];
 
-const blackList = [
+export const blackList = [
   {
     id: 1,
     user_id: 1,
@@ -399,6 +407,4 @@ const blackList = [
     task_id: 2,
     comment: 'stupid motherfucker and fucking piece of shit with a dead brain',
   }
-]
-
-export { users, services, actions, serviceActions, tasks, userEarnings, reports, blackList };
+];

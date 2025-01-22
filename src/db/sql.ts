@@ -278,6 +278,24 @@ export async function fetchUsersLeaderboard() {
   }
 }
 
+export async function fetchUserRefs(userId: number) {
+  try {
+    console.log('fetchUserRefs');
+    const data = await sql(`
+      SELECT * FROM users
+      LEFT JOIN user_refs on user_refs.ref_user_id = users.id
+      WHERE user_refs.user_id = $1
+      ORDER BY user_refs.created_at ASC;`, 
+      [ userId ]
+    );
+    console.log('fetchUserRefs data:', data);
+    return data as User[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch referrals data.');
+  }
+}
+
 export async function fetchTaskPerformers(taskId: number, taskUserId: number) {
   try {
     console.log('fetchTaskPerformers');

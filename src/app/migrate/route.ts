@@ -1,16 +1,16 @@
 import { neon } from '@neondatabase/serverless';
-import { users, services, actions, serviceActions, tasks, userEarnings, reports, blackList } from '@/db/seed';
+import { users, userRefs, services, actions, serviceActions, tasks, userEarnings, reports, blackList } from '@/db/seed';
 
 const sql = neon(`${process.env.DATABASE_URL}`); // TODO: add indexes in db
 
 async function dropDB() {
   console.log('dropDB');
 
-  await sql(`DROP TABLE IF EXISTS black_list, reports, user_earnings, tasks, users, service_actions, services, actions;`);
+  await sql(`DROP TABLE IF EXISTS black_list, reports, user_earnings, tasks, user_refs, users, service_actions, services, actions;`);
   await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason, black_list_reason;`);
 }
 
-async function seedUsers() {
+async function seedUsers() { // TODO: last_login?
   console.log('seedUsers');
 
   await sql(`
@@ -34,6 +34,31 @@ async function seedUsers() {
   );
 
   await sql('ALTER SEQUENCE users_id_seq RESTART WITH 3;');
+}
+
+async function seedUserRefs() { // TODO?: userRefs -> referrals? ref_user_id -> ref_id?
+console.log('seedUserRefs');
+
+  await sql(`
+    CREATE TABLE IF NOT EXISTS user_refs (
+      id SERIAL PRIMARY KEY,
+      user_id INT NOT NULL,
+      ref_user_id INT NOT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+      CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
+      CONSTRAINT fk_ref_user FOREIGN KEY(ref_user_id) REFERENCES users(id)
+    );
+  `);
+
+  userRefs.map(
+    async (userRef) => await sql(`
+      INSERT INTO user_refs (id, user_id, ref_user_id)
+      VALUES ($1, $2, $3)
+    `, [userRef.id, userRef.user_id, userRef.ref_user_id]),
+  );
+
+  await sql('ALTER SEQUENCE user_refs_id_seq RESTART WITH 2;');
 }
 
 async function seedServices() {
@@ -240,6 +265,7 @@ export async function GET() {
     await sql(`BEGIN`);
     await dropDB();
     await seedUsers();
+    await seedUserRefs();
     await seedServices();
     await seedActions();
     await seedServiceActions();

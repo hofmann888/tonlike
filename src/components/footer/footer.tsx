@@ -1,6 +1,6 @@
 'use client'
 
-import { FaCoins, FaTasks, FaTrophy, FaWallet } from "react-icons/fa";
+import { FaCoins, FaTasks, FaTrophy, FaWallet, FaUserFriends } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
 import { Tabs, Tab } from "@heroui/tabs";
@@ -8,9 +8,10 @@ import Link from "next/link";
 import "@/css/footer.scss";
 
 const navLinks: NavLink[] = [
+  { href: '/leaderboard', icon: FaTrophy },
   { href: '/earn', icon: FaCoins },
   { href: '/tasks', icon: FaTasks },
-  { href: '/leaderboard', icon: FaTrophy },
+  { href: '/referrals', icon: FaUserFriends },
   { href: '/wallet', icon: FaWallet },
 ]
 
