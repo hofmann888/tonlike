@@ -10,7 +10,7 @@ async function dropDB() {
   await sql(`DROP TYPE IF EXISTS task_status, user_earning_status, report_reason, black_list_reason;`);
 }
 
-async function seedUsers() { // TODO: last_login?
+async function seedUsers() { // TODO: last_login? blocked
   console.log('seedUsers');
 
   await sql(`

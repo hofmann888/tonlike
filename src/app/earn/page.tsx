@@ -6,7 +6,8 @@ import { getAuthUser } from "@/app/auth/session";
 import { fetchUserEarnTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import EarnList from "@/components/EarnPage/EarnList";
-import "@/css/earn.scss";
+import EarnTabs from "@/components/EarnPage/EatnTabs";
+import EarnQuestList from "@/components/EarnPage/EarnQuestList";
 
 export default async function EarnPage({
   searchParams
@@ -16,6 +17,8 @@ export default async function EarnPage({
   const user: User = await getAuthUser(false);
   const tasks: Task[] = await fetchUserEarnTasks(user.id);
   const { actions, services } = tasksRelations(tasks);
+
+  const tab = searchParams.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it
 
   const actionsFilter: TaskFilterItem = { 
     key: TasksFilterParamEnum.ACTIONS, 
@@ -33,11 +36,15 @@ export default async function EarnPage({
   }
 
   return (
-    <div className="earn-page py-5">
+    <div className="earn-page pb-5">
 
-      {!!tasks.length && <TasksFilter actions={actions} services={services} />}
+      <EarnTabs activeTab={tab} />
 
-      <EarnList tasks={tasksFiltered} />
+      {tab === 'quests' && <EarnQuestList />}
+
+      {tab === 'tasks' && !!tasks.length && <TasksFilter actions={actions} services={services} />}
+
+      {tab === 'tasks' && <EarnList tasks={tasksFiltered} />}
     </div>
   )
 }

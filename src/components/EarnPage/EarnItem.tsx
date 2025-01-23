@@ -32,13 +32,12 @@ export default function EarnItem({
         <div className="flex items-center gap-2">
           <Avatar
             alt={task.service.name}
-            className="flex-shrink-0"
             size="sm"
             src={task.service.img}
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>
-              {task.link}
+              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
             <span className="text-small text-foreground-400">{task.action.name}</span>
           </div>
