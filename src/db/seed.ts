@@ -65,6 +65,12 @@ export const services = [
   },
   {
     id: 7,
+    name: 'Farcaster',
+    img: '/img/social/farcaster.png',
+    active: true,
+  },
+  {
+    id: 8,
     name: 'Link',
     img: '/img/social/link.png',
     active: true,
