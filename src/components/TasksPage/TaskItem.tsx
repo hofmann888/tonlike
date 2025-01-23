@@ -110,7 +110,7 @@ export default function TaskItem({
         </div>
       </CardBody>
 
-      <CardFooter className="pt-2 flex-col">
+      <CardFooter className="pt-0 flex-col">
         <Button variant="light" className="w-full p-0" data-hover="false" onPress={() => onPerformersClick()}>
           <Progress
             classNames={{
