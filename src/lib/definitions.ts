@@ -123,23 +123,21 @@ export type TaskDTO = {
   service_img: string,
 }
 
-export enum TaskStatusEnum {
+export enum TaskStatusEnum { // TODO?: scheduled?
   ACTIVE = 'active',
   PAUSED = 'paused',
-  SCHEDULED = 'scheduled',
   DONE = 'done',
   DELETED = 'deleted', // TODO: archive?
 }
-export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.SCHEDULED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
+export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
 
 export enum TaskStatusTitleEnum {
   ACTIVE = 'Active',
   PAUSED = 'Paused',
-  SCHEDULED = 'Scheduled',
   DONE = 'Done',
   DELETED = 'Deleted',
 }
-export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.PAUSED | TaskStatusTitleEnum.SCHEDULED | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
+export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.PAUSED | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
 
 export type TaskStatusMapItem = {
   key: TaskStatus,
@@ -181,18 +179,18 @@ export type TaskFilterItem = {
   values: string | string[]
 }
 
-export enum UserEarningStatusEnum {
+export enum TaskEarningStatusEnum {
   DONE = 'done',
   HIDDEN = 'hidden',
 }
-export type UserEarningStatus = UserEarningStatusEnum.DONE | UserEarningStatusEnum.HIDDEN;
+export type TaskEarningStatus = TaskEarningStatusEnum.DONE | TaskEarningStatusEnum.HIDDEN;
 
-export type UserEarning = {
+export type TaskEarning = {
   id: number,
   task_id: number,
   user_id: number,
   profit: number,
-  status: UserEarningStatus,
+  status: TaskEarningStatus,
   created_at: number,
 }
 
