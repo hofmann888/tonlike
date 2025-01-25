@@ -42,6 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# migrations
+/src/db/drizzle/
+
 certificates
 
 todo
