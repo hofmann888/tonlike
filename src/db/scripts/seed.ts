@@ -1,8 +1,8 @@
+import { users, services, actions, serviceActions } from './seed-data';
 import { TaskStatusEnum } from "@/lib/definitions";
 import { seed } from "drizzle-seed";
 import { sql } from 'drizzle-orm';
 import { db } from "../db";
-import { users, services, actions, serviceActions } from './seed-data';
 import * as schema from "../schema";
 
 async function main() {
