@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fetchActionById, fetchServiceById } from './sql';
+import { fetchActionById, fetchServiceById } from '../db/sql';
 import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
 // import { CurrencyEnum } from '@/lib/definitions';
 
@@ -13,7 +13,7 @@ export const withdrawFormSchema = z.object({
 });
 
 
-export const createTaskFormSchema = z.object({
+export const createTaskFormSchema = z.object({ // TODO: just check service_action
   actionId: z.coerce.number().positive().refine(async (id) => {
     const action = await fetchActionById(id);
     return !!action?.id;
