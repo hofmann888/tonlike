@@ -1,26 +1,29 @@
-import { Action, Service, Task, TaskDTO } from "@/lib/definitions";
+import { TaskStatus } from "@/lib/definitions";
+import * as schema from "./schema";
 
-export function formatUserTaskDTO(dto: TaskDTO) {
-  return {
-    id: dto?.id,
-    link: dto?.link,
-    price: dto?.price,
-    // currency: dto?.currency,
-    count: dto?.count,
-    done: dto?.done,
-    status: dto?.status,
-    created_at: dto?.created_at, // TODO: not timestamp? - 2024-12-24T03:00:32.276Z,
-    updated_at: dto?.updated_at,
-    deleted_at: dto?.deleted_at,
-    user_id: dto?.user_id,
-    action: {
-      id: dto?.action_id,
-      name: dto?.action_name,
-    } as Action,
-    service: {
-      id: dto?.service_id,
-      name: dto?.service_name,
-      img: dto?.service_img,
-    } as Service,
-  } as Task;
+// export type ServiceSelectDTO = typeof schema.services.$inferSelect
+
+export type UserInsertDTO = typeof schema.users.$inferInsert; 
+export type UserUpdateDto = {
+  referrerId?: number,
+  balance?: number,
+  tgUsername?: string,
+  tgPhotoUrl?: string,
 }
+
+export type TaskInsertDTO = typeof schema.tasks.$inferInsert; // TODO?: custom dto?
+export type TaskSelectDTO = typeof schema.tasks.$inferSelect;
+export type TaskUpdateDTO = {
+  link?: string,
+  price?: number,
+  count?: number,
+  done?: number,
+  status?: TaskStatus,
+}
+
+
+export type TaskEarningsInsertDTO = typeof schema.taskEarnings.$inferInsert;
+
+export type ReportInsertDTO = typeof schema.reports.$inferInsert;
+
+export type BlackListInsertDTO = typeof schema.blackList.$inferInsert;

@@ -1,4 +1,4 @@
-import { IconType } from "react-icons"
+import { IconType } from "react-icons";
 
 export type NavLink = {
   href: string,
@@ -65,65 +65,48 @@ export type PerformerBlockFormState = {
 
 export type User = {
   id: number,
-  address: string,
-  balance: number, // TODO: bigint?
-  tg_id: number,
-  tg_username: string,
-  tg_photo_url: string,
-  created_at: number,
-	updated_at: number,
+  referrerId: number | null,
+  tgId: number,
+  tgUsername: string,
+  tgPhotoUrl: string,
+  balance: number,
+  createdAt?: Date,
+	updatedAt?: Date,
 }
 
-export type Service = { // TODO: timestamps
+export type Service = { // TODO?: timestamps
   id: number,
   name: string,
-  img: string,
+  icon: string,
   active: boolean,
-  actionIds?: number[]
+  actions?: Action[]
 }
 
 export type Action = {
   id: number,
   name: string,
+  icon: string,
   active: boolean,
 }
 
 export type Task = {
   id: number,
+  userId: number,
+  serviceId: number,
+  actionId: number,
   link: string,
   price: number,
-  // currency: Currency,
   count: number,
   done: number,
   status: TaskStatus,
-	created_at: number,
-	updated_at: number,
-	deleted_at: number,
-  user_id: number,
-  action: Action,
-  service: Service,
+	createdAt?: Date,
+	updatedAt?: Date,
+	deletedAt?: Date,
+  service?: Service,
+  action?: Action,
 }
 
-export type TaskDTO = {
-  id: number,
-  link: string,
-  price: number,
-  // currency: Currency,
-  count: number,
-  done: number,
-  status: TaskStatus,
-	created_at: number,
-	updated_at: number,
-	deleted_at: number,
-  user_id: number,
-  action_id: number,
-  action_name: string,
-  service_id: number,
-  service_name: string,
-  service_img: string,
-}
-
-export enum TaskStatusEnum { // TODO?: scheduled?
+export enum TaskStatusEnum { // TODO?: scheduled? blocked | banned?
   ACTIVE = 'active',
   PAUSED = 'paused',
   DONE = 'done',
@@ -220,10 +203,10 @@ export type ReportReasonsMapItem = {
 
 export type Performer = {
   id: number,
-  tg_username: string,
-  tg_photo_url: string,
-  created_at: number,
-  is_blocked: boolean,
+  tgUsername: string,
+  tgPhotoUrl: string,
+  isBlocked: boolean,
+  doneAt: Date, // TODO?: createdAt?
 }
 
 export enum BlackListReasonEnum {
