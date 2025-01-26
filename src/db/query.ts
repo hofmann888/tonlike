@@ -11,7 +11,8 @@ import * as dto from './dto';
 // TODO: errors
 // ? Failed to (fetch|update|insert|delete data) | (execute query)
 // ? dto -> ...Data
-// !? split comlicated queries to separate and execute the in parallel Promise.all() 
+
+// !? split comlicated queries to separate and execute the in parallel Promise.all() # zatestil: odnohuistvenno po time
 
 // ------------ ACTIONS ------------ 
 export async function fetchActions(active?: boolean) {
@@ -354,7 +355,8 @@ export async function fetchTaskPerformers(taskId: number) {
   }
 }
 
-export async function performerCanBeBlocked(userId: number, blockUserId: number, taskId: number) { // TODO?: separate parallel queries?
+// TODO?: separate parallel queries? # skoree uzh taskId naxui vipilit'...
+export async function performerCanBeBlocked(userId: number, blockUserId: number, taskId: number) {
   console.log('performerCanBeBlocked');
   try {
     const data = await db
@@ -424,40 +426,6 @@ export async function removeUserFromBlackList(userId: number, blockedUserId: num
   }
 }
 
-// TODO!?: split on defferent queries and execute Promise.all() ? // TODO: test it
-export async function taskIsAvailableForUser(userId: number, taskId: number) { // TODO?: check black list
-  console.log('checkUserEarning');
-  try {
-    const data = await db
-      .select({
-        id: schema.tasks.id,
-      })
-      .from(schema.tasks)
-      .leftJoin(schema.taskEarnings, 
-        and(
-          eq(schema.taskEarnings.taskId, taskId),
-          eq(schema.taskEarnings.userId, userId)
-        )
-      )
-      .where(
-        and(
-          eq(schema.tasks.id, taskId),
-          eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
-          ne(schema.tasks.userId, userId),
-          isNull(schema.taskEarnings.id),
-        )
-      )
-      .limit(1)
-      .orderBy(desc(schema.taskEarnings.createdAt))
-    ;
-
-    return !!data[0]?.id;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to execute query.');
-  }
-}
-
 export async function hideTaskEarningForUser(userId: number, taskId: number) { // TODO?: isHidden?
   console.log('hideUserEarning');
   try {
@@ -489,3 +457,89 @@ export async function createReport(dto: dto.ReportInsertDTO) {
     throw new Error('Failed to insert data.');
   }
 }
+
+
+
+
+
+export async function taskIsAvailableForUser(taskId: number, userId: number) {
+  console.log('taskIsAvailableForUser');
+  try {
+    // TODO!?: split on defferent queries and execute Promise.all() ? # po vremeni odna huinya 
+    // const [can, done, blocked] = await Promise.all([
+    //   userCanTask(taskId, userId), 
+    //   userDoneTask(taskId, userId), 
+    //   userInBlackList(taskUserId, userId)
+    // ]);
+    // retrun can && !done && !blocked;
+
+    const data = await db
+      .select({
+        id: schema.tasks.id,
+      })
+      .from(schema.tasks)
+      .leftJoin(schema.taskEarnings, 
+        and(
+          eq(schema.taskEarnings.taskId, taskId),
+          eq(schema.taskEarnings.userId, userId)
+        )
+      )
+      .leftJoin(schema.blackList, 
+        and(
+          eq(schema.blackList.userId, schema.tasks.userId),
+          eq(schema.blackList.blockedUserId, userId),
+        )
+      )
+      .where(
+        and(
+          eq(schema.tasks.id, taskId),
+          eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
+          ne(schema.tasks.userId, userId),
+          isNull(schema.taskEarnings.id),
+          isNull(schema.blackList.id),
+        )
+      )
+      .limit(1)
+      .orderBy(desc(schema.taskEarnings.createdAt))
+    ;
+
+    return !!data[0]?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+// export async function userDoneTask(taskId: number, userId: number) {
+//   const data = await db.query.taskEarnings.findFirst({ 
+//     columns: { id: true },
+//     where: and(
+//       eq(schema.taskEarnings.taskId, taskId),
+//       eq(schema.taskEarnings.userId, userId),
+//     )
+//   });
+
+//   return !!data?.id;
+// }
+// export async function userInBlackList(userId: number, blockedUserId: number) {
+//   const data = await db.query.blackList.findFirst({ 
+//     columns: { id: true },
+//     where: and(
+//       eq(schema.blackList.userId, userId),
+//       eq(schema.blackList.blockedUserId, blockedUserId),
+//     )
+//   });
+
+//   return !!data?.id;
+// }
+// export async function userCanTask(taskId: number, userId: number) {
+//   const data = await db.query.tasks.findFirst({ 
+//     columns: { id: true },
+//     where: and(
+//       eq(schema.tasks.id, taskId),
+//       eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
+//       ne(schema.tasks.userId, userId),
+//     )
+//   });
+
+//   return !!data?.id;
+// }
