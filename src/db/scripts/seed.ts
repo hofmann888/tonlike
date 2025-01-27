@@ -16,8 +16,8 @@ async function main() {
   await seed(db, { 
     tasks: schema.tasks,
     taskEarnings: schema.taskEarnings,
-    reports: schema.reports,
     blackList: schema.blackList
+    // reports: schema.reports,
   }).refine((f) => ({
     tasks: {
       count: 30,
@@ -36,10 +36,10 @@ async function main() {
       },
       with: {
         taskEarnings: 1,
-        reports: [
-          { weight: 0.9, count: 1 },
-          { weight: 0.1, count: 10 },
-        ]
+        // reports: [
+        //   { weight: 0.9, count: 1 },
+        //   { weight: 0.1, count: 10 },
+        // ]
       }
     },
     taskEarnings: {
@@ -52,11 +52,11 @@ async function main() {
         // ]) 
       }
     },
-    reports: {
-      columns: {
-        userId: f.int({ minValue: 1, maxValue: 3 }),
-      }
-    },
+    // reports: {
+    //   columns: {
+    //     userId: f.int({ minValue: 1, maxValue: 3 }),
+    //   }
+    // },
     blackList: {
       count: 1,
       columns: {
@@ -67,6 +67,7 @@ async function main() {
   }));
 
   await db.execute(sql`alter sequence tasks_id_seq restart with 31`);
+  await db.execute(sql`alter sequence task_earnings_id_seq restart with 31`);
   await db.execute(sql`alter sequence black_list_id_seq restart with 2`);
 }
 

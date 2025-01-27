@@ -358,13 +358,14 @@ export async function userHasTask(taskId: number, userId: number) {
 export async function taskIsAvailableForUser(taskId: number, userId: number) {
   console.log('taskIsAvailableForUser');
   try {
-    // TODO!?: split on defferent queries and execute Promise.all() ? # po vremeni odna huinya...tak vrode dazhe kapelku bistree...hzhz...
-    // const [can, done, blocked] = await Promise.all([
+    // TODO!?: split on defferent queries and execute Promise.all() ? # po vremeni odna huinya...hzhz...
+    // const [can, done, reported, blocked] = await Promise.all([
     //   userCanTask(taskId, userId), 
     //   userDoneTask(taskId, userId), 
+    //   userReportedTask(taskId, userId);
     //   userInBlackList(taskUserId, userId)
     // ]);
-    // retrun can && !done && !blocked;
+    // return can && !done && !reported && !blocked;
 
     const data = await db
       .select({
@@ -375,6 +376,12 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
         and(
           eq(schema.taskEarnings.taskId, taskId),
           eq(schema.taskEarnings.userId, userId)
+        )
+      )
+      .leftJoin(schema.reports, 
+        and(
+          eq(schema.reports.taskId, taskId),
+          eq(schema.reports.userId, userId)
         )
       )
       .leftJoin(schema.blackList, 
@@ -389,6 +396,7 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
           eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
           ne(schema.tasks.userId, userId),
           isNull(schema.taskEarnings.id),
+          isNull(schema.reports.id),
           isNull(schema.blackList.id),
         )
       )
@@ -438,7 +446,7 @@ export async function createReport(dto: dto.ReportInsertDTO) {
 }
 
 // ------------ BLACK LIST ------------
-export async function addUserToBlackList(dto: dto.BlackListInsertDTO) {
+export async function addUserToBlackList(dto: dto.BlackListInsertDTO) { // TODO!?: limit on blocked users  
   console.log('addUserToBlackList');
   try {
     const data = await db
@@ -490,7 +498,18 @@ export async function userInBlackList(userId: number, blockedUserId: number) {
 
 
 
+// export async function userCanTask(taskId: number, userId: number) {
+//   const data = await db.query.tasks.findFirst({ 
+//     columns: { id: true },
+//     where: and(
+//       eq(schema.tasks.id, taskId),
+//       eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
+//       ne(schema.tasks.userId, userId),
+//     )
+//   });
 
+//   return !!data?.id;
+// }
 // export async function userDoneTask(taskId: number, userId: number) {
 //   const data = await db.query.taskEarnings.findFirst({ 
 //     columns: { id: true },
@@ -502,13 +521,12 @@ export async function userInBlackList(userId: number, blockedUserId: number) {
 
 //   return !!data?.id;
 // }
-// export async function userCanTask(taskId: number, userId: number) {
-//   const data = await db.query.tasks.findFirst({ 
+// export async function userReportedTask(taskId: number, userId: number) {
+//   const data = await db.query.reports.findFirst({ 
 //     columns: { id: true },
 //     where: and(
-//       eq(schema.tasks.id, taskId),
-//       eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
-//       ne(schema.tasks.userId, userId),
+//       eq(schema.taskEarnings.taskId, taskId),
+//       eq(schema.taskEarnings.userId, userId),
 //     )
 //   });
 
