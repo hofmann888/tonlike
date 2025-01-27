@@ -19,10 +19,10 @@ export default function ReferralsList({ referrals }: { referrals: User[] }) {
               <UserUI
                 avatarProps={{
                   isBordered: true,
-                  src: referral.tg_photo_url,
+                  src: referral.tgPhotoUrl,
                   size: 'sm',
                 }}
-                name={`@${referral.tg_username}`}
+                name={`@${referral.tgUsername}`}
               />
 
               <CoinValue value={888} className="text-medium" />

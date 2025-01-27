@@ -11,7 +11,7 @@ import {
 } from "@heroui/modal";
 import { Pagination } from "@heroui/pagination";
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
-import { ChangeTaskStatus } from "@/db/actions";
+import { ChangeTaskStatus } from "@/core/actions";
 import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem";
 

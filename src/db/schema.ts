@@ -1,62 +1,289 @@
-import { z } from 'zod';
-import { fetchActionById, fetchServiceById } from './sql';
-import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
-// import { CurrencyEnum } from '@/lib/definitions';
+import { TaskStatusEnum, TaskEarningStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
+import { pgTable, pgEnum, AnyPgColumn, primaryKey, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { relations } from 'drizzle-orm';
 
-export const depositFormSchema = z.object({
-  amount: z.coerce.number().min(1, { message: 'Please enter an amount greater or equal $1.'}),
+// TODO: add indexes in db
+
+// =============== Users ===============
+export const users = pgTable('users', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  referrerId: integer('referrer_id').references((): AnyPgColumn => users.id, {onDelete: 'cascade'}), // TODO: remove cascade!
+  balance: bigint({ mode: 'number' }).notNull().default(0),
+  tgId: bigint('tg_id', { mode: 'number' }).notNull().unique(),
+  tgUsername: varchar('tg_username', { length: 32 }).notNull(),
+  tgPhotoUrl: varchar('tg_photo_url', { length: 255 }).notNull(), // TDOO?: null?
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
+  // address: char({ length: 48 })
+  // isBlocked | status?
+  // lastLogin?
+}
+// (table) => { // TODO
+  // return {
+    // slugIndex: t.uniqueIndex("slug_idx").on(table.slug),
+    // titleIndex: t.index("title_idx").on(table.title),
+  // };}
+);
+
+export const usersRelations = relations(users, ({ one, many }) => ({
+	referrer: one(users, {
+		fields: [users.referrerId],
+		references: [users.id],
+	}),
+  referrals: many(users, { relationName: 'referrer' }) // TODO: check if correct...t.e. tipa i tam (inviter) i zdes must be "referrals"?....
+  // TODO: ...
+}));
+// export const articleChildrenRelation = relations(articles, ({ many }) => ({ // TODO?
+//   childarticles: many(articles, { relationName: 'childarticles' })
+// }));
+// export const childArticleRelation = relations(articles, ({ one }) => ({
+//   parentArticle: one(articles, {
+//      fields: [articles.parentArticleId],
+//      references: [articles.id],
+//      relationName: 'childarticles' // TODO: che? pochemu the same relationName to i tam and there? Huh blyat'?
+//   })
+// }));
+
+// =============== Services ===============
+export const services = pgTable('services', {
+  id: smallint().primaryKey().generatedByDefaultAsIdentity(),
+  name: varchar({ length: 255 }).notNull(),
+  icon: varchar({ length: 255 }), // TODO?: iconUrl? not null?
+  active: boolean().notNull().default(true),
+  // TODO?: timestamps?
 });
 
-export const withdrawFormSchema = z.object({
-  amount: z.coerce.number().min(1, { message: 'Please enter an amount greater or equal $1.'}),
-  address: z.string().length(48, { message: "Wrong address" }),
+export const servicesRelations = relations(services, ({ many }) => ({
+  serviceActions: many(serviceActions),
+}));
+
+// =============== Actions ===============
+export const actions = pgTable('actions', {
+  id: smallint().primaryKey().generatedByDefaultAsIdentity(),
+  name: varchar({ length: 255 }).notNull(),
+  icon: varchar({ length: 255 }),
+  active: boolean().notNull().default(true),
+  // TODO?: timestamps?
 });
 
+export const actionsRelations = relations(actions, ({ many }) => ({
+  serviceActions: many(serviceActions),
+}));
 
-export const createTaskFormSchema = z.object({
-  actionId: z.coerce.number().positive().refine(async (id) => {
-    const action = await fetchActionById(id);
-    return !!action?.id;
-  }, { message: "Action doesn't exists." }),
-  serviceId: z.coerce.number().positive().refine(async (id) => {
-    const service = await fetchServiceById(id);
-    return !!service?.id;
-  }, { message: "Service doesn't exists." }),
-  link: z.string()
-    .min(3, { message:'Must be 3 or more characters long' })
-    .max(255, { message: "Must be 255 or fewer characters long" }),
-  price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
-  // currency: z.enum([CurrencyEnum.COIN]), //CurrencyEnum.USDT
-  count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
+// =============== Service actions ===============
+export const serviceActions = pgTable('service_actions', {
+  id: smallint().primaryKey().generatedByDefaultAsIdentity(),
+  serviceId: smallint('service_id').notNull().references(() => services.id),
+  actionId: smallint('action_id').notNull().references(() => actions.id),
+  active: boolean().notNull().default(true),
+  // TODO?: timestamps?
+}, (t) => ([{ 
+  pk: primaryKey({ columns: [t.serviceId, t.actionId] })
+}]));
+
+export const serviceActionsRelations = relations(serviceActions, ({ one }) => ({
+  service: one(services, {
+    fields: [serviceActions.serviceId],
+    references: [services.id],
+  }),
+  action: one(actions, {
+    fields: [serviceActions.actionId],
+    references: [actions.id],
+  }),
+  // TODO?: tasks?
+}));
+
+
+// =============== Tasks ===============
+// TODO?: scheduled status? or better opredelyat po field?
+// TODO?: deleted nuzhno vashe?
+export const taskStatusEnum = pgEnum('task_status', [
+  TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED, TaskStatusEnum.DONE, TaskStatusEnum.DELETED
+]);
+
+
+export const tasks = pgTable('tasks', {
+  id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  serviceId: integer('service_id').notNull().references(() => services.id),
+  actionId: integer('action_id').notNull().references(() => actions.id),
+  link: varchar({ length: 255 }).notNull(),
+  price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vryd ly...hotya...
+  count: integer().notNull(),
+  done: integer().notNull().default(0),
+  status: taskStatusEnum().notNull().default(TaskStatusEnum.ACTIVE),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
+  deletedAt: timestamp('deleted_at'),
+  // currency: CurrencyEnum // TODO
+  // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });
 
-export const editTaskFormSchema = z.object({
-  price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
-  count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
+export const tasksRelations = relations(tasks, ({ one, many }) => ({
+  user: one(users, {
+    fields: [tasks.userId],
+    references: [users.id],
+  }),
+  service: one(services, {
+    fields: [tasks.serviceId],
+    references: [services.id],
+  }),
+  action: one(actions, {
+    fields: [tasks.actionId],
+    references: [actions.id],
+  }),
+  earnings: many(taskEarnings),
+  reports: many(reports),
+  // serviceAction: one(serviceActions, { // TODO?: service, action
+  //   fields: [tasks.serviceActionId],
+  //   references: [serviceActions.id],
+  // }),
+  
+}));
+
+
+
+// =============== Tasks Earnings ===============
+// TODO?: mozhet uzh naxui i prosto alya isHidden? raz uzh no reported status...
+//        da i isHidden uzh nahui uzh raz uzh na t poshlo epta blyad - profit libo 0 or $...
+//        hotya, mozhet nado budet hidden list pokazivat'?...sikasdjajdjfl....hotya tak 0 zhe
+// export const taskEarningStatusEnum = pgEnum('task_earning_status', [
+//   TaskEarningStatusEnum.DONE, TaskEarningStatusEnum.HIDDEN
+// ]);
+export const taskEarnings = pgTable('task_earnings', { // TODO?: task_performers?
+  id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  taskId: integer('task_id').notNull().references(() => tasks.id),
+  profit: bigint({ mode: 'number' }).notNull().default(0),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  // status: taskEarningStatusEnum().notNull(), // TODO?: mb prigoditsya vse taki hui znaet poka...ili isHidden?
+  // TODO?: reward?
 });
 
-export const EarnItemReportFormSchema = z.object({
-  // taskId: z.coerce.number().positive().refine(async (id) => { // TODO?: pass object with user and task id?
-  //   const user: User = await getAuthUser(false); // TODO: decompose object
-  //   return await checkUserEarnTask(user.id, id);
-  // }, { message: "Wrong task." }),
-  reasons: z.enum([
-    ReportReasonEnum.UNAVAILABLE, 
-    ReportReasonEnum.SCAM, 
-    ReportReasonEnum.SPAM, 
-    ReportReasonEnum.COPYRIGHT, 
-    ReportReasonEnum.CONTENT, 
-    ReportReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason" }),
-  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
+export const taskEarningRelations = relations(taskEarnings, ({ one }) => ({
+  user: one(users, {
+    fields: [taskEarnings.userId],
+    references: [users.id],
+  }),
+  task: one(tasks, {
+    fields: [taskEarnings.taskId],
+    references: [tasks.id],
+  }),
+}));
+
+// =============== Quests =============== // TODO: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
+export const quests = pgTable('quests', {
+  id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+  serviceId: integer('service_id').notNull().references(() => services.id),
+  actionId: integer('action_id').notNull().references(() => actions.id),
+  link: varchar({ length: 255 }).notNull(),
+  price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
+  count: integer().notNull().default(1), // TODO?: countPerUser
+  daily: boolean().notNull().default(false),
+  active: boolean().notNull().default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
+  deletedAt: timestamp('deleted_at'),
+  // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });
 
-export const PerformerBlockFormSchema = z.object({
-  reasons: z.enum([
-    BlackListReasonEnum.TASK, 
-    BlackListReasonEnum.ACCOUNT, 
-    BlackListReasonEnum.BEHAVIOUR, 
-    ReportReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason" }),
-  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
+export const questsRelations = relations(quests, ({ one, many }) => ({
+  service: one(services, {
+    fields: [quests.serviceId],
+    references: [services.id],
+  }),
+  action: one(actions, {
+    fields: [quests.actionId],
+    references: [actions.id],
+  }),
+  earnings: many(questEarnings),
+  // serviceAction: one(serviceActions, { // TODO: service, action
+  //   fields: [quests.serviceActionId],
+  //   references: [serviceActions.id],
+  // }),
+}));
+
+// =============== Quests Earnings ===============
+export const questEarnings = pgTable('quest_earnings', {
+  id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  questId: integer('quest_id').notNull().references(() => quests.id),
+  profit: bigint({ mode: 'number' }).notNull().default(0),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+export const questEarningRelations = relations(questEarnings, ({ one }) => ({
+  user: one(users, {
+    fields: [questEarnings.userId],
+    references: [users.id],
+  }),
+  quest: one(quests, {
+    fields: [questEarnings.questId],
+    references: [quests.id],
+  }),
+}));
+
+// =============== Reports ===============
+export const reportReasonEnum = pgEnum('report_reason', [
+  ReportReasonEnum.CONTENT, 
+  ReportReasonEnum.COPYRIGHT, 
+  ReportReasonEnum.OTHER, 
+  ReportReasonEnum.SCAM, 
+  ReportReasonEnum.SPAM, 
+  ReportReasonEnum.UNAVAILABLE
+]);
+
+export const reports = pgTable('reports', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  taskId: integer('task_id').notNull().references(() => tasks.id),
+  reasons: reportReasonEnum().array().notNull(),
+  comment: text(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
+export const reportsRelations = relations(reports, ({ one }) => ({
+  user: one(users, {
+    fields: [reports.userId],
+    references: [users.id],
+  }),
+  task: one(tasks, {
+    fields: [reports.taskId],
+    references: [tasks.id],
+  }),
+}));
+
+// =============== Black list ===============
+export const blackListReasonEnum = pgEnum('black_list_reason', [
+  BlackListReasonEnum.ACCOUNT, 
+  BlackListReasonEnum.BEHAVIOUR, 
+  BlackListReasonEnum.OTHER, 
+  BlackListReasonEnum.TASK,
+]);
+
+export const blackList = pgTable('black_list', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  blockedUserId: integer('blocked_user_id').notNull().references(() => users.id),
+  reasons: blackListReasonEnum().array().notNull(),
+  comment: text(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  // taskId: integer('task_id').notNull().references(() => tasks.id), // TODO!?: i naxer eto nuzhno voobshe?
+})
+
+export const blackListRelations = relations(blackList, ({ one }) => ({
+  user: one(users, {
+    fields: [blackList.userId],
+    references: [users.id],
+    relationName: 'user',
+  }),
+  blockedUser: one(users, {
+    fields: [blackList.blockedUserId],
+    references: [users.id],
+    relationName: 'blockedUser',
+  }),
+  // task: one(tasks, {
+  //   fields: [blackList.taskId],
+  //   references: [tasks.id],
+  // }),
+}));

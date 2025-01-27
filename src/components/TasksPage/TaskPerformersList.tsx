@@ -3,7 +3,7 @@ import { Card, CardBody } from "@heroui/card";
 import { useDisclosure } from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { User } from "@heroui/user";
-import { PerformerUnblock } from "@/db/actions";
+import { PerformerUnblock } from "@/core/actions";
 import { Performer } from "@/lib/definitions";
 import { useState } from "react";
 import PerformerBlockModal from "./PerformerBlockModal";
@@ -41,7 +41,7 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
   function updateBlockStatus(id: number, isBlocked: boolean) { // TODO: loader
     const performersUpdate = performersState.map((performer) => {
       if (performer.id === id) {
-        performer.is_blocked = isBlocked;
+        performer.isBlocked = isBlocked;
       }
       return performer;
     });;
@@ -53,7 +53,7 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
   return (
     <ScrollShadow className="w-full mt-2 pt-2 max-h-44 overflow-auto">
       {performersState.map((performer) => {
-        const date = new Date(performer.created_at);
+        const date = new Date(performer.doneAt);
 
         return (
         <Card 
@@ -71,17 +71,17 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
             <User
               avatarProps={{
                 isBordered: true,
-                src: performer.tg_photo_url,
+                src: performer.tgPhotoUrl,
                 size: 'sm',
               }}
               className={clsx(
                 'w-3/6 justify-start',
-                {'text-red-500': performer.is_blocked},
+                {'text-red-500': performer.isBlocked},
               )}
-              name={`@${performer.tg_username}`}
+              name={`@${performer.tgUsername}`}
             />
 
-            {performer.is_blocked 
+            {performer.isBlocked 
               ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
               : <Button color="danger" variant="flat" className="w-24" onPress={() => onBlockClick(performer.id)}>Block</Button>
             }
@@ -91,7 +91,6 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
 
       <PerformerBlockModal 
         blockUserId={blockUserId}
-        taskId={taskId} 
         isOpen={isOpen} 
         onOpenChange={onOpenChange} 
         onClose={onClose}

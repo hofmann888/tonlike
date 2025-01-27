@@ -1,15 +1,14 @@
 'use server'
 
-import { updateUserById, createTask, updateTaskStatus, userHasTask, deleteTask, hideUserEarning, checkUserEarnTask, createReport, fetchTaskPerformers, performerCanBeBlocked, addUserToBlackList, removeUserFromBlackList, fetchTaskById, updateTaskSum } from './sql';
+import { updateUser, createTask, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './schema';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
-
   try {
     const user: User = await getAuthUser(false);
 
@@ -28,7 +27,7 @@ export async function DepositFormSubmit(prevState: DepostitFormState, formData: 
     const { amount } = validated.data;
     const balance = user.balance + amount;
 
-    const updatedUser = await updateUserById(user.id, { balance });
+    const updatedUser = await updateUser(user.id, { balance });
     await setSession(updatedUser);
   } catch (error) {
     console.log('Operation Error:', error);
@@ -43,7 +42,6 @@ export async function DepositFormSubmit(prevState: DepostitFormState, formData: 
 
 export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData: FormData) {
   console.log('WithdrawFormSubmit');
-
   try {
     const user: User = await getAuthUser(false);
 
@@ -69,7 +67,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
     }
     const balance = user.balance - amount;
 
-    const updatedUser = await updateUserById(user.id, { balance });
+    const updatedUser = await updateUser(user.id, { balance });
     await setSession(updatedUser);
   } catch (error) {
     console.log('Operation Error:', error);
@@ -92,8 +90,8 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       serviceId: formData.get('serviceId'),
       link: formData.get('link'),
       price: formData.get('price'),
-      // currency: formData.get('currency'),
       count: formData.get('count'),
+      // currency: formData.get('currency'),
     });
     console.log('validated:', validated);
 
@@ -115,7 +113,6 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     }
 
     await createTask(data);
-
     // TODO: update balance here? Yep: fix and return if task canceled
     // const balance = user.balance - countPrice;
     // const updatedUser = await updateUserById(user.id, { balance });
@@ -158,6 +155,13 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     const reserve = Number(user.balance) + task.price * task.count - task.price * task.done;
     const sum = data.count * data.price;
 
+    if (data.count < task.count) { // TODO: refactor zod refine?
+      return {
+        errors: { count: ['Too low count']},
+        message: `Count can't be less than progress.`,
+      }
+    }
+
     if (reserve < sum) { // TODO: refactor zod refine?
       return {
         errors: { count: ['Lower the count'], price: ['Lower the price']},
@@ -165,8 +169,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       }
     }
 
-    await updateTaskSum(taskId, data.price, data.count);
-
+    await updateTask(taskId, { price: data.price, count: data.count });
     // TODO: update balance here? Yep: fix and return if task canceled
     // const balance = user.balance + task.price * task.count - task.price * task.done - sum;
     // const updatedUser = await updateUserById(user.id, { balance });
@@ -182,67 +185,6 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
   redirect('/tasks');
 }
 
-export async function HideUserEarnTask(taskId: number) {
-  console.log('HideUserEarnTask');
-  try {
-    const user: User = await getAuthUser(false);
-
-    if (!await checkUserEarnTask(user.id, taskId)) {
-      throw new Error("Wrong task!");
-    }
-    
-    return await hideUserEarning(user.id, taskId);
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to hide task.',
-    };
-  }
-}
-
-// TODO?: EarnTask
-export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
-  console.log('ReportUserEarnTask');
-
-  try {
-    const user: User = await getAuthUser(false);
-
-    console.log('formData:', formData);
-
-    const validated = EarnItemReportFormSchema.safeParse({
-      reasons: formData.getAll('reasons'),
-      comment: formData.get('comment'),
-    });
-    console.log('validated:', validated);
-
-    
-    if (!validated.success) {
-      console.log('errors', validated.error.flatten().fieldErrors);
-      return {
-        errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to report task.',
-        success: false
-      };
-    }
-
-    if (!await checkUserEarnTask(user.id, taskId)) {
-      throw new Error("Wrong task!");
-    }
-
-    const data = { userId: user.id, taskId: taskId, ...validated.data };
-
-    await createReport(data);
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to report task.',
-      success: false
-    };
-  }
-  return { success: true };
-}
-
-
 export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
   console.log('ChangeTaskStatus');
   try {
@@ -255,7 +197,7 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
     if (status === TaskStatusEnum.DELETED) { // TODO: seperate action for delete?
       await deleteTask(taskId);
     } else {
-      await updateTaskStatus(taskId, status);
+      await updateTask(taskId, { status });
     }
   } catch (error) {
     console.log('Operation Error:', error);
@@ -277,7 +219,7 @@ export async function GetTaskPerformers(taskId: number) {
       throw new Error("Wrong task!");
     }
 
-    const data = await fetchTaskPerformers(taskId, user.id);
+    const data = await fetchTaskPerformers(taskId);
     return { data };
   } catch (error) {
     console.log('Operation Error:', error);
@@ -287,19 +229,17 @@ export async function GetTaskPerformers(taskId: number) {
   }
 }
 
-export async function PerformerBlockFormSubmit(blockUserId: number, taskId: number, prevState: PerformerBlockFormState, formData: FormData) {
+export async function PerformerBlockFormSubmit(blockUserId: number, prevState: PerformerBlockFormState, formData: FormData) {
   console.log('PerformerBlockFormSubmit');
-
   try {
     const user: User = await getAuthUser(false);
 
-    console.log('formData:', formData);
+    console.log('formData', formData);
 
     const validated = PerformerBlockFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
       comment: formData.get('comment'),
     });
-    console.log('validated:', validated);
 
     if (!validated.success) {
       console.log('errors', validated.error.flatten().fieldErrors);
@@ -310,15 +250,15 @@ export async function PerformerBlockFormSubmit(blockUserId: number, taskId: numb
       };
     }
 
-    if (!await userHasTask(taskId, user.id)) {
-      throw new Error("Wrong task!");
-    }
+    // if (!await userHasTask(taskId, user.id)) { // TODO!?: do i need this?
+    //   throw new Error("Wrong task!");
+    // }
 
-    if (!await performerCanBeBlocked(user.id, blockUserId, taskId)) {
+    if (await userInBlackList(user.id, blockUserId)) {
       throw new Error("Can't block user!");
     }
 
-    const data = { userId: user.id, blockUserId, taskId, ...validated.data };
+    const data = { userId: user.id, blockedUserId: blockUserId, ...validated.data };
 
     await addUserToBlackList(data);
   } catch (error) {
@@ -351,3 +291,62 @@ export async function PerformerUnblock(unblockUserId: number) {
   }
   return { success: true };
 }
+
+export async function HideUserEarnTask(taskId: number) {
+  console.log('HideUserEarnTask');
+  try {
+    const user: User = await getAuthUser(false);
+
+    if (!await taskIsAvailableForUser(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+    
+    await hideTaskEarningForUser(user.id, taskId);
+
+    return { success: true };
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to hide task.',
+      success: false,
+    };
+  }
+}
+// TODO?: EarnTask
+export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
+  console.log('ReportUserEarnTask');
+
+  try {
+    const user: User = await getAuthUser(false);
+
+    const validated = EarnItemReportFormSchema.safeParse({
+      reasons: formData.getAll('reasons'),
+      comment: formData.get('comment'),
+    });
+    
+    if (!validated.success) {
+      console.log('errors', validated.error.flatten().fieldErrors);
+      return {
+        errors: validated.error.flatten().fieldErrors,
+        message: 'Failed to report task.',
+        success: false
+      };
+    }
+
+    if (!await taskIsAvailableForUser(taskId, user.id)) {
+      throw new Error("Wrong task!");
+    }
+
+    const data = { userId: user.id, taskId: taskId, ...validated.data };
+    await createReport(data);
+
+    return { success: true };
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return {
+      message: 'Operation Error: Failed to report task.',
+      success: false
+    };
+  }
+}
+

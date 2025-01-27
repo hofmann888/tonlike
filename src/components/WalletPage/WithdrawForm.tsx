@@ -1,7 +1,7 @@
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { WithdrawFormState } from "@/lib/definitions";
-import { WithdrawFormSubmit } from "@/db/actions";
+import { WithdrawFormSubmit } from "@/core/actions";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { useFormState } from 'react-dom';
 import SubmitButton from "@/components/Forms/SubmitButton";

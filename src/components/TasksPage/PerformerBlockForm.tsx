@@ -2,7 +2,7 @@ import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { BlackListReasonsMapItem, BlackListReasonEnum, PerformerBlockFormState } from "@/lib/definitions";
-import { PerformerBlockFormSubmit } from "@/db/actions";
+import { PerformerBlockFormSubmit } from "@/core/actions";
 import { useFormState } from "react-dom";
 
 const blackListReasonsMap: BlackListReasonsMapItem[] = [
@@ -13,12 +13,12 @@ const blackListReasonsMap: BlackListReasonsMapItem[] = [
 ];
 
 export default function PerformerBlockForm({ 
-  formRef, blockUserId, taskId, afterSubmit
+  formRef, blockUserId, afterSubmit
 }: { 
-  formRef: any, blockUserId: number, taskId: number, afterSubmit: (success: boolean, id: number) => void 
+  formRef: any, blockUserId: number, afterSubmit: (success: boolean, id: number) => void 
 }) {
   const initialState: PerformerBlockFormState = { errors: {}, message: null }; // TODO: errors not working
-  const action = PerformerBlockFormSubmit.bind(null, blockUserId, taskId);
+  const action = PerformerBlockFormSubmit.bind(null, blockUserId);
   const [state, formAction] = useFormState(action, initialState);
 
   if (state?.success !== undefined) {

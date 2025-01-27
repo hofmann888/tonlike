@@ -159,7 +159,7 @@ export default function TasksFilter({
                             alt={item.data?.name}
                             className="flex-shrink-0"
                             size="sm"
-                            src={item.data?.img}
+                            src={item.data?.icon}
                           />
                           <div className="flex flex-col">
                             <span>{item.data?.name}</span>
@@ -174,7 +174,7 @@ export default function TasksFilter({
                   <SelectItem
                     key={service.id}
                     startContent={
-                      <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
+                      <Avatar alt={service.name} className="w-6 h-6" src={service.icon} />
                     }
                   >
                     {service.name}

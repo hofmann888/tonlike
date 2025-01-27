@@ -1,9 +1,9 @@
 'use client'
 
 import { useDisclosure } from "@heroui/modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Task } from "@/lib/definitions";
-import { HideUserEarnTask } from "@/db/actions";
+import { HideUserEarnTask } from "@/core/actions";
 import EarnItem from "./EarnItem";
 import EarnItemReportModal from "./EarnItemReportModal";
 
@@ -13,10 +13,12 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   async function hideClick(id: number) {
-    if (await HideUserEarnTask(id)) {
+    const result = await HideUserEarnTask(id);
+    if (result.success) {
       const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
       setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
     }
+    console.log(result); // TODO: display errors. And success message?
   }
 
   function reportClick(id: number) {
@@ -29,7 +31,9 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
     setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
   }
 
-  console.log('tasks:', tasks);
+  useEffect(() => {
+    setTasksFiltered(tasks);
+  }, [tasks]);
 
   return (
     <>

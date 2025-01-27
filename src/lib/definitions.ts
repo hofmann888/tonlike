@@ -1,4 +1,4 @@
-import { IconType } from "react-icons"
+import { IconType } from "react-icons";
 
 export type NavLink = {
   href: string,
@@ -65,81 +65,62 @@ export type PerformerBlockFormState = {
 
 export type User = {
   id: number,
-  address: string,
-  balance: number, // TODO: bigint?
-  tg_id: number,
-  tg_username: string,
-  tg_photo_url: string,
-  created_at: number,
-	updated_at: number,
+  referrerId: number | null,
+  tgId: number,
+  tgUsername: string,
+  tgPhotoUrl: string,
+  balance: number,
+  createdAt?: Date,
+	updatedAt?: Date,
 }
 
-export type Service = { // TODO: timestamps
+export type Service = { // TODO?: timestamps
   id: number,
   name: string,
-  img: string,
+  icon: string,
   active: boolean,
-  actionIds?: number[]
+  actions?: Action[]
 }
 
 export type Action = {
   id: number,
   name: string,
+  icon: string,
   active: boolean,
 }
 
 export type Task = {
   id: number,
+  userId: number,
+  serviceId: number,
+  actionId: number,
   link: string,
   price: number,
-  // currency: Currency,
   count: number,
   done: number,
   status: TaskStatus,
-	created_at: number,
-	updated_at: number,
-	deleted_at: number,
-  user_id: number,
-  action: Action,
-  service: Service,
+	createdAt: Date, // TODO?: undefined?
+	updatedAt?: Date,
+	deletedAt?: Date,
+  service?: Service,
+  action?: Action,
 }
 
-export type TaskDTO = {
-  id: number,
-  link: string,
-  price: number,
-  // currency: Currency,
-  count: number,
-  done: number,
-  status: TaskStatus,
-	created_at: number,
-	updated_at: number,
-	deleted_at: number,
-  user_id: number,
-  action_id: number,
-  action_name: string,
-  service_id: number,
-  service_name: string,
-  service_img: string,
-}
-
-export enum TaskStatusEnum {
+export enum TaskStatusEnum { // TODO?: scheduled? blocked | banned?
   ACTIVE = 'active',
   PAUSED = 'paused',
-  SCHEDULED = 'scheduled',
   DONE = 'done',
   DELETED = 'deleted', // TODO: archive?
 }
-export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.SCHEDULED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
+export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
 
 export enum TaskStatusTitleEnum {
   ACTIVE = 'Active',
   PAUSED = 'Paused',
-  SCHEDULED = 'Scheduled',
   DONE = 'Done',
   DELETED = 'Deleted',
 }
-export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.PAUSED | TaskStatusTitleEnum.SCHEDULED | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
+export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.PAUSED | TaskStatusTitleEnum.DONE | TaskStatusTitleEnum.DELETED;
 
 export type TaskStatusMapItem = {
   key: TaskStatus,
@@ -181,18 +162,18 @@ export type TaskFilterItem = {
   values: string | string[]
 }
 
-export enum UserEarningStatusEnum {
+export enum TaskEarningStatusEnum {
   DONE = 'done',
   HIDDEN = 'hidden',
 }
-export type UserEarningStatus = UserEarningStatusEnum.DONE | UserEarningStatusEnum.HIDDEN;
+export type TaskEarningStatus = TaskEarningStatusEnum.DONE | TaskEarningStatusEnum.HIDDEN;
 
-export type UserEarning = {
+export type TaskEarning = {
   id: number,
   task_id: number,
   user_id: number,
   profit: number,
-  status: UserEarningStatus,
+  status: TaskEarningStatus,
   created_at: number,
 }
 
@@ -222,10 +203,10 @@ export type ReportReasonsMapItem = {
 
 export type Performer = {
   id: number,
-  tg_username: string,
-  tg_photo_url: string,
-  created_at: number,
-  is_blocked: boolean,
+  tgUsername: string,
+  tgPhotoUrl: string,
+  isBlocked: boolean,
+  doneAt: Date, // TODO?: createdAt?
 }
 
 export enum BlackListReasonEnum {
