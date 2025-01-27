@@ -2,7 +2,7 @@ import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { ReportReasonsMapItem, ReportReasonEnum, EarnItemReportFormState } from "@/lib/definitions";
-import { EarnItemReportFormSubmit } from "@/db/actions";
+import { EarnItemReportFormSubmit } from "@/core/actions";
 import { useFormState } from "react-dom";
 
 const reportReasonsMap: ReportReasonsMapItem[] = [

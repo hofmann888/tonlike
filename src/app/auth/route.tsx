@@ -2,7 +2,7 @@
 
 import { deleteSession, getSession, setSession } from './session';
 import { validate, parse } from '@telegram-apps/init-data-node';
-import { createUserByTg, fetchUserByTgId, updateUserById } from '@/db/sql';
+import { createUser, updateUser, fetchUserByTgId } from '@/db/query';
 import { headers } from 'next/headers';
 
 export async function POST() {
@@ -31,12 +31,16 @@ export async function POST() {
     }
     let user = await fetchUserByTgId(initData.user.id);
     if (!user) { 
-      user = await createUserByTg(initData.user);
+      user = await createUser({
+        tgId: initData.user.id,
+        tgUsername: initData.user.username as string,
+        tgPhotoUrl: initData.user.photoUrl as string, // TODO?: undefined?
+      });
     }
-    if (user.tg_username !== initData.user.username || user.tg_photo_url !== initData.user.photoUrl) {
-      user = await updateUserById(user.id, { 
-        tg_username: initData.user.username, 
-        tg_photo_url: initData.user.photoUrl
+    if (user.tgUsername !== initData.user.username || user.tgPhotoUrl !== initData.user.photoUrl) {
+      user = await updateUser(user.id, { 
+        tgUsername: initData.user.username, 
+        tgPhotoUrl: initData.user.photoUrl
       });
     }
     await setSession(user);

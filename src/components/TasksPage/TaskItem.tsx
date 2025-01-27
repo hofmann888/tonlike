@@ -12,7 +12,7 @@ import { Link } from "@heroui/link";
 import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
-import { GetTaskPerformers } from "@/db/actions";
+import { GetTaskPerformers } from "@/core/actions";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
 import EditTaskForm from "./EditTaskForm";
@@ -63,16 +63,16 @@ export default function TaskItem({
       <CardBody className="flex-row justify-between pb-2">
         <div className="flex items-center gap-2 w-1/4">
           <Avatar
-            alt={task.service.name}
+            alt={task.service?.name}
             className="flex-shrink-0"
             size="sm"
-            src={task.service.img}
+            src={task.service?.icon}
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{task.action.name}</span>
+            <span className="text-small text-foreground-400">{task.action?.name}</span>
           </div>
         </div>
 

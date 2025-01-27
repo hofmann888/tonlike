@@ -1,7 +1,7 @@
 'use server'
 
+import { fetchUserReferrals } from "@/db/query";
 import { getAuthUser } from "../auth/session";
-import { fetchUserRefs } from "@/db/sql";
 import { User } from "@/lib/definitions";
 import ReferralsList from "@/components/ReferralsPage/ReferralsList";
 import ReferralsInfo from "@/components/ReferralsPage/ReferralsInfo";
@@ -9,7 +9,7 @@ import ReferralsButtons from "@/components/ReferralsPage/ReferralsButtons";
 
 export default async function RefferalsPage() {
   const user: User = await getAuthUser(false);
-  const referrals: User[] = await fetchUserRefs(user.id);
+  const referrals: User[] = await fetchUserReferrals(user.id);
 
   // for (let i = 0; i < 20; i++) {
   //   userRefs.push(userRefs[0]);

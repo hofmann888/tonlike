@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fetchActionById, fetchServiceById } from '../db/sql';
+import { fetchActionById, fetchServiceById } from '@/db/query';
 import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
 // import { CurrencyEnum } from '@/lib/definitions';
 
@@ -56,7 +56,7 @@ export const PerformerBlockFormSchema = z.object({
     BlackListReasonEnum.TASK, 
     BlackListReasonEnum.ACCOUNT, 
     BlackListReasonEnum.BEHAVIOUR, 
-    ReportReasonEnum.OTHER
+    BlackListReasonEnum.OTHER
   ]).array().nonempty({ message: "Choose at least one reason" }),
   comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
 });

@@ -2,8 +2,8 @@
 
 import { User, Task, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
+import { fetchEarnTasksByUserId } from "@/db/query";
 import { getAuthUser } from "@/app/auth/session";
-import { fetchUserEarnTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import EarnList from "@/components/EarnPage/EarnList";
 import EarnTabs from "@/components/EarnPage/EatnTabs";
@@ -15,7 +15,7 @@ export default async function EarnPage({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const user: User = await getAuthUser(false);
-  const tasks: Task[] = await fetchUserEarnTasks(user.id);
+  const tasks: Task[] = await fetchEarnTasksByUserId(user.id);
   const { actions, services } = tasksRelations(tasks);
 
   const tab = searchParams.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it

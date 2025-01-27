@@ -3,9 +3,9 @@
 import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/app/auth/session";
+import { fetchTasksByUserId } from "@/db/query";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { fetchUserTasks } from "@/db/sql";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
 import TaskList from "@/components/TasksPage/TaskList";
 
@@ -17,7 +17,7 @@ export default async function TasksPage({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const user: User = await getAuthUser(false);
-  const tasks: Task[] = await fetchUserTasks(user.id);
+  const tasks: Task[] = await fetchTasksByUserId(user.id);
   const statusCount = tasksStatusCount(tasks);
 
   const actionsFilter: TaskFilterItem = { 

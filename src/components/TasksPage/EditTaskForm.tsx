@@ -3,7 +3,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { EditTaskFormState, Task } from "@/lib/definitions";
-import { EditTaskFormSubmit } from "@/db/actions";
+import { EditTaskFormSubmit } from "@/core/actions";
 import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
@@ -12,7 +12,7 @@ import CoinValue from "../Common/CoinValue";
 import CoinIcon from "../Common/CoinIcon";
 
 
-export default function EditTaskForm({ task }: { task: Task }) {
+export default function EditTaskForm({ task }: { task: Task }) { // TODO: check if count < done on price change
   const { balance } = useUser();
 
   const minCount = Math.max(task.done, 10);

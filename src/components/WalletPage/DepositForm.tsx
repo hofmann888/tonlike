@@ -2,7 +2,7 @@
 
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
-import { DepositFormSubmit } from "@/db/actions";
+import { DepositFormSubmit } from "@/core/actions";
 import { DepostitFormState } from "@/lib/definitions";
 import { useFormState } from 'react-dom';
 import SubmitButton from "@/components/Forms/SubmitButton";

@@ -8,8 +8,8 @@ export function tasksFilter(tasks: Task[], filters: TaskFilterItem[]) {
         if (typeof filter.values === 'string') {
           filter.values = filter.values.split(',');
         }
-        if (filter.key === TasksFilterParamEnum.ACTIONS && !filter.values.includes(`${task.action.id}`)
-        || filter.key === TasksFilterParamEnum.SERVICES && !filter.values.includes(`${task.service.id}`)) {
+        if (filter.key === TasksFilterParamEnum.ACTIONS && !filter.values.includes(`${task.action?.id}`)
+        || filter.key === TasksFilterParamEnum.SERVICES && !filter.values.includes(`${task.service?.id}`)) {
           result = false;
           return false;
         }
@@ -36,11 +36,11 @@ export function tasksSort(tasks: Task[], sort: string) {
         if (a.price === b.price) return 0;
         return a.price > b.price ? -1 : 1;
       case TaskSortEnum.DATE_ASC: 
-        if (a.created_at === b.created_at) return 0;
-        return a.created_at < b.created_at ? -1 : 1;
+        if (a.createdAt === b.createdAt) return 0;
+        return a.createdAt < b.createdAt ? -1 : 1;
       case TaskSortEnum.DATE_DESC: 
-        if (a.created_at === b.created_at) return 0;
-        return a.created_at > b.created_at ? -1 : 1;
+        if (a.createdAt === b.createdAt) return 0;
+        return a.createdAt > b.createdAt ? -1 : 1;
       default:
         return 0;
     }
@@ -54,11 +54,11 @@ export function tasksRelations(tasks: Task[]) {
   const services: Service[] = [];
 
   tasks.map((task) => {
-    if (!(task.action.id in actions)) {
-      actions[task.action.id] = task.action;
+    if (!(task.actionId in actions)) {
+      actions[task.actionId] = task.action as Action;
     }
-    if (!(task.service.id in services)) {
-      services[task.service.id] = task.service;
+    if (!(task.serviceId in services)) {
+      services[task.serviceId] = task.service as Service;
     }
   });
 
@@ -69,7 +69,6 @@ export function tasksStatusCount(tasks: Task[]) {
   const statusCount = {
     [TaskStatusEnum.ACTIVE]: 0,
     [TaskStatusEnum.PAUSED]: 0,
-    [TaskStatusEnum.SCHEDULED]: 0,
     [TaskStatusEnum.DONE]: 0,
     [TaskStatusEnum.DELETED]: 0,
   }

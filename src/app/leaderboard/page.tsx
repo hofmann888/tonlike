@@ -2,10 +2,9 @@
 
 import { User } from "@heroui/user";
 import { Card, CardBody } from "@heroui/card";
-import { fetchUsersLeaderboard } from "@/db/sql";
+import { fetchUsersLeaderboard } from "@/db/query";
 import CoinValue from "@/components/Common/CoinValue";
 import clsx from 'clsx';
-
 
 export default async function LeaderboardPage() {
   const users = await fetchUsersLeaderboard();
@@ -29,11 +28,11 @@ export default async function LeaderboardPage() {
             <User
               avatarProps={{
                 isBordered: true,
-                src: user.tg_photo_url,
+                src: user.tgPhotoUrl,
                 size: 'sm',
               }}
               className="w-3/6 justify-start"
-              name={`@${user.tg_username}`}
+              name={`@${user.tgUsername}`}
             />
 
             <div className="w-1/6 text-right text-medium"> <CoinValue value={user.balance} /></div>

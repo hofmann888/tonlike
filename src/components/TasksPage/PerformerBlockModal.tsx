@@ -10,10 +10,9 @@ import { useEffect, useRef, useState } from 'react';
 import PerformerBlockForm from "./PerformerBlockForm";
 
 export default function PerformerBlockModal({ 
-  blockUserId, taskId, isOpen, onOpenChange, performerBlocked
+  blockUserId, isOpen, onOpenChange, performerBlocked
 }: {
   blockUserId: number,
-  taskId: number,
   isOpen: boolean,
   onOpenChange: () => void,
   onClose: () => void,
@@ -55,7 +54,7 @@ export default function PerformerBlockModal({
             <ModalBody>
               {message.length 
                 ? message 
-                : <PerformerBlockForm formRef={formRef} blockUserId={blockUserId} taskId={taskId} afterSubmit={afterSubmit} />
+                : <PerformerBlockForm formRef={formRef} blockUserId={blockUserId} afterSubmit={afterSubmit} />
               }
             </ModalBody>
 

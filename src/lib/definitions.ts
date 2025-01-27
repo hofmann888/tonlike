@@ -99,7 +99,7 @@ export type Task = {
   count: number,
   done: number,
   status: TaskStatus,
-	createdAt?: Date,
+	createdAt: Date, // TODO?: undefined?
 	updatedAt?: Date,
 	deletedAt?: Date,
   service?: Service,

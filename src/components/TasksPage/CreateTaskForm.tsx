@@ -8,7 +8,7 @@ import { Form } from "@heroui/form";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
-import { CreateTaskFormSubmit } from "@/db/actions";
+import { CreateTaskFormSubmit } from "@/core/actions";
 import { CreateTaskFormState, Action, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
 import CoinIcon from "../Common/CoinIcon";
@@ -17,11 +17,12 @@ import CoinIcon from "../Common/CoinIcon";
 // TODO: format + validation (numbers float, link)
 // TODO: extended settings (schedule, timeout...)
 // TODO: errors view (currency and count)
-export default function CreateTaskForm({ actions, services }: { actions: Action[], services: Service[] }) {
+export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
 
-  const [serviceId, setServiceId] = useState('1');
   const [actionId, setActionId] = useState('1');
+  const [serviceId, setServiceId] = useState('1');
+  const [service, setService] = useState(services[0]);
   const [link, setLink] = useState('');
   const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input or remove decimals
   const [count, setCount] = useState<SliderValue>(10);
@@ -33,11 +34,11 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
 
-  const service = services.find((service) => `${service.id}` === serviceId);
-  const actionsFiltered = actions.filter((action: Action) => service?.actionIds && service.actionIds.includes(action.id));
-  
   useEffect(() => {
-    service?.actionIds && setActionId(`${service?.actionIds[0]}`);
+    const selectedService = services.find((service) => `${service.id}` === serviceId) as Service;
+    setService(selectedService);
+    const selectedActionId = selectedService.actions ? selectedService?.actions[0]?.id as any as string : '0';
+    setActionId(selectedActionId); // TODO: action select options list on epmty
   }, [serviceId]);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
                 alt={item.data?.name}
                 className="flex-shrink-0"
                 size="sm"
-                src={item.data?.img}
+                src={item.data?.icon}
               />
               <div className="flex flex-col">
                 <span>{item.data?.name}</span>
@@ -88,7 +89,7 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
           <SelectItem
             key={service.id}
             startContent={
-              <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
+              <Avatar alt={service.name} className="w-6 h-6" src={service.icon} />
             }
           >
             {service.name}
@@ -100,14 +101,15 @@ export default function CreateTaskForm({ actions, services }: { actions: Action[
         name="actionId" 
         label="Action" 
         variant="bordered"
-        items={actionsFiltered}
+        items={service.actions}
         selectedKeys={[actionId]}
         onChange={(e) => setActionId(e.target.value)}
         disallowEmptySelection
       >
-        {actionsFiltered.map((action) => (
-          <SelectItem key={action.id}>{action.name}</SelectItem>
-        ))}
+        {service.actions 
+          ? service.actions.map((action) => (<SelectItem key={action.id}>{action.name}</SelectItem>))
+          : <SelectItem key={0}>No items</SelectItem>
+        }
       </Select>
 
       <Input 

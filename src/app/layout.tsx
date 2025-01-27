@@ -31,7 +31,7 @@ export default async function RootLayout({
 }>) {
   console.log('layout.tsx');
   const session = await getSession();
-  console.log('layout.tsx session:', session);
+  // console.log('layout.tsx session:', session);
 
   const defaultTheme = 'dark';
 
