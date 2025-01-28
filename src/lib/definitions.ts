@@ -170,11 +170,31 @@ export type TaskEarningStatus = TaskEarningStatusEnum.DONE | TaskEarningStatusEn
 
 export type TaskEarning = {
   id: number,
-  task_id: number,
-  user_id: number,
+  taskId: number,
+  userId: number,
   profit: number,
   status: TaskEarningStatus,
-  created_at: number,
+  createdAt: number,
+}
+
+export type Quest = {
+  id: number,
+  serviceId: number,
+  actionId: number,
+  link?: string,
+  title?: string,
+  price: number,
+  countPerUser: number,
+  daily: boolean,
+  priority: number,
+  active: boolean,
+  doneCount?: number, 
+  doneLastAt?: Date, // TODO?: doneLastDate
+	createdAt: Date, // TODO?: undefined?
+	updatedAt?: Date,
+	deletedAt?: Date,
+  service?: Service,
+  action?: Action,
 }
 
 export type Report = {

@@ -1,8 +1,9 @@
-import { users, services, actions, serviceActions } from './seed-data';
+// import { users, services, actions, serviceActions } from './seed-data';
 import { TaskStatusEnum } from "@/lib/definitions";
 import { seed } from "drizzle-seed";
 import { sql } from 'drizzle-orm';
 import { db } from "../db";
+import * as seedData from "./seed-data";
 import * as schema from "../schema";
 
 async function main() {
@@ -12,7 +13,56 @@ async function main() {
   await seedServices();
   await seedActions();
   await seedServiceActions();
+  await seedQuests();
+  await seedTasksWithRelations();
+}
 
+async function clearData() {
+  console.log('clearData');
+  await db.delete(schema.blackList);
+  await db.delete(schema.reports);
+  await db.delete(schema.questEarnings);
+  await db.delete(schema.taskEarnings);
+  await db.delete(schema.quests);
+  await db.delete(schema.tasks);
+  await db.delete(schema.serviceActions);
+  await db.delete(schema.actions);
+  await db.delete(schema.services);
+  await db.delete(schema.users);
+}
+
+async function seedUsers() {
+  console.log('seedUsers');
+  await db.execute(sql`alter sequence users_id_seq restart with 1`);
+  await db.insert(schema.users).values(seedData.users);
+}
+
+async function seedServices() {
+  console.log('seedServices');
+  await db.execute(sql`alter sequence services_id_seq restart with 1`);
+  await db.insert(schema.services).values(seedData.services);
+}
+
+async function seedActions() {
+  console.log('seedActions');
+  await db.execute(sql`alter sequence actions_id_seq restart with 1`);
+  await db.insert(schema.actions).values(seedData.actions);
+}
+
+async function seedServiceActions() {
+  console.log('seedServiceActions');
+  await db.execute(sql`alter sequence service_actions_id_seq restart with 1`);
+  await db.insert(schema.serviceActions).values(seedData.serviceActions);
+}
+
+async function seedQuests() {
+  console.log('seedQuests');
+  await db.execute(sql`alter sequence quests_id_seq restart with 1`);
+  await db.insert(schema.quests).values(seedData.quests);
+}
+
+async function seedTasksWithRelations() {
+  console.log('seeedTasksWithRelations');
   await seed(db, { 
     tasks: schema.tasks,
     taskEarnings: schema.taskEarnings,
@@ -71,41 +121,5 @@ async function main() {
   await db.execute(sql`alter sequence black_list_id_seq restart with 2`);
 }
 
-async function seedUsers() {
-  console.log('seedUsers');
-  await db.execute(sql`alter sequence users_id_seq restart with 1`);
-  await db.insert(schema.users).values(users);
-}
-
-async function seedServices() {
-  console.log('seedServices');
-  await db.execute(sql`alter sequence services_id_seq restart with 1`);
-  await db.insert(schema.services).values(services);
-}
-
-async function seedActions() {
-  console.log('seedActions');
-  await db.execute(sql`alter sequence actions_id_seq restart with 1`);
-  await db.insert(schema.actions).values(actions);
-}
-
-async function seedServiceActions() {
-  console.log('seedServiceActions');
-  await db.execute(sql`alter sequence service_actions_id_seq restart with 1`);
-  await db.insert(schema.serviceActions).values(serviceActions);
-}
-
-async function clearData() {
-  await db.delete(schema.blackList);
-  await db.delete(schema.reports);
-  await db.delete(schema.questEarnings);
-  await db.delete(schema.taskEarnings);
-  await db.delete(schema.quests);
-  await db.delete(schema.tasks);
-  await db.delete(schema.serviceActions);
-  await db.delete(schema.actions);
-  await db.delete(schema.services);
-  await db.delete(schema.users);
-}
 
 main();

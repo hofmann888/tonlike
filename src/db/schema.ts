@@ -50,6 +50,8 @@ export const services = pgTable('services', {
   name: varchar({ length: 255 }).notNull(),
   icon: varchar({ length: 255 }), // TODO?: iconUrl? not null?
   active: boolean().notNull().default(true),
+  // TODO?: title?
+  // TODO?: hidden?
   // TODO?: timestamps?
 });
 
@@ -171,19 +173,24 @@ export const taskEarningRelations = relations(taskEarnings, ({ one }) => ({
   }),
 }));
 
-// =============== Quests =============== // TODO: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
+// =============== Quests =============== 
+// TODO: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
+//       mb one table tasks and split task_earnings and quest_earnings??
 export const quests = pgTable('quests', {
   id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
   serviceId: integer('service_id').notNull().references(() => services.id),
   actionId: integer('action_id').notNull().references(() => actions.id),
-  link: varchar({ length: 255 }).notNull(),
+  link: varchar({ length: 255 }),
+  title: varchar({ length: 255 }),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
-  count: integer().notNull().default(1), // TODO?: countPerUser
+  countPerUser: integer('count_per_user').notNull().default(1),
   daily: boolean().notNull().default(false),
+  priority: integer().notNull().default(0), // TODO?: order?
   active: boolean().notNull().default(true),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
+  // count TODO?: tipo limited quests?  
   // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });
 
@@ -197,7 +204,7 @@ export const questsRelations = relations(quests, ({ one, many }) => ({
     references: [actions.id],
   }),
   earnings: many(questEarnings),
-  // serviceAction: one(serviceActions, { // TODO: service, action
+  // serviceAction: one(serviceActions, { // TODO!?
   //   fields: [quests.serviceActionId],
   //   references: [serviceActions.id],
   // }),

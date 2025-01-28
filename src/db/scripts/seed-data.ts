@@ -22,275 +22,82 @@ export const users = [
 ];
 
 export const services = [
-  {
-    // id: 1,
-    name: 'Telegram',
-    icon: '/img/social/telegram.png',
-    active: true,
-  },
-  {
-    // id: 2,
-    name: 'X',
-    icon: '/img/social/x.png',
-    active: true,
-  },
-  {
-    // id: 3,
-    name: 'Instagram',
-    icon: '/img/social/instagram.png',
-    active: true,
-  },
-  {
-    // id: 4,
-    name: 'TikTok',
-    icon: '/img/social/tiktok.png',
-    active: true,
-  },
-  {
-    // id: 5,
-    name: 'YouTube',
-    icon: '/img/social/youtube.png',
-    active: true,
-  },
-  {
-    // id: 6,
-    name: 'VK',
-    icon: '/img/social/vk.png',
-    active: true,
-  },
-  {
-    // id: 7,
-    name: 'Farcaster',
-    icon: '/img/social/farcaster.png',
-    active: true,
-  },
-  {
-    // id: 8,
-    name: 'Link',
-    icon: '/img/social/link.png',
-    active: true,
-  },
-  {
-    // id: 8,
-    name: 'test',
-    active: false,
-  },
+  { name: 'App', active: false }, // id: 1, //icon: '/img/social/app.png',
+  { name: 'Telegram', icon: '/img/social/telegram.png', active: true }, // id: 2,
+  { name: 'X', icon: '/img/social/x.png', active: true }, // id: 3,
+  { name: 'Instagram', icon: '/img/social/instagram.png', active: true }, // id: 4,
+  { name: 'TikTok', icon: '/img/social/tiktok.png', active: true }, // id: 5,
+  { name: 'YouTube', icon: '/img/social/youtube.png', active: true }, // id: 6,
+  { name: 'VK', icon: '/img/social/vk.png', active: true }, // id: 7,
+  { name: 'Farcaster', icon: '/img/social/farcaster.png', active: true }, // id: 8,
+  { name: 'Link', icon: '/img/social/link.png', active: true }, // id: 9,
+  { name: 'test', active: false }, // id: 10,
 ];
 
 export const actions = [
-  {
-    // id: 1,
-    name: 'View',
-    active: true,
-  },
-  {
-    // id: 2,
-    name: 'Like',
-    active: true,
-  },
-  {
-    // id: 3,
-    name: 'Repost',
-    active: true,
-  },
-  {
-    // id: 4,
-    name: 'Comment',
-    active: true,
-  },
-  {
-    // id: 5,
-    name: 'Vote',
-    active: true,
-  },
-  {
-    // id: 6,
-    name: 'Subscribe',
-    active: true,
-  },
-  {
-    // id: 7,
-    name: 'Boost',
-    active: true,
-  },
+  // Tasks
+  { name: 'View', active: true }, // id: 1,
+  { name: 'Like', active: true }, // id: 2,
+  { name: 'Repost', active: true }, // id: 3,
+  { name: 'Comment', active: true }, // id: 4,
+  { name: 'Vote', active: true }, // id: 5,
+  { name: 'Subscribe', active: true}, // id: 6,
+  { name: 'Boost', active: true }, // id: 7,
+  // Quests
+  { name: 'Check-in', active: true }, // id: 8,
+  { name: 'Watch Ad', active: true }, // id: 9,
+  { name: 'Invite a friend', active: true }, // id: 10,
+  { name: 'Complete a task', active: true }, // id: 11,
+  { name: 'Complete a quest', active: true }, // id: 12,
+  { name: 'Sign app to exchange + KYC', active: true }, // id: 13,
 ];
 
 export const serviceActions = [
   // Telegram
-  {
-    // id: 1,
-    serviceId: 1,
-    actionId: 1,
-    active: true,
-  },
-  {
-    // id: 2,
-    serviceId: 1,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 3,
-    serviceId: 1,
-    actionId: 4,
-    active: true,
-  },
-  {
-    // id: 4,
-    serviceId: 1,
-    actionId: 5,
-    active: true,
-  },
-  {
-    // id: 5,
-    serviceId: 1,
-    actionId: 6,
-    active: true,
-  },
-  {
-    // id: 6,
-    serviceId: 1,
-    actionId: 7,
-    active: true,
-  },
+  { serviceId: 2, actionId: 1, active: true }, // id: 1,
+  { serviceId: 2, actionId: 2, active: true }, // id: 2,
+  { serviceId: 2, actionId: 4, active: true }, // id: 3,
+  { serviceId: 2, actionId: 5, active: true }, // id: 4,
+  { serviceId: 2, actionId: 6, active: true }, // id: 5,
+  { serviceId: 2, actionId: 7, active: true }, // id: 6,
   // X
-  {
-    // id: 7,
-    serviceId: 2,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 8,
-    serviceId: 2,
-    actionId: 3,
-    active: true,
-  },
-  {
-    // id: 9,
-    serviceId: 2,
-    actionId: 4,
-    active: true,
-  },
-  {
-    // id: 10,
-    serviceId: 2,
-    actionId: 6,
-    active: true,
-  },
+  { serviceId: 3, actionId: 2, active: true }, // id: 7,
+  { serviceId: 3, actionId: 3, active: true }, // id: 8,
+  { serviceId: 3, actionId: 4, active: true }, // id: 9,
+  { serviceId: 3, actionId: 6, active: true }, // id: 10,
   // Instagram
-  {
-    // id: 11,
-    serviceId: 3,
-    actionId: 1,
-    active: true,
-  },
-  {
-    // id: 12,
-    serviceId: 3,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 13,
-    serviceId: 3,
-    actionId: 4,
-    active: true,
-  },
-  {
-    // id: 14,
-    serviceId: 3,
-    actionId: 6,
-    active: true,
-  },
+  { serviceId: 4, actionId: 1, active: true }, // id: 11,
+  { serviceId: 4, actionId: 2, active: true }, // id: 12,
+  { serviceId: 4, actionId: 4, active: true }, // id: 13,
+  { serviceId: 4, actionId: 6, active: true }, // id: 14,
   // TikTok
-  {
-    // id: 15,
-    serviceId: 4,
-    actionId: 1,
-    active: true,
-  },
-  {
-    // id: 16,
-    serviceId: 4,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 17,
-    serviceId: 4,
-    actionId: 4,
-    active: false,
-  },
-  {
-    // id: 18,
-    serviceId: 4,
-    actionId: 6,
-    active: true,
-  },
+  { serviceId: 5, actionId: 1, active: true }, // id: 15,
+  { serviceId: 5, actionId: 2, active: true }, // id: 16,
+  { serviceId: 5, actionId: 4, active: true }, // id: 17,
+  { serviceId: 5, actionId: 6, active: true }, // id: 18,
   // Youtube
-  {
-    // id: 19,
-    serviceId: 5,
-    actionId: 1,
-    active: true,
-  },
-  {
-    // id: 20,
-    serviceId: 5,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 21,
-    serviceId: 5,
-    actionId: 6,
-    active: false,
-  },
+  { serviceId: 6, actionId: 1, active: true }, // id: 19,
+  { serviceId: 6, actionId: 2, active: true }, // id: 20,
+  { serviceId: 6, actionId: 6, active: true }, // id: 21,
   // VK
-  {
-    // id: 22,
-    serviceId: 6,
-    actionId: 1,
-    active: true,
-  },
-  {
-    // id: 23,
-    serviceId: 6,
-    actionId: 2,
-    active: true,
-  },
-  {
-    // id: 24,
-    serviceId: 6,
-    actionId: 3,
-    active: true,
-  },
-  {
-    // id: 25,
-    serviceId: 6,
-    actionId: 4,
-    active: true,
-  },
-  {
-    // id: 26,
-    serviceId: 6,
-    actionId: 5,
-    active: true,
-  },
-  {
-    // id: 27,
-    serviceId: 6,
-    actionId: 6,
-    active: true,
-  },
+  { serviceId: 7, actionId: 1, active: true }, // id: 22,
+  { serviceId: 7, actionId: 2, active: true }, // id: 23,
+  { serviceId: 7, actionId: 3, active: true }, // id: 24,
+  { serviceId: 7, actionId: 4, active: true }, // id: 25,
+  { serviceId: 7, actionId: 5, active: true }, // id: 26,
+  { serviceId: 7, actionId: 6, active: true }, // id: 27,
+  // Farcaster
+  { serviceId: 8, actionId: 1, active: true }, // id: 28,
   // Link
-  {
-    // id: 28,
-    serviceId: 7,
-    actionId: 1,
-    active: true,
-  },
+  { serviceId: 9, actionId: 1, active: true }, // id: 29,
+  // App
+  { serviceId: 1, actionId: 8, active: true }, // id: 30,
+  { serviceId: 1, actionId: 9, active: true }, // id: 31,
+  { serviceId: 1, actionId: 10, active: true }, // id: 32,
+  { serviceId: 1, actionId: 11, active: true }, // id: 33,
+  { serviceId: 1, actionId: 12, active: true }, // id: 34,
+  { serviceId: 1, actionId: 13, active: true }, // id: 35,
+
 ]
 
 export const tasks = [
@@ -384,7 +191,7 @@ export const tasks = [
   },
 ];
 
-export const userEarnings = [
+export const taskEarnings = [
   {
     id: 1,
     user_id: 1,
@@ -392,6 +199,115 @@ export const userEarnings = [
     profit: 7,
     status: 'done',
   }
+];
+
+export const quests = [
+  { // Check-inn
+    // id: 1,
+    serviceId: 1,
+    actionId: 8,
+    price: 1,
+    countPerUser: 1,
+    daily: true,
+    priority: 100,
+  },
+  { // Whatch Ad
+    // id: 2,
+    serviceId: 1,
+    actionId: 9,
+    price: 2,
+    countPerUser: 20,
+    daily: true,
+    priority: 95,
+  },
+  { // Complete a task
+    // id: 3,
+    serviceId: 1,
+    actionId: 11,
+    price: 3,
+    countPerUser: 1,
+    daily: true,
+    priority: 90,
+  },
+  { // Subsctibe to App tg
+    // id: 4,
+    serviceId: 2,
+    actionId: 6,
+    link: '@myapp',
+    price: 4,
+    countPerUser: 1,
+    daily: false,
+    priority: 85,
+  },
+  { // Retweet Partner x post
+    // id: 5,
+    serviceId: 3,
+    actionId: 3,
+    link: '@partner.x.link',
+    price: 5,
+    countPerUser: 1,
+    daily: false,
+    priority: 80,
+  },
+  { // Invite a friend
+    // id: 6,
+    serviceId: 1,
+    actionId: 10,
+    price: 6,
+    countPerUser: 1,
+    daily: false,
+    priority: 75,
+  },
+  { // Invite 5 friends
+    // id: 7,
+    serviceId: 1,
+    actionId: 10,
+    title: 'Invite 5 friends',
+    price: 7,
+    countPerUser: 5,
+    daily: false,
+    priority: 70,
+  },
+  { // Complete 5 tasks
+    // id: 8,
+    serviceId: 1,
+    actionId: 11,
+    title: 'Complete 5 tasks',
+    price: 8,
+    countPerUser: 5,
+    daily: false,
+    priority: 65,
+  },
+  { // Complete 5 quests
+    // id: 9,
+    serviceId: 1,
+    actionId: 12,
+    title: 'Complete 5 quests',
+    price: 9,
+    countPerUser: 5,
+    daily: false,
+    priority: 60,
+  },
+  { // Sign app to exchange + KYC
+    // id: 10,
+    serviceId: 1,
+    actionId: 13,
+    price: 10,
+    countPerUser: 1,
+    daily: false,
+    priority: 50,
+  },
+  { // not active test
+    // id: 10,
+    serviceId: 1,
+    actionId: 1,
+    title: 'test',
+    price: 1,
+    countPerUser: 1,
+    daily: false,
+    priority: 1,
+    active: false,
+  },
 ];
 
 export const reports = [
