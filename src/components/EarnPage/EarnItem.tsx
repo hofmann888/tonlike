@@ -34,6 +34,7 @@ export default function EarnItem({
             alt={task.service?.name}
             size="sm"
             src={task.service?.icon}
+            className="w-10 h-10"
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>

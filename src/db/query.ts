@@ -2,8 +2,8 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, Performer, Service, Task, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns } from 'drizzle-orm';
+import { Action, Performer, Quest, Service, Task, TaskStatusEnum, User } from '@/lib/definitions';
+import { sql, and, eq, ne, gt, isNull, asc, desc, count, getTableColumns } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
@@ -189,6 +189,7 @@ export async function fetchServicesWithActions(active?: boolean) {
 }
 
 // ------------ TASKS ------------
+// TODO: check services and actions `active` field on fetch 
 export async function createTask(dto: dto.TaskInsertDTO) {
   console.log('createTask');
   try {
@@ -408,6 +409,43 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to execute query.');
+  }
+}
+
+// ------------ QUESTS ------------
+export async function fetchEarnQuestsByUserId(userId: number) {
+  console.log('fetchQuestsByUserId');
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(schema.quests), 
+        doneCount: count(schema.questEarnings.id),
+        doneLastAt: sql<Date>`MAX (${schema.questEarnings.createdAt})`.as('doneLastDate'),
+        service: getTableColumns(schema.services),
+        action: getTableColumns(schema.actions),
+      })
+      .from(schema.quests)
+      .leftJoin(schema.services, eq(schema.services.id, schema.quests.serviceId))
+      .leftJoin(schema.actions, eq(schema.actions.id, schema.quests.actionId))
+      .leftJoin(schema.questEarnings, 
+        and(
+          eq(schema.questEarnings.userId, userId),
+          eq(schema.questEarnings.questId, schema.quests.id),
+        )
+      )
+      .where(
+        and(
+          eq(schema.quests.active, true),
+        )
+      )
+      .groupBy(schema.quests.id, schema.services.id, schema.actions.id)
+      .orderBy(desc(schema.quests.priority))
+    ;
+
+    return data as Quest[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tasks data.');
   }
 }
 
