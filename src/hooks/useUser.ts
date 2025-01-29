@@ -9,10 +9,11 @@ export function useUser() {
 
   return {
     id: user?.id,
-    address: user?.address,
+    // address: user?.address,
+    reffererId: user?.referrerId,
     balance: user?.balance,
-    createdAt: user?.created_at,
-    updatedAt: user?.updated_at,
+    createdAt: user?.createdAt,
+    updatedAt: user?.updatedAt,
     tgId: initData?.user?.id,
     tgUserName: initData?.user?.username,
     tgFirstName: initData?.user?.firstName,

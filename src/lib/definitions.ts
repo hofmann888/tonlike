@@ -162,22 +162,22 @@ export type TaskFilterItem = {
   values: string | string[]
 }
 
-export enum TaskEarningStatusEnum {
-  DONE = 'done',
-  HIDDEN = 'hidden',
-}
-export type TaskEarningStatus = TaskEarningStatusEnum.DONE | TaskEarningStatusEnum.HIDDEN;
+// export enum TaskEarningStatusEnum {
+//   DONE = 'done',
+//   HIDDEN = 'hidden',
+// }
+// export type TaskEarningStatus = TaskEarningStatusEnum.DONE | TaskEarningStatusEnum.HIDDEN;
 
 export type TaskEarning = {
   id: number,
   taskId: number,
   userId: number,
   profit: number,
-  status: TaskEarningStatus,
-  createdAt: number,
+  createdAt: Date,
+  // status: TaskEarningStatus,
 }
 
-export type Quest = {
+export type Quest = { // TODO?: EarnQuest?
   id: number,
   serviceId: number,
   actionId: number,

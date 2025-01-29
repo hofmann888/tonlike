@@ -1,9 +1,9 @@
 'use server'
 
-import { updateUser, createTask, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById } from '../db/query';
+import { updateUserWithSession, createTask, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
-import { getAuthUser, setSession } from '@/app/auth/session';
+import { getAuthUser } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 
@@ -27,8 +27,7 @@ export async function DepositFormSubmit(prevState: DepostitFormState, formData: 
     const { amount } = validated.data;
     const balance = user.balance + amount;
 
-    const updatedUser = await updateUser(user.id, { balance });
-    await setSession(updatedUser);
+    await updateUserWithSession(user.id, { balance });
   } catch (error) {
     console.log('Operation Error:', error);
     return {
@@ -67,8 +66,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
     }
     const balance = user.balance - amount;
 
-    const updatedUser = await updateUser(user.id, { balance });
-    await setSession(updatedUser);
+    await updateUserWithSession(user.id, { balance });
   } catch (error) {
     console.log('Operation Error:', error);
     return {

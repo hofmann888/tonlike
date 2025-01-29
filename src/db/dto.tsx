@@ -21,8 +21,9 @@ export type TaskUpdateDTO = {
   status?: TaskStatus,
 }
 
+// export type TaskEarningInsertDTO = typeof schema.taskEarnings.$inferInsert;
 
-export type TaskEarningsInsertDTO = typeof schema.taskEarnings.$inferInsert;
+export type QuestEarningInsertDTO = typeof schema.questEarnings.$inferInsert;
 
 export type ReportInsertDTO = typeof schema.reports.$inferInsert;
 

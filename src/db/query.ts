@@ -2,11 +2,12 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, Performer, Quest, Service, Task, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, Performer, Quest, Service, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, count, getTableColumns } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
+import { setSession } from '@/app/auth/session';
 
 // TODO: errors
 // ? Failed to (fetch|update|insert|delete data) | (execute query)
@@ -35,15 +36,32 @@ export async function updateUser(id: number, dto: dto.UserUpdateDto) {
   console.log('updateUser');
 
   try {
-    const data = await db
+    const [data] = await db
       .update(schema.users)
       .set({ ...dto, updatedAt: sql`NOW()` })
       .where(eq(schema.users.id, id))
       .returning();
 
-    return data[0] as User;
+    if (!data) {
+      throw new Error('Wrong user ID!');
+    }
+
+    return data as User;
   } catch (error) {
     console.error('Database Error:', error);
+    throw new Error('Failed to update user data.');
+  }
+}
+
+export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) { // move to session? or just update user with param?
+  console.log('updateUserWithSession');
+  try {
+    const user = await updateUser(id, dto);
+    await setSession(user);
+    
+    return user;
+  } catch (error) {
+    console.error('Error:', error);
     throw new Error('Failed to update user data.');
   }
 }
@@ -84,6 +102,18 @@ export async function fetchUsersLeaderboard() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch users data.');
+  }
+}
+
+export async function fetchUserReferralsCount(userId: number) {
+  console.log('fetchUserReferralsCount');
+  try {
+    const data = await db.$count(schema.users, eq(schema.users.referrerId, userId));
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
   }
 }
 
@@ -412,43 +442,6 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
   }
 }
 
-// ------------ QUESTS ------------
-export async function fetchEarnQuestsByUserId(userId: number) {
-  console.log('fetchQuestsByUserId');
-  try {
-    const data = await db
-      .select({
-        ...getTableColumns(schema.quests), 
-        doneCount: count(schema.questEarnings.id),
-        doneLastAt: sql<Date>`MAX (${schema.questEarnings.createdAt})`.as('doneLastDate'),
-        service: getTableColumns(schema.services),
-        action: getTableColumns(schema.actions),
-      })
-      .from(schema.quests)
-      .leftJoin(schema.services, eq(schema.services.id, schema.quests.serviceId))
-      .leftJoin(schema.actions, eq(schema.actions.id, schema.quests.actionId))
-      .leftJoin(schema.questEarnings, 
-        and(
-          eq(schema.questEarnings.userId, userId),
-          eq(schema.questEarnings.questId, schema.quests.id),
-        )
-      )
-      .where(
-        and(
-          eq(schema.quests.active, true),
-        )
-      )
-      .groupBy(schema.quests.id, schema.services.id, schema.actions.id)
-      .orderBy(desc(schema.quests.priority))
-    ;
-
-    return data as Quest[];
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch tasks data.');
-  }
-}
-
 // ------------ TASK EARNINGS ------------
 export async function hideTaskEarningForUser(userId: number, taskId: number) { // TODO?: isHidden?
   console.log('hideUserEarning');
@@ -463,6 +456,24 @@ export async function hideTaskEarningForUser(userId: number, taskId: number) { /
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to insert data.');
+  }
+}
+
+export async function fetchLastTaskEarningByUserId(userId: number) {
+  try {
+    const data = await db.query.taskEarnings.findFirst({ 
+      where: 
+        and(
+          eq(schema.taskEarnings.userId, userId),
+          ne(schema.taskEarnings.profit, 0)
+        ),
+      orderBy: desc(schema.taskEarnings.createdAt),
+    });
+    
+    return data as TaskEarning;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch task data.');
   }
 }
 
@@ -532,6 +543,122 @@ export async function userInBlackList(userId: number, blockedUserId: number) {
 
   return !!data?.id;
 }
+
+
+
+// ------------ QUESTS ------------
+export async function fetchQuestById(id: number) {
+  try {
+    const data = await db.query.quests.findFirst({ where: eq(schema.quests.id, id) });
+    
+    return data as Quest;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch quest data.');
+  }
+}
+
+export async function fetchEarnQuestsByUserId(userId: number) {
+  console.log('fetchQuestsByUserId');
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(schema.quests), 
+        doneCount: count(schema.questEarnings.id),
+        doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`.as('doneLastDate'),
+        service: getTableColumns(schema.services),
+        action: getTableColumns(schema.actions),
+      })
+      .from(schema.quests)
+      .leftJoin(schema.services, eq(schema.services.id, schema.quests.serviceId))
+      .leftJoin(schema.actions, eq(schema.actions.id, schema.quests.actionId))
+      .leftJoin(schema.questEarnings, 
+        and(
+          eq(schema.questEarnings.userId, userId),
+          eq(schema.questEarnings.questId, schema.quests.id),
+        )
+      )
+      .where(
+        and(
+          eq(schema.quests.active, true),
+        )
+      )
+      .groupBy(schema.quests.id, schema.services.id, schema.actions.id)
+      .orderBy(desc(schema.quests.priority))
+    ;
+
+    return data as Quest[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tasks data.');
+  }
+}
+
+// ------------ QUESTS EARNINGS ------------
+export async function createQuestEarning(dto: dto.QuestEarningInsertDTO) {
+  console.log('createQuestEarning');
+  try {
+    const data = await db
+      .insert(schema.questEarnings)
+      .values(dto)
+      .returning({ id: schema.reports.id })
+    ;
+
+    return data[0]?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to insert data.');
+  }
+}
+
+export async function fetchLastDateUserDoneQuest(userId: number, questId: number) {
+  try {
+    const data = await db.query.questEarnings.findFirst({ 
+      columns: { createdAt: true },
+      where: and(
+        eq(schema.questEarnings.userId, userId),
+        eq(schema.questEarnings.questId, questId),
+      ),
+      orderBy: desc(schema.questEarnings.createdAt)
+    })
+
+    return data?.createdAt as Date;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch tasks data.');
+    }
+}
+
+//- - - - - - - - - - - - -
+// TODO?
+// SELECT (CURRENT_DATE - '2025-01-27 22:00:01.870075'::date) AS difference_in_days; # days between midnight
+// SELECT DATE_PART('day', CURRENT_TIMESTAMP - '2025-01-27 07:46:01.870075'::timestamp) AS days; # days beetwen time
+// export async function questCheckDaily(userId: number, questId: number) { // TODO?: fetchLastDateUserDoneQuest
+//   console.log('questCheckDayli');
+//   try {
+//     const [data] = await db
+//       .select({
+//         dailyCheck: sql<boolean>`DATE_PART('day', CURRENT_TIMESTAMP - MAX(${schema.questEarnings.createdAt})::timestamp) > 0`.as('dailyCheck'),
+//       })
+//       .from(schema.questEarnings)
+//       .where(
+//         and(
+//           eq(schema.questEarnings.userId, userId),
+//           eq(schema.questEarnings.questId, questId),
+//         )
+//       )
+//     ;
+
+//     return data.dailyCheck === null ? true : data.dailyCheck;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to exucute query.');
+//   }
+// }
+//- - - - - - - - - - - - -
+
+
+
 
 
 

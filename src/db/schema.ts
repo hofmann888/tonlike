@@ -190,6 +190,7 @@ export const quests = pgTable('quests', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
+  // showLink TODO?
   // count TODO?: tipo limited quests?  
   // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });

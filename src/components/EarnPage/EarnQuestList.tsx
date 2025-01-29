@@ -1,16 +1,8 @@
 'use client'
 
+import { Chip } from "@heroui/chip";
 import { Quest } from "@/lib/definitions";
 import EarnQuestItem from "./EarnQuestItem";
-
-
-
-
-import { Card, CardBody } from "@heroui/card";
-import { Avatar } from "@heroui/avatar";
-import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
-import { Chip } from "@heroui/chip";
 
 export default function EarnQuestList({ quests }: { quests: Quest[] }) {
   console.log('EarnQuestList');

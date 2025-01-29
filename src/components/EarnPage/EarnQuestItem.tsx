@@ -1,5 +1,3 @@
-
-
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
@@ -7,22 +5,42 @@ import { Link } from "@heroui/link";
 import { Quest } from "@/lib/definitions";
 import { actionIcons } from "@/lib/icons";
 import { IconType } from "react-icons";
+import { checkDailyDone } from "@/utils/helpers";
+import { checkQuest } from "@/utils/quest-checks";
+import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
+
 
 export default function EarnQuestItem({ quest }: { quest: Quest }) {
   const title = quest.title ? quest.title : quest.action?.name;
-
   const iconKey = quest.actionId as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
+  const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
+  const countDone = !quest.daily && !!quest?.doneCount && quest?.doneCount >= quest.countPerUser; 
+  const questIsDone = dailyDone || countDone;
+
+  const [loading, setLoading] = useState(false);
+
+  async function startClick() {
+    console.log('startClick');    
+    setLoading(true);
+
+    const check = await checkQuest(quest.id);
+    if (check) {
+      console.log('startClick check:', check);
+    }
+    setLoading(false);
+  }
 
   return (
     <Card 
+      key={quest.id}
       isBlurred
       className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
       shadow="sm"
     >
       <CardBody className="flex-row justify-between items-center">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Avatar
             alt={quest.service?.name}
             // size="sm"
@@ -59,7 +77,16 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
           </div>
 
           <div className="flex items-center">
-            <Button color="primary" variant="bordered" className="btn-border-shadow mr-3">Start</Button>
+            <Button 
+              color="primary" 
+              variant="bordered" 
+              className="btn-border-shadow mr-3" 
+              isDisabled={questIsDone}
+              onPress={startClick}
+              isLoading={loading}
+            >
+              {!loading && `Start`}
+            </Button>
           </div>
         </div>
       </CardBody>
