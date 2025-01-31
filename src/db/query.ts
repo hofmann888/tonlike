@@ -2,7 +2,7 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, Performer, Quest, Service, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, count, getTableColumns } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
@@ -179,43 +179,37 @@ export async function fetchServicesWithActions(active?: boolean) {
     const data = await db.query.services.findMany({ 
       with: { 
         serviceActions: { 
-          columns: {},
+          // columns: {},
           where: eq(schema.serviceActions.active, true),
           with: { 
-            action: true,
+            action: true, // TODO?: check action active
           } 
         } 
       },
       orderBy: [asc(schema.services.id)],
-      ...(active !== undefined && { where: eq(schema.actions.active, active) })
+      ...(active !== undefined && { where: eq(schema.services.active, active) })
     });
-  
-    // const data = await prepared.execute(); // TODO?
-    const formatedData = [] as Service[];
-  
-    if (data.length) {
-      data.map((dataItem) => { // TODO?: DTO
-        const service = { 
-          id: dataItem.id, 
-          name: dataItem.name,
-          title: dataItem.title, 
-          icon: dataItem.icon, 
-          active: dataItem.active, 
-          actions: [] as Action[] 
-        };
-        if (dataItem.serviceActions.length) {
-          dataItem.serviceActions.map((serviceAction) => {
-            service.actions.push(serviceAction.action as Action);
-          })
-        }
-        formatedData.push(service as Service);
-      });
-    }
-  
-    return formatedData as Service[];
+
+    return data as Service[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch services data.');
+  }
+}
+
+// ------------ SERVICE ACTIONS ------------ 
+export async function fetchServiceActionById(id: number, relations: boolean = false) {
+  console.log('fetchServiceActionById');
+  try {
+    const data = await db.query.serviceActions.findFirst({ 
+      where: eq(schema.services.id, id),
+      ...(relations && { with: {service: true, action: true} })
+    });
+
+    return data as ServiceAction;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch service data.');
   }
 }
 
@@ -280,14 +274,20 @@ export async function fetchTaskById(id: number) {
 export async function fetchTasksByUserId(userId: number) {
   console.log('fetchTasksByUserId');
   try {
-    const data = await db.query.tasks.findMany({ 
-      where: eq(schema.tasks.userId, userId),
-      with: {
-        action: true,
-        service: true,
-      },
-      orderBy: [desc(schema.tasks.createdAt)],
-    });
+    const data = await db
+      .select({
+        ...getTableColumns(schema.tasks), 
+        service: getTableColumns(schema.services),
+        action: getTableColumns(schema.actions),
+        serviceAction: getTableColumns(schema.serviceActions),
+      })
+      .from(schema.tasks)
+      .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.tasks.serviceActionId))
+      .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
+      .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
+      .where(eq(schema.tasks.userId, userId))
+      .orderBy(desc(schema.tasks.createdAt))
+    ;
 
     return data as Task[];
   } catch (error) {
@@ -304,10 +304,12 @@ export async function fetchEarnTasksByUserId(userId: number) {
         ...getTableColumns(schema.tasks), 
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
+        serviceAction: getTableColumns(schema.serviceActions),
       })
       .from(schema.tasks)
-      .leftJoin(schema.services, eq(schema.services.id, schema.tasks.serviceId))
-      .leftJoin(schema.actions, eq(schema.actions.id, schema.tasks.actionId))
+      .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.tasks.serviceActionId))
+      .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
+      .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
       .leftJoin(schema.taskEarnings, 
         and(
           eq(schema.taskEarnings.taskId, schema.tasks.id), 
@@ -324,6 +326,9 @@ export async function fetchEarnTasksByUserId(userId: number) {
         and(
           ne(schema.tasks.userId, userId),
           eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
+          eq(schema.serviceActions.active, true),
+          eq(schema.services.active, true),
+          eq(schema.actions.active, true),
           isNull(schema.reports.id),
           isNull(schema.taskEarnings.id),
         )
@@ -569,10 +574,12 @@ export async function fetchEarnQuestsByUserId(userId: number) {
         doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`.as('doneLastDate'),
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
+        serviceAction: getTableColumns(schema.serviceActions),
       })
       .from(schema.quests)
-      .leftJoin(schema.services, eq(schema.services.id, schema.quests.serviceId))
-      .leftJoin(schema.actions, eq(schema.actions.id, schema.quests.actionId))
+      .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.quests.serviceActionId))
+      .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
+      .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
       .leftJoin(schema.questEarnings, 
         and(
           eq(schema.questEarnings.userId, userId),
@@ -584,7 +591,7 @@ export async function fetchEarnQuestsByUserId(userId: number) {
           eq(schema.quests.active, true),
         )
       )
-      .groupBy(schema.quests.id, schema.services.id, schema.actions.id)
+      .groupBy(schema.quests.id, schema.serviceActions.id, schema.services.id, schema.actions.id,)
       .orderBy(desc(schema.quests.priority))
     ;
 

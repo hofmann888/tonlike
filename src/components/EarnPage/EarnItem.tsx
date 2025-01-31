@@ -22,6 +22,8 @@ export default function EarnItem({
   onHideClick: (id: number) => void,
   onReportClick: (id: number) => void
 }) {
+  const actionTitle = task.serviceAction?.title ?? task.action?.title;
+
   return (
     <Card 
       isBlurred
@@ -40,7 +42,7 @@ export default function EarnItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{task.action?.title}</span>
+            <span className="text-small text-foreground-400">{actionTitle}</span>
           </div>
         </div>
 

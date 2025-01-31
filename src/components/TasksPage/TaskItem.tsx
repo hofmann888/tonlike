@@ -34,6 +34,8 @@ export default function TaskItem({
   const [showPerformers, setShowPerformers] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
 
+  const actionTitle = task.serviceAction?.title ?? task.action?.title;
+
   async function onPerformersClick() {
     if (showPerformers) {
       setShowPerformers(false);
@@ -72,7 +74,7 @@ export default function TaskItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{task.action?.title}</span>
+            <span className="text-small text-foreground-400">{actionTitle}</span>
           </div>
         </div>
 

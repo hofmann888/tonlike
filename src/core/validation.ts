@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fetchActionById, fetchServiceById } from '@/db/query';
+import { fetchServiceActionById } from '@/db/query';
 import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
 // import { CurrencyEnum } from '@/lib/definitions';
 
@@ -13,21 +13,25 @@ export const withdrawFormSchema = z.object({
 });
 
 
-export const createTaskFormSchema = z.object({ // TODO: just check service_action
-  actionId: z.coerce.number().positive().refine(async (id) => {
-    const action = await fetchActionById(id);
-    return !!action?.id;
-  }, { message: "Action doesn't exists." }),
-  serviceId: z.coerce.number().positive().refine(async (id) => {
-    const service = await fetchServiceById(id);
-    return !!service?.id;
-  }, { message: "Service doesn't exists." }),
+export const createTaskFormSchema = z.object({
+  serviceActionId: z.coerce.number().positive().refine(async (id) => {
+    const serviceAction = await fetchServiceActionById(id, true);
+    return serviceAction.active && serviceAction.service?.active && serviceAction.action?.active;
+  }, { message: "Wrong service action." }),
   link: z.string()
-    .min(3, { message:'Must be 3 or more characters long' })
-    .max(255, { message: "Must be 255 or fewer characters long" }),
+  .min(3, { message:'Must be 3 or more characters long' })
+  .max(255, { message: "Must be 255 or fewer characters long" }),
   price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
-  // currency: z.enum([CurrencyEnum.COIN]), //CurrencyEnum.USDT
   count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
+  // actionId: z.coerce.number().positive().refine(async (id) => {
+  //   const action = await fetchActionById(id);
+  //   return !!action?.id;
+  // }, { message: "Action doesn't exists." }),
+  // serviceId: z.coerce.number().positive().refine(async (id) => {
+  //   const service = await fetchServiceById(id);
+  //   return !!service?.id;
+  // }, { message: "Service doesn't exists." }),
+  // currency: z.enum([CurrencyEnum.COIN]), //CurrencyEnum.USDT
 });
 
 export const editTaskFormSchema = z.object({

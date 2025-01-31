@@ -1,5 +1,5 @@
-import { TaskStatusEnum, TaskEarningStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
-import { pgTable, pgEnum, AnyPgColumn, primaryKey, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
+import { pgTable, pgEnum, AnyPgColumn, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from 'drizzle-orm';
 
 // TODO: add indexes in db
@@ -78,11 +78,14 @@ export const serviceActions = pgTable('service_actions', {
   id: smallint().primaryKey().generatedByDefaultAsIdentity(),
   serviceId: smallint('service_id').notNull().references(() => services.id),
   actionId: smallint('action_id').notNull().references(() => actions.id),
+  name: varchar({ length: 255 }),
+  title: varchar({ length: 255 }),
   active: boolean().notNull().default(true),
   // TODO?: timestamps?
-}, (t) => ([{ 
-  pk: primaryKey({ columns: [t.serviceId, t.actionId] })
-}]));
+});
+// (t) => ([{ 
+//   pk: primaryKey({ columns: [t.serviceId, t.actionId] })
+// }]));
 
 export const serviceActionsRelations = relations(serviceActions, ({ one }) => ({
   service: one(services, {
@@ -108,8 +111,7 @@ export const taskStatusEnum = pgEnum('task_status', [
 export const tasks = pgTable('tasks', {
   id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
   userId: integer('user_id').notNull().references(() => users.id),
-  serviceId: integer('service_id').notNull().references(() => services.id),
-  actionId: integer('action_id').notNull().references(() => actions.id),
+  serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
   link: varchar({ length: 255 }).notNull(),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vryd ly...hotya...
   count: integer().notNull(),
@@ -118,8 +120,9 @@ export const tasks = pgTable('tasks', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
+  // serviceId: integer('service_id').notNull().references(() => services.id),
+  // actionId: integer('action_id').notNull().references(() => actions.id),
   // currency: CurrencyEnum // TODO
-  // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });
 
 export const tasksRelations = relations(tasks, ({ one, many }) => ({
@@ -127,21 +130,20 @@ export const tasksRelations = relations(tasks, ({ one, many }) => ({
     fields: [tasks.userId],
     references: [users.id],
   }),
-  service: one(services, {
-    fields: [tasks.serviceId],
-    references: [services.id],
-  }),
-  action: one(actions, {
-    fields: [tasks.actionId],
-    references: [actions.id],
+  serviceAction: one(serviceActions, { // TODO?: service, action
+    fields: [tasks.serviceActionId],
+    references: [serviceActions.id],
   }),
   earnings: many(taskEarnings),
   reports: many(reports),
-  // serviceAction: one(serviceActions, { // TODO?: service, action
-  //   fields: [tasks.serviceActionId],
-  //   references: [serviceActions.id],
+  // service: one(services, {
+  //   fields: [tasks.serviceId],
+  //   references: [services.id],
   // }),
-  
+  // action: one(actions, {
+  //   fields: [tasks.actionId],
+  //   references: [actions.id],
+  // }),
 }));
 
 
@@ -176,11 +178,10 @@ export const taskEarningRelations = relations(taskEarnings, ({ one }) => ({
 
 // =============== Quests =============== 
 // TODO: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
-//       mb one table tasks and split task_earnings and quest_earnings??
+//       mb one table tasks and split task_earnings and quest_earnings??...vryad li
 export const quests = pgTable('quests', {
   id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
-  serviceId: integer('service_id').notNull().references(() => services.id),
-  actionId: integer('action_id').notNull().references(() => actions.id),
+  serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
   link: varchar({ length: 255 }),
   title: varchar({ length: 255 }),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
@@ -191,24 +192,25 @@ export const quests = pgTable('quests', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
+  // serviceId: integer('service_id').notNull().references(() => services.id),
+  // actionId: integer('action_id').notNull().references(() => actions.id),
   // showLink TODO?
   // count TODO?: tipo limited quests?  
-  // serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
 });
 
 export const questsRelations = relations(quests, ({ one, many }) => ({
-  service: one(services, {
-    fields: [quests.serviceId],
-    references: [services.id],
-  }),
-  action: one(actions, {
-    fields: [quests.actionId],
-    references: [actions.id],
+  serviceAction: one(serviceActions, { // TODO!?
+    fields: [quests.serviceActionId],
+    references: [serviceActions.id],
   }),
   earnings: many(questEarnings),
-  // serviceAction: one(serviceActions, { // TODO!?
-  //   fields: [quests.serviceActionId],
-  //   references: [serviceActions.id],
+  // service: one(services, {
+  //   fields: [quests.serviceId],
+  //   references: [services.id],
+  // }),
+  // action: one(actions, {
+  //   fields: [quests.actionId],
+  //   references: [actions.id],
   // }),
 }));
 

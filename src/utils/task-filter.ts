@@ -54,11 +54,11 @@ export function tasksRelations(tasks: Task[]) {
   const services: Service[] = [];
 
   tasks.map((task) => {
-    if (!(task.actionId in actions)) {
-      actions[task.actionId] = task.action as Action;
+    if (task.action?.id && !(task.action.id in actions)) {
+      actions[task.action.id] = task.action as Action;
     }
-    if (!(task.serviceId in services)) {
-      services[task.serviceId] = task.service as Service;
+    if (task.service?.id && !(task.service.id in services)) {
+      services[task.service.id] = task.service as Service;
     }
   });
 

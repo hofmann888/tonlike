@@ -20,8 +20,8 @@ import CoinIcon from "../Common/CoinIcon";
 export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
 
-  const [actionId, setActionId] = useState('1');
-  const [serviceId, setServiceId] = useState('1');
+  const [serviceActionId, setServiceActionId] = useState('1');
+  const [serviceId, setServiceId] = useState('2');
   const [service, setService] = useState(services[0]);
   const [link, setLink] = useState('');
   const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input or remove decimals
@@ -37,13 +37,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   useEffect(() => {
     const selectedService = services.find((service) => `${service.id}` === serviceId) as Service;
     setService(selectedService);
-    const selectedActionId = selectedService.actions ? selectedService?.actions[0]?.id as any as string : '0';
-    setActionId(selectedActionId); // TODO: action select options list on epmty
+    const selectedServiceActionId = selectedService.serviceActions ? selectedService.serviceActions[0].id as any as string : '0';
+    setServiceActionId(selectedServiceActionId); // TODO: action select options list on epmty
   }, [serviceId]);
 
   useEffect(() => {
     setLink('');
-  }, [serviceId, actionId]);
+  }, [serviceId, serviceActionId]);
 
   useEffect(() => {
     setSum(price * Number(count));
@@ -98,16 +98,16 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </Select>
 
       <Select 
-        name="actionId" 
+        name="serviceActionId" 
         label="Action" 
         variant="bordered"
-        items={service.actions}
-        selectedKeys={[actionId]}
-        onChange={(e) => setActionId(e.target.value)}
+        items={service.serviceActions}
+        selectedKeys={[serviceActionId]}
+        onChange={(e) => setServiceActionId(e.target.value)}
         disallowEmptySelection
       >
-        {service.actions 
-          ? service.actions.map((action) => (<SelectItem key={action.id}>{action.title}</SelectItem>))
+        {service.serviceActions 
+          ? service.serviceActions.map((serviceAction) => (<SelectItem key={serviceAction.id}>{serviceAction.title ?? serviceAction.action?.title}</SelectItem>))
           : <SelectItem key={0}>No items</SelectItem>
         }
       </Select>

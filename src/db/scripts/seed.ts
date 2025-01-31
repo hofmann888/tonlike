@@ -73,9 +73,9 @@ async function seedTasksWithRelations() {
       count: 30,
       columns: {
           userId: f.int({ minValue: 1, maxValue: 3 }),
-          // serviceActionId: f.int({ minValue: 1, maxValue: 28 }),
-          serviceId: f.int({ minValue: 1, maxValue: 8 }),
-          actionId: f.int({ minValue: 1, maxValue: 7 }),
+          serviceActionId: f.int({ minValue: 1, maxValue: 29 }),
+          // serviceId: f.int({ minValue: 1, maxValue: 8 }),
+          // actionId: f.int({ minValue: 1, maxValue: 7 }),
           price: f.int({ minValue: 1, maxValue: 10 }),
           count: f.int({ minValue: 100, maxValue: 1000 }),
           done: f.int({ minValue: 0, maxValue: 99 }),

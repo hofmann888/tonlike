@@ -7,6 +7,8 @@ import { getAuthUser } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 
+// TODO: rename form-actions
+
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
   try {
@@ -84,11 +86,12 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     const user: User = await getAuthUser(false);
 
     const validated = await createTaskFormSchema.safeParseAsync({
-      actionId: formData.get('actionId'),
-      serviceId: formData.get('serviceId'),
+      serviceActionId: formData.get('serviceActionId'),
       link: formData.get('link'),
       price: formData.get('price'),
       count: formData.get('count'),
+      // serviceId: formData.get('serviceId'),
+      // actionId: formData.get('actionId'),
       // currency: formData.get('currency'),
     });
     console.log('validated:', validated);

@@ -25,11 +25,12 @@ export type WithdrawFormState = {
 
 export type CreateTaskFormState = {
   errors?: {
-    actionId?: string[];
-    serviceId?: string[];
+    serviceActionId?: string[];
     link?: string[];
     price?: string[];
     count?: string[];
+    // serviceId?: string[];
+    // actionId?: string[];
   };
   message?: string | null;
 };
@@ -81,6 +82,7 @@ export type Service = { // TODO?: timestamps
   icon: string,
   active: boolean,
   actions?: Action[]
+  serviceActions?: ServiceAction[]
 }
 
 export type Action = {
@@ -91,11 +93,21 @@ export type Action = {
   active: boolean,
 }
 
+export type ServiceAction = {
+  id: number,
+  serviceId: number,
+  actionId: number,
+  name?: string,
+  title?: string,
+  active: boolean,
+  service?: Service,
+  action?: Action,
+}
+
 export type Task = {
   id: number,
   userId: number,
-  serviceId: number,
-  actionId: number,
+  serviceActionId: number,
   link: string,
   price: number,
   count: number,
@@ -106,6 +118,7 @@ export type Task = {
 	deletedAt?: Date,
   service?: Service,
   action?: Action,
+  serviceAction?: ServiceAction,
 }
 
 export enum TaskStatusEnum { // TODO?: scheduled? blocked | banned?
@@ -181,8 +194,7 @@ export type TaskEarning = {
 
 export type Quest = { // TODO?: EarnQuest?
   id: number,
-  serviceId: number,
-  actionId: number,
+  serviceActionId: number
   link?: string,
   title?: string,
   price: number,
@@ -197,6 +209,7 @@ export type Quest = { // TODO?: EarnQuest?
 	deletedAt?: Date,
   service?: Service,
   action?: Action,
+  serviceAction: ServiceAction,
 }
 
 export type Report = {

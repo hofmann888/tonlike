@@ -11,8 +11,8 @@ import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
 export default function EarnQuestItem({ quest }: { quest: Quest }) {
-  const title = quest.title ? quest.title : quest.action?.title;
-  const iconKey = quest.actionId as keyof typeof actionIcons;
+  const title = quest.title ? quest.title : (quest.serviceAction.title ?? quest.action?.title);
+  const iconKey = quest.action?.id as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
   const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
   const countDone = !quest.daily && !!quest?.doneCount && quest?.doneCount >= quest.countPerUser; 
