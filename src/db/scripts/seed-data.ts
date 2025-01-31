@@ -22,34 +22,34 @@ export const users = [
 ];
 
 export const services = [
-  { name: 'App', active: false }, // id: 1, //icon: '/img/social/app.png',
-  { name: 'Telegram', icon: '/img/social/telegram.png', active: true }, // id: 2,
-  { name: 'X', icon: '/img/social/x.png', active: true }, // id: 3,
-  { name: 'Instagram', icon: '/img/social/instagram.png', active: true }, // id: 4,
-  { name: 'TikTok', icon: '/img/social/tiktok.png', active: true }, // id: 5,
-  { name: 'YouTube', icon: '/img/social/youtube.png', active: true }, // id: 6,
-  { name: 'VK', icon: '/img/social/vk.png', active: true }, // id: 7,
-  { name: 'Farcaster', icon: '/img/social/farcaster.png', active: true }, // id: 8,
-  { name: 'Link', icon: '/img/social/link.png', active: true }, // id: 9,
-  { name: 'test', active: false }, // id: 10,
+  { name: 'app', title: 'App', active: false }, // id: 1, //icon: '/img/social/app.png',
+  { name: 'tg', title: 'Telegram', icon: '/img/social/telegram.png', active: true }, // id: 2,
+  { name: 'x', title: 'X', icon: '/img/social/x.png', active: true }, // id: 3,
+  { name: 'instagram', title: 'Instagram', icon: '/img/social/instagram.png', active: true }, // id: 4,
+  { name: 'tiktok', title: 'TikTok', icon: '/img/social/tiktok.png', active: true }, // id: 5,
+  { name: 'youtube', title: 'YouTube', icon: '/img/social/youtube.png', active: true }, // id: 6,
+  { name: 'vk', title: 'VKontakte', icon: '/img/social/vk.png', active: true }, // id: 7,
+  { name: 'farcaster', title: 'Farcaster', icon: '/img/social/farcaster.png', active: true }, // id: 8,
+  { name: 'link', title: 'Link', icon: '/img/social/link.png', active: true }, // id: 9,
+  { name: 'test', title: 'test', active: false }, // id: 10,
 ];
 
 export const actions = [
   // Tasks
-  { name: 'View', active: true }, // id: 1,
-  { name: 'Like', active: true }, // id: 2,
-  { name: 'Repost', active: true }, // id: 3,
-  { name: 'Comment', active: true }, // id: 4,
-  { name: 'Vote', active: true }, // id: 5,
-  { name: 'Subscribe', active: true}, // id: 6,
-  { name: 'Boost', active: true }, // id: 7,
+  { name: 'view', title: 'View', active: true }, // id: 1,
+  { name: 'like', title: 'Like', active: true }, // id: 2,
+  { name: 'repost', title: 'Repost', active: true }, // id: 3,
+  { name: 'comment', title: 'Comment', active: true }, // id: 4,
+  { name: 'vote', title: 'Vote', active: true }, // id: 5,
+  { name: 'subscribe', title: 'Subscribe', active: true}, // id: 6,
+  { name: 'boost', title: 'Boost', active: true }, // id: 7,
   // Quests
-  { name: 'Check-in', active: true }, // id: 8,
-  { name: 'Watch Ad', active: true }, // id: 9,
-  { name: 'Invite a friend', active: true }, // id: 10,
-  { name: 'Complete a task', active: true }, // id: 11,
-  { name: 'Complete a quest', active: true }, // id: 12,
-  { name: 'Sign app to exchange + KYC', active: true }, // id: 13,
+  { name: 'check_in', title: 'Check-in', active: true }, // id: 8,
+  { name: 'ad', title: 'Watch Ad', active: true }, // id: 9,
+  { name: 'invite', title: 'Invite a friend', active: true }, // id: 10,
+  { name: 'task', title: 'Complete a task', active: true }, // id: 11,
+  { name: 'quest', title: 'Complete a quest', active: true }, // id: 12,
+  { name: 'kyc', title: 'Sign up to exchange + KYC', active: true }, // id: 13,
 ];
 
 export const serviceActions = [

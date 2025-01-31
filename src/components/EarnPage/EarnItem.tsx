@@ -31,7 +31,7 @@ export default function EarnItem({
       <CardBody className="flex-row justify-between items-center">
         <div className="flex items-center gap-2">
           <Avatar
-            alt={task.service?.name}
+            alt={task.service?.title}
             size="sm"
             src={task.service?.icon}
             className="w-10 h-10"
@@ -40,7 +40,7 @@ export default function EarnItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{task.action?.name}</span>
+            <span className="text-small text-foreground-400">{task.action?.title}</span>
           </div>
         </div>
 

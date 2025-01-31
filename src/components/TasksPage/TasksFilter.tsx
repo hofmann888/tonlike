@@ -156,13 +156,13 @@ export default function TasksFilter({
                       {items.map((item) => (
                         <div key={item.key} className="flex items-center gap-2">
                           <Avatar
-                            alt={item.data?.name}
+                            alt={item.data?.title}
                             className="flex-shrink-0"
                             size="sm"
                             src={item.data?.icon}
                           />
                           <div className="flex flex-col">
-                            <span>{item.data?.name}</span>
+                            <span>{item.data?.title}</span>
                           </div>
                         </div>
                       ))}
@@ -174,10 +174,10 @@ export default function TasksFilter({
                   <SelectItem
                     key={service.id}
                     startContent={
-                      <Avatar alt={service.name} className="w-6 h-6" src={service.icon} />
+                      <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
                     }
                   >
-                    {service.name}
+                    {service.title}
                   </SelectItem>
                 )}
               </Select>
@@ -192,7 +192,7 @@ export default function TasksFilter({
                 onChange={(e) => setActionsFilter(e.target?.value.split(','))}
               >
                 {actions.map((action) => (
-                  <SelectItem key={action.id}>{action.name}</SelectItem>
+                  <SelectItem key={action.id}>{action.title}</SelectItem>
                 ))}
               </Select>
             </div>

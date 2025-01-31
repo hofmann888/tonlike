@@ -10,9 +10,8 @@ import { checkQuest } from "@/utils/quest-checks";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
-
 export default function EarnQuestItem({ quest }: { quest: Quest }) {
-  const title = quest.title ? quest.title : quest.action?.name;
+  const title = quest.title ? quest.title : quest.action?.title;
   const iconKey = quest.actionId as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
   const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
@@ -42,7 +41,7 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
       <CardBody className="flex-row justify-between items-center">
         <div className="flex items-center gap-3">
           <Avatar
-            alt={quest.service?.name}
+            alt={quest.service?.title}
             // size="sm"
             classNames={{
               base: "bg-gradient-to-b from-pink-500 to-blue-500",

@@ -63,7 +63,7 @@ export default function TaskItem({
       <CardBody className="flex-row justify-between pb-2">
         <div className="flex items-center gap-2 w-1/4">
           <Avatar
-            alt={task.service?.name}
+            alt={task.service?.title}
             className="flex-shrink-0"
             size="sm"
             src={task.service?.icon}
@@ -72,7 +72,7 @@ export default function TaskItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{task.action?.name}</span>
+            <span className="text-small text-foreground-400">{task.action?.title}</span>
           </div>
         </div>
 

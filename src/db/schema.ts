@@ -48,9 +48,9 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 export const services = pgTable('services', {
   id: smallint().primaryKey().generatedByDefaultAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
+  title: varchar({ length: 255 }).notNull(),
   icon: varchar({ length: 255 }), // TODO?: iconUrl? not null?
   active: boolean().notNull().default(true),
-  // TODO?: title?
   // TODO?: hidden?
   // TODO?: timestamps?
 });
@@ -63,6 +63,7 @@ export const servicesRelations = relations(services, ({ many }) => ({
 export const actions = pgTable('actions', {
   id: smallint().primaryKey().generatedByDefaultAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
+  title: varchar({ length: 255 }).notNull(),
   icon: varchar({ length: 255 }),
   active: boolean().notNull().default(true),
   // TODO?: timestamps?

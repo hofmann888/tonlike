@@ -197,7 +197,8 @@ export async function fetchServicesWithActions(active?: boolean) {
       data.map((dataItem) => { // TODO?: DTO
         const service = { 
           id: dataItem.id, 
-          name: dataItem.name, 
+          name: dataItem.name,
+          title: dataItem.title, 
           icon: dataItem.icon, 
           active: dataItem.active, 
           actions: [] as Action[] 

@@ -72,13 +72,13 @@
 //           return items.map((item) => (
 //             <div key={item.key} className="flex items-center gap-2">
 //               <Avatar
-//                 alt={item.data?.name}
+//                 alt={item.data?.title}
 //                 className="flex-shrink-0"
 //                 size="sm"
 //                 src={item.data?.icon}
 //               />
 //               <div className="flex flex-col">
-//                 <span>{item.data?.name}</span>
+//                 <span>{item.data?.title}</span>
 //               </div>
 //             </div>
 //           ));
@@ -88,10 +88,10 @@
 //           <SelectItem
 //             key={service.id}
 //             startContent={
-//               <Avatar alt={service.name} className="w-6 h-6" src={service.img} />
+//               <Avatar alt={service.title} className="w-6 h-6" src={service.img} />
 //             }
 //           >
-//             {service.name}
+//             {service.title}
 //           </SelectItem>
 //         )}
 //       </Select>
@@ -106,7 +106,7 @@
 //         disallowEmptySelection
 //       >
 //         {actionsFiltered.map((action) => (
-//           <SelectItem key={action.id}>{action.name}</SelectItem>
+//           <SelectItem key={action.id}>{action.title}</SelectItem>
 //         ))}
 //       </Select>
 

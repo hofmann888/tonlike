@@ -77,6 +77,7 @@ export type User = {
 export type Service = { // TODO?: timestamps
   id: number,
   name: string,
+  title: string,
   icon: string,
   active: boolean,
   actions?: Action[]
@@ -85,6 +86,7 @@ export type Service = { // TODO?: timestamps
 export type Action = {
   id: number,
   name: string,
+  title: string,
   icon: string,
   active: boolean,
 }

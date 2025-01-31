@@ -44,7 +44,7 @@
 // //     const data = await db // TODO?
 // //       .select({
 // //         id: schema.services.id,
-// //         name: schema.services.name,
+// //         name: schema.services.title,
 // //         icon: schema.services.icon,
 // //         active: schema.services.active,
 // //         actionIds: sql`array_agg(service_actions.action_id ORDER BY service_actions.action_id)`.as('action_ids'),
@@ -117,8 +117,8 @@
 //     const data = await sql(`
 //       SELECT 
 //         tasks.*, 
-//         actions.name as action_name,
-//         services.name as service_name, services.img as service_img
+//         actions.title as action_name,
+//         services.title as service_name, services.img as service_img
 //       FROM tasks 
 //       LEFT JOIN actions on tasks.action_id = actions.id 
 //       LEFT JOIN services on tasks.service_id = services.id 
@@ -147,8 +147,8 @@
 //     const data = await sql(`
 //       SELECT 
 //         tasks.*, 
-//         actions.name as action_name,
-//         services.name as service_name, services.icon as service_icon
+//         actions.title as action_title,
+//         services.title as service_title, services.icon as service_icon
 //       FROM tasks 
 //       LEFT JOIN actions on actions.id = tasks.action_id
 //       LEFT JOIN services on services.id = tasks.service_id

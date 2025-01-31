@@ -73,13 +73,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           return items.map((item) => (
             <div key={item.key} className="flex items-center gap-2">
               <Avatar
-                alt={item.data?.name}
+                alt={item.data?.title}
                 className="flex-shrink-0"
                 size="sm"
                 src={item.data?.icon}
               />
               <div className="flex flex-col">
-                <span>{item.data?.name}</span>
+                <span>{item.data?.title}</span>
               </div>
             </div>
           ));
@@ -89,10 +89,10 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           <SelectItem
             key={service.id}
             startContent={
-              <Avatar alt={service.name} className="w-6 h-6" src={service.icon} />
+              <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
             }
           >
-            {service.name}
+            {service.title}
           </SelectItem>
         )}
       </Select>
@@ -107,7 +107,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         disallowEmptySelection
       >
         {service.actions 
-          ? service.actions.map((action) => (<SelectItem key={action.id}>{action.name}</SelectItem>))
+          ? service.actions.map((action) => (<SelectItem key={action.id}>{action.title}</SelectItem>))
           : <SelectItem key={0}>No items</SelectItem>
         }
       </Select>
