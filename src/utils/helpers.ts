@@ -9,5 +9,5 @@ export function checkDailyDone(date: Date) {
   const timeDiff = nowDate.getTime() - date.getTime();
   const timeDiffDays = Math.floor(timeDiff / 86400000);
 
-  return timeDiffDays < 1;
+  return !timeDiffDays;
 }

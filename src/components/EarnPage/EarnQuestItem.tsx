@@ -15,7 +15,7 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
   const iconKey = quest.action?.id as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
   const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
-  const countDone = !quest.daily && !!quest?.doneCount && quest?.doneCount >= quest.countPerUser; 
+  const countDone = !quest.daily && !!quest.doneLastAt;
   const questIsDone = dailyDone || countDone;
 
   const [loading, setLoading] = useState(false);

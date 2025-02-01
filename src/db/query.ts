@@ -465,7 +465,8 @@ export async function hideTaskEarningForUser(userId: number, taskId: number) { /
   }
 }
 
-export async function fetchLastTaskEarningByUserId(userId: number) {
+export async function fetchLastDoneTaskEarningByUserId(userId: number) {
+  console.log('fetchLastDoneTaskEarningByUserId');
   try {
     const data = await db.query.taskEarnings.findFirst({ 
       where: 
@@ -480,6 +481,23 @@ export async function fetchLastTaskEarningByUserId(userId: number) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch task data.');
+  }
+}
+
+export async function fetchDoneTaskEarningCountByUserId(userId: number) {
+  console.log('fetchDoneTaskEarningCountByUserId');
+  try {
+    const data = await db.$count(schema.taskEarnings, 
+      and(
+        eq(schema.taskEarnings.userId, userId),
+        gt(schema.taskEarnings.profit, 0)
+      )
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
   }
 }
 
@@ -553,9 +571,21 @@ export async function userInBlackList(userId: number, blockedUserId: number) {
 
 
 // ------------ QUESTS ------------
-export async function fetchQuestById(id: number) {
+export async function fetchQuestById(id: number, relations?: schema.QuestRealation[]) {
+  console.log('fetchQuestById');
   try {
-    const data = await db.query.quests.findFirst({ where: eq(schema.quests.id, id) });
+    let withObject: any;
+    if (relations && relations.length) {
+      withObject = {};
+      relations.map((relation) => {
+        withObject[relation] = true;
+      })
+    }
+
+    const data = await db.query.quests.findFirst({ 
+      where: eq(schema.quests.id, id),
+      ...(withObject && { with: withObject })
+    });
     
     return data as Quest;
   } catch (error) {
@@ -570,11 +600,11 @@ export async function fetchEarnQuestsByUserId(userId: number) {
     const data = await db
       .select({
         ...getTableColumns(schema.quests), 
-        doneCount: count(schema.questEarnings.id),
         doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`.as('doneLastDate'),
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
         serviceAction: getTableColumns(schema.serviceActions),
+        // doneCount: count(schema.questEarnings.id), // TODO: ne podhodit dlya countPerUser
       })
       .from(schema.quests)
       .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.quests.serviceActionId))
@@ -635,6 +665,23 @@ export async function fetchLastDateUserDoneQuest(userId: number, questId: number
       console.error('Database Error:', error);
       throw new Error('Failed to fetch tasks data.');
     }
+}
+
+export async function fetchDoneQuestEarningCountByUserId(userId: number) {
+  console.log('fetchDoneQuestEarningCountByUserId');
+  try {
+    const data = await db.$count(schema.questEarnings, 
+      and(
+        eq(schema.questEarnings.userId, userId),
+        gt(schema.questEarnings.profit, 0)
+      )
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
 }
 
 //- - - - - - - - - - - - -

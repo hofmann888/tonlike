@@ -185,7 +185,7 @@ export const quests = pgTable('quests', {
   link: varchar({ length: 255 }),
   title: varchar({ length: 255 }),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
-  countPerUser: integer('count_per_user').notNull().default(1),
+  countPerUser: integer('count_per_user').notNull().default(1), // TODO: ne sovsem to...tipa earning tolko 1 budet
   daily: boolean().notNull().default(false),
   priority: integer().notNull().default(0), // TODO?: order?
   active: boolean().notNull().default(true),
@@ -213,6 +213,13 @@ export const questsRelations = relations(quests, ({ one, many }) => ({
   //   references: [actions.id],
   // }),
 }));
+
+export enum QuestRelationEnum {
+  SERVICE_ACTION = 'serviceAction',
+  EARNINGS = 'earnings',
+}
+
+export type QuestRealation = QuestRelationEnum.SERVICE_ACTION | QuestRelationEnum.EARNINGS;
 
 // =============== Quests Earnings ===============
 export const questEarnings = pgTable('quest_earnings', {

@@ -202,7 +202,6 @@ export type Quest = { // TODO?: EarnQuest?
   daily: boolean,
   priority: number,
   active: boolean,
-  doneCount?: number, 
   doneLastAt?: Date, // TODO?: doneLastDate
 	createdAt: Date, // TODO?: undefined?
 	updatedAt?: Date,
@@ -210,6 +209,7 @@ export type Quest = { // TODO?: EarnQuest?
   service?: Service,
   action?: Action,
   serviceAction: ServiceAction,
+  // doneCount?: number, 
 }
 
 export type Report = {
@@ -267,3 +267,18 @@ export type BlackListReasonsMapItem = {
 //   USDT = 'usdt',
 // }
 // export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;
+
+export enum ServiceActionName {
+  APP_CHECK_IN = 'app_check_in',
+  APP_AD = 'app_ad',
+  APP_INVITE = 'app_invite',
+  APP_TASK = 'app_task',
+  APP_QUEST = 'app_quest',
+  APP_KYC = 'app_kyc',
+  TELEGRAM_VIEW = 'tg_view',
+  TELEGRAM_REACTION = 'tg_react',
+  TELEGRAM_COMMENT = 'tg_comment',
+  TELEGRAM_VOTE = 'tg_vote',
+  TELEGRAM_SUBSCRIBE = 'tg_subscribe',
+  TELEGRAM_BOOST = 'tg_boost',
+}

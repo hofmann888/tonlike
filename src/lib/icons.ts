@@ -5,7 +5,7 @@ import { GoGoal } from "react-icons/go";
 import { MdTaskAlt } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 
-export const actionIcons = {
+export const actionIcons = { // TODO: refactor
   1: FaEye,
   8: BiTask,
   9: RiAdvertisementFill,

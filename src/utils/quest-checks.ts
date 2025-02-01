@@ -1,30 +1,35 @@
 'use server'
 
-import { getAuthUser, getSession } from "@/app/auth/session";
-import { fetchLastDateUserDoneQuest, fetchQuestById, createQuestEarning, updateUserWithSession, fetchLastTaskEarningByUserId, fetchUserReferralsCount } from "@/db/query";
-import { Quest, User } from '@/lib/definitions';
+import { getAuthUser } from "@/app/auth/session";
+import { 
+  fetchLastDateUserDoneQuest, 
+  fetchQuestById, 
+  createQuestEarning, 
+  updateUserWithSession, 
+  fetchLastDoneTaskEarningByUserId, 
+  fetchUserReferralsCount, 
+  fetchDoneTaskEarningCountByUserId, 
+  fetchDoneQuestEarningCountByUserId
+} from "@/db/query";
+import { Quest, User, ServiceActionName } from '@/lib/definitions';
 // import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache'; 
 
 import { checkDailyDone } from "./helpers";
+import { QuestRelationEnum } from "@/db/schema";
 
 // TODO: refactor on class oop
-
-const questMap = { // TODO!: don't bind ID!! local and prod db will be different 
-  checkIn: 1,
-  taskDone: 3,
-  inviteFriend: 6, 
-}
 
 export async function checkQuest(questId: number) {
   console.log('checkQuest');
 
   try {
-    const [user, quest, dailyDone] = await Promise.all([
+    const [user, quest] = await Promise.all([
       getAuthUser(false), 
-      fetchQuestById(questId), 
-      checkDailyQuestDone(questId),
+      fetchQuestById(questId, [QuestRelationEnum.SERVICE_ACTION]), 
     ]);
+
+    const dailyDone = await checkDailyQuestDone(quest.id, user.id);
   
     if (quest.daily && dailyDone) {
       throw new Error('Quest already done today.');
@@ -32,15 +37,22 @@ export async function checkQuest(questId: number) {
     
     let check = false;
   
-    switch (questId) {
-      case questMap.checkIn:
+    switch (quest.serviceAction.name) {
+      case ServiceActionName.APP_CHECK_IN:
         check = true;
         break;
-      case questMap.taskDone:
-        check = await checkDailyAnyTaskDone(user.id);
+      case ServiceActionName.APP_INVITE:
+        check = await checkInvitedCount(user.id, quest.countPerUser);
         break;
-      case questMap.inviteFriend:
-        check = await checkFriendsInvited(user.id, quest.countPerUser);
+      case ServiceActionName.APP_QUEST:
+        check = await checkQuestDoneCount(user.id, quest.countPerUser);
+        break;
+      case ServiceActionName.APP_TASK:
+        if (quest.daily) {
+          check = await checkDailyAnyTaskDone(user.id);
+          break;
+        }
+        check = await checkTaskDoneCount(user.id, quest.countPerUser);
         break;
       default:
         console.log(`Couldn't find checker for quest.`);
@@ -71,25 +83,38 @@ export async function earnOnQuest(quest: Quest, user: User) { // TODO!!: db tran
 }
 
 
-
-export async function checkDailyQuestDone(questId: number) { // TODO?: userId
+export async function checkDailyQuestDone(questId: number, userId: number) { // TODO?: userId
   console.log('checkDailyQuestDone');
-  const user: User = await getAuthUser(false);
-
-  const lastDoneDate = await fetchLastDateUserDoneQuest(user.id, questId); // TODO?: fetchLatQuestEarning?s
+  const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId); // TODO?: fetchLatQuestEarning?s
 
   return checkDailyDone(lastDoneDate);
 }
 
+
 export async function checkDailyAnyTaskDone(userId: number) {
   console.log('checkDailyAnyTaskDone');
-  const taskEarning = await fetchLastTaskEarningByUserId(userId);
+  const taskEarning = await fetchLastDoneTaskEarningByUserId(userId);
 
   return checkDailyDone(taskEarning.createdAt);
 }
 
-export async function checkFriendsInvited(userId: number, countNeed: number) {
+export async function checkInvitedCount(userId: number, countNeed: number) {
+  console.log('checkInvitedCount');
   const count = await fetchUserReferralsCount(userId);
+  
+  return count >= countNeed;
+}
+
+export async function checkTaskDoneCount(userId: number, countNeed: number) {
+  console.log('checkTaskDoneCount');
+  const count = await fetchDoneTaskEarningCountByUserId(userId);
+  
+  return count >= countNeed;
+}
+
+export async function checkQuestDoneCount(userId: number, countNeed: number) {
+  console.log('checkQuestDoneCount');
+  const count = await fetchDoneQuestEarningCountByUserId(userId);
   
   return count >= countNeed;
 }
