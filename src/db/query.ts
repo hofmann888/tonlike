@@ -296,6 +296,22 @@ export async function fetchTasksByUserId(userId: number) {
   }
 }
 
+export async function fetchTaskCountByUserId(userId: number) {
+  console.log('fetchDoneTaskCountByUserId');
+  try {
+    const data = await db.$count(schema.tasks, 
+      and(
+        eq(schema.tasks.userId, userId),
+      )
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
 export async function fetchEarnTasksByUserId(userId: number) {
   console.log('fetchEarnTasksByUserId');
   try {

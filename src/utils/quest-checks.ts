@@ -9,7 +9,8 @@ import {
   fetchLastDoneTaskEarningByUserId, 
   fetchUserReferralsCount, 
   fetchDoneTaskEarningCountByUserId, 
-  fetchDoneQuestEarningCountByUserId
+  fetchDoneQuestEarningCountByUserId,
+  fetchTaskCountByUserId,
 } from "@/db/query";
 import { Quest, User, ServiceActionName } from '@/lib/definitions';
 // import { redirect } from 'next/navigation';
@@ -44,10 +45,13 @@ export async function checkQuest(questId: number) {
       case ServiceActionName.APP_INVITE:
         check = await checkInvitedCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.APP_QUEST:
+      case ServiceActionName.APP_QUEST_DONE:
         check = await checkQuestDoneCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.APP_TASK:
+      case ServiceActionName.APP_TASK_CREATE:
+        check = await checkTaskCount(user.id, quest.countPerUser);
+        break;
+      case ServiceActionName.APP_TASK_DONE:
         if (quest.daily) {
           check = await checkDailyAnyTaskDone(user.id);
           break;
@@ -101,6 +105,13 @@ export async function checkDailyAnyTaskDone(userId: number) {
 export async function checkInvitedCount(userId: number, countNeed: number) {
   console.log('checkInvitedCount');
   const count = await fetchUserReferralsCount(userId);
+  
+  return count >= countNeed;
+}
+
+export async function checkTaskCount(userId: number, countNeed: number) {
+  console.log('checkTaskCount');
+  const count = await fetchTaskCountByUserId(userId);
   
   return count >= countNeed;
 }
