@@ -15,7 +15,7 @@ export default function EarnQuestList({ quests }: { quests: Quest[] }) {
       {/* <p className="text-large text-primary mb-3">Daily</p> */}
       {quests.map((quest) => (
         quest.daily && 
-          <EarnQuestItem quest={quest} />
+          <EarnQuestItem key={quest.id} quest={quest} />
         )
       )}
 
@@ -24,7 +24,7 @@ export default function EarnQuestList({ quests }: { quests: Quest[] }) {
       </Chip>
       {quests.map((quest) => (
         !quest.daily && 
-          <EarnQuestItem quest={quest} />
+          <EarnQuestItem key={quest.id} quest={quest} />
         )
       )}
     </div>

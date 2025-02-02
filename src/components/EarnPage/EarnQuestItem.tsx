@@ -20,7 +20,7 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
 
   const [loading, setLoading] = useState(false);
 
-  async function startClick() {
+  async function startClick() { // TODO: start -> check on external services
     console.log('startClick');    
     setLoading(true);
 

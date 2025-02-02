@@ -16,7 +16,7 @@ import { setSession } from '@/app/auth/session';
 // !? split comlicated queries to separate and execute the in parallel Promise.all() # zatestil: odnohuistvenno po time
 
 // ------------ USERS ------------
-export async function createUser(dto: dto.UserInsertDTO) {
+export async function createUser(dto: dto.UserInsertDTO) { // TODO: empty username?
   console.log('createUser');
   try {
     const data = await db

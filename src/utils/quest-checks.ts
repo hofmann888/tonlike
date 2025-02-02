@@ -13,13 +13,15 @@ import {
   fetchTaskCountByUserId,
 } from "@/db/query";
 import { Quest, User, ServiceActionName } from '@/lib/definitions';
+import { checkDailyDone } from "./helpers";
+import { QuestRelationEnum } from "@/db/schema";
+import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
 // import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache'; 
 
-import { checkDailyDone } from "./helpers";
-import { QuestRelationEnum } from "@/db/schema";
 
 // TODO: refactor on class oop
+// TODO: try catch exceptions
 
 export async function checkQuest(questId: number) {
   console.log('checkQuest');
@@ -58,6 +60,12 @@ export async function checkQuest(questId: number) {
         }
         check = await checkTaskDoneCount(user.id, quest.countPerUser);
         break;
+      case ServiceActionName.TELEGRAM_SUBSCRIBE:
+        check = await checkTgSubscribe(user.tgId, quest.link as string);
+        break;
+      case ServiceActionName.TELEGRAM_BOOST:
+        check = await checkTgBoost(user.tgId, quest.link as string);
+        break;
       default:
         console.log(`Couldn't find checker for quest.`);
     }
@@ -89,43 +97,101 @@ export async function earnOnQuest(quest: Quest, user: User) { // TODO!!: db tran
 
 export async function checkDailyQuestDone(questId: number, userId: number) { // TODO?: userId
   console.log('checkDailyQuestDone');
-  const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId); // TODO?: fetchLatQuestEarning?s
-
-  return checkDailyDone(lastDoneDate);
+  let check = false;
+  try {
+    const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId); // TODO?: fetchLatQuestEarning?s
+    check = checkDailyDone(lastDoneDate);
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
 }
 
 
 export async function checkDailyAnyTaskDone(userId: number) {
   console.log('checkDailyAnyTaskDone');
-  const taskEarning = await fetchLastDoneTaskEarningByUserId(userId);
-
-  return checkDailyDone(taskEarning.createdAt);
+  let check = false;
+  try {
+    const taskEarning = await fetchLastDoneTaskEarningByUserId(userId);
+    check = checkDailyDone(taskEarning.createdAt);
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
+  
 }
 
 export async function checkInvitedCount(userId: number, countNeed: number) {
   console.log('checkInvitedCount');
-  const count = await fetchUserReferralsCount(userId);
-  
-  return count >= countNeed;
+  let check = false;
+  try {
+    const count = await fetchUserReferralsCount(userId);
+    check = count >= countNeed;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
 }
 
 export async function checkTaskCount(userId: number, countNeed: number) {
   console.log('checkTaskCount');
-  const count = await fetchTaskCountByUserId(userId);
+  let check = false;
+  try {
+    const count = await fetchTaskCountByUserId(userId);
+    check = count >= countNeed;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
   
-  return count >= countNeed;
 }
 
 export async function checkTaskDoneCount(userId: number, countNeed: number) {
   console.log('checkTaskDoneCount');
-  const count = await fetchDoneTaskEarningCountByUserId(userId);
-  
-  return count >= countNeed;
+  let check = false;
+  try {
+    const count = await fetchDoneTaskEarningCountByUserId(userId);
+    check = count >= countNeed;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
 }
 
 export async function checkQuestDoneCount(userId: number, countNeed: number) {
   console.log('checkQuestDoneCount');
-  const count = await fetchDoneQuestEarningCountByUserId(userId);
-  
-  return count >= countNeed;
+  let check = false;
+  try {
+    const count = await fetchDoneQuestEarningCountByUserId(userId);
+    check = count >= countNeed;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
+}
+
+export async function checkTgSubscribe(tgId: number, channel: string) {
+  console.log('checkTgSubscribe');
+  let check = false;
+  try {
+    tgId = 5229340312;
+    const data: any = await tgCheckMembershipRequest(tgId, channel);
+    check = data?.success && data?.result;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
+}
+
+export async function checkTgBoost(tgId: number, channel: string) {
+  console.log('checkTgBoost');
+  let check = false;
+  try {
+    tgId = 5229340312;
+    const data: any = await tgCheckBoostRequest(tgId, channel);
+    check = data?.success && data?.result;
+  } catch (error) {
+    console.log(error);
+  }
+  return check;
 }

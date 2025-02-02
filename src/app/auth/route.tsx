@@ -33,7 +33,7 @@ export async function POST() {
     if (!user) { 
       user = await createUser({
         tgId: initData.user.id,
-        tgUsername: initData.user.username as string,
+        tgUsername: initData.user.username as string, // TODO!: empty username in initData (fadey)
         tgPhotoUrl: initData.user.photoUrl as string, // TODO?: undefined?
       });
     }
