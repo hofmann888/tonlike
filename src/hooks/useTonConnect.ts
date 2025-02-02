@@ -1,4 +1,4 @@
-import { CHAIN } from "@tonconnect/protocol";
+import { CHAIN } from "@tonconnect/ui-react";
 import { Sender, SenderArguments } from "ton-core";
 import { useTonConnectUI, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
 

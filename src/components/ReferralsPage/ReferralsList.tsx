@@ -28,7 +28,7 @@ export default function ReferralsList({ referrals }: { referrals: User[] }) {
               <CoinValue value={888} className="text-medium" />
             </CardBody>
           </Card>
-        )) : <p>You haven't invited any friends yet</p>
+        )) : <p>You haven&#39;t invited any friends yet</p>
       }
     </ScrollShadow> 
   )

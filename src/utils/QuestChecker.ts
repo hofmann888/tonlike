@@ -1,111 +1,111 @@
-import { getAuthUser } from "@/app/auth/session";
-import { createQuestEarning, fetchLastDateUserDoneQuest, fetchLastTaskEarningByUserId, fetchQuestById, fetchUserReferralsCount, updateUserWithSession } from "@/db/query";
-import { Quest, User } from "@/lib/definitions";
-import { checkDailyQuestDone } from "./quest-checks";
-import { checkDailyDone } from "./helpers";
+// import { getAuthUser } from "@/app/auth/session";
+// import { createQuestEarning, fetchLastDateUserDoneQuest, fetchLastTaskEarningByUserId, fetchQuestById, fetchUserReferralsCount, updateUserWithSession } from "@/db/query";
+// import { Quest, User } from "@/lib/definitions";
+// import { checkDailyQuestDone } from "./quest-checks";
+// import { checkDailyDone } from "./helpers";
 
-// TODO?: nuzhno?
-export default class QuestCheker {
-  protected quest: Quest = {} as Quest;
-  protected user: User = {} as User;
-  protected dailyDone: boolean = false;
-  protected inited: boolean = false;
-  // protected check: boolean = false;
+// // TODO?: nuzhno?
+// export default class QuestCheker {
+//   protected quest: Quest = {} as Quest;
+//   protected user: User = {} as User;
+//   protected dailyDone: boolean = false;
+//   protected inited: boolean = false;
+//   // protected check: boolean = false;
 
-  private questMap = { // TODO!: don't bind ID!! local and prod db will be different 
-    checkIn: 1,
-    taskDone: 3,
-    inviteFriend: 6, 
-  }
+//   private questMap = { // TODO!: don't bind ID!! local and prod db will be different 
+//     checkIn: 1,
+//     taskDone: 3,
+//     inviteFriend: 6, 
+//   }
 
-  constructor(public questId: number) {}
+//   constructor(public questId: number) {}
 
-  protected async init() {
-    if (!this.inited) {
-      const [user, quest, dailyDone] = await Promise.all([
-        getAuthUser(false), 
-        fetchQuestById(this.questId), 
-        checkDailyQuestDone(this.questId),
-      ]);
+//   protected async init() {
+//     if (!this.inited) {
+//       const [user, quest, dailyDone] = await Promise.all([
+//         getAuthUser(false), 
+//         fetchQuestById(this.questId), 
+//         checkDailyQuestDone(this.questId),
+//       ]);
   
-      this.quest = quest;
-      this.user = user;
-      this.dailyDone = dailyDone;
-      this.inited = true;
-    }
-  }
+//       this.quest = quest;
+//       this.user = user;
+//       this.dailyDone = dailyDone;
+//       this.inited = true;
+//     }
+//   }
 
-  public async check() {
-    let check = false;
+//   public async check() {
+//     let check = false;
 
-    try {
-      this.init();
+//     try {
+//       this.init();
     
-      if (this.quest.daily && this.dailyDone) {
-        throw new Error('Quest already done today.');
-      }
+//       if (this.quest.daily && this.dailyDone) {
+//         throw new Error('Quest already done today.');
+//       }
       
-      switch (this.questId) {
-        case this.questMap.checkIn:
-          check = true;
-          break;
-        case this.questMap.taskDone:
-          check = await this.checkDailyAnyTaskDone();
-          break;
-        case this.questMap.inviteFriend:
-          check = await this.checkFriendsInvited();
-          break;
-        default:
-          console.log(`Couldn't find checker for quest.`);
-      }
-      console.log('checkQuest check:', check);
+//       switch (this.questId) {
+//         case this.questMap.checkIn:
+//           check = true;
+//           break;
+//         case this.questMap.taskDone:
+//           check = await this.checkDailyAnyTaskDone();
+//           break;
+//         case this.questMap.inviteFriend:
+//           check = await this.checkFriendsInvited();
+//           break;
+//         default:
+//           console.log(`Couldn't find checker for quest.`);
+//       }
+//       console.log('checkQuest check:', check);
   
-      if (check) { 
-        await this.earnOnQuest();
-      }
+//       if (check) { 
+//         await this.earnOnQuest();
+//       }
   
-      return check;
-    } catch (error) {
-      console.log('Check failed! Error:', error);
-      return false;
-    }
-  }
+//       return check;
+//     } catch (error) {
+//       console.log('Check failed! Error:', error);
+//       return false;
+//     }
+//   }
 
-  protected async earnOnQuest() { // TODO!!: db transaction
-    console.log('earnOnQuest');
-    const questEarningId = await createQuestEarning({ 
-      userId: this.user.id, 
-      questId: this.quest.id, 
-      profit: this.quest.price 
-    });
+//   protected async earnOnQuest() { // TODO!!: db transaction
+//     console.log('earnOnQuest');
+//     const questEarningId = await createQuestEarning({ 
+//       userId: this.user.id, 
+//       questId: this.quest.id, 
+//       profit: this.quest.price 
+//     });
   
-    if (questEarningId) {
-      const balance = this.user.balance + this.quest.price;
-      await updateUserWithSession(this.user.id, { balance });
-    }
-  }
+//     if (questEarningId) {
+//       const balance = this.user.balance + this.quest.price;
+//       await updateUserWithSession(this.user.id, { balance });
+//     }
+//   }
 
 
-  //================ Checks
+//   //================ Checks
 
-  protected async checkDailyQuestDone() {
-    console.log('checkDailyQuestDone');
-    const lastDoneDate = await fetchLastDateUserDoneQuest(this.user.id, this.questId); // TODO?: fetchLatQuestEarning?s
+//   protected async checkDailyQuestDone() {
+//     console.log('checkDailyQuestDone');
+//     const lastDoneDate = await fetchLastDateUserDoneQuest(this.user.id, this.questId); // TODO?: fetchLatQuestEarning?s
   
-    return checkDailyDone(lastDoneDate);
-  }
+//     return checkDailyDone(lastDoneDate);
+//   }
   
-  protected async checkDailyAnyTaskDone() {
-    console.log('checkDailyAnyTaskDone');
-    const taskEarning = await fetchLastTaskEarningByUserId(this.user.id);
+//   protected async checkDailyAnyTaskDone() {
+//     console.log('checkDailyAnyTaskDone');
+//     const taskEarning = await fetchLastTaskEarningByUserId(this.user.id);
   
-    return checkDailyDone(taskEarning.createdAt);
-  }
+//     return checkDailyDone(taskEarning.createdAt);
+//   }
   
-  protected async  checkFriendsInvited() {
-    console.log('checkFriendsInvited');
-    const count = await fetchUserReferralsCount(this.user.id);
+//   protected async  checkFriendsInvited() {
+//     console.log('checkFriendsInvited');
+//     const count = await fetchUserReferralsCount(this.user.id);
     
-    return count >= this.quest.countPerUser;
-  }
-}
+//     return count >= this.quest.countPerUser;
+//   }
+// }
