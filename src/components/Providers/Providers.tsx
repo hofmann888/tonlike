@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
@@ -15,11 +15,11 @@ export interface ProvidersProps {
   userData: User;
 }
 
-// declare module "@react-types/shared" {
-//   interface RouterConfig {
-//     routerOptions: NonNullable<Parameters<ReturnType<typeof useRouter>["push"]>[1]>;
-//   }
-// }
+declare module "@react-types/shared" {
+  interface RouterConfig {
+    routerOptions: NonNullable<Parameters<ReturnType<typeof useRouter>["push"]>[1]>;
+  }
+}
 
 // TODO: HeroUIProvider not working
 export function Providers({ children, themeProps, userData }: ProvidersProps) {

@@ -33,6 +33,9 @@ export default function HeaderUser() {
           <DropdownItem key="theme" closeOnSelect={false}>
             <ThemeSwitcher />
           </DropdownItem>
+          <DropdownItem key="home" color="primary" href="/">
+            Home
+          </DropdownItem>
           <DropdownItem key="logout" color="danger">
             Log Out
           </DropdownItem>

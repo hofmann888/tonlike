@@ -23,7 +23,7 @@ export default function Footer() {
     selectedNav = '/tasks';
   }
 
-  // TODO replace Link with Tab.href after fixing HeroUIProvider
+  // TODO?: replace Link with Tab.href after fixing HeroUIProvider
   return (
     <footer className="footer row-start-3">
       <nav className="footer-nav h-full">
@@ -34,22 +34,19 @@ export default function Footer() {
           classNames={{ 
             base: "w-full h-full", 
             tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
-            tabContent: "w-full h-full",
-            tab: "h-full p-0",
+            tab: "h-full",
             cursor: "w-full bg-[#22d3ee]",
-            // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
           }}
         >
           {navLinks.map((link) => {
             const LinkIcon = link.icon;
             return (
               <Tab 
+                as={Link}
                 key={link.href} 
-                // href={link.href}
+                href={link.href}
                 title={
-                  <Link href={link.href} className="flex items-center justify-center w-full h-full">
-                    <LinkIcon className="w-7 h-7" />
-                  </Link>  
+                  <LinkIcon className="w-7 h-7" />
                 }
               />
             );
