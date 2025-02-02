@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# vscode
+/.vscode/
+
 # production
 /build
 
@@ -38,3 +41,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# db
+/src/db/drizzle/
+/src/db/scripts/test.ts
+
+certificates
+
+todo
