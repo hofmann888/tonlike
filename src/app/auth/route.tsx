@@ -17,7 +17,7 @@ export async function POST() {
       throw Error('Bad request: missing authData or token');
     }
 
-    if (['producntion', 'test'].includes(process.env.NODE_ENV)) {
+    if (['production', 'test'].includes(process.env.NEXT_PUBLIC_APP_ENV as string)) {
       validate(authData, token, {
         expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
       });

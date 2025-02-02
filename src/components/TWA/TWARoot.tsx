@@ -20,7 +20,7 @@ import {
 const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json';
 
 function RootInner({ children }: PropsWithChildren) {
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = process.env.NEXT_PUBLIC_APP_ENV === 'development';
 
   // Mock Telegram environment in development mode if needed.
   if (isDev) {

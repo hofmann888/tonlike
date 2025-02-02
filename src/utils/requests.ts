@@ -7,7 +7,7 @@ async function fetchRequest(uri: string, params?: RequestInit) {
 
   // console.log('siteurl', process.env.NEXT_PUBLIC_SITE_URL);
 
-  await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/${uri}`, params)
+  await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${uri}`, params)
   .then(response => {
     if (!response.ok) {
       throw new Error('Response was not ok');
