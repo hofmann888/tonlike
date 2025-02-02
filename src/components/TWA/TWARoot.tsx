@@ -28,7 +28,7 @@ function RootInner({ children }: PropsWithChildren) {
   }
 
   const lp = useLaunchParams();
-  const debug = isDev || lp.startParam === 'debug';
+  const debug = !!process.env.NEXT_PUBLIC_APP_DEBUG || lp.startParam === 'debug';
 
   // Initialize the library.
   useClientOnce(() => {
