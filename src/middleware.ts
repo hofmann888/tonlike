@@ -7,4 +7,3 @@ export async function middleware(request: NextRequest) { // TODO: do i need this
   // console.log('middleware');
   // return await updateSession(request); // TODO: caches and do not update session expire time
 }
-// test commit
