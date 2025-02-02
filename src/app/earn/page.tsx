@@ -1,27 +1,62 @@
-import EarnItem from "../components/earn-page/earn-item";
-import { Task } from "../lib/definitions";
-import Link from "next/link";
-import "../css/earn.scss";
+'use server'
 
-const tasks: Task[] = [
-  { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  { 'service': 'telegram', 'action': 'comment', 'price': 1.1, 'count': 88, done: 69 },
-  { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 },
-  // { 'service': 'telegram', 'action': 'subscribe', 'price': 0.8, 'count': 888, done: 33 }
-]
+import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest, Service, Action } from "@/lib/definitions";
+import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
+import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
+import { getAuthUser } from "@/app/auth/session";
+import TasksFilter from "@/components/TasksPage/TasksFilter";
+import EarnList from "@/components/EarnPage/EarnList";
+import EarnTabs from "@/components/EarnPage/EatnTabs";
+import EarnQuestList from "@/components/EarnPage/EarnQuestList";
 
-export default async function EarnPage() {
+export default async function EarnPage({
+  searchParams
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const user: User = await getAuthUser(false);
+
+  const tab = searchParams.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it
+
+  let quests: Quest[] = []; 
+  let tasks: Task[] = [];
+
+  if (tab === 'tasks') {
+    tasks = await fetchEarnTasksByUserId(user.id);
+  } else {
+    quests = await fetchEarnQuestsByUserId(user.id) 
+  }
+
+  const { actions, services } = tasksRelations(tasks);
+
+  const actionsFilter: TaskFilterItem = { 
+    key: TasksFilterParamEnum.ACTIONS, 
+    values: searchParams.actions ?? []
+  };
+  const servicesFilter: TaskFilterItem = { 
+    key: TasksFilterParamEnum.SERVICES, 
+    values: searchParams.services ?? []
+  };
+  const sortParam = searchParams.sort;
+
+  let tasksFiltered = tasksFilter(tasks, [actionsFilter, servicesFilter]);
+  if (sortParam?.length) {
+    tasksFiltered = tasksSort(tasksFiltered, sortParam as string);
+  }
+
   return (
-    <div className="earn-page">
-      <div className="earn-list">
-        {tasks.map((task) => (
-          <EarnItem task={task} />
-        ))}
-      </div>
+    <div className="earn-page pb-5">
+
+      <EarnTabs activeTab={tab} />
+
+      {tab === 'quests' 
+        ? <EarnQuestList quests={quests} />
+        : 
+          <>
+            {!!tasks.length && <TasksFilter actions={actions} services={services} />}
+            <EarnList tasks={tasksFiltered} />
+          </>
+      }
     </div>
   )
 }

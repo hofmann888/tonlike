@@ -1,0 +1,20 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid hsl(var(--heroui-foreground));
+    background-color: hsl(var(--heroui-background));
+
+    .header-balance {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .header-user > button > div  {
+        align-items: flex-end;
+    }
+}

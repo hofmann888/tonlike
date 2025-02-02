@@ -1,0 +1,58 @@
+'use client'
+
+// import { Chip } from "@heroui/chip";
+import { Tabs, Tab } from "@heroui/tabs";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { GoGoal } from "react-icons/go";
+import { BiTask } from "react-icons/bi";
+
+
+export default function EarnTabs({ activeTab }: { activeTab: string }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [tab, setTab] = useState(activeTab);
+
+  useEffect(() => {
+    router.push(`${pathname}?tab=${tab}`);
+  }, [tab]);
+
+  return (
+    <Tabs
+      aria-label="Status"
+      selectedKey={tab}
+      // color="primary"
+      variant="solid"
+      radius="none"
+      classNames={{
+        base: "w-full mb-3",
+        tabList: "w-full p-0 border-b border-divider",
+        tab: "px-0 h-12",
+      }}
+      onSelectionChange={(key) => setTab(key as string)}
+    >
+      <Tab
+        key='tasks'
+        title={
+          <div className="flex items-center space-x-2">
+            <BiTask />
+            <span>Tasks</span>
+            {/* <Chip size="sm" variant="faded">888</Chip> */}
+          </div>
+        }
+      />
+
+      <Tab
+        key='quests'
+        title={
+          <div className="flex items-center space-x-2">
+            <GoGoal />
+            <span>Quests</span>
+            {/* <Chip size="sm" variant="faded">8</Chip> */}
+          </div>
+        }
+      />
+    </Tabs>
+  )  
+}
