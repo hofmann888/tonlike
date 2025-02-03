@@ -8,6 +8,7 @@ export async function tgApiRequest(method: string, params: URLSearchParams) { //
 
   const url = `https://api.telegram.org/bot${token}/${method}?${params.toString()}`;
 
+  // # channel - must be admin, group - can check
   const response = await fetch(url); // TODO: 400 (Bad Request) if user not in chat
   console.log('Telegram Bot API response:', response);
   if (!response.ok) {
