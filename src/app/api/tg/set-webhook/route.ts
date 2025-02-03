@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     console.log('post set-webhook');
 
-    const params = new URLSearchParams({ url: `${process.env.NEXT_PUBLIC_SITE_URL}/webhook` });
+    const params = new URLSearchParams({ url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/tg/webhook` });
     const data = await tgApiRequest('setWebhook', params);
     
     return Response.json({ success: true, result: data });
