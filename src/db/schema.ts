@@ -147,6 +147,14 @@ export const tasksRelations = relations(tasks, ({ one, many }) => ({
 }));
 
 
+export enum TaskRelationEnum {
+  SERVICE_ACTION = 'serviceAction',
+  EARNINGS = 'earnings',
+  USER = 'user',
+  REPORTS = 'reports',
+}
+export type TaskRealation = TaskRelationEnum.SERVICE_ACTION | TaskRelationEnum.EARNINGS | TaskRelationEnum.USER | TaskRelationEnum.REPORTS;
+
 
 // =============== Tasks Earnings ===============
 // TODO?: mozhet uzh naxui i prosto alya isHidden? raz uzh no reported status...
@@ -218,7 +226,6 @@ export enum QuestRelationEnum {
   SERVICE_ACTION = 'serviceAction',
   EARNINGS = 'earnings',
 }
-
 export type QuestRealation = QuestRelationEnum.SERVICE_ACTION | QuestRelationEnum.EARNINGS;
 
 // =============== Quests Earnings ===============

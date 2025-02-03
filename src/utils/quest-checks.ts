@@ -15,7 +15,7 @@ import {
 import { Quest, User, ServiceActionName } from '@/lib/definitions';
 import { checkDailyDone } from "./helpers";
 import { QuestRelationEnum } from "@/db/schema";
-import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
+import { checkTgSubscribe, checkTgBoost } from "./task-checks";
 // import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache'; 
 
@@ -164,32 +164,6 @@ export async function checkQuestDoneCount(userId: number, countNeed: number) {
   try {
     const count = await fetchDoneQuestEarningCountByUserId(userId);
     check = count >= countNeed;
-  } catch (error) {
-    console.log(error);
-  }
-  return check;
-}
-
-export async function checkTgSubscribe(tgId: number, channel: string) {
-  console.log('checkTgSubscribe');
-  let check = false;
-  try {
-    tgId = 5229340312;
-    const data: any = await tgCheckMembershipRequest(tgId, channel);
-    check = data?.success && data?.result;
-  } catch (error) {
-    console.log(error);
-  }
-  return check;
-}
-
-export async function checkTgBoost(tgId: number, channel: string) {
-  console.log('checkTgBoost');
-  let check = false;
-  try {
-    tgId = 5229340312;
-    const data: any = await tgCheckBoostRequest(tgId, channel);
-    check = data?.success && data?.result;
   } catch (error) {
     console.log(error);
   }

@@ -4,7 +4,7 @@ import { useDisclosure } from "@heroui/modal";
 import { useEffect, useState } from "react";
 import { Task } from "@/lib/definitions";
 import { HideUserEarnTask } from "@/core/actions";
-import EarnItem from "./EarnItem";
+import EarnTaskItem from "./EarnTaskItem";
 import EarnItemReportModal from "./EarnItemReportModal";
 
 export default function EarnList({tasks}: {tasks: Task[]}) {
@@ -38,7 +38,7 @@ export default function EarnList({tasks}: {tasks: Task[]}) {
   return (
     <>
       {tasksFiltered.length ? tasksFiltered.map((task) => (
-        <EarnItem 
+        <EarnTaskItem 
           key={task.id} 
           task={task} 
           onHideClick={() => hideClick(task.id)} 

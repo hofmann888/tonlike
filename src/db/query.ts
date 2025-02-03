@@ -260,9 +260,21 @@ export async function deleteTask(id: number) {
   }
 }
 
-export async function fetchTaskById(id: number) {
+export async function fetchTaskById(id: number, relations?: schema.TaskRelationEnum[]) {
+  console.log('fetchTaskById');
   try {
-    const data = await db.query.tasks.findFirst({ where: eq(schema.tasks.id, id) });
+    let withObject: any;
+    if (relations && relations.length) {
+      withObject = {};
+      relations.map((relation) => {
+        withObject[relation] = true;
+      })
+    }
+
+    const data = await db.query.tasks.findFirst({ 
+      where: eq(schema.tasks.id, id),
+      ...(withObject && { with: withObject })
+    });
     
     return data as Task;
   } catch (error) {
@@ -465,6 +477,22 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
 }
 
 // ------------ TASK EARNINGS ------------
+export async function createTaskEarning(dto: dto.TaskEarningInsertDTO) {
+  console.log('createTaskEarning');
+  try {
+    const data = await db
+      .insert(schema.taskEarnings)
+      .values(dto)
+      .returning({ id: schema.taskEarnings.id })
+    ;
+
+    return data[0]?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to insert data.');
+  }
+}
+
 export async function hideTaskEarningForUser(userId: number, taskId: number) { // TODO?: isHidden?
   console.log('hideUserEarning');
   try {
@@ -655,7 +683,7 @@ export async function createQuestEarning(dto: dto.QuestEarningInsertDTO) {
     const data = await db
       .insert(schema.questEarnings)
       .values(dto)
-      .returning({ id: schema.reports.id })
+      .returning({ id: schema.questEarnings.id })
     ;
 
     return data[0]?.id;
