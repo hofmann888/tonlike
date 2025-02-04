@@ -15,7 +15,7 @@ const nextConfig = {
           },
           {
             key: "Access-Control-Allow-Headers",
-            value: "Content-Type",
+            value: "Content-Type, X-Telegram-Bot-Api-Secret-Token",
           },
         ],
       },

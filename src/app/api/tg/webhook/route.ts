@@ -1,23 +1,22 @@
 'use server'
 
-import { createReport } from "@/db/query";
-import { ReportReasonEnum } from "@/lib/definitions";
+import { headers } from 'next/headers';
+import util from 'util';
 
 export async function POST(req: Request) {
   try {
-    console.log('post set-webhook');
+    console.log('post webhook');
 
     const body = await req.json();
-    console.log('webhook body:', body);
+    console.log('webhook body:', util.inspect(body, false, null, true));
 
-    await createReport({ 
-      userId: 1, 
-      taskId: 1, 
-      reasons: [ReportReasonEnum.OTHER], 
-      comment: JSON.stringify({ headers: req.headers, body: body }) 
-    });
+    const headersList = headers();
 
-    return Response.json(null);
+    // TODO: check "X-Telegram-Bot-Api-Secret-Token" header
+    const token = headersList.get('X-Telegram-Bot-Api-Secret-Token');
+    console.log('secret token:', token);
+
+    Response.json(null);
   } catch (error: any) {
     console.log('webhook error:', error);
     return Response.json({ success: false, error }, { status: 500 });

@@ -63,15 +63,3 @@ export async function tgCheckBoostRequest(tgId: number, channel: string) {
     throw new Error('Request error');
   }
 }
-
-export async function tgSetWebhookRequest() {
-  try {
-    return await fetchRequest('/api/tg/set-webhook', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    console.log('tgSetWebhookRequest error', error);
-    throw new Error('Request error');
-  }
-}
