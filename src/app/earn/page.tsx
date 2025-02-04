@@ -5,8 +5,8 @@ import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
 import { getAuthUser } from "@/app/auth/session";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
-import EarnList from "@/components/EarnPage/EarnList";
 import EarnTabs from "@/components/EarnPage/EatnTabs";
+import EarnTaskList from "@/components/EarnPage/EarnTaskList";
 import EarnQuestList from "@/components/EarnPage/EarnQuestList";
 
 export default async function EarnPage({
@@ -54,7 +54,7 @@ export default async function EarnPage({
         : 
           <>
             {!!tasks.length && <TasksFilter actions={actions} services={services} />}
-            <EarnList tasks={tasksFiltered} />
+            <EarnTaskList tasks={tasksFiltered} />
           </>
       }
     </div>

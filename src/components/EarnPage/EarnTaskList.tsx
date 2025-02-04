@@ -7,7 +7,7 @@ import { HideUserEarnTask } from "@/core/actions";
 import EarnTaskItem from "./EarnTaskItem";
 import EarnItemReportModal from "./EarnItemReportModal";
 
-export default function EarnList({tasks}: {tasks: Task[]}) {
+export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   const [tasksFiltered, setTasksFiltered] = useState(tasks); // TODO?: optimize, just remove html block
   const [reportTaskId, setReportTaskId] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
