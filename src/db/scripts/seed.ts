@@ -1,5 +1,5 @@
 // import { users, services, actions, serviceActions } from './seed-data';
-import { TaskStatusEnum } from "@/lib/definitions";
+import { Task, TaskStatusEnum } from "@/lib/definitions";
 import { seed } from "drizzle-seed";
 import { sql } from 'drizzle-orm';
 import { db } from "../db";
@@ -29,6 +29,9 @@ async function clearData() {
   await db.delete(schema.actions);
   await db.delete(schema.services);
   await db.delete(schema.users);
+  // TODO?:
+  // const db = drizzle(process.env.DATABASE_URL!);
+  // await reset(db, schema);
 }
 
 async function seedUsers() {
@@ -116,9 +119,30 @@ async function seedTasksWithRelations() {
     }
   }));
 
-  await db.execute(sql`alter sequence tasks_id_seq restart with 31`);
-  await db.execute(sql`alter sequence task_earnings_id_seq restart with 31`);
+  await db.execute(sql`alter sequence tasks_id_seq restart with 2001`);
+  await db.execute(sql`alter sequence task_earnings_id_seq restart with 2001`);
   await db.execute(sql`alter sequence black_list_id_seq restart with 2`);
+}
+
+async function addTasks() {
+  console.log('addTasks');
+  const task = {
+    userId: 1,
+    serviceActionId: 1,
+    link: 'link1',
+    price: 1,
+    count: 111,
+    done: 1,
+    status: 'active',
+  }
+
+  let tasks = [];
+
+  for (let index = 0; index < 4000; index++) { // max - ~4600
+    tasks.push(task as Task);
+  }
+
+  await db.insert(schema.tasks).values(tasks);
 }
 
 
