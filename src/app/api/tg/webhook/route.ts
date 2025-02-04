@@ -10,7 +10,12 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('webhook body:', body);
 
-    await createReport({ userId: 1, taskId: 1, reasons: [ReportReasonEnum.OTHER], comment: JSON.stringify(body) });
+    await createReport({ 
+      userId: 1, 
+      taskId: 1, 
+      reasons: [ReportReasonEnum.OTHER], 
+      comment: JSON.stringify({ headers: req.headers, body: body }) 
+    });
 
     return Response.json(null);
   } catch (error: any) {
