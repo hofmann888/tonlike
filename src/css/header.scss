@@ -8,12 +8,6 @@
     border-bottom: 1px solid hsl(var(--heroui-foreground));
     background-color: hsl(var(--heroui-background));
 
-    .header-balance {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
     .header-user > button > div  {
         align-items: flex-end;
     }

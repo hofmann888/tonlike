@@ -2,8 +2,8 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, count, getTableColumns } from 'drizzle-orm';
+import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
+import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
@@ -563,6 +563,24 @@ export async function createReport(dto: dto.ReportInsertDTO) {
 }
 
 // ------------ BLACK LIST ------------
+export async function fetchBlackListByUserId(userId: number) {
+  console.log('fetchBlackListByUserId');
+  try {
+    const data = await db.query.blackList.findMany({ 
+      with: {
+        blockedUser: true,
+      },
+      where: eq(schema.blackList.userId, userId),
+      orderBy: desc(schema.blackList.createdAt)
+    });
+
+    return data as BlackListItem[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch black list data.');
+  }
+}
+
 export async function addUserToBlackList(dto: dto.BlackListInsertDTO) { // TODO!?: limit on blocked users  
   console.log('addUserToBlackList');
   try {

@@ -7,7 +7,7 @@ export default function HeaderBalance() {
   const { balance } = useUser();
 
   return (
-    <div className="header-balance">
+    <div className="flex flex-col justify-center">
       <CoinValue value={balance} textBefore="Balance:" className="text-large" />
     </div>
   );

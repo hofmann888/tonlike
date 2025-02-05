@@ -244,6 +244,16 @@ export type Performer = {
   doneAt: Date, // TODO?: createdAt?
 }
 
+export type BlackListItem = {
+  id: number,
+  userId: number,
+  blockedUserId: number,
+  reasons: BlackListReason[],
+  comment: string | null,
+  createdAt: Date,
+  blockedUser?: User,
+}
+
 export enum BlackListReasonEnum {
   TASK = 'task',
   ACCOUNT = 'account',

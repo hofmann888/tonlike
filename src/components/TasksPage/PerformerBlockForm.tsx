@@ -1,16 +1,10 @@
 import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
-import { BlackListReasonsMapItem, BlackListReasonEnum, PerformerBlockFormState } from "@/lib/definitions";
+import { blackListReasonsMap } from "../BlackList/BlackList";
+import { PerformerBlockFormState } from "@/lib/definitions";
 import { PerformerBlockFormSubmit } from "@/core/actions";
 import { useFormState } from "react-dom";
-
-const blackListReasonsMap: BlackListReasonsMapItem[] = [
-  { key: BlackListReasonEnum.TASK, title: 'Bad task complition' },
-  { key: BlackListReasonEnum.ACCOUNT, title: 'Bad account' },
-  { key: BlackListReasonEnum.BEHAVIOUR, title: 'Inappropriate behaviour' },
-  { key: BlackListReasonEnum.OTHER, title: 'Other' },
-];
 
 export default function PerformerBlockForm({ 
   formRef, blockUserId, afterSubmit
