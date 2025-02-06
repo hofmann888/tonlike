@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserWithSession, createTask, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
 import { getAuthUser } from '@/app/auth/session';
@@ -113,7 +113,8 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       }
     }
 
-    await createTask(data);
+    await createTaskWithBalanceUpdate(data, user.balance - sum)
+
     // TODO: update balance here? Yep: fix and return if task canceled
     // const balance = user.balance - countPrice;
     // const updatedUser = await updateUserById(user.id, { balance });

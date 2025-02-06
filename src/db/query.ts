@@ -4,7 +4,7 @@
 
 import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns } from 'drizzle-orm';
-import { db } from './db';
+import { db, dbPool } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
 import { setSession } from '@/app/auth/session';
@@ -32,11 +32,13 @@ export async function createUser(dto: dto.UserInsertDTO) { // TODO: empty userna
   }
 }
 
-export async function updateUser(id: number, dto: dto.UserUpdateDto) {
+export async function updateUser(id: number, dto: dto.UserUpdateDto, tx?: any) {
   console.log('updateUser');
 
   try {
-    const [data] = await db
+    const con = tx ?? db;
+
+    const [data] = await con
       .update(schema.users)
       .set({ ...dto, updatedAt: sql`NOW()` })
       .where(eq(schema.users.id, id))
@@ -53,10 +55,10 @@ export async function updateUser(id: number, dto: dto.UserUpdateDto) {
   }
 }
 
-export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) { // move to session? or just update user with param?
+export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto, tx?: any) { // TODO?: move to session? or just update user with param?
   console.log('updateUserWithSession');
   try {
-    const user = await updateUser(id, dto);
+    const user = await updateUser(id, dto, tx);
     await setSession(user);
     
     return user;
@@ -215,12 +217,55 @@ export async function fetchServiceActionById(id: number, relations: boolean = fa
 
 // ------------ TASKS ------------
 // TODO: check services and actions `active` field on fetch 
-export async function createTask(dto: dto.TaskInsertDTO) {
+export async function createTask(dto: dto.TaskInsertDTO, tx?: any) {
   console.log('createTask');
   try {
-    const data = await db.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id });
+    const con = tx ?? db;
+    const data = await con.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id });
 
     return data[0].id;
+  } catch (error ) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create task.');
+  }
+}
+
+// TODO: ochen' ploho eto vse konechno...ept ne mogli norm mehanism transakcii pridumat'...cal prosoto...nu libo ya tupoi
+// kak to peredelat' eto karoche nado budet...
+// export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
+//   console.log('createTaskWithBalanceUpdate');
+//   try {
+//     const batch = await db.batch([
+//       db.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id }),
+//       db.update(schema.users)
+//         .set({ balance: balance, updatedAt: sql`NOW()` })
+//         .where(eq(schema.users.id, dto.userId))
+//         .returning(),
+//     ]);
+
+//     await setSession(batch[1][0] as User);
+
+//     return batch[0][0].id;
+//   } catch (error ) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to create task.');
+//   }
+// }
+
+export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
+  console.log('createTaskWithBalanceUpdateTr');
+  try {
+    const result = await dbPool.transaction(async (tx) => {
+      try {
+        await createTask(dto, tx);
+        await updateUserWithSession(dto.userId, { balance: balance }, tx);
+      } catch (error) {
+        console.log('Transaction error:', error);
+        tx.rollback();
+      }
+    });
+
+    return result;
   } catch (error ) {
     console.error('Database Error:', error);
     throw new Error('Failed to create task.');
