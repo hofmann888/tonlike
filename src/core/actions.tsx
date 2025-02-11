@@ -169,7 +169,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
     const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, reserve - sum);
-    await setSession(updatedUser);
+    await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
   } catch (error) {
     console.log('Operation Error:', error);
     return {
