@@ -4,8 +4,6 @@ import { getAuthUser, setSession } from "@/app/auth/session";
 import { 
   fetchLastDateUserDoneQuest, 
   fetchQuestById, 
-  createQuestEarning, 
-  updateUserWithSession, 
   fetchLastDoneTaskEarningByUserId, 
   fetchUserReferralsCount, 
   fetchDoneTaskEarningCountByUserId, 

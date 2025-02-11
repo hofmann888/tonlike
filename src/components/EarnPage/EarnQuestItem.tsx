@@ -57,7 +57,7 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
                 <>
                   <span className="text-medium">{ title }</span>
                   <Link isExternal showAnchorIcon className="text-small" href='/img/social/telegram.png'>
-                    {quest.link}
+                    <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{quest.link}</span>
                   </Link>
 
                   {/* <Link isExternal showAnchorIcon href='/img/social/telegram.png'>

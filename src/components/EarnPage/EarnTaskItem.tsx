@@ -68,10 +68,14 @@ export default function EarnTaskItem({
             className="w-10 h-10"
           />
           <div className="flex flex-col">
-            <Link isExternal showAnchorIcon href={task.link}>
+            <span className="text-medium">{ actionTitle }</span>
+            <Link isExternal showAnchorIcon className="text-small " href='/img/social/telegram.png'>
+              <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
+            </Link>
+            {/* <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{actionTitle}</span>
+            <span className="text-small text-foreground-400">{actionTitle}</span> */}
           </div>
         </div>
 
@@ -88,7 +92,7 @@ export default function EarnTaskItem({
                 className="btn-border-shadow mr-3"
                 onPress={() => startClick()}
               >
-                  Start
+                Start
               </Button>
             : <Button 
                 color="secondary" 
@@ -97,7 +101,7 @@ export default function EarnTaskItem({
                 isLoading={status === 'loading'}
                 onPress={() => checkClick()}
               >
-                  {status !== 'loading' && 'Check'}
+                {status !== 'loading' && 'Check'}
               </Button>
             }
             
