@@ -31,8 +31,6 @@ export async function setSession(user: User) {
   console.log('setSession');
   console.log(expires);
 
-  throw new Error('asdkjakshdkjas');
-
   cookies().set({ 
     name: 'session',
     value: await encrypt({ user, expDate: new Date(expires) }),
