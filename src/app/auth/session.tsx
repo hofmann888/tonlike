@@ -4,6 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/lib/definitions";
+import { fetchUserById } from "@/db/query";
 
 // const expiresIn = parseInt(process.env.SESSION_TIME as string); // TODO: env?
 const expiresIn = 3600;
@@ -73,11 +74,15 @@ export async function deleteSession() {
   cookies().delete('session');
 }
 
-export async function getAuthUser(safe: boolean = true) {
+export async function getAuthUser(safe: boolean = true, db: boolean = true) {
   console.log('getAuthUser');
   const session = await getSession();
-  if (!session?.user.id && !safe) {
+  let user = session?.user;
+  if (!user?.id && !safe) {
     throw new Error('Not authorized.');
   }
-  return session?.user as User; // TODO: validate user from session? // decompose object?
+  if (db) { // TODO: remove after fixing transactions with balance? or set only id in coockie?
+    user = await fetchUserById(user.id);
+  }
+  return user as User; // TODO: validate user from session? // decompose object?
 }

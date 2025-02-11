@@ -69,6 +69,18 @@ export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) 
   }
 }
 
+export async function fetchUserById(id: number) {
+  console.log('fetchUserByTgId');
+  try {
+    const data = await db.query.users.findFirst({ where: eq(schema.users.id, id) });
+
+    return data as User;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
 export async function fetchUserByTgId(tgId: number) {
   console.log('fetchUserByTgId');
   try {
