@@ -119,8 +119,8 @@ async function seedTasksWithRelations() {
     }
   }));
 
-  await db.execute(sql`alter sequence tasks_id_seq restart with 2001`);
-  await db.execute(sql`alter sequence task_earnings_id_seq restart with 2001`);
+  await db.execute(sql`alter sequence tasks_id_seq restart with 31`);
+  await db.execute(sql`alter sequence task_earnings_id_seq restart with 31`);
   await db.execute(sql`alter sequence black_list_id_seq restart with 2`);
 }
 
