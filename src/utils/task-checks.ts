@@ -1,9 +1,9 @@
 'use server'
 
-import { createTaskEarning, fetchTaskById, taskIsAvailableForUser, updateUserWithSession } from "@/db/query";
+import { createTaskEarning, createTaskEarningWithBalanceUpdate, fetchTaskById, taskIsAvailableForUser, updateUserWithSession } from "@/db/query";
 import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
 import { Task, User, ServiceActionName } from '@/lib/definitions';
-import { getAuthUser } from "@/app/auth/session";
+import { getAuthUser, setSession } from "@/app/auth/session";
 import { TaskRelationEnum } from "@/db/schema";
 
 
@@ -50,16 +50,15 @@ export async function checkTask(taskId: number) {
   // redirect('/earn?tab=quests');
 }
 
-export async function earnOnTask(task: Task, user: User) { // TODO!!: db transaction
+export async function earnOnTask(task: Task, user: User) {
   console.log('earnOnTask');
-  const questEarningId = await createTaskEarning({ userId: user.id, taskId: task.id, profit: task.price });
+  const { updatedUser } = await createTaskEarningWithBalanceUpdate(
+    { userId: user.id, taskId: task.id, profit: task.price },
+    user.balance + task.price,
+  )
 
-  if (questEarningId) {
-    const balance = user.balance + task.price;
-    await updateUserWithSession(user.id, { balance });
-  }
+  await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
 }
-
 
 export async function checkTgSubscribe(tgId: number, channel: string) {
   console.log('checkTgSubscribe');

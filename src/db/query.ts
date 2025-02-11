@@ -4,7 +4,7 @@
 
 import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns } from 'drizzle-orm';
-import { db, dbPool } from './db';
+import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
 import { setSession } from '@/app/auth/session';
@@ -32,17 +32,18 @@ export async function createUser(dto: dto.UserInsertDTO) { // TODO: empty userna
   }
 }
 
-export async function updateUser(id: number, dto: dto.UserUpdateDto, tx?: any) {
+function updateUserQuery(id: number, dto: dto.UserUpdateDto) {
+  return db.update(schema.users)
+    .set({ ...dto, updatedAt: sql`NOW()` })
+    .where(eq(schema.users.id, id))
+    .returning();
+}
+
+export async function updateUser(id: number, dto: dto.UserUpdateDto) {
   console.log('updateUser');
 
   try {
-    const con = tx ?? db;
-
-    const [data] = await con
-      .update(schema.users)
-      .set({ ...dto, updatedAt: sql`NOW()` })
-      .where(eq(schema.users.id, id))
-      .returning();
+    const [data] = await updateUserQuery(id, dto);
 
     if (!data) {
       throw new Error('Wrong user ID!');
@@ -55,10 +56,10 @@ export async function updateUser(id: number, dto: dto.UserUpdateDto, tx?: any) {
   }
 }
 
-export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto, tx?: any) { // TODO?: move to session? or just update user with param?
+export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) { // TODO?: move to session? or just update user with param?
   console.log('updateUserWithSession');
   try {
-    const user = await updateUser(id, dto, tx);
+    const user = await updateUser(id, dto);
     await setSession(user);
     
     return user;
@@ -232,40 +233,19 @@ export async function createTask(dto: dto.TaskInsertDTO, tx?: any) {
 
 // TODO: ochen' ploho eto vse konechno...ept ne mogli norm mehanism transakcii pridumat'...cal prosoto...nu libo ya tupoi
 // kak to peredelat' eto karoche nado budet...
-// export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
-//   console.log('createTaskWithBalanceUpdate');
-//   try {
-//     const batch = await db.batch([
-//       db.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id }),
-//       db.update(schema.users)
-//         .set({ balance: balance, updatedAt: sql`NOW()` })
-//         .where(eq(schema.users.id, dto.userId))
-//         .returning(),
-//     ]);
-
-//     await setSession(batch[1][0] as User);
-
-//     return batch[0][0].id;
-//   } catch (error ) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to create task.');
-//   }
-// }
-
+// tx na paru sec dolshe
 export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
-  console.log('createTaskWithBalanceUpdateTr');
+  console.log('createTaskWithBalanceUpdate');
   try {
-    const result = await dbPool.transaction(async (tx) => {
-      try {
-        await createTask(dto, tx);
-        await updateUserWithSession(dto.userId, { balance: balance }, tx);
-      } catch (error) {
-        console.log('Transaction error:', error);
-        tx.rollback();
-      }
-    });
+    const batch = await db.batch([
+      db.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id }),
+      updateUserQuery(dto.userId, { balance: balance }),
+    ]);
 
-    return result;
+    return { 
+      taskId: batch[0][0].id, 
+      updatedUser: batch[1][0] as User 
+    };
   } catch (error ) {
     console.error('Database Error:', error);
     throw new Error('Failed to create task.');
@@ -286,6 +266,28 @@ export async function updateTask(id: number, dto: dto.TaskUpdateDTO) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to update task data.');
+  }
+}
+
+// polniy bred...
+export async function updateTaskWithBalance(id: number, dto: dto.TaskUpdateDTO, userId: number, balance: number) {
+  console.log('updateTaskWithBalance');
+  try {
+    const batch = await db.batch([
+      db.update(schema.tasks)
+        .set({ ...dto, updatedAt: sql`NOW()` })
+        .where(eq(schema.tasks.id, id))
+        .returning({ id: schema.tasks.id }),
+      updateUserQuery(userId, { balance: balance }),
+    ]);
+
+    return { 
+      taskId: batch[0][0].id, 
+      updatedUser: batch[1][0] as User 
+    };
+  } catch (error ) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create task.');
   }
 }
 
@@ -538,6 +540,24 @@ export async function createTaskEarning(dto: dto.TaskEarningInsertDTO) {
   }
 }
 
+export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningInsertDTO, balance: number) { // TODO refactor balance recalculate logic
+  console.log('createTaskWithBalanceUpdate');
+  try {
+    const batch = await db.batch([
+      db.insert(schema.taskEarnings).values(dto).returning({ id: schema.questEarnings.id }),
+      updateUserQuery(dto.userId, { balance: balance }),
+    ]);
+
+    return { 
+      takEarningId: batch[0][0].id, 
+      updatedUser: batch[1][0] as User 
+    };
+  } catch (error ) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
 export async function hideTaskEarningForUser(userId: number, taskId: number) { // TODO?: isHidden?
   console.log('hideUserEarning');
   try {
@@ -756,6 +776,24 @@ export async function createQuestEarning(dto: dto.QuestEarningInsertDTO) {
   }
 }
 
+export async function createQuestEarningWithBalanceUpdate(dto: dto.QuestEarningInsertDTO, balance: number) {
+  console.log('createQuestEarningWithBalanceUpdate');
+  try {
+    const batch = await db.batch([
+      db.insert(schema.questEarnings).values(dto).returning({ id: schema.questEarnings.id }),
+      updateUserQuery(dto.userId, { balance: balance }),
+    ]);
+
+    return { 
+      questEarningId: batch[0][0].id, 
+      updatedUser: batch[1][0] as User 
+    };
+  } catch (error ) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
 export async function fetchLastDateUserDoneQuest(userId: number, questId: number) {
   try {
     const data = await db.query.questEarnings.findFirst({ 
@@ -891,5 +929,50 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //   } catch (error) {
 //     console.error('Database Error:', error);
 //     throw new Error('Failed to execute query.');
+//   }
+// }
+
+// -------- tx
+
+// dolshe na paru seconds chem batch. Hotya tut vatiant bolee gibkiy
+// export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
+//   console.log('createTaskWithBalanceUpdateTr');
+//   try {
+//     const result = await dbPool.transaction(async (tx) => {
+//       try {
+//         await createTask(dto, tx);
+//         await updateUserWithSession(dto.userId, { balance: balance }, tx);
+//       } catch (error) {
+//         console.log('Transaction error:', error);
+//         tx.rollback();
+//       }
+//     });
+
+//     return result;
+//   } catch (error ) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to create task.');
+//   }
+// }
+
+// export async function createQuestEarningWithBalanceUpdate(dto: dto.QuestEarningInsertDTO, balance: number) {
+//   console.log('createQuestEarningWithBalanceUpdate');
+//   try {
+//     const result = await dbPool.transaction(async (tx) => {
+//       try {
+//         await Promise.all([
+//           createQuestEarning(dto, tx), 
+//           updateUserWithSession(dto.userId, { balance: balance }, tx)
+//         ]);
+//       } catch (error) {
+//         console.log('Transaction error:', error);
+//         tx.rollback();
+//       }
+//     });
+
+//     return result;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to insert data.');
 //   }
 // }

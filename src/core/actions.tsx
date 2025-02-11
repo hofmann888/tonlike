@@ -1,9 +1,9 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
-import { getAuthUser } from '@/app/auth/session';
+import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 
@@ -113,12 +113,8 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       }
     }
 
-    await createTaskWithBalanceUpdate(data, user.balance - sum)
-
-    // TODO: update balance here? Yep: fix and return if task canceled
-    // const balance = user.balance - countPrice;
-    // const updatedUser = await updateUserById(user.id, { balance });
-    // await setSession(updatedUser);
+    const { updatedUser } = await createTaskWithBalanceUpdate(data, user.balance - sum);
+    await setSession(updatedUser); // TODO?: move to tx?
   } catch (error) {
     console.log('Operation Error:', error);
     return {
@@ -171,11 +167,9 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       }
     }
 
-    await updateTask(taskId, { price: data.price, count: data.count });
-    // TODO: update balance here? Yep: fix and return if task canceled
-    // const balance = user.balance + task.price * task.count - task.price * task.done - sum;
-    // const updatedUser = await updateUserById(user.id, { balance });
-    // await setSession(updatedUser);
+    // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
+    const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, reserve - sum);
+    await setSession(updatedUser);
   } catch (error) {
     console.log('Operation Error:', error);
     return {

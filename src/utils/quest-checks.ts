@@ -1,6 +1,6 @@
 'use server'
 
-import { getAuthUser } from "@/app/auth/session";
+import { getAuthUser, setSession } from "@/app/auth/session";
 import { 
   fetchLastDateUserDoneQuest, 
   fetchQuestById, 
@@ -11,6 +11,7 @@ import {
   fetchDoneTaskEarningCountByUserId, 
   fetchDoneQuestEarningCountByUserId,
   fetchTaskCountByUserId,
+  createQuestEarningWithBalanceUpdate,
 } from "@/db/query";
 import { Quest, User, ServiceActionName } from '@/lib/definitions';
 import { checkDailyDone } from "./helpers";
@@ -84,14 +85,14 @@ export async function checkQuest(questId: number) {
   // redirect('/earn?tab=quests');
 }
 
-export async function earnOnQuest(quest: Quest, user: User) { // TODO!!: db transaction
+export async function earnOnQuest(quest: Quest, user: User) {
   console.log('earnOnQuest');
-  const questEarningId = await createQuestEarning({ userId: user.id, questId: quest.id, profit: quest.price });
+  const { updatedUser } = await createQuestEarningWithBalanceUpdate(
+    { userId: user.id, questId: quest.id, profit: quest.price },
+    user.balance + quest.price,
+  )
 
-  if (questEarningId) {
-    const balance = user.balance + quest.price;
-    await updateUserWithSession(user.id, { balance });
-  }
+  await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
 }
 
 
