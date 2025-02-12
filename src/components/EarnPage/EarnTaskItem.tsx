@@ -56,16 +56,16 @@ export default function EarnTaskItem({
   return (
     <Card 
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
+      className="border-none bg-background/60 dark:bg-default-100/50 mb-2"
       shadow="sm"
     >
       <CardBody className="flex-row justify-between items-center">
         <div className="flex items-center gap-2">
           <Avatar
-            alt={task.service?.title}
             size="sm"
-            src={task.service?.icon}
             className="w-10 h-10"
+            src={task.service?.icon}
+            alt={task.service?.title}
           />
           <div className="flex flex-col">
             <span className="text-medium">{ actionTitle }</span>

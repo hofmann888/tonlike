@@ -64,7 +64,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   }, [page, tasks]);
 
   return (
-    <div className="task-list">
+    <div className="px-2">
       {tasksPaginated.length ? tasksPaginated.map((task) => (
         <TaskItem 
           key={task.id} 

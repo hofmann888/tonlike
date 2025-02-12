@@ -31,11 +31,14 @@ export default function Footer() {
           selectedKey={selectedNav} 
           aria-label="Navigation"
           variant="underlined"
+          color="primary"
           classNames={{ 
             base: "w-full h-full", 
             tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
             tab: "h-full",
-            cursor: "w-full bg-[#22d3ee]",
+            cursor: "w-full",
+            tabContent: "group-data-[selected=true]:text-foreground-900"
+            // cursor: "w-full bg-[#22d3ee]",
           }}
         >
           {navLinks.map((link) => {

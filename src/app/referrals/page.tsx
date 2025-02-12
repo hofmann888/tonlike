@@ -16,7 +16,7 @@ export default async function RefferalsPage() {
   // }
 
   return (
-    <div className="flex flex-col justify-between h-full pt-4">
+    <div className="flex flex-col justify-between h-full pt-4 px-2">
       <div>
         <ReferralsInfo count={referrals.length} profit={888} profitToday={8} />
 

@@ -84,11 +84,14 @@ export default function TasksFilter({
         color="primary"
         variant="underlined"
         classNames={{
-          base: "w-full max-w-[100vw] sticky top-[80px] bg-background z-50",
-          tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-          cursor: "w-full bg-[#22d3ee]",
+          base: "w-full max-w-[100vw]",
+          tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider",
+          cursor: "w-full",
           tab: "max-w-full px-0 h-12",
-          tabContent: "group-data-[selected=true]:text-[#06b6d4]",
+          tabContent: "px-2"
+          // cursor: "w-full bg-[#22d3ee]",
+          // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
+          // tabContent: "group-data-[selected=true]:text-foreground-900"
         }}
         onSelectionChange={(key) => tabOnChange(key as string)}
       >
@@ -130,7 +133,7 @@ export default function TasksFilter({
             aria-label="Filter"
             onPress={filterOnPress}
             title={
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center pl-3">
               <div>
                 <p>Filter</p>
                 <p className="text-small text-foreground-400">Press to {pressSubText}</p>

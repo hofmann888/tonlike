@@ -18,21 +18,24 @@ export default function Walletage() {
   return (
     <div className="wallet-page">
       <Tabs
-        aria-label="Status"
-        // variant="underlined"
+        color="primary"
+        variant="underlined"
+        radius="none"
         classNames={{
-          base: "w-full mb-5",
-          tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+          base: "w-full mb-3",
+          cursor: "w-full",
+          tabList: "w-full p-0 border-b border-divider",
+          tab: "px-0 h-14 data-[selected=true]:bg-[#ffffff12]",
+          tabContent: "group-data-[selected=true]:text-foreground-900"
           // cursor: "w-full bg-[#22d3ee]",
-          tab: "max-w-full px-0 h-12",
           // tabContent: "group-data-[selected=true]:text-[#06b6d4]",
         }}
       >
-        <Tab key="deposit" title="Deposit">
+        <Tab key="deposit" title="Deposit" className="px-2">
           <DepositForm />
         </Tab>
 
-        <Tab key="withdraw" title="Withdraw">
+        <Tab key="withdraw" title="Withdraw" className="px-2">
           <WithdrawForm />
         </Tab>
       </Tabs>

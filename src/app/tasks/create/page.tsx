@@ -10,7 +10,7 @@ export default async function CreateTaskPage() {
   // const [services, actions] = await Promise.all([servicesPromise, actionsPromise]);
 
   return (
-    <div className="create-task-page py-5">
+    <div className="create-task-page py-5 px-2">
       <CreateTaskForm services={services} />
     </div>
   )

@@ -10,9 +10,9 @@ export default async function LeaderboardPage() {
   const users = await fetchUsersLeaderboard();
 
   return (
-    <div className="py-5">
+    <div className="py-5 px-2">
       {users.map((user, idx) => (
-        <Card key={idx} isBlurred className="border-none bg-background/60 dark:bg-default-100/50">
+        <Card key={idx} isBlurred className="border-none bg-background/60 dark:bg-default-100/50 mt-1">
           <CardBody className="flex flex-row justify-between items-center">
             <span
               className={clsx(

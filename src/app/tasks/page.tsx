@@ -48,7 +48,7 @@ export default async function TasksPage({
         <TaskList tasks={tasksFiltered} />
       </div>
 
-      <div className="sticky bottom-[60px] z-50 bg-background">
+      <div className="sticky bottom-[60px] z-50 bg-background px-2">
         <Button
           as={Link}
           color="primary"

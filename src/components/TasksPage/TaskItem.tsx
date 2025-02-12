@@ -65,10 +65,10 @@ export default function TaskItem({
       <CardBody className="flex-row justify-between pb-2">
         <div className="flex items-center gap-2 w-1/4">
           <Avatar
-            alt={task.service?.title}
-            className="flex-shrink-0"
             size="sm"
+            className="flex-shrink-0 w-10 h-10"
             src={task.service?.icon}
+            alt={task.service?.title}
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>

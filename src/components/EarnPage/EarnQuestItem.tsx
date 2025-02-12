@@ -35,7 +35,7 @@ export default function EarnQuestItem({ quest }: { quest: Quest }) {
     <Card 
       key={quest.id}
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
+      className="border-none bg-background/60 dark:bg-default-100/50 mb-2"
       shadow="sm"
     >
       <CardBody className="flex-row justify-between items-center">

@@ -22,13 +22,15 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
     <Tabs
       aria-label="Status"
       selectedKey={tab}
-      // color="primary"
-      variant="solid"
+      color="primary"
+      variant="underlined"
       radius="none"
       classNames={{
         base: "w-full mb-3",
+        cursor: "w-full",
         tabList: "w-full p-0 border-b border-divider",
-        tab: "px-0 h-12",
+        tab: "px-0 h-14 data-[selected=true]:bg-[#ffffff12]",
+        tabContent: "group-data-[selected=true]:text-foreground-900"
       }}
       onSelectionChange={(key) => setTab(key as string)}
     >

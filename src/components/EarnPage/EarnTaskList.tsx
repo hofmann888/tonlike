@@ -36,7 +36,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   }, [tasks]);
 
   return (
-    <>
+    <div className="px-2">
       {tasksFiltered.length ? tasksFiltered.map((task) => (
         <EarnTaskItem 
           key={task.id} 
@@ -52,6 +52,6 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
         onOpenChange={onOpenChange} 
         earnItemReported={earnItemReported} 
       />
-    </>
+    </div>
   )
 }

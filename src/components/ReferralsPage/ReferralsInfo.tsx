@@ -9,7 +9,7 @@ export default function ReferralsInfo({
   return (
     <div className="mb-8">
       <div className="flex justify-between">
-        <Card className="w-3/4 mr-2">
+        <Card className="w-3/4 mr-2 border-1 border-foreground-300 bg-[#00001280]">
           <CardHeader>Invate Friends</CardHeader>
           <CardBody className="text-medium text-foreground-500">
             <p>Earn from they profit!</p>
@@ -17,21 +17,21 @@ export default function ReferralsInfo({
           </CardBody>
         </Card>
 
-        <Card className="w-1/4 ml-2">
+        <Card className="w-1/4 ml-2 border-1 border-foreground-300 bg-[#00001280]">
           <CardHeader>Friends</CardHeader>
           <CardBody className="text-center text-4xl">{count}</CardBody>
         </Card>
       </div>
 
       <div className="flex justify-between mt-4">
-      <Card className="w-1/2 mr-2">
+        <Card className="w-1/2 mr-2 border-1 border-foreground-300 bg-[#00001280]">
           <CardHeader>Profit today</CardHeader>
           <CardBody>
             <CoinValue value={profitToday} />
           </CardBody>
         </Card>
 
-        <Card className="w-1/2 ml-2">
+        <Card className="w-1/2 ml-2 border-1 border-foreground-300 bg-[#00001280]">
           <CardHeader>Profit</CardHeader>
           <CardBody>
             <CoinValue value={profit} />

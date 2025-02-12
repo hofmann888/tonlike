@@ -5,7 +5,7 @@ import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
 import { getAuthUser } from "@/app/auth/session";
 import TasksFilter from "@/components/TasksPage/TasksFilter";
-import EarnTabs from "@/components/EarnPage/EatnTabs";
+import EarnTabs from "@/components/EarnPage/EarnTabs";
 import EarnTaskList from "@/components/EarnPage/EarnTaskList";
 import EarnQuestList from "@/components/EarnPage/EarnQuestList";
 

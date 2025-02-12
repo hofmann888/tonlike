@@ -81,8 +81,8 @@ export async function getAuthUser(safe: boolean = true, db: boolean = true) {
   if (!user?.id && !safe) {
     throw new Error('Not authorized.');
   }
-  if (db) { // TODO: remove after fixing transactions with balance? or set only id in coockie?
-    user = await fetchUserById(user.id);
-  }
+  // if (db) { // TODO: remove after fixing transactions with balance? or set only id in coockie?
+  //   user = await fetchUserById(user.id);
+  // }
   return user as User; // TODO: validate user from session? // decompose object?
 }

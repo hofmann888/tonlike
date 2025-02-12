@@ -5,7 +5,7 @@ import "@/css/header.scss";
 
 export default function Header() {
   return (
-    <header className="header row-start-1">
+    <header className="header row-start-1 px-2">
       <HeaderBalance />
 
       <HeaderUser />

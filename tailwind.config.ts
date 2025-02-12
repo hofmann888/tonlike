@@ -22,6 +22,7 @@ export default {
         dark: {
           colors: {
             background: "#000012",
+            // foreground: "#ededed",
           },
         },
       },
