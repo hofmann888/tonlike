@@ -16,5 +16,15 @@ export default {
       },
     },
   },
-  plugins: [heroui()],
+  plugins: [heroui(
+    {
+      themes: {
+        dark: {
+          colors: {
+            background: "#000012",
+          },
+        },
+      },
+    }
+  )],
 } satisfies Config;

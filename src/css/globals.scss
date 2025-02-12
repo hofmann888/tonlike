@@ -6,17 +6,16 @@
 //     --background: #ffffff;
 //     --foreground: #171717;
 // }
+// :root {
+//     --background: hsl(var(--heroui-background));
+//     --foreground: hsl(var(--heroui-foregroung));
+// }
 // @media (prefers-color-scheme: dark) {
 //     :root {
 //         --background: #0a0a0a;
 //         --foreground: #ededed;
 //     }
 // }
-
-:root {
-    --background: hsl(var(--heroui-background));
-    --foreground: hsl(var(--heroui-foregroung));
-}
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -34,4 +33,12 @@ body {
 
 .btn-border-shadow:hover {
     box-shadow: 0px 0px 20px 0px hsl(var(--heroui-primary) / var(--heroui-primary-opacity, var(--tw-text-opacity)));
+}
+
+.layout-grid {
+    // background: center / contain no-repeat url("/img/bg2.jpg");
+    // background: linear-gradient(90deg, rgba(0,20,119,1) 0%, rgba(0,0,0,1) 60%);
+    // background: radial-gradient(circle, rgba(0,20,119,1) 0%, rgba(0,0,0,1) 30%);
+    background: radial-gradient(circle, rgba(17,0,107,1) 0%, rgba(0,0,0,1) 30%);
+    background-attachment: fixed;
 }
