@@ -23,9 +23,8 @@ export default function Footer() {
     selectedNav = '/tasks';
   }
 
-  // TODO?: replace Link with Tab.href after fixing HeroUIProvider
   return (
-    <footer className="footer row-start-3">
+    <footer className="footer row-start-3 w-full h-[60px] sticky bottom-0 z-50 border-t-1 border-foreground-900 bg-background">
       <nav className="footer-nav h-full">
         <Tabs 
           selectedKey={selectedNav} 

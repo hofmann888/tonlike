@@ -24,7 +24,10 @@ export default function HeaderUser() {
               src: tgPhotoUrl,
               size: 'lg',
             }}
-            className="transition-transform flex-row-reverse"
+            classNames={{
+              base: "transition-transform flex-row-reverse",
+              wrapper: "items-end"
+            }}
             description={<span className="text-medium">@{tgUserName}</span>}
             name={<span className="text-large">{tgFirstName} {tgLastName}</span>}
           />
