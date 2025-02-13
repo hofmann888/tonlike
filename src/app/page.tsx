@@ -3,7 +3,6 @@
 import { tgCheckMembershipRequest } from "@/utils/requests";
 import { deleteSession } from "./auth/session";
 import { Button } from "@heroui/button";
-import "@/css/main.scss";
 
 export default function Home() {
   const test = async () => {

@@ -66,5 +66,5 @@ export function TWARoot(props: PropsWithChildren) {
     <ErrorBoundary fallback={ErrorPage}>
       <RootInner {...props}/>
     </ErrorBoundary>
-  ) : <div className="root__loading">Loading</div>;
+  ) : <div className="flex items-center justify-center absolute top-0 left-0 w-full h-full">Loading</div>;
 }

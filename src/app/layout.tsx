@@ -6,7 +6,6 @@ import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import "@/css/globals.scss";
-import "@/css/main.scss";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -43,7 +42,7 @@ export default async function RootLayout({
             userData={session?.user}
             themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
           >
-            <div className="layout-grid min-h-screen font-[family-name:var(--font-geist-sans)]">
+            <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
               <Header />
               
               <main className="layout-content">
