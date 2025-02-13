@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { fetchServiceActionById } from '@/db/query';
 import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
+import { ServiceActionsRelationsEnum } from '@/db/schema';
 // import { CurrencyEnum } from '@/lib/definitions';
 
 export const depositFormSchema = z.object({
@@ -12,17 +13,19 @@ export const withdrawFormSchema = z.object({
   address: z.string().length(48, { message: "Wrong address" }),
 });
 
-
 export const createTaskFormSchema = z.object({
-  serviceActionId: z.coerce.number().positive().refine(async (id) => {
-    const serviceAction = await fetchServiceActionById(id, true);
-    return serviceAction.active && serviceAction.service?.active && serviceAction.action?.active;
-  }, { message: "Wrong service action." }),
+  serviceActionId: z.coerce.number()
+    .positive({ message: 'Wrong action.' })
+    .refine(async (id) => {
+      const serviceAction = await fetchServiceActionById(id, [ServiceActionsRelationsEnum.ACTION, ServiceActionsRelationsEnum.SERVICE]);
+      return serviceAction && serviceAction.active && serviceAction.service?.active && serviceAction.action?.active;
+    }, { message: 'Wrong action.' }),
   link: z.string()
-  .min(3, { message:'Must be 3 or more characters long' })
-  .max(255, { message: "Must be 255 or fewer characters long" }),
-  price: z.coerce.number().min(1, { message: 'Please enter a price greater or equal 1.'}),
-  count: z.coerce.number().min(10, { message: 'Please enter a count greater or equal 10.'}), // todo: check balance
+    .min(3, { message: 'Must be 3 or more characters long.' })
+    .max(255, { message: 'Must be 255 or fewer characters long.' })
+    .regex(/^(https?:\/\/|@)/, { message: 'Wrong format.' }), // TODO: check link by service
+  price: z.coerce.number().min(1, { message: 'Must be greater or equal 1.'}),
+  count: z.coerce.number().min(10, { message: 'Must be greater or equal 10.'}),
   // actionId: z.coerce.number().positive().refine(async (id) => {
   //   const action = await fetchActionById(id);
   //   return !!action?.id;

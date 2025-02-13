@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
@@ -94,7 +94,6 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       // actionId: formData.get('actionId'),
       // currency: formData.get('currency'),
     });
-    console.log('validated:', validated);
 
     if (!validated.success) {
       return {
@@ -104,12 +103,20 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     }
 
     const data = { userId: user.id, ...validated.data };
+    data.count = Math.floor(Number(data.count));
+    data.price = Math.floor(Number(data.price));
     const sum = data.count * data.price;
 
-    if (user.balance < sum) { // TODO: refactor zod refine?
+    if (user.balance < sum) { // TODO?: refactor zod refine?
       return {
-        errors: { count: ['Lower the count'], price: ['Lower the price']},
+        errors: { price: ['Lower the price']},
         message: `Not enough balance to create task. Need at least $${sum}.`,
+      }
+    }
+
+    if (await isTaskExists(data.userId, data.serviceActionId, data.link)) {
+      return { 
+        message: 'Task already exists.',
       }
     }
 
@@ -118,7 +125,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to create task.',
+      message: 'Failed to create task.',
     };
   }
   

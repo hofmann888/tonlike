@@ -3,7 +3,7 @@
 // import 'server-only'; // TODO!
 
 import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns } from 'drizzle-orm';
+import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
@@ -213,12 +213,20 @@ export async function fetchServicesWithActions(active?: boolean) {
 }
 
 // ------------ SERVICE ACTIONS ------------ 
-export async function fetchServiceActionById(id: number, relations: boolean = false) {
+export async function fetchServiceActionById(id: number, relations: schema.ServiceActionsRelation[]) {
   console.log('fetchServiceActionById');
   try {
+    let withObject: any;
+    if (relations && relations.length) {
+      withObject = {};
+      relations.map((relation) => {
+        withObject[relation] = true;
+      })
+    }
+
     const data = await db.query.serviceActions.findFirst({ 
       where: eq(schema.services.id, id),
-      ...(relations && { with: {service: true, action: true} })
+      ...(withObject && { with: withObject })
     });
 
     return data as ServiceAction;
@@ -319,7 +327,7 @@ export async function deleteTask(id: number) {
   }
 }
 
-export async function fetchTaskById(id: number, relations?: schema.TaskRelationEnum[]) {
+export async function fetchTaskById(id: number, relations?: schema.TaskRelation[]) {
   console.log('fetchTaskById');
   try {
     let withObject: any;
@@ -529,6 +537,25 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
     ;
 
     return !!data[0]?.id;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function isTaskExists(userId: number, serviceActionId: number, link: string) {
+  console.log('isTaskExists');
+  try {
+    const data = await db.query.tasks.findFirst({ 
+      where: and(
+        eq(schema.tasks.userId, userId),
+        eq(schema.tasks.serviceActionId, serviceActionId),
+        eq(schema.tasks.link, link),
+        inArray(schema.tasks.status, [TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED])
+      ),
+      columns: { id: true }
+     });
+     return !!data?.id;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to execute query.');

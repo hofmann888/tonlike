@@ -9,22 +9,22 @@ import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import { CreateTaskFormSubmit } from "@/core/actions";
-import { CreateTaskFormState, Action, Service } from "@/lib/definitions";
+import { CreateTaskFormState, Service } from "@/lib/definitions";
 import SubmitButton from "@/components/Forms/SubmitButton";
 import CoinIcon from "../Common/CoinIcon";
 
 
-// TODO: format + validation (numbers float, link)
+// TODO: format + validation (numbers float, link) +-
+// TODO: link placeholders map
 // TODO: extended settings (schedule, timeout...)
-// TODO: errors view (currency and count)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
 
-  const [serviceActionId, setServiceActionId] = useState('1');
+  const [serviceActionId, setServiceActionId] = useState('0');
   const [serviceId, setServiceId] = useState('2');
   const [service, setService] = useState(services[0]);
   const [link, setLink] = useState('');
-  const [price, setPrice] = useState(1); // TODO: forbid more than 2 decimals on input or remove decimals
+  const [price, setPrice] = useState(1);
   const [count, setCount] = useState<SliderValue>(10);
   const [sum, setSum] = useState(0);
   
@@ -38,7 +38,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
     const selectedService = services.find((service) => `${service.id}` === serviceId) as Service;
     setService(selectedService);
     const selectedServiceActionId = selectedService.serviceActions ? selectedService.serviceActions[0].id as any as string : '0';
-    setServiceActionId(selectedServiceActionId); // TODO: action select options list on epmty
+    setServiceActionId(selectedServiceActionId);
   }, [serviceId]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   }, [sum]);
 
   return (
-    <Form action={formAction} validationErrors={state?.errors}>
+    <Form action={formAction}>
       <Select
         name="serviceId"
         label="Service"
@@ -102,24 +102,36 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         label="Action" 
         variant="bordered"
         items={service.serviceActions}
-        selectedKeys={[serviceActionId]}
-        onChange={(e) => setServiceActionId(e.target.value)}
+        onChange={(e) => {
+          setServiceActionId(e.target.value);
+          if (state?.errors?.serviceActionId?.length) {
+            delete state?.errors?.serviceActionId;
+          }
+        }}
+        isInvalid={!!state?.errors?.serviceActionId?.length}
+        errorMessage={state?.errors?.serviceActionId?.length ? state.errors.serviceActionId[0] : ''}
         disallowEmptySelection
       >
-        {service.serviceActions 
-          ? service.serviceActions.map((serviceAction) => (<SelectItem key={serviceAction.id}>{serviceAction.title ?? serviceAction.action?.title}</SelectItem>))
-          : <SelectItem key={0}>No items</SelectItem>
-        }
+        {(serviceAction) => (
+          <SelectItem key={serviceAction.id}>{serviceAction.title ?? serviceAction.action?.title}</SelectItem>
+        )}
       </Select>
 
       <Input 
         name="link" 
         label="Link" 
         variant="bordered" 
-        placeholder=""
+        // placeholder="https://example.com or @example"
         value={link} 
-        onValueChange={setLink}
-        isClearable 
+        onValueChange={(value) => {
+          setLink(value);
+          if (state?.errors?.link?.length) {
+            delete state?.errors?.link;
+          }
+        }}
+        isInvalid={!!state?.errors?.link?.length}
+        errorMessage={state?.errors?.link?.length ? state.errors.link[0] : ''}
+        isClearable
       />
 
       <div className="flex w-full">
@@ -128,12 +140,19 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           label="Price"
           type="number"
           placeholder="0"
-          value={`${price}`}
-          onValueChange={(value) => setPrice(Number(value))}
-          min={1}
-          step={1}
           variant="bordered"
           className="w-3/4 mr-2"
+          min={1}
+          step={1}
+          value={`${price}`}
+          onValueChange={(value) => {
+            setPrice(Math.floor(Number(value)));
+            if (state?.errors?.price?.length) {
+              delete state?.errors?.price;
+            }
+          }}
+          isInvalid={!!state?.errors?.price?.length}
+          errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
               <CoinIcon className="text-default-400 text-large" />
@@ -146,9 +165,9 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           label="Currency" 
           variant="bordered" 
           className="w-1/4"
-          disallowEmptySelection
           selectedKeys={['coin']}
           isDisabled
+          disallowEmptySelection
         >
           <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
             COIN
@@ -156,7 +175,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         </Select>
       </div>
 
-      <div className="w-full flex justify-between items-end px-2">
+      <div className="w-full flex justify-between items-baseline px-2">
         <Slider
           label="Count"
           size="sm"
@@ -185,19 +204,26 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           name="count"
           type="number"
           variant="underlined"
-          classNames={{ base: "w-1/4 mb-[10px]", input: "text-center" }}
+          classNames={{ base: "w-1/4 mb-[10px]", input: "text-center", errorMessage: "absolute" }}
           placeholder="0"
           step={1}
           min={10}
           max={maxCount}
           value={`${count}`}
-          onValueChange={(value) => setCount(value as any as SliderValue)}
+          onValueChange={(value) => {
+            setCount(Math.floor(Number(value)) as any as SliderValue);
+            if (state?.errors?.count?.length) {
+              delete state?.errors?.count;
+            }
+          }}
+          isInvalid={!!state?.errors?.count?.length}
+          errorMessage={state?.errors?.count?.length ? state.errors.count[0] : ''}
         />
       </div>
 
       <div id="fields-error" aria-live="polite" aria-atomic="true">
         {state?.message &&
-          <p className="mt-2 text-sm text-red-500" key={state.message}>
+          <p className="mt-2 text-sm text-danger" key={state.message}>
             {state.message}
           </p>
         }

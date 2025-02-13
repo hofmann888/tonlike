@@ -99,6 +99,12 @@ export const serviceActionsRelations = relations(serviceActions, ({ one }) => ({
   // TODO?: tasks?
 }));
 
+export enum ServiceActionsRelationsEnum {
+  SERVICE = 'service',
+  ACTION = 'action',
+}
+export type ServiceActionsRelation = ServiceActionsRelationsEnum.SERVICE | ServiceActionsRelationsEnum.ACTION;
+
 
 // =============== Tasks ===============
 // TODO?: scheduled status? or better opredelyat po field?
@@ -115,7 +121,7 @@ export const tasks = pgTable('tasks', {
   link: varchar({ length: 255 }).notNull(),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vryd ly...hotya...
   count: integer().notNull(),
-  done: integer().notNull().default(0),
+  done: integer().notNull().default(0), // TODO?: replace with count(task_earnings)?
   status: taskStatusEnum().notNull().default(TaskStatusEnum.ACTIVE),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
@@ -153,7 +159,7 @@ export enum TaskRelationEnum {
   USER = 'user',
   REPORTS = 'reports',
 }
-export type TaskRealation = TaskRelationEnum.SERVICE_ACTION | TaskRelationEnum.EARNINGS | TaskRelationEnum.USER | TaskRelationEnum.REPORTS;
+export type TaskRelation = TaskRelationEnum.SERVICE_ACTION | TaskRelationEnum.EARNINGS | TaskRelationEnum.USER | TaskRelationEnum.REPORTS;
 
 
 // =============== Tasks Earnings ===============
