@@ -10,10 +10,12 @@ import PerformerBlockModal from "./PerformerBlockModal";
 import clsx from "clsx";
 
 // TODO?: move modal to tasklist component?
-export default function TaskPerformersList({ taskId, performers }: { taskId:number, performers: Performer[] }) {
+// TODO: move card to separate component and add loaders on btn clicks
+// TODO: show no performers message on empty list
+export default function TaskPerformersList({ performers }: { performers: Performer[] }) {
   // console.log('TaskPerformersList:', performers);
   // for (let i = 0; i < 20; i++) {
-  //   performers.push(performers[1]);
+  //   performers.push(performers[0]);
   // }
 
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -34,11 +36,10 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
   }
 
   function performerBlocked(id: number) {
-    console.log('performerBlocked');
     updateBlockStatus(id, true);
   }
 
-  function updateBlockStatus(id: number, isBlocked: boolean) { // TODO: loader
+  function updateBlockStatus(id: number, isBlocked: boolean) {
     const performersUpdate = performersState.map((performer) => {
       if (performer.id === id) {
         performer.isBlocked = isBlocked;
@@ -49,9 +50,8 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
     setPerformersState(performersUpdate);
   }
 
-  // TODO: show no performers message on empty list
   return (
-    <ScrollShadow className="w-full mt-2 pt-2 max-h-44 overflow-auto">
+    <ScrollShadow className="w-full mt-2 pt-2 px-2 max-h-44 overflow-auto">
       {performersState.map((performer) => {
         const date = new Date(performer.doneAt);
 
@@ -60,7 +60,6 @@ export default function TaskPerformersList({ taskId, performers }: { taskId:numb
           key={performer.id} 
           className="border-none bg-background/60 dark:bg-default-100/50 mt-1"
           shadow="sm"
-          // isBlurred
         >
           <CardBody className="flex-row justify-between items-center">
             <div className="text-tiny">

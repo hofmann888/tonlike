@@ -237,15 +237,12 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
   try {
     const user: User = await getAuthUser(false);
 
-    console.log('formData', formData);
-
     const validated = PerformerBlockFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
       comment: formData.get('comment'),
     });
 
     if (!validated.success) {
-      console.log('errors', validated.error.flatten().fieldErrors);
       return {
         errors: validated.error.flatten().fieldErrors,
         message: 'Failed to block user.',
@@ -253,12 +250,8 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
       };
     }
 
-    // if (!await userHasTask(taskId, user.id)) { // TODO!?: do i need this?
-    //   throw new Error("Wrong task!");
-    // }
-
     if (await userInBlackList(user.id, blockUserId)) {
-      throw new Error("Can't block user!");
+      throw new Error("User already blocked.");
     }
 
     const data = { userId: user.id, blockedUserId: blockUserId, ...validated.data };
@@ -267,17 +260,15 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to block user.',
+      message: 'Failed to block user.',
       success: false
     };
   }
-  return { success: true }; // TODO: check with revalidatePath and redirect
-  // revalidatePath('/tasks');
-  // redirect('/tasks');
+  return { success: true };
 }
 
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
-  console.log('HideUserEarnTask');
+  console.log('PerformerUnblock');
   try {
     const user: User = await getAuthUser(false);
     
@@ -288,7 +279,7 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to unblock user.',
+      message: 'Failed to unblock user.',
       success: false,
     };
   }

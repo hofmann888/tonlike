@@ -53,7 +53,7 @@ export default function PerformerBlockModal({
 
             <ModalBody>
               {message.length 
-                ? message 
+                ? <p className="text-medium">{message}</p> 
                 : <PerformerBlockForm formRef={formRef} blockUserId={blockUserId} afterSubmit={afterSubmit} />
               }
             </ModalBody>

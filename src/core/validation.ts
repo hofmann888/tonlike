@@ -10,7 +10,7 @@ export const depositFormSchema = z.object({
 
 export const withdrawFormSchema = z.object({
   amount: z.coerce.number().min(1, { message: 'Please enter an amount greater or equal $1.'}),
-  address: z.string().length(48, { message: "Wrong address" }),
+  address: z.string().length(48, { message: "Wrong address." }),
 });
 
 export const createTaskFormSchema = z.object({
@@ -54,8 +54,8 @@ export const EarnItemReportFormSchema = z.object({
     ReportReasonEnum.COPYRIGHT, 
     ReportReasonEnum.CONTENT, 
     ReportReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason" }),
-  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
+  ]).array().nonempty({ message: "Choose at least one reason." }),
+  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long." }),
 });
 
 export const PerformerBlockFormSchema = z.object({
@@ -64,6 +64,6 @@ export const PerformerBlockFormSchema = z.object({
     BlackListReasonEnum.ACCOUNT, 
     BlackListReasonEnum.BEHAVIOUR, 
     BlackListReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason" }),
-  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long" }),
+  ]).array().nonempty({ message: "Choose at least one reason." }),
+  comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long." }),
 });

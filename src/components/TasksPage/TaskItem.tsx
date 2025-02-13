@@ -33,6 +33,7 @@ export default function TaskItem({
   const [performers, setPerformers] = useState([] as Performer[]);
   const [showPerformers, setShowPerformers] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
 
@@ -41,14 +42,18 @@ export default function TaskItem({
       setShowPerformers(false);
       return;
     }
-
+    
+    setLoading(true);
     showEditForm && setShowEditForm(false);
 
-    const { data } = await GetTaskPerformers(task.id); // cache and prefetch
+    // TODO: cache and prefetch
+    // TODO?: move to TaskPerformersList component? 
+    const { data } = await GetTaskPerformers(task.id);
     if (data?.length) {
       setPerformers(data as Performer[]);
       setShowPerformers(true);
     }
+    setLoading(false);
   }
 
   function onEditClick() {
@@ -100,7 +105,7 @@ export default function TaskItem({
 
           <Dropdown>
             <DropdownTrigger>
-              <Button isIconOnly aria-label="Task Actions Button" variant="light">
+              <Button isIconOnly aria-label="Task Actions Button" variant="light" isLoading={loading}>
                 <PiDotsThreeOutlineVerticalFill />
               </Button>
             </DropdownTrigger>
@@ -131,7 +136,7 @@ export default function TaskItem({
 
         {showPerformers && 
           <>
-            <TaskPerformersList taskId={task.id} performers={performers} /> 
+            <TaskPerformersList performers={performers} /> 
 
             <Button color="danger" variant="light" className="mt-4 w-full" onPress={() => setShowPerformers(false)}>
               Close
