@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { NavLink } from "@/lib/definitions";
 import { Tabs, Tab } from "@heroui/tabs";
 import Link from "next/link";
-import "@/css/footer.scss";
 
 const navLinks: NavLink[] = [
   { href: '/leaderboard', icon: FaTrophy },
