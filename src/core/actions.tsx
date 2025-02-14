@@ -109,7 +109,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 
     if (user.balance < sum) { // TODO?: refactor zod refine?
       return {
-        errors: { price: ['Lower the price']},
+        errors: { price: ['Lower the price'] },
         message: `Not enough balance to create task. Need at least $${sum}.`,
       }
     }
@@ -142,7 +142,6 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       price: formData.get('price'),
       count: formData.get('count'),
     });
-    console.log('validated:', validated);
 
     if (!validated.success) {
       return {
@@ -152,25 +151,27 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     }
 
     if (!await userHasTask(taskId, user.id)) {
-      throw new Error("Wrong task!");
+      throw new Error("Wrong task.");
     }
 
     const data = validated.data;
+    data.count = Math.floor(Number(data.count));
+    data.price = Math.floor(Number(data.price));
     const task = await fetchTaskById(taskId);
     const reserve = Number(user.balance) + task.price * task.count - task.price * task.done;
     const sum = data.count * data.price;
 
-    if (data.count < task.count) { // TODO: refactor zod refine?
+    if (data.count < task.done) { // TODO?: refactor zod refine?
       return {
-        errors: { count: ['Too low count']},
+        errors: { count: ['Too low count'] },
         message: `Count can't be less than progress.`,
       }
     }
 
-    if (reserve < sum) { // TODO: refactor zod refine?
+    if (reserve < sum) { // TODO?: refactor zod refine?
       return {
-        errors: { count: ['Lower the count'], price: ['Lower the price']},
-        message: `Not enough balance to create task. Need at least $${sum - reserve}.`,
+        errors: { price: ['Lower the price'] },
+        message: `Not enough balance to update task. Need at least $${sum - reserve}.`, // TODO: dynamic currency coin|$
       }
     }
 
@@ -180,7 +181,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to create task.',
+      message: 'Failed to update task.',
     };
   }
   

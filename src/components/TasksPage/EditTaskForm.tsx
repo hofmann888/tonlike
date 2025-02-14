@@ -11,8 +11,9 @@ import SubmitButton from "../Forms/SubmitButton";
 import CoinValue from "../Common/CoinValue";
 import CoinIcon from "../Common/CoinIcon";
 
-
-export default function EditTaskForm({ task }: { task: Task }) { // TODO: check if count < done on price change
+// TODO: check if count < done on price change
+// TODO!!!: spent bug if price changes
+export default function EditTaskForm({ task }: { task: Task }) {
   const { balance } = useUser();
 
   const minCount = Math.max(task.done, 10);
@@ -39,7 +40,7 @@ export default function EditTaskForm({ task }: { task: Task }) { // TODO: check 
   }, [sum]);
   
   return (
-    <Form action={formAction} validationErrors={state?.errors} className="w-full mt-4">
+    <Form action={formAction} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
         <CoinValue value={task.price * task.count} textBefore="Sum:" />
         <CoinValue value={task.price * task.done} textBefore="Spent:" />
@@ -52,12 +53,19 @@ export default function EditTaskForm({ task }: { task: Task }) { // TODO: check 
           label="Price"
           type="number"
           placeholder="0"
-          value={`${price}`}
-          onValueChange={(value) => setPrice(Number(value))}
-          min={1}
-          step={1}
           variant="bordered"
           className="w-3/4 mr-2"
+          min={1}
+          step={1}
+          value={`${price}`}
+          onValueChange={(value) => {
+            setPrice(Math.floor(Number(value)));
+            if (state?.errors?.price?.length) {
+              delete state?.errors?.price;
+            }
+          }}
+          isInvalid={!!state?.errors?.price?.length}
+          errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
               <CoinIcon className="text-default-400 text-large" />
@@ -80,7 +88,7 @@ export default function EditTaskForm({ task }: { task: Task }) { // TODO: check 
         </Select>
       </div>  
 
-      <div className="w-full flex justify-between items-end px-1">
+      <div className="w-full flex justify-between items-baseline px-1">
         <Slider
           label="Count"
           size="sm"
@@ -109,19 +117,26 @@ export default function EditTaskForm({ task }: { task: Task }) { // TODO: check 
           name="count"
           type="number"
           variant="underlined"
-          classNames={{ base: "w-1/4 mb-[10px]", input: "text-center" }}
+          classNames={{ base: "w-1/4 mb-[10px]", input: "text-center", errorMessage: "absolute" }}
           placeholder="0"
           step={1}
           min={minCount}
           max={maxCount}
           value={`${count}`}
-          onValueChange={(value) => setCount(value as any as SliderValue)}
+          onValueChange={(value) => {
+            setCount(Math.floor(Number(value)) as any as SliderValue);
+            if (state?.errors?.count?.length) {
+              delete state?.errors?.count;
+            }
+          }}
+          isInvalid={!!state?.errors?.count?.length}
+          errorMessage={state?.errors?.count?.length ? state.errors.count[0] : ''}
         />
       </div>
 
       <div id="fields-error" aria-live="polite" aria-atomic="true">
         {state?.message &&
-          <p className="mt-2 text-sm text-red-500" key={state.message}>
+          <p className="mt-2 text-sm text-danger" key={state.message}>
             {state.message}
           </p>
         }
