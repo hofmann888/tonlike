@@ -3,7 +3,7 @@
 // import 'server-only'; // TODO!
 
 import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray } from 'drizzle-orm';
+import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
@@ -238,6 +238,8 @@ export async function fetchServiceActionById(id: number, relations: schema.Servi
 
 // ------------ TASKS ------------
 // TODO: check services and actions `active` field on fetch 
+// TODO?: check deleted_at? (remove status 'deleted'?)
+
 export async function createTask(dto: dto.TaskInsertDTO, tx?: any) {
   console.log('createTask');
   try {
@@ -649,6 +651,26 @@ export async function fetchDoneTaskEarningCountByUserId(userId: number) {
   }
 }
 
+export async function fetchTaskSpentSum(taskId: number) { // TODO?: fetch with tasks?
+  console.log('fetchTaskSpentSum');
+  try {
+    const [data] = await db.select({
+      sum: sum(schema.taskEarnings.profit)
+    })
+    .from(schema.taskEarnings)
+    .where(
+      and(
+        eq(schema.taskEarnings.taskId, taskId),
+        gt(schema.taskEarnings.profit, 0)
+      )
+    );
+
+    return Number(data.sum);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
 // ------------ REPORTS ------------
 export async function createReport(dto: dto.ReportInsertDTO) {
   console.log('createReport');

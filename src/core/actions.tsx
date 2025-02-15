@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskSpentSum } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
@@ -150,16 +150,19 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       };
     }
 
-    if (!await userHasTask(taskId, user.id)) {
+    const [task, hasTask, spentSum] = await Promise.all([
+      fetchTaskById(taskId),
+      userHasTask(taskId, user.id),
+      fetchTaskSpentSum(taskId)
+    ]);
+
+    if (!hasTask) {
       throw new Error("Wrong task.");
     }
 
     const data = validated.data;
     data.count = Math.floor(Number(data.count));
     data.price = Math.floor(Number(data.price));
-    const task = await fetchTaskById(taskId);
-    const reserve = Number(user.balance) + task.price * task.count - task.price * task.done;
-    const sum = data.count * data.price;
 
     if (data.count < task.done) { // TODO?: refactor zod refine?
       return {
@@ -168,15 +171,21 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       }
     }
 
-    if (reserve < sum) { // TODO?: refactor zod refine?
+    const sum = task.price * (task.count - task.done) + spentSum;
+    const newSum = data.price * (data.count - task.done) + spentSum;
+    const cost = newSum - spentSum;
+    const reserve = Number(user.balance) + sum - spentSum;
+    const newBalance = reserve - cost;
+
+    if (newBalance < 0) { // TODO?: refactor zod refine?
       return {
         errors: { price: ['Lower the price'] },
-        message: `Not enough balance to update task. Need at least $${sum - reserve}.`, // TODO: dynamic currency coin|$
+        message: `Not enough balance to update task. Need at least $${cost - reserve}.`, // TODO: dynamic currency - coin|$
       }
     }
 
     // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
-    const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, reserve - sum);
+    const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, newBalance);
     await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
   } catch (error) {
     console.log('Operation Error:', error);

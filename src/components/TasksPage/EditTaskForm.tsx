@@ -10,6 +10,7 @@ import { useUser } from "@/hooks/useUser";
 import SubmitButton from "../Forms/SubmitButton";
 import CoinValue from "../Common/CoinValue";
 import CoinIcon from "../Common/CoinIcon";
+import { fetchTaskSpentSum } from "@/db/query";
 
 // TODO: check if count < done on price change
 // TODO!!!: spent bug if price changes
@@ -20,9 +21,11 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
   const [price, setPrice] = useState(task.price);
   const [count, setCount] = useState<SliderValue>(minCount);
-  const [sum, setSum] = useState(0);
+  const [newSum, setNewSum] = useState(0);
+  const [spentSum, setSpentSum] = useState(0);
   
-  const reserve = Number(balance) + task.price * task.count - task.price * task.done;
+  const sum = task.price * (task.count - task.done) + spentSum;
+  const reserve = Number(balance) + sum - spentSum;
   const maxCount = price ? Math.floor(reserve / Number(price)) : 10;
 
   const initialState: EditTaskFormState = { errors: {}, message: null };
@@ -30,21 +33,28 @@ export default function EditTaskForm({ task }: { task: Task }) {
   const [state, formAction] = useFormState(action, initialState);
 
   useEffect(() => {
-    setSum(price * Number(count));
-  }, [price, count]);
+    (async () => {
+      const result = await fetchTaskSpentSum(task.id)
+      setSpentSum(result);
+  })();
+  }, [])
 
   useEffect(() => {
-    if (sum > reserve) {
+    setNewSum(price * (Number(count) - task.done) + spentSum);
+  }, [price, count, spentSum]);
+
+  useEffect(() => {
+    if (newSum - spentSum > reserve) {
       setCount(maxCount);
     }
-  }, [sum]);
+  }, [newSum]);
   
   return (
     <Form action={formAction} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
-        <CoinValue value={task.price * task.count} textBefore="Sum:" />
-        <CoinValue value={task.price * task.done} textBefore="Spent:" />
-        <CoinValue value={sum} textBefore="New sum:" />
+        <CoinValue value={sum} textBefore="Sum:" />
+        <CoinValue value={spentSum} textBefore="Spent:" />
+        <CoinValue value={newSum} textBefore="New sum:" />
       </div>
 
       <div className="flex w-full">
@@ -142,7 +152,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
         }
       </div>
 
-      <SubmitButton content="Update" disabled={!sum || sum > reserve} size="md" variant="flat" className="mt-2" />
+      <SubmitButton content="Update" disabled={!newSum || newSum - spentSum > reserve} size="md" variant="flat" className="mt-2" />
     </Form>
   )
 }
