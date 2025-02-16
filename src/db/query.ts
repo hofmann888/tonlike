@@ -313,22 +313,6 @@ export async function updateTaskWithBalance(id: number, dto: dto.TaskUpdateDTO, 
   }
 }
 
-export async function deleteTask(id: number) {
-  console.log('deleteTask');
-  try {
-    const data = await db
-      .update(schema.tasks)
-      .set({ status: TaskStatusEnum.DELETED, deletedAt: sql`NOW()` }) // TODO?: updatedAt?
-      .where(eq(schema.tasks.id, id))
-      .returning({ id: schema.tasks.id });
-
-    return data[0]?.id;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to delete task.');
-  }
-}
-
 export async function fetchTaskById(id: number, relations?: schema.TaskRelation[]) {
   console.log('fetchTaskById');
   try {
@@ -946,7 +930,21 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 
 
 
+// export async function deleteTask(id: number) {
+//   console.log('deleteTask');
+//   try {
+//     const data = await db
+//       .update(schema.tasks)
+//       .set({ status: TaskStatusEnum.DELETED, updatedAt: sql`NOW()`, deletedAt: sql`NOW()` })
+//       .where(eq(schema.tasks.id, id))
+//       .returning({ id: schema.tasks.id });
 
+//     return data[0]?.id;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to delete task.');
+//   }
+// }
 
 
 

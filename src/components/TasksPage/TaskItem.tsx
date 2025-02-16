@@ -111,7 +111,10 @@ export default function TaskItem({
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Task Actions">
-              <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+              {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
+                ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+                : null
+              }
               <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
             </DropdownMenu>
           </Dropdown>

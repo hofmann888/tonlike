@@ -1,13 +1,14 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
+import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
+import { sql } from 'drizzle-orm';
 
-// TODO: rename form-actions
+// TODO?: rename form-actions
 
 export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
   console.log('DepositFormSubmit');
@@ -32,9 +33,7 @@ export async function DepositFormSubmit(prevState: DepostitFormState, formData: 
     await updateUserWithSession(user.id, { balance });
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to update balance.',
-    };
+    return { message: 'Failed to update balance.' };
   }
   
   revalidatePath('/wallet');
@@ -71,9 +70,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
     await updateUserWithSession(user.id, { balance });
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to update balance.',
-    };
+    return { message: 'Failed to update balance.' };
   }
   
   revalidatePath('/wallet');
@@ -115,18 +112,14 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     }
 
     if (await isTaskExists(data.userId, data.serviceActionId, data.link)) {
-      return { 
-        message: 'Task already exists.',
-      }
+      return { message: 'Task already exists.' }
     }
 
     const { updatedUser } = await createTaskWithBalanceUpdate(data, user.balance - sum);
     await setSession(updatedUser); // TODO?: move to tx?
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Failed to create task.',
-    };
+    return { message: 'Failed to create task.' };
   }
   
   revalidatePath('/tasks');
@@ -156,6 +149,10 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       fetchTaskDoneCount(taskId),
       fetchTaskDoneSum(taskId),
     ]);
+
+    if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(task.status)) {
+      throw new Error('Wrong status.');
+    }
 
     if (!hasTask) {
       throw new Error('Wrong task.');
@@ -190,9 +187,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Failed to update task.',
-    };
+    return { message: 'Failed to update task.' };
   }
   
   revalidatePath('/tasks');
@@ -204,20 +199,53 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
   try {
     const user: User = await getAuthUser(false);
 
-    if (!await userHasTask(taskId, user.id)) {
-      throw new Error("Wrong task!");
+    if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(status)) {
+      throw new Error('Wrong status.');
     }
 
-    if (status === TaskStatusEnum.DELETED) { // TODO: seperate action for delete?
-      await deleteTask(taskId);
-    } else {
-      await updateTask(taskId, { status });
+    if (!await userHasTask(taskId, user.id)) {
+      throw new Error('Wrong task.');
     }
+
+    await updateTask(taskId, { status });
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Operation Error: Failed to update task.',
-    };
+    return { message: 'Failed to update task.' };
+  }
+
+  revalidatePath('/tasks');
+  redirect('/tasks');
+}
+
+export async function DeleteTask(taskId: number) {
+  console.log('DeleteTask');
+  try {
+    const user: User = await getAuthUser(false);
+
+    const [task, hasTask, doneCount] = await Promise.all([
+      fetchTaskById(taskId),
+      userHasTask(taskId, user.id),
+      fetchTaskDoneCount(taskId),
+      fetchTaskDoneSum(taskId),
+    ]);
+
+    if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(task.status)) {
+      throw new Error('Wrong status.');
+    }
+
+    if (!hasTask) {
+      throw new Error('Wrong task.');
+    }
+ 
+    const newBalance = user.balance + task.price * (task.count - doneCount);
+
+    // await deleteTask(taskId);
+    // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
+    const { updatedUser } = await updateTaskWithBalance(taskId, { status: TaskStatusEnum.DELETED, deletedAt: sql`NOW()` }, user.id, newBalance);
+    await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return { message: 'Failed to delete task.' };
   }
 
   revalidatePath('/tasks');
@@ -248,7 +276,7 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
   try {
     const user: User = await getAuthUser(false);
 
-    const validated = PerformerBlockFormSchema.safeParse({
+    const validated = performerBlockFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
       comment: formData.get('comment'),
     });
@@ -324,7 +352,7 @@ export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnIt
   try {
     const user: User = await getAuthUser(false);
 
-    const validated = EarnItemReportFormSchema.safeParse({
+    const validated = earnItemReportFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
       comment: formData.get('comment'),
     });

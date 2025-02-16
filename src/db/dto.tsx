@@ -1,5 +1,6 @@
 import { TaskStatus } from "@/lib/definitions";
 import * as schema from "./schema";
+import { SQL } from "drizzle-orm";
 
 // export type ServiceSelectDTO = typeof schema.services.$inferSelect
 
@@ -19,6 +20,7 @@ export type TaskUpdateDTO = {
   count?: number,
   done?: number,
   status?: TaskStatus,
+  deletedAt?: Date | SQL
 }
 
 export type TaskEarningInsertDTO = typeof schema.taskEarnings.$inferInsert;

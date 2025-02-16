@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fetchServiceActionById } from '@/db/query';
-import { ReportReasonEnum, BlackListReasonEnum } from '@/lib/definitions';
+import { ReportReasonEnum, BlackListReasonEnum, TaskStatusEnum } from '@/lib/definitions';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 // import { CurrencyEnum } from '@/lib/definitions';
 
@@ -42,7 +42,7 @@ export const editTaskFormSchema = z.object({
   count: z.coerce.number().min(10, { message: 'Must be greater or equal 10.'}),
 });
 
-export const EarnItemReportFormSchema = z.object({
+export const earnItemReportFormSchema = z.object({
   reasons: z.enum([
     ReportReasonEnum.UNAVAILABLE, 
     ReportReasonEnum.SCAM, 
@@ -50,7 +50,9 @@ export const EarnItemReportFormSchema = z.object({
     ReportReasonEnum.COPYRIGHT, 
     ReportReasonEnum.CONTENT, 
     ReportReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason." }),
+  ], { message: 'Wrong reason.' })
+    .array()
+    .nonempty({ message: "Choose at least one reason." }),
   comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long." }),
   // taskId: z.coerce.number().positive().refine(async (id) => { // TODO?: pass object with user and task id?
   //   const user: User = await getAuthUser(false); // TODO: decompose object
@@ -58,12 +60,14 @@ export const EarnItemReportFormSchema = z.object({
   // }, { message: "Wrong task." }),
 });
 
-export const PerformerBlockFormSchema = z.object({
+export const performerBlockFormSchema = z.object({
   reasons: z.enum([
     BlackListReasonEnum.TASK, 
     BlackListReasonEnum.ACCOUNT, 
     BlackListReasonEnum.BEHAVIOUR, 
     BlackListReasonEnum.OTHER
-  ]).array().nonempty({ message: "Choose at least one reason." }),
+  ], { message: 'Wrong reason.' })
+    .array()
+    .nonempty({ message: "Choose at least one reason." }),
   comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long." }),
 });

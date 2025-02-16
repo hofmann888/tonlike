@@ -11,44 +11,62 @@ import {
 } from "@heroui/modal";
 import { Pagination } from "@heroui/pagination";
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
-import { ChangeTaskStatus } from "@/core/actions";
+import { ChangeTaskStatus, DeleteTask } from "@/core/actions";
 import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem";
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
 
+  const [modalError, setModalError] = useState('');
   const [modalText, setModalText] = useState('');
   const [modalTaskId, setModalTaskId] = useState(0);
   const [newStatus, setNewStatus] = useState('');
   const [tasksPaginated, setTasksPaginated] = useState([] as Task[]);
   const [page, setPage] = useState(1); // TODO: useRouter and searchParams
+  const [loading, setLoading] = useState(false);
 
   const pageItemsSize = 5;
 
   async function changeTaskStatus() {
-    await ChangeTaskStatus(modalTaskId, newStatus as TaskStatus);
+    setLoading(true);
+
+    let result;
+    if (newStatus === TaskStatusEnum.DELETED) {
+      result = await DeleteTask(modalTaskId);
+    } else {
+      result = await ChangeTaskStatus(modalTaskId, newStatus as TaskStatus);
+    }
+
+    if (result?.message) {
+      setModalError(result?.message);
+      setLoading(false);
+      return;
+    }
+
     onClose();
+    setLoading(false);
   }
 
   function activateButtonClick(id: number) {
-    setModalText('Activate');
-    setModalTaskId(id);
     setNewStatus(TaskStatusEnum.ACTIVE);
-    onOpen();
+    openModal(id, 'Activate');
   }
 
   function pauseButtonClick(id: number) {
-    setModalText('Pause');
-    setModalTaskId(id);
     setNewStatus(TaskStatusEnum.PAUSED);
-    onOpen();
+    openModal(id, 'Pause');
   }
 
   function deleteButtonClick(id: number) {
-    setModalText('Delete');
-    setModalTaskId(id);
     setNewStatus(TaskStatusEnum.DELETED);
+    openModal(id, 'Delete');
+  }
+
+  function openModal(taskId: number, text: string) {
+    setModalError('');
+    setModalText(text);
+    setModalTaskId(taskId);
     onOpen();
   }
 
@@ -92,13 +110,21 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
             <>
               <ModalHeader className="flex flex-col gap-1">Task {modalTaskId}</ModalHeader>
               <ModalBody>
-                <p>{modalText} this task</p>
+                <p className="text-medium">{modalText} this task</p>
+
+                <div id="fields-error" aria-live="polite" aria-atomic="true">
+                  {modalError &&
+                    <p className="mt-2 text-sm text-danger" key={modalError}>
+                      {modalError}
+                    </p>
+                  }
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={changeTaskStatus}>
+                <Button color="primary" onPress={changeTaskStatus} isLoading={loading}>
                   {modalText}
                 </Button>
               </ModalFooter>
