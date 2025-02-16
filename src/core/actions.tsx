@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskSpentSum } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, deleteTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, EarnItemReportFormSchema, PerformerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
@@ -150,31 +150,32 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       };
     }
 
-    const [task, hasTask, spentSum] = await Promise.all([
+    const [task, hasTask, doneCount, doneSum] = await Promise.all([
       fetchTaskById(taskId),
       userHasTask(taskId, user.id),
-      fetchTaskSpentSum(taskId)
+      fetchTaskDoneCount(taskId),
+      fetchTaskDoneSum(taskId),
     ]);
 
     if (!hasTask) {
-      throw new Error("Wrong task.");
+      throw new Error('Wrong task.');
     }
 
     const data = validated.data;
     data.count = Math.floor(Number(data.count));
     data.price = Math.floor(Number(data.price));
 
-    if (data.count < task.done) { // TODO?: refactor zod refine?
+    if (data.count < doneCount) { // TODO?: refactor zod refine?
       return {
         errors: { count: ['Too low count'] },
         message: `Count can't be less than progress.`,
       }
     }
 
-    const sum = task.price * (task.count - task.done) + spentSum;
-    const newSum = data.price * (data.count - task.done) + spentSum;
-    const cost = newSum - spentSum;
-    const reserve = Number(user.balance) + sum - spentSum;
+    const sum = task.price * (task.count - doneCount) + doneSum;
+    const newSum = data.price * (data.count - doneCount) + doneSum;
+    const cost = newSum - doneSum;
+    const reserve = Number(user.balance) + sum - doneSum;
     const newBalance = reserve - cost;
 
     if (newBalance < 0) { // TODO?: refactor zod refine?

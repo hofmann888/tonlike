@@ -4,9 +4,9 @@ import { getAuthUser, setSession } from "@/app/auth/session";
 import { 
   fetchLastDateUserDoneQuest, 
   fetchQuestById, 
-  fetchLastDoneTaskEarningByUserId, 
+  fetchTaskEarningLastDoneByUserId, 
   fetchUserReferralsCount, 
-  fetchDoneTaskEarningCountByUserId, 
+  fetchTaskEarningDoneCountByUserId, 
   fetchDoneQuestEarningCountByUserId,
   fetchTaskCountByUserId,
   createQuestEarningWithBalanceUpdate,
@@ -111,7 +111,7 @@ export async function checkDailyAnyTaskDone(userId: number) {
   console.log('checkDailyAnyTaskDone');
   let check = false;
   try {
-    const taskEarning = await fetchLastDoneTaskEarningByUserId(userId);
+    const taskEarning = await fetchTaskEarningLastDoneByUserId(userId);
     check = checkDailyDone(taskEarning.createdAt);
   } catch (error) {
     console.log(error);
@@ -149,7 +149,7 @@ export async function checkTaskDoneCount(userId: number, countNeed: number) {
   console.log('checkTaskDoneCount');
   let check = false;
   try {
-    const count = await fetchDoneTaskEarningCountByUserId(userId);
+    const count = await fetchTaskEarningDoneCountByUserId(userId);
     check = count >= countNeed;
   } catch (error) {
     console.log(error);

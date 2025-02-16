@@ -3,7 +3,7 @@
 // import 'server-only'; // TODO!
 
 import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum } from 'drizzle-orm';
+import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
@@ -358,6 +358,8 @@ export async function fetchTasksByUserId(userId: number) {
     const data = await db
       .select({
         ...getTableColumns(schema.tasks), 
+        doneCount: count(schema.taskEarnings.id),
+        doneSum: sum(schema.taskEarnings.profit).mapWith(Number),
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
         serviceAction: getTableColumns(schema.serviceActions),
@@ -366,7 +368,14 @@ export async function fetchTasksByUserId(userId: number) {
       .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.tasks.serviceActionId))
       .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
       .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
+      .leftJoin(schema.taskEarnings, 
+        and(
+          eq(schema.taskEarnings.taskId, schema.tasks.id),
+          gt(schema.taskEarnings.profit, 0),
+        )
+      )
       .where(eq(schema.tasks.userId, userId))
+      .groupBy(schema.tasks.id, schema.services.id, schema.actions.id, schema.serviceActions.id)
       .orderBy(desc(schema.tasks.createdAt))
     ;
 
@@ -615,8 +624,8 @@ export async function hideTaskEarningForUser(userId: number, taskId: number) { /
   }
 }
 
-export async function fetchLastDoneTaskEarningByUserId(userId: number) {
-  console.log('fetchLastDoneTaskEarningByUserId');
+export async function fetchTaskEarningLastDoneByUserId(userId: number) {
+  console.log('fetchTaskEarningLastDoneByUserId');
   try {
     const data = await db.query.taskEarnings.findFirst({ 
       where: 
@@ -634,8 +643,8 @@ export async function fetchLastDoneTaskEarningByUserId(userId: number) {
   }
 }
 
-export async function fetchDoneTaskEarningCountByUserId(userId: number) {
-  console.log('fetchDoneTaskEarningCountByUserId');
+export async function fetchTaskEarningDoneCountByUserId(userId: number) {
+  console.log('fetchTaskEarningDoneCountByUserId');
   try {
     const data = await db.$count(schema.taskEarnings, 
       and(
@@ -651,11 +660,28 @@ export async function fetchDoneTaskEarningCountByUserId(userId: number) {
   }
 }
 
-export async function fetchTaskSpentSum(taskId: number) { // TODO?: fetch with tasks?
+export async function fetchTaskDoneCount(taskId: number) {
+  console.log('fetchTaskDoneCountByTaskId');
+  try {
+    const data = await db.$count(schema.taskEarnings, 
+      and(
+        eq(schema.taskEarnings.taskId, taskId),
+        gt(schema.taskEarnings.profit, 0)
+      )
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function fetchTaskDoneSum(taskId: number) {
   console.log('fetchTaskSpentSum');
   try {
     const [data] = await db.select({
-      sum: sum(schema.taskEarnings.profit)
+      sum: sum(schema.taskEarnings.profit).mapWith(Number)
     })
     .from(schema.taskEarnings)
     .where(
@@ -665,7 +691,7 @@ export async function fetchTaskSpentSum(taskId: number) { // TODO?: fetch with t
       )
     );
 
-    return Number(data.sum);
+    return data.sum;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to execute query.');

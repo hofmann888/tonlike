@@ -111,7 +111,8 @@ export type Task = {
   link: string,
   price: number,
   count: number,
-  done: number,
+  doneCount?: number,
+  doneSum?: number,
   status: TaskStatus,
 	createdAt: Date, // TODO?: undefined?
 	updatedAt?: Date,

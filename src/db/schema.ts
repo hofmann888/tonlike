@@ -121,11 +121,11 @@ export const tasks = pgTable('tasks', {
   link: varchar({ length: 255 }).notNull(),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vryd ly...hotya...
   count: integer().notNull(),
-  done: integer().notNull().default(0), // TODO?: replace with count(task_earnings)?
   status: taskStatusEnum().notNull().default(TaskStatusEnum.ACTIVE),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),
+  // done: integer().notNull().default(0), // TODO?: replace with count(task_earnings)?
   // serviceId: integer('service_id').notNull().references(() => services.id),
   // actionId: integer('action_id').notNull().references(() => actions.id),
   // currency: CurrencyEnum // TODO

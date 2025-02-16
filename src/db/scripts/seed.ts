@@ -77,15 +77,15 @@ async function seedTasksWithRelations() {
       columns: {
           userId: f.int({ minValue: 1, maxValue: 3 }),
           serviceActionId: f.int({ minValue: 1, maxValue: 29 }),
-          // serviceId: f.int({ minValue: 1, maxValue: 8 }),
-          // actionId: f.int({ minValue: 1, maxValue: 7 }),
           price: f.int({ minValue: 1, maxValue: 10 }),
           count: f.int({ minValue: 100, maxValue: 1000 }),
-          done: f.int({ minValue: 0, maxValue: 99 }),
           status: f.weightedRandom([
             { weight: 0.8, value: f.default({ defaultValue: TaskStatusEnum.ACTIVE }) },
             { weight: 0.2, value: f.default({ defaultValue: TaskStatusEnum.PAUSED }) }
           ])  
+          // serviceId: f.int({ minValue: 1, maxValue: 8 }),
+          // actionId: f.int({ minValue: 1, maxValue: 7 }),
+          // done: f.int({ minValue: 0, maxValue: 99 }),
       },
       with: {
         taskEarnings: 1,
@@ -105,11 +105,6 @@ async function seedTasksWithRelations() {
         // ]) 
       }
     },
-    // reports: {
-    //   columns: {
-    //     userId: f.int({ minValue: 1, maxValue: 3 }),
-    //   }
-    // },
     blackList: {
       count: 1,
       columns: {
@@ -117,6 +112,11 @@ async function seedTasksWithRelations() {
         blockedUserId: f.int({ minValue: 2, maxValue: 3 }),
       }
     }
+    // reports: {
+    //   columns: {
+    //     userId: f.int({ minValue: 1, maxValue: 3 }),
+    //   }
+    // },
   }));
 
   await db.execute(sql`alter sequence tasks_id_seq restart with 31`);
@@ -132,7 +132,6 @@ async function addTasks() {
     link: 'link1',
     price: 1,
     count: 111,
-    done: 1,
     status: 'active',
   }
 
@@ -144,6 +143,5 @@ async function addTasks() {
 
   await db.insert(schema.tasks).values(tasks);
 }
-
 
 main();

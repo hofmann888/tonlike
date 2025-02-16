@@ -36,6 +36,7 @@ export default function TaskItem({
   const [loading, setLoading] = useState(false);
 
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
+  const doneCount = task.doneCount ?? 0;
 
   async function onPerformersClick() {
     if (showPerformers) {
@@ -79,7 +80,7 @@ export default function TaskItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{actionTitle}</span>
+            <span className="w-24 text-small text-foreground-400">{actionTitle}</span>
           </div>
         </div>
 
@@ -126,10 +127,10 @@ export default function TaskItem({
               label: "tracking-wider font-medium text-default-600",
               value: "text-foreground/60",
             }}
-            label={`Progress: ${task.done} / ${task.count}`}
+            label={`Progress: ${doneCount} / ${task.count}`}
             showValueLabel={true}
             size="sm"
-            value={task.done}
+            value={doneCount}
             maxValue={task.count}
           />
         </Button>
