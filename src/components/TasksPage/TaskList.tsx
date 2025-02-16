@@ -91,7 +91,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           onDeleteClick={() => deleteButtonClick(task.id)} 
           onActivateClick={() => activateButtonClick(task.id)} 
           />
-      )) : <p className="text-center">No tasks found.</p>}
+      )) : <p className="text-center text-large">No tasks found.</p>}
 
       {tasks.length > pageItemsSize && 
         <Pagination 
