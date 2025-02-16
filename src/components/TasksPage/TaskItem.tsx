@@ -68,8 +68,8 @@ export default function TaskItem({
       className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
       shadow="sm"
     >
-      <CardBody className="flex-row justify-between pb-2">
-        <div className="flex items-center gap-2 w-1/4">
+      <CardBody className="flex-row pb-2">
+        <div className="flex items-center gap-2 w-1/2">
           <Avatar
             size="sm"
             className="flex-shrink-0 w-10 h-10"
@@ -80,44 +80,46 @@ export default function TaskItem({
             <Link isExternal showAnchorIcon href={task.link}>
               <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            <span className="w-24 text-small text-foreground-400">{actionTitle}</span>
+            <span className="text-small text-foreground-400">{actionTitle}</span>
           </div>
         </div>
 
-        <CoinValue value={task.price} className="text-medium" />
+        <div className="flex flex-row justify-between w-1/2">
+          <CoinValue value={task.price} className="text-medium" />
 
-        <div className="flex gap-1">
-          {task.status === TaskStatusEnum.ACTIVE && 
-            <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
-              <FaPause />
-            </Button>
-          }
-          {task.status === TaskStatusEnum.PAUSED && 
-            <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
-              <FaPlay />
-            </Button>
-          }
-
-          {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
-            <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
-              <FaTrashAlt />
-            </Button>
-          }
-
-          <Dropdown>
-            <DropdownTrigger>
-              <Button isIconOnly aria-label="Task Actions Button" variant="light" isLoading={loading}>
-                <PiDotsThreeOutlineVerticalFill />
+          <div className="flex gap-1">
+            {task.status === TaskStatusEnum.ACTIVE && 
+              <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
+                <FaPause />
               </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Task Actions">
-              {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
-                ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
-                : null
-              }
-              <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            }
+            {task.status === TaskStatusEnum.PAUSED && 
+              <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
+                <FaPlay />
+              </Button>
+            }
+
+            {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
+              <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
+                <FaTrashAlt />
+              </Button>
+            }
+
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly aria-label="Task Actions Button" variant="light" isLoading={loading}>
+                  <PiDotsThreeOutlineVerticalFill />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Task Actions">
+                {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
+                  ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+                  : null
+                }
+                <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
       </CardBody>
 
