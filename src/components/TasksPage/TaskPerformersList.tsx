@@ -6,6 +6,7 @@ import { User } from "@heroui/user";
 import { PerformerUnblock } from "@/core/actions";
 import { Performer } from "@/lib/definitions";
 import { useState } from "react";
+import CoinValue from "../Common/CoinValue";
 import PerformerBlockModal from "./PerformerBlockModal";
 import clsx from "clsx";
 
@@ -63,7 +64,7 @@ export default function TaskPerformersList({ performers }: { performers: Perform
           shadow="sm"
         >
           <CardBody className="flex-row justify-between items-center">
-            <div className="text-tiny">
+            <div className="text-tiny mr-3">
               <p>{date.toLocaleDateString()}</p>
               <p>{date.toLocaleTimeString()}</p>
             </div>
@@ -75,11 +76,14 @@ export default function TaskPerformersList({ performers }: { performers: Perform
                 size: 'sm',
               }}
               className={clsx(
-                'w-3/6 justify-start',
+                'w-1/2 justify-start',
                 {'text-red-500': performer.isBlocked},
               )}
-              name={`@${performer.tgUsername}`}
+              name={<span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span>}
+              description={<CoinValue value={performer.profit} className="mr-3 text-tiny" />}
             />
+
+            {/* <CoinValue value={performer.profit} className="mr-3 text-small" /> */}
 
             {performer.isBlocked 
               ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>

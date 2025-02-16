@@ -47,7 +47,6 @@ export default function TaskItem({
     setLoading(true);
     showEditForm && setShowEditForm(false);
 
-    // TODO: cache and prefetch
     // TODO?: move to TaskPerformersList component? 
     const { data } = await GetTaskPerformers(task.id);
     if (data?.length) {

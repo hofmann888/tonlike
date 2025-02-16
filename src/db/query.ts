@@ -441,6 +441,7 @@ export async function fetchTaskPerformers(taskId: number) {
         id: schema.users.id,
         tgUsername: schema.users.tgUsername,
         tgPhotoUrl: schema.users.tgPhotoUrl,
+        profit: schema.taskEarnings.profit,
         doneAt: schema.taskEarnings.createdAt,
         isBlocked: sql`CASE WHEN black_list.id IS NOT NULL THEN TRUE ELSE FALSE END`.as('is_blocked'),
       })

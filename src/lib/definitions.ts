@@ -241,6 +241,7 @@ export type Performer = {
   id: number,
   tgUsername: string,
   tgPhotoUrl: string,
+  profit: number,
   isBlocked: boolean,
   doneAt: Date, // TODO?: createdAt?
 }
