@@ -1,24 +1,12 @@
 // https://nextjs.org/learn/dashboard-app/fetching-data
 export const users = [
-  { 
-    balance: 888,
-    tgId: 6425951136,
-    tgUsername: 'phnx888',
-    tgPhotoUrl: '/globe.svg',
-  },
-  { 
-    referrerId: 1,
-    balance: 111,
-    tgId: 11111111,
-    tgUsername: 'user1',
-    tgPhotoUrl: '/globe.svg',
-  },
-  { 
-    balance: 222,
-    tgId: 22222222,
-    tgUsername: 'user2',
-    tgPhotoUrl: '/globe.svg',
-  },
+  { balance: 888, tgId: 6425951136, tgUsername: 'phnx888', tgPhotoUrl: '/globe.svg' },
+  { balance: 111, tgId: 11111111, tgUsername: 'user1', tgPhotoUrl: '/globe.svg', referrerId: 1 },
+  { balance: 222, tgId: 22222222, tgUsername: 'user2', tgPhotoUrl: '/globe.svg', referrerId: 1 },
+  { balance: 333, tgId: 33333333, tgUsername: 'user3', tgPhotoUrl: '/globe.svg', referrerId: 1 },
+  { balance: 444, tgId: 44444444, tgUsername: 'user4', tgPhotoUrl: '/globe.svg' },
+  { balance: 555, tgId: 55555555, tgUsername: 'user5', tgPhotoUrl: '/globe.svg' },
+  { balance: 666, tgId: 66666666, tgUsername: 'user6', tgPhotoUrl: '/globe.svg' },
 ];
 
 export const services = [
