@@ -2,7 +2,7 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, BlackListItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
 import { db } from './db';
 import * as schema from './schema';
@@ -108,15 +108,37 @@ export async function fetchUserReferrals(userId: number) {
   }
 }
 
-export async function fetchUsersLeaderboard() {
-  console.log('fetchUsersLeaderboard');
+export async function fetchLeaderboard() {
+  console.log('fetchLeaderboard');
   try {
-    const data = await db.query.users.findMany({ orderBy: [desc(schema.users.balance)] });  // TODO!?: select only needed fields?
+    const data = await db.select({ 
+      position: sql<number>`row_number() over(order by balance desc)`.mapWith(Number).as('rn'),
+      balance: schema.users.balance,
+      username: schema.users.tgUsername,
+      photoUrl: schema.users.tgPhotoUrl,
+    }).from(schema.users).limit(100);
 
-    return data as User[];
+    return data as LeaderboardItem[];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch users data.');
+    throw new Error('Failed to fetch data.');
+  }
+}
+
+export async function fetchLeaderboardPositionByUserId(userId: number) {
+  console.log('fetchLeaderboardPositionByUserId');
+  try {
+    const sq = db.select({ 
+      id: schema.users.id,
+      rn: sql<number>`row_number() over(order by balance desc)`.mapWith(Number).as('rn') 
+    }).from(schema.users).as('sq');
+
+    const [data] = await db.select({ rn: sq.rn }).from(sq).where(eq(sq.id, userId));
+
+    return data?.rn;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch data.');
   }
 }
 

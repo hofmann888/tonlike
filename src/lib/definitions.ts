@@ -1,10 +1,11 @@
 import { IconType } from "react-icons";
 
+// TODO?: decompose? enums and types in seperate files?
+
 export type NavLink = {
   href: string,
   icon: IconType,
 }
-
 
 ////========== Forms
 
@@ -294,4 +295,11 @@ export enum ServiceActionName {
   TELEGRAM_VOTE = 'tg_vote',
   TELEGRAM_SUBSCRIBE = 'tg_subscribe',
   TELEGRAM_BOOST = 'tg_boost',
+}
+
+export type LeaderboardItem = {
+  position: number,
+  balance: number,
+  photoUrl: string,
+  username: string,
 }
