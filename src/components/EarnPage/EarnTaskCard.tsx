@@ -17,7 +17,7 @@ import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
 
-export default function EarnTaskItem({
+export default function EarnTaskCard({
   task,
   onHideClick,
   onReportClick

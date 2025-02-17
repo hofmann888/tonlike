@@ -2,7 +2,7 @@
 
 import { Chip } from "@heroui/chip";
 import { Quest } from "@/lib/definitions";
-import EarnQuestItem from "./EarnQuestItem";
+import EarnQuestCard from "./EarnQuestCard";
 
 export default function EarnQuestList({ quests }: { quests: Quest[] }) {
   console.log('EarnQuestList');
@@ -13,14 +13,14 @@ export default function EarnQuestList({ quests }: { quests: Quest[] }) {
       {/* <p className="text-large text-primary mb-3">Daily</p> */}
       {quests.map((quest) => (
         quest.daily && 
-          <EarnQuestItem key={quest.id} quest={quest} />
+          <EarnQuestCard key={quest.id} quest={quest} />
         )
       )}
 
       <Chip color="primary" variant="dot" className="my-2">One-time</Chip>
       {quests.map((quest) => (
         !quest.daily && 
-          <EarnQuestItem key={quest.id} quest={quest} />
+          <EarnQuestCard key={quest.id} quest={quest} />
         )
       )}
     </div>

@@ -13,7 +13,7 @@ import { Pagination } from "@heroui/pagination";
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
 import { ChangeTaskStatus, DeleteTask } from "@/core/actions";
 import { useEffect, useState } from "react";
-import TaskItem from "./TaskItem";
+import TaskCard from "./TaskCard";
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
   const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
@@ -84,7 +84,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   return (
     <div className="px-2">
       {tasksPaginated.length ? tasksPaginated.map((task) => (
-        <TaskItem 
+        <TaskCard 
           key={task.id} 
           task={task} 
           onPauseClick={() => pauseButtonClick(task.id)} 

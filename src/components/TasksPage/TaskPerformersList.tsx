@@ -58,40 +58,42 @@ export default function TaskPerformersList({ performers }: { performers: Perform
         const date = new Date(performer.doneAt);
 
         return (
-        <Card 
-          key={performer.id} 
-          className="border-none bg-background/60 dark:bg-default-100/50 mt-1"
-          shadow="sm"
-        >
-          <CardBody className="flex-row justify-between items-center">
-            <div className="text-tiny mr-3">
-              <p>{date.toLocaleDateString()}</p>
-              <p>{date.toLocaleTimeString()}</p>
-            </div>
+          // TODO?: move to separate component?
+          <Card 
+            key={performer.id} 
+            className="border-none bg-background/60 dark:bg-default-100/50 mt-1"
+            shadow="sm"
+          >
+            <CardBody className="flex-row justify-between items-center">
+              <div className="text-tiny mr-3">
+                <p>{date.toLocaleDateString()}</p>
+                <p>{date.toLocaleTimeString()}</p>
+              </div>
 
-            <User
-              avatarProps={{
-                isBordered: true,
-                src: performer.tgPhotoUrl,
-                size: 'sm',
-              }}
-              className={clsx(
-                'w-1/2 justify-start',
-                {'text-red-500': performer.isBlocked},
-              )}
-              name={<span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span>}
-              description={<CoinValue value={performer.profit} className="mr-3 text-tiny" />}
-            />
+              <User
+                avatarProps={{
+                  isBordered: true,
+                  src: performer.tgPhotoUrl,
+                  size: 'sm',
+                }}
+                className={clsx(
+                  'w-1/2 justify-start',
+                  {'text-red-500': performer.isBlocked},
+                )}
+                name={<span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span>}
+                description={<CoinValue value={performer.profit} className="mr-3 text-tiny" />}
+              />
 
-            {/* <CoinValue value={performer.profit} className="mr-3 text-small" /> */}
+              {/* <CoinValue value={performer.profit} className="mr-3 text-small" /> */}
 
-            {performer.isBlocked 
-              ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
-              : <Button color="danger" variant="flat" className="w-24" onPress={() => onBlockClick(performer.id)}>Block</Button>
-            }
-          </CardBody>
-        </Card>
-      )})}
+              {performer.isBlocked 
+                ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
+                : <Button color="danger" variant="flat" className="w-24" onPress={() => onBlockClick(performer.id)}>Block</Button>
+              }
+            </CardBody>
+          </Card>
+        )
+      })}
 
       <PerformerBlockModal 
         blockUserId={blockUserId}
