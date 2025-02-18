@@ -8,6 +8,7 @@ export type UserInsertDTO = typeof schema.users.$inferInsert;
 export type UserUpdateDto = {
   referrerId?: number,
   balance?: number,
+  claimed?: number,
   tgUsername?: string,
   tgPhotoUrl?: string,
 }

@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount } from '../db/query';
+import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum } from '../db/query';
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
@@ -340,11 +340,12 @@ export async function HideUserEarnTask(taskId: number) {
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to hide task.',
+      message: 'Failed to hide task.',
       success: false,
     };
   }
 }
+
 // TODO?: EarnTask
 export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
   console.log('ReportUserEarnTask');
@@ -377,9 +378,38 @@ export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnIt
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Operation Error: Failed to report task.',
+      message: 'Failed to report task.',
       success: false
     };
   }
 }
 
+export async function claimReferralEarnings() {
+  console.log('claimReferralEarnings');
+  try {
+    const user: User = await getAuthUser(false);
+
+    const [referralsCount, sum] = await Promise.all([
+      fetchUserReferralsCount(user.id),
+      fetchUserReferralsTaskEarningsSum(user.id),
+    ]);
+
+    const profit = Math.round(referralsCount * 1000 + sum / 10); // TODO: vinesty 1000 somewhere
+    const claimSum = profit - user.claimed;
+
+    if (!claimSum) {
+      return { message: 'Already claimed.' };
+    }
+
+    await updateUserWithSession(user.id, { 
+      balance: user.balance + claimSum, 
+      claimed: user.claimed + claimSum,
+    });
+  } catch (error) {
+    console.log('Operation Error:', error);
+    return { message: 'Something went wrong. Try again.' };
+  }
+
+  revalidatePath('/referrals');
+  redirect('/referrals');
+}

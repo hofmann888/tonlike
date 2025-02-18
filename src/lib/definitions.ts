@@ -64,7 +64,6 @@ export type PerformerBlockFormState = {
 
 
 //========== DB
-
 export type User = {
   id: number,
   referrerId: number | null,
@@ -72,8 +71,17 @@ export type User = {
   tgUsername: string,
   tgPhotoUrl: string,
   balance: number,
+  claimed: number,
   createdAt?: Date,
 	updatedAt?: Date,
+}
+
+export type Referral = {
+  id: number,
+  profit: number,
+  tgUsername: string,
+  tgPhotoUrl: string,
+  createdAt: Date,
 }
 
 export type Service = { // TODO?: timestamps
@@ -297,9 +305,9 @@ export enum ServiceActionName {
   TELEGRAM_BOOST = 'tg_boost',
 }
 
-export type LeaderboardItem = {
+export type LeaderboardItem = { // TODO: id
   position: number,
   balance: number,
-  photoUrl: string,
-  username: string,
+  photoUrl: string, // TODO!: tg
+  username: string, // TODO!: tg
 }

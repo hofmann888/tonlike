@@ -1,5 +1,5 @@
-import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
 import { pgTable, pgEnum, AnyPgColumn, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
 import { relations } from 'drizzle-orm';
 
 // TODO: add indexes in db
@@ -8,10 +8,11 @@ import { relations } from 'drizzle-orm';
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   referrerId: integer('referrer_id').references((): AnyPgColumn => users.id, {onDelete: 'cascade'}), // TODO: remove cascade!
-  balance: bigint({ mode: 'number' }).notNull().default(0),
   tgId: bigint('tg_id', { mode: 'number' }).notNull().unique(),
-  tgUsername: varchar('tg_username', { length: 32 }).notNull(),
-  tgPhotoUrl: varchar('tg_photo_url', { length: 255 }).notNull(), // TDOO?: null?
+  tgUsername: varchar('tg_username', { length: 32 }).notNull(), // TODO: null
+  tgPhotoUrl: varchar('tg_photo_url', { length: 255 }).notNull(), // TODO: null
+  balance: bigint({ mode: 'number' }).notNull().default(0),
+  claimed: bigint({ mode: 'number' }).notNull().default(0), // TODO?: referralProfit(Claimed)
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   // address: char({ length: 48 })

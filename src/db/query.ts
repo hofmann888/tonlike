@@ -2,12 +2,12 @@
 
 // import 'server-only'; // TODO!
 
-import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
+import { setSession } from '@/app/auth/session';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';
-import { setSession } from '@/app/auth/session';
 
 // TODO: errors
 // ? Failed to (fetch|update|insert|delete data) | (execute query)
@@ -96,15 +96,69 @@ export async function fetchUserByTgId(tgId: number) {
 export async function fetchUserReferrals(userId: number) {
   console.log('fetchUserReferrals');
   try {
-    const data = await db.query.users.findMany({ 
-      where: eq(schema.users.referrerId, userId),
-      orderBy: [desc(schema.users.createdAt)] 
-    });  // TODO!?: select only needed fields?
+    const data = await db
+      .select({
+        id: schema.users.id,
+        tgUsername: schema.users.tgUsername,
+        tgPhotoUrl: schema.users.tgPhotoUrl,
+        createdAt: schema.users.createdAt,
+        profit: sum(schema.taskEarnings.profit).mapWith(Number),
+      })
+      .from(schema.users)
+      .leftJoin(schema.taskEarnings,
+        and(
+          eq(schema.taskEarnings.userId, schema.users.id),
+          gt(schema.taskEarnings.profit, 0),
+        )
+      )
+      .where(eq(schema.users.referrerId, userId))
+      .groupBy(schema.users.id, schema.users.tgUsername, schema.users.tgPhotoUrl, schema.users.createdAt)
+      .orderBy(desc(schema.users.createdAt))
+    ;
 
-    return data as User[];
+    return data as Referral[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch referrals data.');
+  }
+}
+
+export async function fetchUserReferralsCount(userId: number) {
+  console.log('fetchUserReferralsCount');
+  try {
+    const data = await db.$count(schema.users, eq(schema.users.referrerId, userId));
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function fetchUserReferralsTaskEarningsSum(userId: number, today: boolean = false) {
+  console.log('fetchRefferalsTaskEarnings');
+  try {
+    const [data] = await db.select({
+      sum: sum(schema.taskEarnings.profit).mapWith(Number)
+    })
+    .from(schema.users)
+    .leftJoin(schema.taskEarnings, 
+      and(
+        eq(schema.taskEarnings.userId, schema.users.id),
+        gt(schema.taskEarnings.profit, 0),
+      )
+    )
+    .where(
+      and(
+        eq(schema.users.referrerId, userId),
+        today ? sql`date(${schema.taskEarnings.createdAt}) = current_date` : undefined,
+      )
+    );
+
+    return data.sum;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
   }
 }
 
@@ -116,7 +170,9 @@ export async function fetchLeaderboard() {
       balance: schema.users.balance,
       username: schema.users.tgUsername,
       photoUrl: schema.users.tgPhotoUrl,
-    }).from(schema.users).limit(100);
+    })
+    .from(schema.users)
+    .limit(100);
 
     return data as LeaderboardItem[];
   } catch (error) {
@@ -139,18 +195,6 @@ export async function fetchLeaderboardPositionByUserId(userId: number) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch data.');
-  }
-}
-
-export async function fetchUserReferralsCount(userId: number) {
-  console.log('fetchUserReferralsCount');
-  try {
-    const data = await db.$count(schema.users, eq(schema.users.referrerId, userId));
-
-    return data;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to execute query.');
   }
 }
 
@@ -704,6 +748,7 @@ export async function fetchTaskDoneSum(taskId: number) {
     throw new Error('Failed to execute query.');
   }
 }
+
 // ------------ REPORTS ------------
 export async function createReport(dto: dto.ReportInsertDTO) {
   console.log('createReport');
@@ -842,7 +887,7 @@ export async function fetchEarnQuestsByUserId(userId: number) {
           eq(schema.quests.active, true),
         )
       )
-      .groupBy(schema.quests.id, schema.serviceActions.id, schema.services.id, schema.actions.id,)
+      .groupBy(schema.quests.id, schema.serviceActions.id, schema.services.id, schema.actions.id)
       .orderBy(desc(schema.quests.priority))
     ;
 
