@@ -168,8 +168,8 @@ export async function fetchLeaderboard() {
     const data = await db.select({ 
       position: sql<number>`row_number() over(order by balance desc)`.mapWith(Number).as('rn'),
       balance: schema.users.balance,
-      username: schema.users.tgUsername,
-      photoUrl: schema.users.tgPhotoUrl,
+      tgUsername: schema.users.tgUsername,
+      tgPhotoUrl: schema.users.tgPhotoUrl,
     })
     .from(schema.users)
     .limit(100);

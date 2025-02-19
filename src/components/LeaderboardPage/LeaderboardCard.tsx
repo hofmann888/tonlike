@@ -18,11 +18,11 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
           <User
             avatarProps={{
               isBordered: true,
-              src: item.photoUrl,
+              src: item.tgPhotoUrl,
               size: 'sm',
             }}
             className="justify-start"
-            name={`@${item.username}`}
+            name={`@${item.tgUsername}`}
             // description={<CoinValue value={user.balance} className="text-tiny text-primary-500" />}
           />
         </div>

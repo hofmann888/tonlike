@@ -90,8 +90,8 @@ export type Service = { // TODO?: timestamps
   title: string,
   icon: string,
   active: boolean,
-  actions?: Action[]
-  serviceActions?: ServiceAction[]
+  actions?: Action[],
+  serviceActions?: ServiceAction[],
 }
 
 export type Action = {
@@ -305,9 +305,9 @@ export enum ServiceActionName {
   TELEGRAM_BOOST = 'tg_boost',
 }
 
-export type LeaderboardItem = { // TODO: id
+export type LeaderboardItem = { // TODO?: id?
   position: number,
   balance: number,
-  photoUrl: string, // TODO!: tg
-  username: string, // TODO!: tg
+  tgPhotoUrl: string,
+  tgUsername: string,
 }

@@ -17,8 +17,8 @@ export default async function LeaderboardPage() {
   const userLeaderboardItem: LeaderboardItem = {
     position: userPosition,
     balance: user.balance,
-    username: user.tgUsername,
-    photoUrl: user.tgPhotoUrl,
+    tgUsername: user.tgUsername,
+    tgPhotoUrl: user.tgPhotoUrl,
   }
 
   return (
