@@ -62,9 +62,11 @@ export default function PerformerBlockModal({
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              {!message.length && <Button color="primary" onPress={onBlockClick} isLoading={submitLoading}>
-                Block
-              </Button>}
+              {!message.length && 
+                <Button color="primary" onPress={onBlockClick} isLoading={submitLoading}>
+                  Block
+                </Button>
+              }
             </ModalFooter>
          </>
         )}

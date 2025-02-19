@@ -34,7 +34,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
 
   function modalSubmit(id: number) {
     const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
-    setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
+    setTasksFiltered(tasksAfterFilter);
   }
 
   useEffect(() => {

@@ -52,10 +52,10 @@ export default async function EarnPage({
       {tab === 'quests' 
         ? <EarnQuestList quests={quests} />
         : 
-          <>
-            {!!tasks.length && <TasksFilter actions={actions} services={services} />}
-            <EarnTaskList tasks={tasksFiltered} />
-          </>
+        <>
+          {!!tasks.length && <TasksFilter actions={actions} services={services} />}
+          <EarnTaskList tasks={tasksFiltered} />
+        </>
       }
     </div>
   )

@@ -11,7 +11,7 @@ const reportReasonsMap: ReportReasonsMapItem[] = [
   { key: ReportReasonEnum.SCAM, title: 'Scam' },
   { key: ReportReasonEnum.SPAM, title: 'Spam' },
   { key: ReportReasonEnum.COPYRIGHT, title: 'Copiright' },
-  { key: ReportReasonEnum.CONTENT, title: 'Inappropriate content (violance, pornography, politics) ' },
+  { key: ReportReasonEnum.CONTENT, title: 'Inappropriate content (violance, pornography, politics)' },
   { key: ReportReasonEnum.OTHER, title: 'Other' },
 ];
 

@@ -85,7 +85,8 @@ export default function EarnTaskCard({
 
           <div className="flex items-center">
             {status === 'start' 
-            ? <Button 
+              ? 
+              <Button 
                 color="primary" 
                 variant="bordered" 
                 className="btn-border-shadow mr-3"
@@ -93,7 +94,8 @@ export default function EarnTaskCard({
               >
                 Start
               </Button>
-            : <Button 
+              : 
+              <Button 
                 color="secondary" 
                 variant="bordered" 
                 className="btn-border-shadow mr-3"
@@ -125,7 +127,6 @@ export default function EarnTaskCard({
             </Dropdown>
           </div>
         </div>
-
       </CardBody>
     </Card>
   )
