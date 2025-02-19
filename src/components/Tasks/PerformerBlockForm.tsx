@@ -15,8 +15,8 @@ export default function PerformerBlockForm({
   const initialState: PerformerBlockFormState = { errors: {}, message: null };
   const action = PerformerBlockFormSubmit.bind(null, blockUserId);
   const [state, formAction] = useFormState(action, initialState);
-  const [comment, setComment] = useState('');
   const [reasons, setReasons] = useState([] as string[]);
+  const [comment, setComment] = useState('');
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, blockUserId);

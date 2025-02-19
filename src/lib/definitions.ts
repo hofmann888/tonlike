@@ -44,7 +44,7 @@ export type EditTaskFormState = {
   message?: string | null;
 };
 
-export type EarnItemReportFormState = {
+export type EarnTaskReportFormState = {
   errors?: {
     reasons?: string[];
     comment?: string[];

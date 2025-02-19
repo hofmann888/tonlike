@@ -1,9 +1,10 @@
 import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
-import { ReportReasonsMapItem, ReportReasonEnum, EarnItemReportFormState } from "@/lib/definitions";
-import { EarnItemReportFormSubmit } from "@/core/actions";
+import { ReportReasonsMapItem, ReportReasonEnum, EarnTaskReportFormState } from "@/lib/definitions";
+import { EarnTaskReportFormSubmit } from "@/core/actions";
 import { useFormState } from "react-dom";
+import { useState } from "react";
 
 const reportReasonsMap: ReportReasonsMapItem[] = [
   { key: ReportReasonEnum.UNAVAILABLE, title: 'Task is unavailable' },
@@ -19,9 +20,11 @@ export default function EarnTaskReportForm({
 }: { 
   taskId: number, formRef: any, afterSubmit: (success: boolean, id: number) => void 
 }) {
-  const initialState: EarnItemReportFormState = { errors: {}, message: null }; // TODO: errors not working
-  const action = EarnItemReportFormSubmit.bind(null, taskId);
+  const initialState: EarnTaskReportFormState = { errors: {}, message: null };
+  const action = EarnTaskReportFormSubmit.bind(null, taskId);
   const [state, formAction] = useFormState(action, initialState);
+  const [reasons, setReasons] = useState([] as string[]);
+  const [comment, setComment] = useState('');
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, taskId);
@@ -30,13 +33,41 @@ export default function EarnTaskReportForm({
 
   return (
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
-      <CheckboxGroup name="reasons" label="Select reasons" color="primary" isRequired>
+      <CheckboxGroup 
+        name="reasons" 
+        label="Select reasons" 
+        color="primary" 
+        value={reasons}
+        onValueChange={(value) => {
+          setReasons(value);
+          if (state?.errors?.reasons?.length) {
+            delete state?.errors?.reasons;
+          }
+        }}
+        isInvalid={!!state?.errors?.reasons?.length}
+        errorMessage={state?.errors?.reasons?.length ? state.errors.reasons[0] : ''}
+        isRequired
+      >
         {reportReasonsMap.map((item) => (
           <Checkbox key={item.key} value={item.key}>{item.title}</Checkbox>
         ))}
       </CheckboxGroup>
 
-      <Textarea name="comment" label="Comment" placeholder="Enter your comment" className="mt-3" />
+      <Textarea 
+        name="comment" 
+        label="Comment" 
+        placeholder="Enter your comment" 
+        className="mt-3" 
+        value={comment}
+        onValueChange={(value) => {
+          setComment(value);
+          if (state?.errors?.comment?.length) {
+            delete state?.errors?.comment;
+          }
+        }}
+        isInvalid={!!state?.errors?.comment?.length}
+        errorMessage={state?.errors?.comment?.length ? state.errors.comment[0] : ''}
+      />
 
       {state?.message &&
         <p className="mt-2 text-sm text-danger" key={state.message}>

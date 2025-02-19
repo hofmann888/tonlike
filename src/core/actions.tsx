@@ -1,7 +1,7 @@
 'use server'
 
 import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum } from '../db/query';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnItemReportFormState, PerformerBlockFormState } from '@/lib/definitions';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
@@ -294,8 +294,9 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
     }
 
     const data = { userId: user.id, blockedUserId: blockUserId, ...validated.data };
-
     await addUserToBlackList(data);
+
+    return { success: true };
   } catch (error) {
     console.log('Operation Error:', error);
     return {
@@ -303,7 +304,6 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
       success: false
     };
   }
-  return { success: true };
 }
 
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
@@ -315,6 +315,8 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
     if (!result) {
       throw new Error('Wrong unblockUserId!');
     }
+
+    return { success: true };
   } catch (error) {
     console.log('Operation Error:', error);
     return {
@@ -322,7 +324,6 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
       success: false,
     };
   }
-  return { success: true };
 }
 
 export async function HideUserEarnTask(taskId: number) {
@@ -346,9 +347,8 @@ export async function HideUserEarnTask(taskId: number) {
   }
 }
 
-// TODO?: EarnTask
-export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnItemReportFormState, formData: FormData) {
-  console.log('ReportUserEarnTask');
+export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTaskReportFormState, formData: FormData) {
+  console.log('EarnTaskReportFormSubmit');
 
   try {
     const user: User = await getAuthUser(false);
@@ -359,7 +359,6 @@ export async function EarnItemReportFormSubmit(taskId: number, prevState: EarnIt
     });
     
     if (!validated.success) {
-      console.log('errors', validated.error.flatten().fieldErrors);
       return {
         errors: validated.error.flatten().fieldErrors,
         message: 'Failed to report task.',
