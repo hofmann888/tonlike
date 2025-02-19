@@ -4,7 +4,7 @@
 import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
 import { getAuthUser } from "@/app/auth/session";
-import LeaderboardCard from "@/components/LeaderboardPage/LeaderboardCard";
+import LeaderboardCard from "@/components/Leaderboard/LeaderboardCard";
 
 export default async function LeaderboardPage() {
   const user = await getAuthUser(false);

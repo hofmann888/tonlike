@@ -3,9 +3,9 @@
 import { fetchUserReferrals, fetchUserReferralsTaskEarningsSum } from "@/db/query";
 import { getAuthUser } from "../auth/session";
 import { User } from "@/lib/definitions";
-import ReferralsList from "@/components/ReferralsPage/ReferralsList";
-import ReferralsInfo from "@/components/ReferralsPage/ReferralsInfo";
-import ReferralsButtons from "@/components/ReferralsPage/ReferralsButtons";
+import ReferralsList from "@/components/Referrals/ReferralsList";
+import ReferralsInfo from "@/components/Referrals/ReferralsInfo";
+import ReferralsButtons from "@/components/Referrals/ReferralsButtons";
 
 export default async function RefferalsPage() {
   const user: User = await getAuthUser(false);

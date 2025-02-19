@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchServicesWithActions } from "@/db/query";
-import CreateTaskForm from "@/components/TasksPage/CreateTaskForm";
+import CreateTaskForm from "@/components/Tasks/CreateTaskForm";
 
 export default async function CreateTaskPage() {
   const services = await fetchServicesWithActions(true);

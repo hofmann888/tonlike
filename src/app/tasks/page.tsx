@@ -6,8 +6,8 @@ import { getAuthUser } from "@/app/auth/session";
 import { fetchTasksByUserId } from "@/db/query";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import TasksFilter from "@/components/TasksPage/TasksFilter";
-import TaskList from "@/components/TasksPage/TaskList";
+import TasksFilter from "@/components/Tasks/TasksFilter";
+import TaskList from "@/components/Tasks/TaskList";
 
 // TODO: optimize: prefetch, cache, pagination...
 // TODO: suspend, skeletons...
