@@ -1,32 +1,38 @@
 'use client'
 
-import { useDisclosure } from "@heroui/modal";
 import { useEffect, useState } from "react";
 import { Task } from "@/lib/definitions";
-import { HideUserEarnTask } from "@/core/actions";
 import EarnTaskCard from "./EarnTaskCard";
-import EarnItemReportModal from "./EarnItemReportModal";
+import EarnTaskHideModal from "./EarnTaskHideModal";
+import EarnTaskReportModal from "./EarnTaskReportModal";
 
 export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   const [tasksFiltered, setTasksFiltered] = useState(tasks); // TODO?: optimize, just remove html block
-  const [reportTaskId, setReportTaskId] = useState(0);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [modalTaskId, setModalTaskId] = useState(0);
 
-  async function hideClick(id: number) {
-    const result = await HideUserEarnTask(id);
-    if (result.success) {
-      const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
-      setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
-    }
-    console.log(result); // TODO: display errors. And success message?
+  // TODO: peredelat' etu parashu s modalkami...ept ne mogli uchest' vneshnuu logiku? che ze cal...
+  const [hideModalIsOpen, setHideModalIsOpen] = useState(false);
+  const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
+
+  function hideModalOnOpenChange(isOpen: boolean) {
+    setHideModalIsOpen(isOpen);
+  }
+
+  function reportModalOnOpenChange(isOpen: boolean) {
+    setReportModalIsOpen(isOpen);
+  }
+
+  function hideClick(id: number) {
+    setModalTaskId(id);
+    hideModalOnOpenChange(true);
   }
 
   function reportClick(id: number) {
-    setReportTaskId(id);
-    onOpen();
+    setModalTaskId(id);
+    setReportModalIsOpen(true);
   }
 
-  function earnItemReported(id: number) {
+  function modalSubmit(id: number) {
     const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
     setTasksFiltered(tasksAfterFilter); // TODO: remove filter component if task list is empty
   }
@@ -44,13 +50,22 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onHideClick={() => hideClick(task.id)} 
           onReportClick={() => reportClick(task.id)} 
         />
-      )) : <p className="text-center mt-4">No tasks found.</p>}
+      )) : <p className="text-center text-large mt-4">No tasks found.</p>}
 
-      <EarnItemReportModal 
-        taskId={reportTaskId} 
-        isOpen={isOpen} 
-        onOpenChange={onOpenChange} 
-        earnItemReported={earnItemReported} 
+      <EarnTaskReportModal 
+        taskId={modalTaskId} 
+        onSubmit={modalSubmit} 
+        isOpen={reportModalIsOpen}
+        onOpenChange={reportModalOnOpenChange}
+        onClose={() => reportModalOnOpenChange(false)}
+      />
+
+      <EarnTaskHideModal 
+        taskId={modalTaskId} 
+        onSubmit={modalSubmit} 
+        isOpen={hideModalIsOpen}
+        onOpenChange={hideModalOnOpenChange}
+        onClose={() => hideModalOnOpenChange(false)}
       />
     </div>
   )

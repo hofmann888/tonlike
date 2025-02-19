@@ -16,7 +16,7 @@ import { Task } from "@/lib/definitions";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
-
+// TODO?: show price instead of links?
 export default function EarnTaskCard({
   task,
   onHideClick,
@@ -29,7 +29,6 @@ export default function EarnTaskCard({
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
 
   const [status, setStatus] = useState<'start'|'check'|'loading'|'failed'>('start');
-  // const [loading, setLoading] = useState(false);
 
   function startClick() {
     if (openTelegramLink.isAvailable()) {
@@ -107,7 +106,7 @@ export default function EarnTaskCard({
             
             <Dropdown>
               <DropdownTrigger>
-                <Button isIconOnly aria-label="Earn Task Actions Button" variant="light">
+                <Button variant="light" isIconOnly>
                   <PiDotsThreeOutlineVerticalFill />
                 </Button>
               </DropdownTrigger>

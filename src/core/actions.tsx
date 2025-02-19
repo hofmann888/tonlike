@@ -331,9 +331,9 @@ export async function HideUserEarnTask(taskId: number) {
     const user: User = await getAuthUser(false);
 
     if (!await taskIsAvailableForUser(taskId, user.id)) {
-      throw new Error("Wrong task!");
+      throw new Error('Wrong task.');
     }
-    
+
     await hideTaskEarningForUser(user.id, taskId);
 
     return { success: true };

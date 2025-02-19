@@ -14,7 +14,7 @@ const reportReasonsMap: ReportReasonsMapItem[] = [
   { key: ReportReasonEnum.OTHER, title: 'Other' },
 ];
 
-export default function EarnItemReportForm({ 
+export default function EarnTaskReportForm({ 
   taskId, formRef, afterSubmit
 }: { 
   taskId: number, formRef: any, afterSubmit: (success: boolean, id: number) => void 
@@ -38,13 +38,11 @@ export default function EarnItemReportForm({
 
       <Textarea name="comment" label="Comment" placeholder="Enter your comment" className="mt-3" />
 
-      <div id="fields-error" aria-live="polite" aria-atomic="true">
-        {state?.message &&
-          <p className="mt-2 text-sm text-red-500" key={state.message}>
-            {state.message}
-          </p>
-        }
-      </div>
+      {state?.message &&
+        <p className="mt-2 text-sm text-danger" key={state.message}>
+          {state.message}
+        </p>
+      }
     </Form>
   )
 }
