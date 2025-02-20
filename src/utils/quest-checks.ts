@@ -18,23 +18,24 @@ import { checkTgSubscribe, checkTgBoost } from "./task-checks";
 // import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache'; 
 
-
 // TODO: refactor on class oop
-// TODO: try catch exceptions
+// TODO?: try catch exceptions on checks? (...catches in checkQuest)
 
 export async function checkQuest(questId: number) {
   console.log('checkQuest');
-
   try {
     const [user, quest] = await Promise.all([
       getAuthUser(false), 
       fetchQuestById(questId, [QuestRelationEnum.SERVICE_ACTION]), 
     ]);
 
-    const dailyDone = await checkDailyQuestDone(quest.id, user.id);
+    const questDone = await checkQuestDone(quest.id, user.id, quest.daily);
   
-    if (quest.daily && dailyDone) {
-      throw new Error('Quest already done today.');
+    if (questDone) {
+      return { 
+        success: false, 
+        message: 'The quest has already been completed.',
+      }
     }
     
     let check = false;
@@ -66,18 +67,26 @@ export async function checkQuest(questId: number) {
         check = await checkTgBoost(user.tgId, quest.link as string);
         break;
       default:
-        console.log(`Couldn't find checker for quest.`);
+        return {
+          success: false,
+          message: 'Wrong quest.',
+        }
     }
-    console.log('checkQuest check:', check);
 
     if (check) { 
       await earnOnQuest(quest, user);
     }
 
-    return check;
+    return { 
+      success: check,
+      message: check ? 'Quest completed.' : 'Check failed.',
+    };
   } catch (error) {
-    console.log('Check failed! Error:', error);
-    return false;
+    console.log('Check Error:', error);
+    return { 
+      success: false, 
+      message: 'Try again.',
+    };
   }
   // revalidatePath('/earn?tab=quests');
   // redirect('/earn?tab=quests');
@@ -93,78 +102,50 @@ export async function earnOnQuest(quest: Quest, user: User) {
   await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
 }
 
-
-export async function checkDailyQuestDone(questId: number, userId: number) { // TODO?: userId
-  console.log('checkDailyQuestDone');
-  let check = false;
-  try {
-    const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId); // TODO?: fetchLatQuestEarning?s
-    check = checkDailyDone(lastDoneDate);
-  } catch (error) {
-    console.log(error);
-  }
+export async function checkQuestDone(questId: number, userId: number, daily: boolean) {
+  console.log('checkQuestDone');
+  const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId);
+  const check = daily ? checkDailyDone(lastDoneDate) : !!lastDoneDate;
+ 
   return check;
 }
 
-
 export async function checkDailyAnyTaskDone(userId: number) {
   console.log('checkDailyAnyTaskDone');
-  let check = false;
-  try {
-    const taskEarning = await fetchTaskEarningLastDoneByUserId(userId);
-    check = checkDailyDone(taskEarning.createdAt);
-  } catch (error) {
-    console.log(error);
-  }
+  const taskEarning = await fetchTaskEarningLastDoneByUserId(userId);
+  const check = checkDailyDone(taskEarning.createdAt);
+ 
   return check;
-  
 }
 
 export async function checkInvitedCount(userId: number, countNeed: number) {
   console.log('checkInvitedCount');
-  let check = false;
-  try {
-    const count = await fetchUserReferralsCount(userId);
-    check = count >= countNeed;
-  } catch (error) {
-    console.log(error);
-  }
+  const count = await fetchUserReferralsCount(userId);
+  const check = count >= countNeed;
+  
   return check;
 }
 
 export async function checkTaskCount(userId: number, countNeed: number) {
   console.log('checkTaskCount');
-  let check = false;
-  try {
-    const count = await fetchTaskCountByUserId(userId);
-    check = count >= countNeed;
-  } catch (error) {
-    console.log(error);
-  }
-  return check;
+  const count = await fetchTaskCountByUserId(userId);
+  const check = count >= countNeed;
   
+  return check;
 }
 
 export async function checkTaskDoneCount(userId: number, countNeed: number) {
   console.log('checkTaskDoneCount');
-  let check = false;
-  try {
-    const count = await fetchTaskEarningDoneCountByUserId(userId);
-    check = count >= countNeed;
-  } catch (error) {
-    console.log(error);
-  }
+  const count = await fetchTaskEarningDoneCountByUserId(userId);
+  const check = count >= countNeed;
+  
   return check;
 }
 
 export async function checkQuestDoneCount(userId: number, countNeed: number) {
   console.log('checkQuestDoneCount');
-  let check = false;
-  try {
-    const count = await fetchDoneQuestEarningCountByUserId(userId);
-    check = count >= countNeed;
-  } catch (error) {
-    console.log(error);
-  }
+  const count = await fetchDoneQuestEarningCountByUserId(userId);
+  const check = count >= countNeed;
+  
   return check;
 }

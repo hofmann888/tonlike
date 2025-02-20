@@ -23,37 +23,35 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer row-start-3 w-full h-[60px] sticky bottom-0 z-50 border-t-1 border-foreground-900 bg-background">
-      <nav className="footer-nav h-full">
-        <Tabs 
-          selectedKey={selectedNav} 
-          aria-label="Navigation"
-          variant="underlined"
-          color="primary"
-          classNames={{ 
-            base: "w-full h-full", 
-            tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
-            tab: "h-full",
-            cursor: "w-full",
-            tabContent: "group-data-[selected=true]:text-foreground-900"
-            // cursor: "w-full bg-[#22d3ee]",
-          }}
-        >
-          {navLinks.map((link) => {
-            const LinkIcon = link.icon;
-            return (
-              <Tab 
-                as={Link}
-                key={link.href} 
-                href={link.href}
-                title={
-                  <LinkIcon className="w-7 h-7" />
-                }
-              />
-            );
-          })}
-        </Tabs>
-      </nav>
+    <footer className="footer row-start-3 w-full h-[60px] sticky bottom-0 z-40 border-t-1 border-foreground-900 bg-background">
+      <Tabs 
+        selectedKey={selectedNav} 
+        aria-label="Navigation"
+        variant="underlined"
+        color="primary"
+        classNames={{ 
+          base: "w-full h-full", 
+          tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
+          tab: "h-full",
+          cursor: "w-full",
+          tabContent: "group-data-[selected=true]:text-foreground-900"
+          // cursor: "w-full bg-[#22d3ee]",
+        }}
+      >
+        {navLinks.map((link) => {
+          const LinkIcon = link.icon;
+          return (
+            <Tab 
+              as={Link}
+              key={link.href} 
+              href={link.href}
+              title={
+                <LinkIcon className="w-7 h-7" />
+              }
+            />
+          );
+        })}
+      </Tabs>
     </footer>
   )
 }

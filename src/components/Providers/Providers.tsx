@@ -5,6 +5,7 @@ import * as React from "react";
 import { User } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 import { ThemeProvider } from "next-themes";
+import { ToastProvider } from "@heroui/toast";
 import { HeroUIProvider } from "@heroui/system";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UserProvider from "@/components/Providers/UserProvider";
@@ -24,13 +25,14 @@ declare module "@react-types/shared" {
 // TODO: HeroUIProvider not working
 export function Providers({ children, themeProps, userData }: ProvidersProps) {
   const router = useRouter();
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient(); // TODO: nah ono nado vasche?
 
   return (
     <HeroUIProvider navigate={router.push}>
       <ThemeProvider {...themeProps}>
         <QueryClientProvider client={queryClient}>
           <UserProvider userData={userData}>
+            <ToastProvider placement="bottom-center" toastOffset={60} toastProps={{ timeout: 3000, classNames: { base: "z-50" } }} />
             {children}
           </UserProvider>
         </QueryClientProvider>

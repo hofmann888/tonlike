@@ -1,12 +1,14 @@
-import { Card, CardBody } from "@heroui/card";
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { addToast, ToastProps } from "@heroui/toast";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { Quest } from "@/lib/definitions";
-import { actionIcons } from "@/lib/icons";
-import { IconType } from "react-icons";
-import { checkDailyDone } from "@/utils/helpers";
 import { checkQuest } from "@/utils/quest-checks";
+import { checkDailyDone } from "@/utils/helpers";
+import { actionIcons } from "@/lib/icons";
+import { Quest } from "@/lib/definitions";
+import { FaCheck } from "react-icons/fa";
+import { IconType } from "react-icons";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
@@ -15,19 +17,22 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const iconKey = quest.action?.id as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
   const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
-  const countDone = !quest.daily && !!quest.doneLastAt;
-  const questIsDone = dailyDone || countDone;
+  const oneTimeDone = !quest.daily && !!quest.doneLastAt;
+  const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
   const [loading, setLoading] = useState(false);
 
   async function startClick() { // TODO: start -> check on external services
-    console.log('startClick');    
     setLoading(true);
 
-    const check = await checkQuest(quest.id);
-    if (check) {
-      console.log('startClick check:', check);
-    }
+    const result = await checkQuest(quest.id);
+    const toast = {
+      color: result.success ? "success" : "danger",
+      title: result.success ? "Success." : "Something went wrong.",
+      description: result.message,
+    };
+
+    addToast(toast as ToastProps);
     setLoading(false);
   }
 
@@ -42,7 +47,6 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
         <div className="flex items-center gap-3">
           <Avatar
             alt={quest.service?.title}
-            // size="sm"
             classNames={{
               base: "bg-gradient-to-b from-pink-500 to-blue-500",
               icon: "text-2xl"
@@ -59,11 +63,6 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
                   <Link isExternal showAnchorIcon className="text-small" href='/img/social/telegram.png'>
                     <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{quest.link}</span>
                   </Link>
-
-                  {/* <Link isExternal showAnchorIcon href='/img/social/telegram.png'>
-                    {quest.link}
-                  </Link>
-                  <span className="text-small text-foreground-400">{ title }</span> */}
                 </>
               : <span className="text-medium">{ title }</span>
             }
@@ -79,12 +78,16 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
             <Button 
               color="primary" 
               variant="bordered" 
-              className="btn-border-shadow mr-3" 
-              isDisabled={questIsDone}
+              className="btn-border-shadow mr-3 w-20" 
               onPress={startClick}
               isLoading={loading}
+              isDisabled={questIsDone}
+              isIconOnly={questIsDone}
             >
-              {!loading && `Start`}
+              {questIsDone 
+                ? <FaCheck /> 
+                : !loading && `Start`
+              }
             </Button>
           </div>
         </div>
