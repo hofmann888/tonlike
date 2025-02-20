@@ -1,29 +1,28 @@
 'use server'
 
-import { createTaskEarning, createTaskEarningWithBalanceUpdate, fetchTaskById, taskIsAvailableForUser, updateUserWithSession } from "@/db/query";
+import { createTaskEarningWithBalanceUpdate, fetchTaskById, taskIsAvailableForUser } from "@/db/query";
 import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
 import { Task, User, ServiceActionName } from '@/lib/definitions';
 import { getAuthUser, setSession } from "@/app/auth/session";
 import { TaskRelationEnum } from "@/db/schema";
 
-
-// TODO?: check if user already done task?
 export async function checkTask(taskId: number) {
   console.log('checkTask');
-
   try {
     const [user, task] = await Promise.all([
       getAuthUser(false), 
       fetchTaskById(taskId, [TaskRelationEnum.SERVICE_ACTION]), 
     ]);
 
-    let check = false;
-
     const available = await taskIsAvailableForUser(task.id, user.id);
-
     if (!available) {
-      throw new Error('Task is not available.');
+      return { 
+        success: false, 
+        message: 'Task is not available.',
+      }
     }
+
+    let check = false;
 
     switch (task.serviceAction?.name) { // TODO: link to channel format
       case ServiceActionName.TELEGRAM_SUBSCRIBE:
@@ -33,21 +32,26 @@ export async function checkTask(taskId: number) {
         check = await checkTgBoost(user.tgId, task.link as string);
         break;
       default:
-        console.log(`Couldn't find checker for task.`);
+        check = true;
+        // return {
+        //   success: false,
+        //   message: 'Task is not available.',
+        // }
     }
-    console.log('checkTask check:', check);
 
-    if (check) { 
-      await earnOnTask(task, user);
-    }
+    check && await earnOnTask(task, user);
 
-    return check;
+    return { 
+      success: check,
+      message: check ? 'Task completed.' : 'Check failed.',
+    };
   } catch (error) {
-    console.log('Check failed! Error:', error);
-    return false;
+    console.log('Check Error:', error);
+    return { 
+      success: false, 
+      message: 'Try again.',
+    };
   }
-  // revalidatePath('/earn?tab=quests');
-  // redirect('/earn?tab=quests');
 }
 
 export async function earnOnTask(task: Task, user: User) {
@@ -62,24 +66,16 @@ export async function earnOnTask(task: Task, user: User) {
 
 export async function checkTgSubscribe(tgId: number, channel: string) {
   console.log('checkTgSubscribe');
-  let check = false;
-  try {
-    const data: any = await tgCheckMembershipRequest(tgId, channel);
-    check = data?.success && data?.result;
-  } catch (error) {
-    console.log(error);
-  }
+  const data: any = await tgCheckMembershipRequest(tgId, channel);
+  const check = data?.success && data?.result;
+  
   return check;
 }
 
 export async function checkTgBoost(tgId: number, channel: string) {
   console.log('checkTgBoost');
-  let check = false;
-  try {
-    const data: any = await tgCheckBoostRequest(tgId, channel);
-    check = data?.success && data?.result;
-  } catch (error) {
-    console.log(error);
-  }
+  const data: any = await tgCheckBoostRequest(tgId, channel);
+  const check = data?.success && data?.result;
+  
   return check;
 }

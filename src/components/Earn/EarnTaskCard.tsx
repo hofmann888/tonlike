@@ -1,13 +1,9 @@
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem
-} from "@heroui/dropdown";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import { addToast, ToastProps } from "@heroui/toast";
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
-import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
 import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -27,15 +23,15 @@ export default function EarnTaskCard({
   onReportClick: (id: number) => void
 }) {
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
-
-  const [status, setStatus] = useState<'start'|'check'|'loading'|'failed'>('start');
+  const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   function startClick() {
     if (openTelegramLink.isAvailable()) {
       openTelegramLink('https://t.me/deadgens');
     } 
-    setStatus('check');
-    // else if (openLink.isAvailable()) {
+    setChecking(true);
+    // else if (openLink.isAvailable()) { // TODO!
     //   openLink('https://telegram.org', {
     //     tryInstantView: true,
     //   });
@@ -43,13 +39,18 @@ export default function EarnTaskCard({
   }
 
   async function checkClick() {
-    setStatus('loading');
+    setLoading(true);
 
-    const check = await checkTask(task.id);
-    console.log('checkClick check:', check);
-    if (!check) {
-      setStatus('start');
-    }
+    const result = await checkTask(task.id);
+    const toast = {
+      color: result.success ? "success" : "danger",
+      title: result.success ? "Success." : "Something went wrong.",
+      description: result.message,
+    };
+
+    addToast(toast as ToastProps);
+    setChecking(false);
+    setLoading(false);
   }
 
   return (
@@ -84,27 +85,15 @@ export default function EarnTaskCard({
           </div>
 
           <div className="flex items-center">
-            {status === 'start' 
-              ? 
-              <Button 
-                color="primary" 
-                variant="bordered" 
-                className="btn-border-shadow mr-3"
-                onPress={() => startClick()}
-              >
-                Start
-              </Button>
-              : 
-              <Button 
-                color="secondary" 
-                variant="bordered" 
-                className="btn-border-shadow mr-3"
-                isLoading={status === 'loading'}
-                onPress={() => checkClick()}
-              >
-                {status !== 'loading' && 'Check'}
-              </Button>
-            }
+            <Button 
+              color={checking ? "secondary" : "primary"}
+              variant="bordered" 
+              className="btn-border-shadow mr-3"
+              onPress={() => checking ? checkClick() : startClick()}
+              isLoading={loading}
+            >
+              {!loading && (checking ? 'Check' : 'Start')}
+            </Button>
             
             <Dropdown>
               <DropdownTrigger>

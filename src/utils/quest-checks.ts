@@ -30,7 +30,6 @@ export async function checkQuest(questId: number) {
     ]);
 
     const questDone = await checkQuestDone(quest.id, user.id, quest.daily);
-  
     if (questDone) {
       return { 
         success: false, 
@@ -69,13 +68,11 @@ export async function checkQuest(questId: number) {
       default:
         return {
           success: false,
-          message: 'Wrong quest.',
+          message: 'Quest is not available.',
         }
     }
 
-    if (check) { 
-      await earnOnQuest(quest, user);
-    }
+    check && await earnOnQuest(quest, user);
 
     return { 
       success: check,
@@ -88,8 +85,6 @@ export async function checkQuest(questId: number) {
       message: 'Try again.',
     };
   }
-  // revalidatePath('/earn?tab=quests');
-  // redirect('/earn?tab=quests');
 }
 
 export async function earnOnQuest(quest: Quest, user: User) {

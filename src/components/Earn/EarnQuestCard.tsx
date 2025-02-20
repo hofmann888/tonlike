@@ -1,5 +1,5 @@
-import { Card, CardBody, CardFooter } from "@heroui/card";
 import { addToast, ToastProps } from "@heroui/toast";
+import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";

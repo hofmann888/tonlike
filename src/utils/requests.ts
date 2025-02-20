@@ -4,23 +4,23 @@ async function fetchRequest(uri: string, params?: RequestInit) {
   let result;
 
   console.log('fetchRequest:', uri);
-
   // console.log('siteurl', process.env.NEXT_PUBLIC_SITE_URL);
 
   await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}${uri}`, params)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log("Fetched data:", data);
-    result = data;
-  })
-  .catch(error => {
-    throw new Error(`Request error: ${error}`);
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Fetched data:", data);
+      result = data;
+    })
+    .catch(error => {
+      throw new Error(`Request error: ${error}`);
+    })
+  ;
 
   return result;
 }
