@@ -5,9 +5,9 @@ import { getSession } from "./auth/session";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import LayoutLoader from "@/components/Common/LayoutLoader";
 import "@/css/globals.scss";
 
-import LayoutLoader from "@/components/Common/LayoutLoader";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
