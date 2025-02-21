@@ -72,10 +72,6 @@ export default function EarnTaskCard({
             <Link isExternal showAnchorIcon className="text-small " href='/img/social/telegram.png'>
               <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
             </Link>
-            {/* <Link isExternal showAnchorIcon href={task.link}>
-              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
-            </Link>
-            <span className="text-small text-foreground-400">{actionTitle}</span> */}
           </div>
         </div>
 
@@ -86,8 +82,8 @@ export default function EarnTaskCard({
 
           <div className="flex items-center">
             <Button 
-              color={checking ? "secondary" : "primary"}
-              variant="bordered" 
+              color="primary"
+              variant={checking ? "solid" : "bordered"}
               className="btn-border-shadow mr-3"
               onPress={() => checking ? checkClick() : startClick()}
               isLoading={loading}
