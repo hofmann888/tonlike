@@ -7,6 +7,8 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import "@/css/globals.scss";
 
+import LayoutLoader from "@/components/Common/LayoutLoader";
+
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -42,15 +44,17 @@ export default async function RootLayout({
             userData={session?.user}
             themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
           >
-            <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
-              <Header />
-              
-              <main className="layout-content">
-                {children}
-              </main>
+            <LayoutLoader>
+              <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
+                <Header />
+                
+                <main className="layout-content">
+                  {children}
+                </main>
 
-              <Footer />
-            </div>
+                <Footer />
+              </div>
+            </LayoutLoader>
           </Providers>
         </TWARoot>
       </body>

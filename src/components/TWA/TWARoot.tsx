@@ -60,11 +60,17 @@ function RootInner({ children }: PropsWithChildren) {
 export function TWARoot(props: PropsWithChildren) {
   // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side Rendering.
   // That's why we are showing loader on the server side.
-  const didMount = useDidMount();
+  // const didMount = useDidMount();
 
-  return didMount ? (
+  // return didMount ? (
+  //   <ErrorBoundary fallback={ErrorPage}>
+  //     <RootInner {...props}/>
+  //   </ErrorBoundary>
+  // ) : <PageLoader />;
+
+  return (
     <ErrorBoundary fallback={ErrorPage}>
       <RootInner {...props}/>
     </ErrorBoundary>
-  ) : <div className="flex items-center justify-center absolute top-0 left-0 w-full h-full">Loading</div>;
+  );
 }

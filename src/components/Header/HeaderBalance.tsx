@@ -3,6 +3,7 @@
 import { Chip } from "@heroui/chip";
 import { useUser } from "@/hooks/useUser";
 import { BsCurrencyDollar } from "react-icons/bs";
+import HeaderBalanceChipsSkeleton from "../Skeletons/HeaderBalanceChipsSkeleton";
 import CoinValue from "../Common/CoinValue";
 
 export default function HeaderBalance() {
@@ -10,17 +11,21 @@ export default function HeaderBalance() {
 
   return (
     <div>
-      <span className="text-lg">Balance:</span>
-      <div className="flex flex-row justify-center text-medium">
-        <Chip size="md" variant="flat" color="primary" className="mt-1 mr-1">
-          <CoinValue value={balance} />
-        </Chip>
-        <Chip size="md" variant="flat" color="primary" className="mt-1">
-          <div className="flex items-center">
-            <BsCurrencyDollar className="inline-block" />0
-          </div>
-        </Chip>
-      </div>
+      <span className="text-large">Balance:</span>
+      {balance === undefined
+        ? <HeaderBalanceChipsSkeleton />
+        : 
+          <div className="flex flex-row justify-center text-medium mt-1">
+            <Chip size="md" variant="flat" color="primary" className="mr-1">
+              <CoinValue value={balance ?? 0} />
+            </Chip>
+            <Chip size="md" variant="flat" color="primary">
+              <div className="flex items-center">
+                <BsCurrencyDollar className="inline-block" />0
+              </div>
+            </Chip>
+          </div> 
+      }
     </div> 
-  );
+  )
 }

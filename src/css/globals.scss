@@ -17,7 +17,7 @@
     --background: hsl(var(--heroui-background));
     --foreground: hsl(var(--heroui-foregroung));
 
-    .layout-grid {
+    body {
         // background: center / contain no-repeat url("/img/bg2.jpg");
         // background: linear-gradient(90deg, rgba(0,20,119,1) 0%, rgba(0,0,0,1) 60%);
         // background: radial-gradient(circle, rgba(0,20,119,1) 0%, rgba(0,0,0,1) 30%);
@@ -26,15 +26,11 @@
     }
 }
 .light:root {
-    .layout-grid {
+    body {
         background: var(--background);
         // background: radial-gradient(circle, rgba(136,136,136,1) 0%, rgba(255,255,255,1) 30%);
         // background-attachment: fixed;
     }
-}
-
-html {
-    background: #fff !important;
 }
 
 body {
