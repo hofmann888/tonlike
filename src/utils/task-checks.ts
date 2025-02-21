@@ -1,6 +1,6 @@
 'use server'
 
-import { createTaskEarningWithBalanceUpdate, fetchTaskById, taskIsAvailableForUser } from "@/db/query";
+import { createTaskEarningWithBalanceUpdate, fetchTaskById, fetchTaskDoneCount, taskIsAvailableForUser } from "@/db/query";
 import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
 import { Task, User, ServiceActionName } from '@/lib/definitions';
 import { getAuthUser, setSession } from "@/app/auth/session";
@@ -56,9 +56,13 @@ export async function checkTask(taskId: number) {
 
 export async function earnOnTask(task: Task, user: User) {
   console.log('earnOnTask');
+  const doneCount = await fetchTaskDoneCount(task.id);
+  const done = doneCount + 1 === task.count;
+
   const { updatedUser } = await createTaskEarningWithBalanceUpdate(
     { userId: user.id, taskId: task.id, profit: task.price },
     user.balance + task.price,
+    done
   )
 
   await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?

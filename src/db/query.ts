@@ -33,10 +33,12 @@ export async function createUser(dto: dto.UserInsertDTO) { // TODO: empty userna
 }
 
 function updateUserQuery(id: number, dto: dto.UserUpdateDto) {
-  return db.update(schema.users)
+  return db
+    .update(schema.users)
     .set({ ...dto, updatedAt: sql`NOW()` })
     .where(eq(schema.users.id, id))
-    .returning();
+    .returning()
+  ;
 }
 
 export async function updateUser(id: number, dto: dto.UserUpdateDto) {
@@ -340,17 +342,21 @@ export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balanc
   }
 }
 
+function updateTaskQuery(id: number, dto: dto.TaskUpdateDTO) {
+  return db
+    .update(schema.tasks)
+    .set({ ...dto, updatedAt: sql`NOW()` }) // TODO?: check if dto is empty
+    .where(eq(schema.tasks.id, id))
+    .returning({ id: schema.tasks.id }) // TODO?: return Task?
+  ;
+}
+
 export async function updateTask(id: number, dto: dto.TaskUpdateDTO) {
   console.log('updateTask');
   try {
-    const data = await db
-      .update(schema.tasks)
-      .set({ ...dto, updatedAt: sql`NOW()` }) // TODO?: check if dto is empty
-      .where(eq(schema.tasks.id, id))
-      .returning({ id: schema.tasks.id }) // TODO?: return Task?
-    ;
+    const [data] = await updateTaskQuery(id, dto);
 
-    return data[0]?.id;
+    return data?.id;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to update task data.');
@@ -641,13 +647,20 @@ export async function createTaskEarning(dto: dto.TaskEarningInsertDTO) {
   }
 }
 
-export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningInsertDTO, balance: number) { // TODO refactor balance recalculate logic
+export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningInsertDTO, balance: number, done: boolean = false) { // TODO refactor balance recalculate logic
   console.log('createTaskWithBalanceUpdate');
   try {
-    const batch = await db.batch([
+
+    const queries: any = [
       db.insert(schema.taskEarnings).values(dto).returning({ id: schema.questEarnings.id }),
       updateUserQuery(dto.userId, { balance: balance }),
-    ]);
+    ];
+
+    if (done) {
+      queries.push(updateTaskQuery(dto.taskId, { status: TaskStatusEnum.DONE }));
+    }
+
+    const batch = await db.batch(queries);
 
     return { 
       takEarningId: batch[0][0].id, 
@@ -712,7 +725,7 @@ export async function fetchTaskEarningDoneCountByUserId(userId: number) {
 }
 
 export async function fetchTaskDoneCount(taskId: number) {
-  console.log('fetchTaskDoneCountByTaskId');
+  console.log('fetchTaskDoneCount');
   try {
     const data = await db.$count(schema.taskEarnings, 
       and(
