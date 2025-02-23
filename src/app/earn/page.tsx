@@ -24,6 +24,7 @@ export default async function EarnPage({
   let tasks: Task[] = [];
 
   // TODO?: move this logic to separate components to use Suspense?
+  // TODO: remove await -> pass Promise -> use "use" hook in client
   if (tab === 'tasks') {
     tasks = await fetchEarnTasksByUserId(user.id);
   } else {

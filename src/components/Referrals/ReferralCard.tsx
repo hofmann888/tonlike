@@ -27,7 +27,7 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
               src: referral.tgPhotoUrl,
               size: 'sm',
             }}
-            name={`@${referral.tgUsername}`}
+            name={!!referral.tgUsername?.length ? `@${referral.tgUsername}` : '???'}
           />
         </div>
 

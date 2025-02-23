@@ -22,7 +22,7 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
               size: 'sm',
             }}
             className="justify-start"
-            name={`@${item.tgUsername}`}
+            name={!!item.tgUsername?.length ? `@${item.tgUsername}` : '???'}
             // description={<CoinValue value={user.balance} className="text-tiny text-primary-500" />}
           />
         </div>

@@ -80,11 +80,14 @@ export default function TaskPerformersList({ performers }: { performers: Perform
                   'w-1/2 justify-start',
                   {'text-red-500': performer.isBlocked},
                 )}
-                name={<span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span>}
-                description={<CoinValue value={performer.profit} className="mr-3 text-tiny" />}
+                name={!!performer.tgUsername?.length 
+                  ? <span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span> 
+                  : '???'
+                }
+                description={<CoinValue value={performer.profit} className="mr-3 text-tiny text-primary-500" />}
               />
 
-              {/* <CoinValue value={performer.profit} className="mr-3 text-small" /> */}
+              {/* <CoinValue value={performer.profit} className="mr-3 text-small text-primary-500" /> */}
 
               {performer.isBlocked 
                 ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>

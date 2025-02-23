@@ -13,7 +13,7 @@ import {
 export default function HeaderUser() {
   const { tgUserName, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
 
-  return ( // TODO: check if user auth!
+  return (
     <div className="header-user">
       <Dropdown placement="bottom-start">
         <DropdownTrigger>
@@ -28,7 +28,7 @@ export default function HeaderUser() {
               base: "transition-transform flex-row-reverse",
               wrapper: "items-end"
             }}
-            description={<span className="text-medium">@{tgUserName}</span>}
+            description={!!tgUserName?.length && <span className="text-medium">@{tgUserName}</span>}
             name={<span className="text-large">{tgFirstName} {tgLastName}</span>}
           />
         </DropdownTrigger>
