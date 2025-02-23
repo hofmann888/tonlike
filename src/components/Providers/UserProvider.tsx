@@ -3,7 +3,7 @@
 import { User } from "@/lib/definitions";
 import { authRequest } from "@/utils/requests";
 import { createContext, useEffect, useState } from "react";
-import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
 
 export const UserContext = createContext({
   user: {} as User,
