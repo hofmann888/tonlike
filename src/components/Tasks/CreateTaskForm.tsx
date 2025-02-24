@@ -141,7 +141,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           type="number"
           placeholder="0"
           variant="bordered"
-          className="w-3/4 mr-2"
+          className="w-3/4 mr-2 max-[374px]:w-2/3"
           min={1}
           step={1}
           value={`${price}`}
@@ -164,7 +164,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           name="currency" 
           label="Currency" 
           variant="bordered" 
-          className="w-1/4"
+          className="w-1/4 max-[374px]:w-1/3"
           selectedKeys={['coin']}
           isDisabled
           disallowEmptySelection

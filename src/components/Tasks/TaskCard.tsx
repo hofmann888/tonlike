@@ -67,7 +67,7 @@ export default function TaskCard({
       className="border-none bg-background/60 dark:bg-default-100/50 mb-3"
       shadow="sm"
     >
-      <CardBody className="flex-row pb-2">
+      <CardBody className="flex-row justify-between pb-2 pr-0">
         <div className="flex items-center gap-2 w-1/2">
           <Avatar
             size="sm"
@@ -77,32 +77,39 @@ export default function TaskCard({
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>
-              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
+              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap text-medium">{task.link}</span>
             </Link>
-            <span className="text-small text-foreground-400">{actionTitle}</span>
+            {/* <div className="flex justify-between"> */}
+              <span className="text-small text-foreground-400">{actionTitle}</span>
+
+              {/* <CoinValue value={task.price} className="text-small" /> */}
+            {/* </div> */}
           </div>
         </div>
 
-        <div className="flex flex-row justify-between w-1/2">
-          <CoinValue value={task.price} className="text-medium" />
+        {/* <div className="flex flex-row justify-between w-1/2"> */}
 
-          <div className="flex gap-1">
-            {task.status === TaskStatusEnum.ACTIVE && 
-              <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
-                <FaPause />
-              </Button>
-            }
-            {task.status === TaskStatusEnum.PAUSED && 
-              <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
-                <FaPlay />
-              </Button>
-            }
+          <div className="flex">
+            <CoinValue value={task.price} className="text-medium mr-3" />
+            
+            <div className="flex gap-1">
+              {task.status === TaskStatusEnum.ACTIVE && 
+                <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
+                  <FaPause />
+                </Button>
+              }
+              {task.status === TaskStatusEnum.PAUSED && 
+                <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
+                  <FaPlay />
+                </Button>
+              }
 
-            {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
-              <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
-                <FaTrashAlt />
-              </Button>
-            }
+              {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
+                <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
+                  <FaTrashAlt />
+                </Button>
+              }
+            </div>
 
             <Dropdown>
               <DropdownTrigger>
@@ -119,7 +126,7 @@ export default function TaskCard({
               </DropdownMenu>
             </Dropdown>
           </div>
-        </div>
+        {/* </div> */}
       </CardBody>
 
       <CardFooter className="pt-0 flex-col">

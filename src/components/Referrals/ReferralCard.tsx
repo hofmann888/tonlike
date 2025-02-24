@@ -31,7 +31,7 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
           />
         </div>
 
-        <CoinValue value={profit} className="text-medium text-primary-500" />
+        <CoinValue value={profit} className="text-small text-primary-500" />
       </CardBody>
     </Card>
   )

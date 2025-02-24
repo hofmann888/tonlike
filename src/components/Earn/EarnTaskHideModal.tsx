@@ -51,7 +51,7 @@ export default function EarnTaskHideModal({
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Hide Task #{taskId}</ModalHeader>
 

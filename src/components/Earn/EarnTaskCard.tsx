@@ -59,7 +59,7 @@ export default function EarnTaskCard({
       className="border-none bg-background/60 dark:bg-default-100/50 mb-2"
       shadow="sm"
     >
-      <CardBody className="flex-row justify-between items-center">
+      <CardBody className="flex-row justify-between items-center pr-0">
         <div className="flex items-center gap-2">
           <Avatar
             size="sm"
@@ -69,22 +69,25 @@ export default function EarnTaskCard({
           />
           <div className="flex flex-col">
             <span className="text-medium">{ actionTitle }</span>
-            <Link isExternal showAnchorIcon className="text-small " href='/img/social/telegram.png'>
-              <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
-            </Link>
+            <div className="flex items-center text-small mr-3 text-primary-500">
+              + <CoinValue value={task.price} />
+            </div>
+            {/* <Link isExternal showAnchorIcon className="text-tiny " href='/img/social/telegram.png'>
+              <span className="max-w-20 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
+            </Link> */}
           </div>
         </div>
 
         <div className="flex justify-between">
-          <div className="flex items-center text-medium mr-6">
-             <CoinValue value={task.price} />
-          </div>
-
+          {/* <div className="flex items-center text-small mr-3">
+            <CoinValue value={task.price} />
+          </div> */}
+          
           <div className="flex items-center">
             <Button 
               color="primary"
               variant={checking ? "solid" : "bordered"}
-              className="btn-border-shadow mr-3"
+              className="btn-border-shadow"
               onPress={() => checking ? checkClick() : startClick()}
               isLoading={loading}
             >

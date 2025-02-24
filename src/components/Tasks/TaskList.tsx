@@ -104,7 +104,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
         />
       }
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
           {(onClose) => (
             <>

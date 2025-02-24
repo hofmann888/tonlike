@@ -48,15 +48,19 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           <Avatar
             alt={quest.service?.title}
             classNames={{
-              base: "bg-gradient-to-b from-pink-500 to-blue-500",
+              base: "bg-gradient-to-b from-pink-500 to-blue-500 w-10 h-10 min-w-10 min-h-10",
               icon: "text-2xl"
             }}
             src={quest.service?.icon ?? quest.service?.icon}
             icon={!quest.service?.icon && ActionIcon ? <ActionIcon /> : undefined}
           />
 
-          <div className="flex flex-col">
-            {quest.link 
+          <div className="flex flex-col mr-3">
+            <span className="text-medium">{ title }</span>
+            <div className="flex items-center text-small text-primary-500">
+              + <CoinValue value={quest.price} />
+            </div>
+            {/* {quest.link 
               ?
                 <>
                   <span className="text-medium">{ title }</span>
@@ -65,14 +69,14 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
                   </Link>
                 </>
               : <span className="text-medium">{ title }</span>
-            }
+            } */}
           </div>
         </div>
 
         <div className="flex justify-between">
-          <div className="flex items-center text-medium mr-6">
+          {/* <div className="flex items-center text-medium mr-6">
             <CoinValue value={quest.price} />
-          </div>
+          </div> */}
 
           <div className="flex items-center">
             <Button 

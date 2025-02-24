@@ -84,7 +84,7 @@ export default function TasksFilter({
         color="primary"
         variant="underlined"
         classNames={{
-          base: "w-full max-w-[100vw]",
+          base: "w-full min-w-[100vh] max-w-[100vw]",
           tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider",
           cursor: "w-full",
           tab: "max-w-full px-0 h-12",
@@ -118,7 +118,7 @@ export default function TasksFilter({
           label="Sort By" 
           size="sm"
           variant="bordered" 
-          className="w-44 absolute top-[15px] right-[50px]"
+          className="w-40 absolute top-[15px] right-[35px]"
           items={sortMap}
           onChange={(e) => setSortFilter(e.target?.value)}
         >

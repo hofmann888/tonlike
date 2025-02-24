@@ -43,7 +43,7 @@ export default function EarnTaskReportModal({
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Report Task #{taskId}</ModalHeader>
 
