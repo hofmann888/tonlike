@@ -7,6 +7,7 @@ import { fetchTasksByUserId } from "@/db/query";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import TasksFilter from "@/components/Tasks/TasksFilter";
+import PageLoader from "@/components/Common/PageLoader";
 import TaskList from "@/components/Tasks/TaskList";
 
 // TODO: optimize: prefetch, cache, pagination...
@@ -16,7 +17,9 @@ export default async function TasksPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const user: User = await getAuthUser(false);
+  const user: User = await getAuthUser(); // TODO?: move to layout?
+  if (!user) return (<PageLoader />);
+
   const tasks: Task[] = await fetchTasksByUserId(user.id);
   const statusCount = tasksStatusCount(tasks);
 

@@ -1,5 +1,6 @@
 'use server'
 
+// TODO: check auth
 export async function tgApiRequest(method: string, params: URLSearchParams) { // TODO?: try catch?
   const token = process.env.TG_BOT_TOKEN;
   if (!token) {

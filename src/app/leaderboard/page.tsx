@@ -5,9 +5,11 @@ import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
 import { getAuthUser } from "@/app/auth/session";
 import LeaderboardCard from "@/components/Leaderboard/LeaderboardCard";
+import PageLoader from "@/components/Common/PageLoader";
 
 export default async function LeaderboardPage() {
-  const user = await getAuthUser(false);
+  const user = await getAuthUser();
+  if (!user) return (<PageLoader />);
 
   const [leaderboard, userPosition] = await Promise.all([
     fetchLeaderboard(),

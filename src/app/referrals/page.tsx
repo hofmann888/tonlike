@@ -3,12 +3,14 @@
 import { fetchUserReferrals, fetchUserReferralsTaskEarningsSum } from "@/db/query";
 import { getAuthUser } from "../auth/session";
 import { User } from "@/lib/definitions";
+import ReferralsButtons from "@/components/Referrals/ReferralsButtons";
 import ReferralsList from "@/components/Referrals/ReferralsList";
 import ReferralsInfo from "@/components/Referrals/ReferralsInfo";
-import ReferralsButtons from "@/components/Referrals/ReferralsButtons";
+import PageLoader from "@/components/Common/PageLoader";
 
 export default async function RefferalsPage() {
-  const user: User = await getAuthUser(false);
+  const user: User = await getAuthUser();
+  if (!user) return (<PageLoader />);
 
   const [referrals, sum, sumToday] = await Promise.all([
     fetchUserReferrals(user.id),
