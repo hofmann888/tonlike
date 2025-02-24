@@ -82,7 +82,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
             <Button 
               color="primary" 
               variant="bordered" 
-              className="btn-border-shadow mr-3 w-20" 
+              className="btn-border-shadow w-20" 
               onPress={startClick}
               isLoading={loading}
               isDisabled={questIsDone}

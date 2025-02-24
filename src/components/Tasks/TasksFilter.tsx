@@ -84,9 +84,9 @@ export default function TasksFilter({
         color="primary"
         variant="underlined"
         classNames={{
-          base: "w-full min-w-[100vh] max-w-[100vw]",
-          tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider",
+          base: "w-full",
           cursor: "w-full",
+          tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider",
           tab: "max-w-full px-0 h-12",
           tabContent: "px-2"
           // cursor: "w-full bg-[#22d3ee]",

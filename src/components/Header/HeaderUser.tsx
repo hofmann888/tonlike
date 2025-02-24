@@ -26,10 +26,12 @@ export default function HeaderUser() {
             }}
             classNames={{
               base: "transition-transform flex-row-reverse",
-              wrapper: "items-end"
+              wrapper: "items-end",
+              name: "inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap text-large",
+              description: "inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap text-medium"
             }}
-            description={!!tgUserName?.length && <span className="text-medium">@{tgUserName}</span>}
-            name={<span className="text-large">{tgFirstName} {tgLastName}</span>}
+            name={`${tgFirstName} ${tgLastName}`}
+            description={!!tgUserName?.length && `@${tgUserName}`}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
