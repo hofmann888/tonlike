@@ -31,7 +31,7 @@ export default function Footer() {
         color="primary"
         classNames={{ 
           base: "w-full h-full", 
-          tabList: "gap-6 w-full h-full relative rounded-none p-0 border-b border-divider",
+          tabList: "w-full h-full relative rounded-none p-0 border-b border-divider gap-6 max-[355px]:gap-3",
           tab: "h-full",
           cursor: "w-full",
           tabContent: "group-data-[selected=true]:text-foreground-900"

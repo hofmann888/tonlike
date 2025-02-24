@@ -12,7 +12,7 @@ export default async function BlackListPage() {
   const blackList = await fetchBlackListByUserId(user.id);
 
   return (
-    <div className="py-5">
+    <div className="py-5 px-2">
       <BlackList blackList={blackList} />
     </div>
   )

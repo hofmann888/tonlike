@@ -7,7 +7,6 @@ import { blackListReasonsMap } from "./BlackList";
 import { PerformerUnblock } from "@/core/actions";
 import { FaInfoCircle } from "react-icons/fa";
 import { useState } from "react";
-import clsx from "clsx";
 
 export default function BlackListCard({ 
   blackListItem,
@@ -35,33 +34,34 @@ export default function BlackListCard({
       isBlurred
     >
       <CardBody className="flex-row justify-between items-center">
-        <div className="text-tiny">
-          <p>{blackListItem.createdAt.toLocaleDateString()}</p>
-          <p>{blackListItem.createdAt.toLocaleTimeString()}</p>
+        <div className="flex">
+          <div className="text-tiny mr-3 max-[340px]:hidden">
+            <p>{blackListItem.createdAt.toLocaleDateString()}</p>
+            <p>{blackListItem.createdAt.toLocaleTimeString()}</p>
+          </div>
+
+          <User
+            avatarProps={{
+              isBordered: true,
+              src: blackListItem.blockedUser?.tgPhotoUrl,
+              size: 'sm',
+            }}
+            classNames={{
+              name: "justify-start text-red-500 inline-block max-w-20 overflow-hidden text-ellipsis whitespace-nowrap"
+            }}
+            name={`@${blackListItem.blockedUser?.tgUsername}`}
+          />
         </div>
 
-        <User
-          avatarProps={{
-            isBordered: true,
-            src: blackListItem.blockedUser?.tgPhotoUrl,
-            size: 'sm',
-          }}
-          className={clsx(
-            'w-1/3 justify-start',
-            {'text-red-500': true},
-          )}
-          name={`@${blackListItem.blockedUser?.tgUsername}`}
-        />
-
-        <div>
+        <div className="flex items-center">
           <Button 
             variant="light" 
             color="primary" 
-            className="w-24 mr-2" 
+            className="mr-2 max-[440px]:min-w-8 max-[440px]:p-0" 
             startContent={<FaInfoCircle />}
             onPress={() => setShowDetails(!showDetails)}
           >
-            Details
+            <span className="max-[440px]:hidden">Details</span>
           </Button>
 
           <Button 

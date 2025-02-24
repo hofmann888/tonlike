@@ -8,7 +8,7 @@ export default function ReferralsList({ referrals }: { referrals: Referral[] }) 
       {referrals.length 
         ? referrals.map((referral) => (
           <ReferralCard referral={referral} />
-        )) : <p>You haven&#39;t invited any friends yet</p>
+        )) : <p className="text-center text-medium">You haven&#39;t invited any friends yet</p>
       }
     </ScrollShadow> 
   )
