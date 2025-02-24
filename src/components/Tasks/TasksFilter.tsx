@@ -118,7 +118,7 @@ export default function TasksFilter({
           label="Sort By" 
           size="sm"
           variant="bordered" 
-          className="w-40 absolute top-[15px] right-[35px]"
+          className="w-44 absolute top-[15px] right-[35px]"
           items={sortMap}
           onChange={(e) => setSortFilter(e.target?.value)}
         >
