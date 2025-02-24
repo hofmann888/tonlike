@@ -76,7 +76,7 @@ export default function TasksFilter({
   }, [actionsFilter, servicesFilter, statusFilter, sortFilter])
 
   return (  // TODO: move status tabs to separate component?
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-col gap-2 mb-4">
       {statusCount && 
       <Tabs
         aria-label="Status"
@@ -86,7 +86,7 @@ export default function TasksFilter({
         classNames={{
           base: "w-full",
           cursor: "w-full",
-          tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider",
+          tabList: "gap-2 w-full relative rounded-none p-0 border-b border-divider max-w-[500px] max-w-[100vw] max-[499px]:max-w-[100vw]",
           tab: "max-w-full px-0 h-12",
           tabContent: "px-2"
           // cursor: "w-full bg-[#22d3ee]",
