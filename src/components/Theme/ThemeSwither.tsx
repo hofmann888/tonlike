@@ -16,7 +16,9 @@ export default function ThemeSwitcher() {
       startContent={<FaSun />}
       onChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      {`Theme: ${theme}`}
+      <span className="text-medium">
+        Theme: <span className="capitalize text-primary">{theme}</span>
+      </span>
     </Switch>
   )
 }

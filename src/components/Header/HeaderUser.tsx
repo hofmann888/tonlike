@@ -35,17 +35,14 @@ export default function HeaderUser() {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
-          <DropdownItem key="theme" closeOnSelect={false}>
-            <ThemeSwitcher />
+          <DropdownItem key="home" color="primary" href="/">
+            Home
           </DropdownItem>
           <DropdownItem key="blackList" color="primary" href="/black-list">
             Black List
           </DropdownItem>
-          <DropdownItem key="home" color="primary" href="/">
-            Home
-          </DropdownItem>
-          <DropdownItem key="logout" color="danger">
-            Log Out
+          <DropdownItem key="theme" closeOnSelect={false}>
+            <ThemeSwitcher />
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

@@ -28,7 +28,7 @@ export default function Walletage() {
   return (
     <div className="py-5 px-2 h-full">
       <div className="flex flex-col justify-center items-center h-full">
-        <p className="text-center text-4xl font-black text-primary-500">COMING SOON</p>
+        <p className="text-center text-4xl font-black text-primary">COMING SOON</p>
         <p className="text-center text-large font-bold mt-3">STAY TUNED...</p>
       </div>
 
