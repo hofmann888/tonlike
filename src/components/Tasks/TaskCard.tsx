@@ -77,10 +77,10 @@ export default function TaskCard({
           />
           <div className="flex flex-col">
             <Link isExternal showAnchorIcon href={task.link}>
-              <span className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap text-medium">{task.link}</span>
+              <span className="max-w-24 max-[380px]:max-w-20 max-[360px]:max-w-14 overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </Link>
             {/* <div className="flex justify-between"> */}
-              <span className="text-small text-foreground-400">{actionTitle}</span>
+              <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
 
               {/* <CoinValue value={task.price} className="text-small" /> */}
             {/* </div> */}
@@ -90,7 +90,7 @@ export default function TaskCard({
         {/* <div className="flex flex-row justify-between w-1/2"> */}
 
           <div className="flex">
-            <CoinValue value={task.price} className="text-medium mr-3" />
+            <CoinValue value={task.price} className="mr-3 text-medium max-[400px]:text-small" />
             
             <div className="flex gap-1">
               {task.status === TaskStatusEnum.ACTIVE && 

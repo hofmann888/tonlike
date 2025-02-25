@@ -56,7 +56,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           type="number"
           placeholder="0"
           variant="bordered"
-          className="w-3/4 mr-2"
+          className="mr-2 w-3/4 max-[400px]:w-2/3"
           min={1}
           step={1}
           value={`${price}`}
@@ -79,7 +79,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           name="currency" 
           label="Currency" 
           variant="bordered" 
-          className="w-1/4"
+          className="w-1/4 max-[400px]:w-1/3"
           disallowEmptySelection
           selectedKeys={['coin']}
           isDisabled

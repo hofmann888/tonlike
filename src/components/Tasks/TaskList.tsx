@@ -91,7 +91,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           onDeleteClick={() => deleteButtonClick(task.id)} 
           onActivateClick={() => activateButtonClick(task.id)} 
           />
-      )) : <p className="text-center text-large">No tasks found.</p>}
+      )) : <p className="text-center text-medium">No tasks found.</p>}
 
       {tasks.length > pageItemsSize && 
         <Pagination 
@@ -110,7 +110,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
             <>
               <ModalHeader className="flex flex-col gap-1">Task {modalTaskId}</ModalHeader>
               <ModalBody>
-                <p className="text-medium">{modalText} this task</p>
+                <p className="text-medium">{modalText} this task?</p>
 
                 <div id="fields-error" aria-live="polite" aria-atomic="true">
                   {modalError &&
