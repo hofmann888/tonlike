@@ -12,7 +12,7 @@
 //   protected inited: boolean = false;
 //   // protected check: boolean = false;
 
-//   private questMap = { // TODO!: don't bind ID!! local and prod db will be different 
+//   private questMap = {
 //     checkIn: 1,
 //     taskDone: 3,
 //     inviteFriend: 6, 
@@ -71,7 +71,7 @@
 //     }
 //   }
 
-//   protected async earnOnQuest() { // TODO!!: db transaction
+//   protected async earnOnQuest() {
 //     console.log('earnOnQuest');
 //     const questEarningId = await createQuestEarning({ 
 //       userId: this.user.id, 

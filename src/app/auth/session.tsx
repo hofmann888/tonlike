@@ -7,7 +7,7 @@ import { User } from "@/lib/definitions";
 import { fetchUserById } from "@/db/query";
 
 // const expiresIn = parseInt(process.env.SESSION_TIME as string); // TODO: env?
-const expiresIn = 3600;
+const expiresIn = 3600; // TODO: coockie expires 24h
 const expires = Date.now() + expiresIn * 1000;
 const secretKey = process.env.SESSION_SECRET_KEY;
 const jwtKey = new TextEncoder().encode(secretKey);

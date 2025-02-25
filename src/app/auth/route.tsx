@@ -18,6 +18,7 @@ export async function POST() {
     }
 
     if (['production', 'test'].includes(process.env.NEXT_PUBLIC_APP_ENV as string)) {
+      // TODO: coockie expires 24h
       validate(authData, token, {
         expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
       });

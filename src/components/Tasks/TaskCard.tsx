@@ -18,7 +18,6 @@ import TaskPerformersList from "./TaskPerformersList";
 import EditTaskForm from "./EditTaskForm";
 import CoinValue from "../Common/CoinValue";
 
-// TODO!!!: return balance on delete
 export default function TaskCard({
   task, 
   onPauseClick, 

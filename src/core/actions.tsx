@@ -59,7 +59,7 @@ export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData:
     }
 
     const { amount } = validated.data;
-    if (user.balance < amount) { // TODO: refactor zod refine?
+    if (user.balance < amount) { // TODO?: refactor zod refine?
       return {
         errors: { amount: ['Not enough balance']},
         message: 'Failed to withdraw.',

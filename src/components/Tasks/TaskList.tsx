@@ -22,7 +22,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   const [modalText, setModalText] = useState('');
   const [modalTaskId, setModalTaskId] = useState(0);
   const [newStatus, setNewStatus] = useState('');
-  const [tasksPaginated, setTasksPaginated] = useState([] as Task[]);
+  const [tasksPaginated, setTasksPaginated] = useState([] as Task[]); // TODO: db pagination
   const [page, setPage] = useState(1); // TODO: useRouter and searchParams
   const [loading, setLoading] = useState(false);
 

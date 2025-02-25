@@ -135,7 +135,7 @@ export enum TaskStatusEnum { // TODO?: scheduled? blocked | banned?
   ACTIVE = 'active',
   PAUSED = 'paused',
   DONE = 'done',
-  DELETED = 'deleted', // TODO: archive?
+  DELETED = 'deleted', // TODO?: archive?
 }
 export type TaskStatus = TaskStatusEnum.ACTIVE | TaskStatusEnum.PAUSED | TaskStatusEnum.DONE | TaskStatusEnum.DELETED
 

@@ -19,7 +19,6 @@ import { checkTgSubscribe, checkTgBoost } from "./task-checks";
 // import { revalidatePath } from 'next/cache'; 
 
 // TODO: refactor on class oop
-// TODO?: try catch exceptions on checks? (...catches in checkQuest)
 
 export async function checkQuest(questId: number) {
   console.log('checkQuest');

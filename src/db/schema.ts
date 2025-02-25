@@ -192,7 +192,7 @@ export const taskEarningRelations = relations(taskEarnings, ({ one }) => ({
 }));
 
 // =============== Quests =============== 
-// TODO: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
+// TODO?: blyad vse taki v odnu table s tasks???.................aaaaa.s.da,sdas,da;sfkadfad
 //       mb one table tasks and split task_earnings and quest_earnings??...vryad li
 export const quests = pgTable('quests', {
   id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
@@ -214,7 +214,7 @@ export const quests = pgTable('quests', {
 });
 
 export const questsRelations = relations(quests, ({ one, many }) => ({
-  serviceAction: one(serviceActions, { // TODO!?
+  serviceAction: one(serviceActions, {
     fields: [quests.serviceActionId],
     references: [serviceActions.id],
   }),
@@ -300,7 +300,7 @@ export const blackList = pgTable('black_list', {
   reasons: blackListReasonEnum().array().notNull(),
   comment: text(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  // taskId: integer('task_id').notNull().references(() => tasks.id), // TODO!?: i naxer eto nuzhno voobshe?
+  // taskId: integer('task_id').notNull().references(() => tasks.id), // TODO?: i naxer eto nuzhno voobshe?
 })
 
 export const blackListRelations = relations(blackList, ({ one }) => ({
