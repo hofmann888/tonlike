@@ -1,6 +1,6 @@
 'use server'
 
-// import 'server-only'; // TODO!
+import 'server-only';
 
 import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
