@@ -10,7 +10,7 @@ export async function checkTask(taskId: number) {
   console.log('checkTask');
   try {
     const [user, task] = await Promise.all([
-      getAuthUser(false), 
+      getAuthUser(false, true), 
       fetchTaskById(taskId, [TaskRelationEnum.SERVICE_ACTION]), 
     ]);
 

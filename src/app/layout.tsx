@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/Providers/Providers";
 import { TWARoot } from "@/components/TWA/TWARoot";
-import { getSession } from "./auth/session";
+import { getAuthUser } from "./auth/session";
 import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
@@ -30,10 +30,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log('layout.tsx');
-  const session = await getSession();
-  // console.log('layout.tsx session:', session);
-
+  const user = await getAuthUser(); // TODO?: from db?
   const defaultTheme = 'dark';
 
   return (
@@ -41,7 +38,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TWARoot>
           <Providers 
-            userData={session?.user}
+            userData={user}
             themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
           >
             <LayoutLoader>

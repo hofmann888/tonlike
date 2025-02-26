@@ -55,7 +55,7 @@ export const earnItemReportFormSchema = z.object({
     .nonempty({ message: "Choose at least one reason." }),
   comment: z.string().max(5000, { message: "Must be 5000 or fewer characters long." }),
   // taskId: z.coerce.number().positive().refine(async (id) => { // TODO?: pass object with user and task id?
-  //   const user: User = await getAuthUser(false); // TODO: decompose object
+  //   const user: User = await getAuthUser(false, true); // TODO: decompose object
   //   return await checkUserEarnTask(user.id, id);
   // }, { message: "Wrong task." }),
 });

@@ -9,12 +9,11 @@ import { revalidatePath } from 'next/cache';
 import { sql } from 'drizzle-orm';
 
 // TODO?: rename form-actions
-// TODO!: getAuthUser from db! not from coockie
 
 export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
   console.log('CreateTaskFormSubmit');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const validated = await createTaskFormSchema.safeParseAsync({
       serviceActionId: formData.get('serviceActionId'),
@@ -63,7 +62,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskFormState, formData: FormData) {
   console.log('EditTaskFormSubmit');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const validated = await editTaskFormSchema.safeParseAsync({
       price: formData.get('price'),
@@ -131,7 +130,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
   console.log('ChangeTaskStatus');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(status)) {
       throw new Error('Wrong status.');
@@ -154,7 +153,7 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
 export async function DeleteTask(taskId: number) {
   console.log('DeleteTask');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const [task, hasTask, doneCount] = await Promise.all([
       fetchTaskById(taskId),
@@ -189,7 +188,7 @@ export async function DeleteTask(taskId: number) {
 export async function GetTaskPerformers(taskId: number) {
   console.log('GetTaskPerformers');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     if (!await userHasTask(taskId, user.id)) {
       throw new Error("Wrong task!");
@@ -208,7 +207,7 @@ export async function GetTaskPerformers(taskId: number) {
 export async function PerformerBlockFormSubmit(blockUserId: number, prevState: PerformerBlockFormState, formData: FormData) {
   console.log('PerformerBlockFormSubmit');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const validated = performerBlockFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
@@ -243,7 +242,7 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
   console.log('PerformerUnblock');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
     
     const result = await removeUserFromBlackList(user.id, unblockUserId);
     if (!result) {
@@ -263,7 +262,7 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
 export async function HideUserEarnTask(taskId: number) {
   console.log('HideUserEarnTask');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     if (!await taskIsAvailableForUser(taskId, user.id)) {
       throw new Error('Wrong task.');
@@ -285,7 +284,7 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
   console.log('EarnTaskReportFormSubmit');
 
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const validated = earnItemReportFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
@@ -320,7 +319,7 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
 export async function claimReferralEarnings() {
   console.log('claimReferralEarnings');
   try {
-    const user: User = await getAuthUser(false);
+    const user: User = await getAuthUser(false, true);
 
     const [referralsCount, sum] = await Promise.all([
       fetchUserReferralsCount(user.id),
@@ -350,7 +349,7 @@ export async function claimReferralEarnings() {
 // export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
 //   console.log('DepositFormSubmit');
 //   try {
-//     const user: User = await getAuthUser(false);
+//     const user: User = await getAuthUser(false, true);
 
 //     const validated = depositFormSchema.safeParse({
 //       amount: formData.get('amount'),
@@ -380,7 +379,7 @@ export async function claimReferralEarnings() {
 // export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData: FormData) {
 //   console.log('WithdrawFormSubmit');
 //   try {
-//     const user: User = await getAuthUser(false);
+//     const user: User = await getAuthUser(false, true);
 
 //     const validated = withdrawFormSchema.safeParse({
 //       amount: formData.get('amount'),

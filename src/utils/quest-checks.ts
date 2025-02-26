@@ -24,7 +24,7 @@ export async function checkQuest(questId: number) {
   console.log('checkQuest');
   try {
     const [user, quest] = await Promise.all([
-      getAuthUser(false), 
+      getAuthUser(false, true), 
       fetchQuestById(questId, [QuestRelationEnum.SERVICE_ACTION]), 
     ]);
 

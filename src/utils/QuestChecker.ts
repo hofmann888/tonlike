@@ -23,7 +23,7 @@
 //   protected async init() {
 //     if (!this.inited) {
 //       const [user, quest, dailyDone] = await Promise.all([
-//         getAuthUser(false), 
+//         getAuthUser(false, true), 
 //         fetchQuestById(this.questId), 
 //         checkDailyQuestDone(this.questId),
 //       ]);
