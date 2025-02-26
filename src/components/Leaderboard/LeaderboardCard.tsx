@@ -18,7 +18,7 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
           <User
             avatarProps={{
               isBordered: true,
-              src: item.tgPhotoUrl,
+              src: item.tgPhotoUrl as string,
               size: 'sm',
             }}
             className="justify-start"

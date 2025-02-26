@@ -24,7 +24,7 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
           <User
             avatarProps={{
               isBordered: true,
-              src: referral.tgPhotoUrl,
+              src: referral.tgPhotoUrl as string,
               size: 'sm',
             }}
             name={!!referral.tgUsername?.length ? `@${referral.tgUsername}` : '???'}

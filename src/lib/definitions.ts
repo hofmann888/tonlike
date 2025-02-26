@@ -79,8 +79,8 @@ export type User = {
 export type Referral = {
   id: number,
   profit: number,
-  tgUsername: string,
-  tgPhotoUrl: string,
+  tgUsername: string | null,
+  tgPhotoUrl: string | null,
   createdAt: Date,
 }
 
@@ -248,8 +248,8 @@ export type ReportReasonsMapItem = {
 
 export type Performer = {
   id: number,
-  tgUsername: string,
-  tgPhotoUrl: string,
+  tgUsername: string | null,
+  tgPhotoUrl: string | null,
   profit: number,
   isBlocked: boolean,
   doneAt: Date, // TODO?: createdAt?
@@ -308,6 +308,6 @@ export enum ServiceActionName {
 export type LeaderboardItem = { // TODO?: id?
   position: number,
   balance: number,
-  tgPhotoUrl: string,
-  tgUsername: string,
+  tgPhotoUrl: string | null,
+  tgUsername: string | null,
 }

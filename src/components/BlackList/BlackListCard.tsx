@@ -43,13 +43,13 @@ export default function BlackListCard({
           <User
             avatarProps={{
               isBordered: true,
-              src: blackListItem.blockedUser?.tgPhotoUrl,
+              src: blackListItem.blockedUser?.tgPhotoUrl as string,
               size: 'sm',
             }}
             classNames={{
               name: "justify-start text-red-500 inline-block max-w-20 overflow-hidden text-ellipsis whitespace-nowrap"
             }}
-            name={`@${blackListItem.blockedUser?.tgUsername}`}
+            name={!!blackListItem.blockedUser?.tgUsername?.length ? `@${blackListItem.blockedUser.tgUsername}` : '???'}
           />
         </div>
 

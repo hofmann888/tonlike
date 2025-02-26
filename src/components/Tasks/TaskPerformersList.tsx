@@ -73,7 +73,7 @@ export default function TaskPerformersList({ performers }: { performers: Perform
               <User
                 avatarProps={{
                   isBordered: true,
-                  src: performer.tgPhotoUrl,
+                  src: performer.tgPhotoUrl as string,
                   size: 'sm',
                 }}
                 className={clsx(
