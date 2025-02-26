@@ -18,9 +18,9 @@ export async function POST() {
     }
 
     if (['production', 'test'].includes(process.env.NEXT_PUBLIC_APP_ENV as string)) {
-      // TODO: coockie expires 24h
+      const expiresIn = parseInt(process.env.SESSION_TIME as string);
       validate(authData, token, {
-        expiresIn: 3600, // TODO: coockie expires && validate expiresIn?
+        expiresIn: expiresIn, // TODO?: coockie expires && validate expiresIn?
       });
     }
 
@@ -47,6 +47,7 @@ export async function POST() {
         tgUsername: tgUsername,
         tgPhotoUrl: tgPhotoUrl,
         referrerId: reffererId,
+        balance: 1000,
       });
     }
     if (user.tgUsername !== tgUsername || user.tgPhotoUrl !== tgPhotoUrl) {

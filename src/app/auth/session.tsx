@@ -1,13 +1,12 @@
 'use server'
 
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from "next/server";
-import { User } from "@/lib/definitions";
 import { fetchUserById } from "@/db/query";
+import { SignJWT, jwtVerify } from "jose";
+import { User } from "@/lib/definitions";
+import { cookies } from 'next/headers';
 
-// const expiresIn = parseInt(process.env.SESSION_TIME as string); // TODO: env?
-const expiresIn = 3600; // TODO: coockie expires 24h
+const expiresIn = parseInt(process.env.SESSION_TIME as string);
 const expires = Date.now() + expiresIn * 1000;
 const secretKey = process.env.SESSION_SECRET_KEY;
 const jwtKey = new TextEncoder().encode(secretKey);
