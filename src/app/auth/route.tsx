@@ -26,10 +26,12 @@ export async function POST() {
 
     const initData = parse(authData);
     console.log('post auth parsed initData:', initData);
-
     if (!initData?.user?.id) {
       throw Error('Undefined tg user!');
     }
+    const tgUsername = initData.user.username ?? null;
+    const tgPhotoUrl = initData.user.photoUrl ?? null;
+
     let user = await fetchUserByTgId(initData.user.id);
     if (!user) { 
       let reffererId = null;
@@ -42,15 +44,15 @@ export async function POST() {
 
       user = await createUser({
         tgId: initData.user.id,
-        tgUsername: initData.user.username as string,
-        tgPhotoUrl: initData.user.photoUrl as string,
+        tgUsername: tgUsername,
+        tgPhotoUrl: tgPhotoUrl,
         referrerId: reffererId,
       });
     }
-    if (user.tgUsername !== initData.user.username || user.tgPhotoUrl !== initData.user.photoUrl) {
+    if (user.tgUsername !== tgUsername || user.tgPhotoUrl !== tgPhotoUrl) {
       user = await updateUser(user.id, { 
-        tgUsername: initData.user.username, 
-        tgPhotoUrl: initData.user.photoUrl
+        tgUsername: tgUsername, 
+        tgPhotoUrl: tgPhotoUrl,
       });
     }
     await setSession(user);

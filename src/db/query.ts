@@ -16,7 +16,7 @@ import * as dto from './dto';
 // !? split comlicated queries to separate and execute the in parallel Promise.all() # zatestil: odnohuistvenno po time
 
 // ------------ USERS ------------
-export async function createUser(dto: dto.UserInsertDTO) { // TODO!: empty username?
+export async function createUser(dto: dto.UserInsertDTO) {
   console.log('createUser');
   try {
     const data = await db

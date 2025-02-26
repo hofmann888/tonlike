@@ -6,11 +6,11 @@ import { SQL } from "drizzle-orm";
 
 export type UserInsertDTO = typeof schema.users.$inferInsert; 
 export type UserUpdateDto = {
-  referrerId?: number,
+  referrerId?: number | null,
+  tgUsername?: string | null,
+  tgPhotoUrl?: string | null,
   balance?: number,
   claimed?: number,
-  tgUsername?: string,
-  tgPhotoUrl?: string,
 }
 
 export type TaskInsertDTO = typeof schema.tasks.$inferInsert; // TODO?: custom dto?
