@@ -6,8 +6,10 @@ import { FaCopy } from "react-icons/fa";
 import { useUser } from "@/hooks/useUser";
 import { shareURL } from '@telegram-apps/sdk-react';
 
-export default function ReferralsButtons({ bot, app }: { bot: string, app: string }) {
+export default function ReferralsButtons() {
   const { tgId } = useUser();
+  const bot = process.env.NEXT_PUBLIC_TG_BOT_NAME as string;
+  const app = process.env.NEXT_PUBLIC_TG_APP_NAME as string;
   const link = `https://t.me/${bot}/${app}?startapp=${tgId}`;
 
   // window.clipboardData.setData("Text", 'Copy this text to clipboard') // TODO: support for old browsers

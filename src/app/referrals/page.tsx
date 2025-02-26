@@ -35,7 +35,7 @@ export default async function RefferalsPage() {
         <ReferralsList referrals={referrals} />
       </div>
 
-      <ReferralsButtons bot={process.env.TG_BOT_NAME as string} app={process.env.TG_APP_NAME as string} />
+      <ReferralsButtons />
     </div>
   )
 }
