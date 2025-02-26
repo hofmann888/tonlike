@@ -15,7 +15,7 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <html className="h-full">
+    <html className="h-full dark">
       <body className="h-full">
         <ErrorPage error={error} reset={reset} />
       </body>
