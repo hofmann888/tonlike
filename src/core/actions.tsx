@@ -9,73 +9,7 @@ import { revalidatePath } from 'next/cache';
 import { sql } from 'drizzle-orm';
 
 // TODO?: rename form-actions
-
-export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
-  console.log('DepositFormSubmit');
-  try {
-    const user: User = await getAuthUser(false);
-
-    const validated = depositFormSchema.safeParse({
-      amount: formData.get('amount'),
-    });
-    console.log('validated:'); console.log(validated);
-
-    if (!validated.success) {
-      return {
-        errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to deposit.',
-      };
-    }
-
-    const { amount } = validated.data;
-    const balance = user.balance + amount;
-
-    await updateUserWithSession(user.id, { balance });
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return { message: 'Failed to update balance.' };
-  }
-  
-  revalidatePath('/wallet');
-  redirect('/wallet');
-}
-
-export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData: FormData) {
-  console.log('WithdrawFormSubmit');
-  try {
-    const user: User = await getAuthUser(false);
-
-    const validated = withdrawFormSchema.safeParse({
-      amount: formData.get('amount'),
-      address: formData.get('address'),
-    });
-    console.log('validated:'); console.log(validated);
-
-    if (!validated.success) {
-      return {
-        errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to withdraw.',
-      };
-    }
-
-    const { amount } = validated.data;
-    if (user.balance < amount) { // TODO?: refactor zod refine?
-      return {
-        errors: { amount: ['Not enough balance']},
-        message: 'Failed to withdraw.',
-      }
-    }
-    const balance = user.balance - amount;
-
-    await updateUserWithSession(user.id, { balance });
-  } catch (error) {
-    console.log('Operation Error:', error);
-    return { message: 'Failed to update balance.' };
-  }
-  
-  revalidatePath('/wallet');
-  redirect('/wallet');
-}
+// TODO!: getAuthUser from db! not from coockie
 
 export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
   console.log('CreateTaskFormSubmit');
@@ -412,3 +346,70 @@ export async function claimReferralEarnings() {
   revalidatePath('/referrals');
   redirect('/referrals');
 }
+
+// export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
+//   console.log('DepositFormSubmit');
+//   try {
+//     const user: User = await getAuthUser(false);
+
+//     const validated = depositFormSchema.safeParse({
+//       amount: formData.get('amount'),
+//     });
+//     console.log('validated:'); console.log(validated);
+
+//     if (!validated.success) {
+//       return {
+//         errors: validated.error.flatten().fieldErrors,
+//         message: 'Failed to deposit.',
+//       };
+//     }
+
+//     const { amount } = validated.data;
+//     const balance = user.balance + amount;
+
+//     await updateUserWithSession(user.id, { balance });
+//   } catch (error) {
+//     console.log('Operation Error:', error);
+//     return { message: 'Failed to update balance.' };
+//   }
+  
+//   revalidatePath('/wallet');
+//   redirect('/wallet');
+// }
+
+// export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData: FormData) {
+//   console.log('WithdrawFormSubmit');
+//   try {
+//     const user: User = await getAuthUser(false);
+
+//     const validated = withdrawFormSchema.safeParse({
+//       amount: formData.get('amount'),
+//       address: formData.get('address'),
+//     });
+//     console.log('validated:'); console.log(validated);
+
+//     if (!validated.success) {
+//       return {
+//         errors: validated.error.flatten().fieldErrors,
+//         message: 'Failed to withdraw.',
+//       };
+//     }
+
+//     const { amount } = validated.data;
+//     if (user.balance < amount) { // TODO?: refactor zod refine?
+//       return {
+//         errors: { amount: ['Not enough balance']},
+//         message: 'Failed to withdraw.',
+//       }
+//     }
+//     const balance = user.balance - amount;
+
+//     await updateUserWithSession(user.id, { balance });
+//   } catch (error) {
+//     console.log('Operation Error:', error);
+//     return { message: 'Failed to update balance.' };
+//   }
+  
+//   revalidatePath('/wallet');
+//   redirect('/wallet');
+// }
