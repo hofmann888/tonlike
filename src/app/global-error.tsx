@@ -1,6 +1,7 @@
 'use client'
  
 import { useEffect } from 'react';
+import ErrorPage from './error';
 
 export default function GlobalError({
   error,
@@ -11,14 +12,12 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     console.log('root global-error.tsx');
-    console.error(error);
   }, [error])
 
   return (
-    <html>
-      <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+    <html className="h-full">
+      <body className="h-full">
+        <ErrorPage error={error} reset={reset} />
       </body>
     </html>
   )

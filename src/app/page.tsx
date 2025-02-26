@@ -7,8 +7,6 @@ import { Button } from "@heroui/button";
 
 
 export default function Home() {
-  throw new Error('test error');
-
   const test = async () => {
     // await tgCheckMembershipRequest(6681557705, '@test_channel_chat00800');
     // await tgCheckBoostRequest(5229340312, '@tonlike_app');

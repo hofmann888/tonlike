@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Button } from '@heroui/button';
 
 export function ErrorPage({
   error,
@@ -11,17 +12,21 @@ export function ErrorPage({
     console.error(error);
   }, [error]);
 
-  // TODO!: hide error on prod
+  const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string;
 
   return (
-    <div className='error-page'>
-      <h2>Something went wrong!</h2>
-      <blockquote>
-        <code>
-          {error.message}
-        </code>
-      </blockquote>
-      {reset && <button onClick={() => reset()}>Try again</button>}
+    <div className="py-5 px-2 flex flex-col justify-center items-center h-full">
+      <h2>Something went wrong...</h2>
+
+      {appEnv !== 'production' && 
+        <p className="text-danger text-medium mt-1">
+          <code>
+            {error.message}
+          </code>
+        </p>
+      }
+
+      <Button color="primary" variant="bordered" className="mt-3" onPress={() => reset && reset()}>Try again</Button>
     </div>
   );
 }
