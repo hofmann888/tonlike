@@ -36,6 +36,8 @@ export default async function RootLayout({
 
   const defaultTheme = 'dark';
 
+  // throw new Error('layout error');
+
   return (
     <html lang="en" className={defaultTheme}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
