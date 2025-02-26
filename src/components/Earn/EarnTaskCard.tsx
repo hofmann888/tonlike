@@ -4,7 +4,7 @@ import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
+import { tgOpenLink } from "@/utils/helpers";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { checkTask } from "@/utils/task-checks";
@@ -27,15 +27,8 @@ export default function EarnTaskCard({
   const [checking, setChecking] = useState(false);
 
   function startClick() {
-    if (openTelegramLink.isAvailable()) {
-      openTelegramLink('https://t.me/deadgens');
-    } 
+    tgOpenLink(task.link);
     setChecking(true);
-    // else if (openLink.isAvailable()) { // TODO!
-    //   openLink('https://telegram.org', {
-    //     tryInstantView: true,
-    //   });
-    // }
   }
 
   async function checkClick() {

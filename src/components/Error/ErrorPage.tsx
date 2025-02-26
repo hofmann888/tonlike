@@ -11,6 +11,8 @@ export function ErrorPage({
     console.error(error);
   }, [error]);
 
+  // TODO!: hide error on prod
+
   return (
     <div className='error-page'>
       <h2>Something went wrong!</h2>

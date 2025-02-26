@@ -14,8 +14,10 @@ export default function ReferralsButtons() {
 
   // window.clipboardData.setData("Text", 'Copy this text to clipboard') // TODO: support for old browsers
 
-  // TODO: NotAllowedError: Failed to execute 'writeText on 'Clipboard': Document is not focused. 
+  // TODO?: NotAllowedError: Failed to execute 'writeText on 'Clipboard': Document is not focused. 
   //       mobile on copy btn click in the first time (link is copying though)
+
+  // TODO?: add input with link (to copy not through button)?
 
   return (
     <div className="w-full flex sticky bottom-[60px] py-2 bg-background">

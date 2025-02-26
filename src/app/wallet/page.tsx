@@ -5,24 +5,16 @@
 // import DepositForm from "@/components/WalletPage/DepositForm";
 // import WithdrawForm from "@/components/WalletPage/WithdrawForm";
 // import WalletConnect from "@/components/WalletPage/WalletConnect";
-import { openTelegramLink } from '@telegram-apps/sdk-react';
+import { tgOpenLink } from '@/utils/helpers';
 import { Button } from "@heroui/button";
 import Image from 'next/image';
 
 export default function Walletage() {
   // const { connected } = useTonConnect();
+  const link = 'https://t.me/tonlike_app';
 
-  const link = 'https://t.me/deadgens';
-
-  function btnClick() { // TODO: move to separate component (e.g. TgLink)
-    if (openTelegramLink.isAvailable()) {
-      openTelegramLink(link);
-    } 
-    // else if (openLink.isAvailable()) { // TODO!
-    //   openLink('https://telegram.org', {
-    //     tryInstantView: true,
-    //   });
-    // }
+  function btnClick() {
+    tgOpenLink(link);
   }
 
   return (
