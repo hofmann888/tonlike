@@ -305,6 +305,18 @@ export enum ServiceActionName {
   TELEGRAM_BOOST = 'tg_boost',
 }
 
+export enum ServiceName {
+  APP = 'app',
+  TELEGRAM = 'tg',
+  X = 'x',
+  INSTAGRAM = 'instagram',
+  TIKTOK = 'tiktok',
+  YOUTUBE = 'youtube',
+  VK = 'vk',
+  FARCASTER = 'farcaster',
+  LINK = 'link',
+}
+
 export type LeaderboardItem = { // TODO?: id?
   position: number,
   balance: number,

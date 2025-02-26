@@ -3,10 +3,10 @@ import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
+import { Quest, ServiceName } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
 import { checkDailyDone } from "@/utils/helpers";
 import { actionIcons } from "@/lib/icons";
-import { Quest } from "@/lib/definitions";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { useState } from "react";
@@ -48,10 +48,10 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           <Avatar
             alt={quest.service?.title}
             classNames={{
-              base: "bg-gradient-to-b from-pink-500 to-blue-500 w-10 h-10 min-w-10 min-h-10",
+              base: `${quest.service?.name === ServiceName.APP && 'bg-gradient-to-b from-pink-500 to-blue-500'} w-10 h-10 min-w-10 min-h-10`,
               icon: "text-2xl"
             }}
-            src={quest.service?.icon ?? quest.service?.icon}
+            src={quest.service?.icon}
             icon={!quest.service?.icon && ActionIcon ? <ActionIcon /> : undefined}
           />
 
