@@ -1,12 +1,13 @@
 'use client'
 
-import { tgCheckMembershipRequest } from "@/utils/requests";
+import { tgCheckMembershipRequest, tgCheckBoostRequest } from "@/utils/requests";
 import { deleteSession } from "./auth/session";
 import { Button } from "@heroui/button";
 
 export default function Home() {
   const test = async () => {
-    await tgCheckMembershipRequest(6681557705, '@test_channel_chat00800');
+    // await tgCheckMembershipRequest(6681557705, '@test_channel_chat00800');
+    await tgCheckBoostRequest(5229340312, '@tonlike_app');
   }
 
   return (

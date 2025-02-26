@@ -32,10 +32,19 @@ export async function POST() {
     }
     let user = await fetchUserByTgId(initData.user.id);
     if (!user) { 
+      let reffererId = null;
+      if (initData.startParam?.length) {
+        const referrer = await fetchUserByTgId(initData.startParam as any as number);
+        if (referrer?.id) {
+          reffererId = referrer.id;
+        }
+      }
+
       user = await createUser({
         tgId: initData.user.id,
-        tgUsername: initData.user.username as string, // TODO!: empty username in initData (fadey)
-        tgPhotoUrl: initData.user.photoUrl as string, // TODO?: undefined?
+        tgUsername: initData.user.username as string,
+        tgPhotoUrl: initData.user.photoUrl as string,
+        referrerId: reffererId,
       });
     }
     if (user.tgUsername !== initData.user.username || user.tgPhotoUrl !== initData.user.photoUrl) {

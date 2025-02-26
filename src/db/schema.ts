@@ -9,8 +9,8 @@ export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   referrerId: integer('referrer_id').references((): AnyPgColumn => users.id, {onDelete: 'cascade'}), // TODO: remove cascade!
   tgId: bigint('tg_id', { mode: 'number' }).notNull().unique(),
-  tgUsername: varchar('tg_username', { length: 32 }).notNull(), // TODO: null
-  tgPhotoUrl: varchar('tg_photo_url', { length: 255 }).notNull(), // TODO: null
+  tgUsername: varchar('tg_username', { length: 32 }),
+  tgPhotoUrl: varchar('tg_photo_url', { length: 255 }),
   balance: bigint({ mode: 'number' }).notNull().default(0),
   claimed: bigint({ mode: 'number' }).notNull().default(0), // TODO?: referralProfit(Claimed)
   createdAt: timestamp('created_at').notNull().defaultNow(),
