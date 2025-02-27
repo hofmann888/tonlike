@@ -14,6 +14,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { GetTaskPerformers } from "@/core/actions";
 import { FiExternalLink } from "react-icons/fi";
+import { tgOpenLink } from "@/utils/helpers";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
 import EditTaskForm from "./EditTaskForm";
@@ -81,6 +82,7 @@ export default function TaskCard({
               anchorIcon={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
               showAnchorIcon 
               isExternal 
+              onPress={() => tgOpenLink(task.link)}
             >
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </Link>
