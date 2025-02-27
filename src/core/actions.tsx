@@ -1,12 +1,14 @@
 'use server'
 
-import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum } from '../db/query';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState } from '@/lib/definitions';
+import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum, fetchServiceActionById } from '../db/query';
+import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache'; 
 import { sql } from 'drizzle-orm';
+import { formatLink } from '@/utils/helpers';
+import { ServiceActionsRelationsEnum } from '@/db/schema';
 
 // TODO?: rename form-actions
 
@@ -32,7 +34,10 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       };
     }
 
+    const serviceAction = await fetchServiceActionById(validated.data.serviceActionId, [ServiceActionsRelationsEnum.ACTION, ServiceActionsRelationsEnum.SERVICE]);
+    
     const data = { userId: user.id, ...validated.data };
+    data.link = formatLink(data.link, serviceAction.service?.name as ServiceName, 'link'); // TODO?: ???
     data.count = Math.floor(Number(data.count));
     data.price = Math.floor(Number(data.price));
     const sum = data.count * data.price;

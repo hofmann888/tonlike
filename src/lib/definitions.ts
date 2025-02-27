@@ -84,16 +84,6 @@ export type Referral = {
   createdAt: Date,
 }
 
-export type Service = { // TODO?: timestamps
-  id: number,
-  name: string,
-  title: string,
-  icon: string,
-  active: boolean,
-  actions?: Action[],
-  serviceActions?: ServiceAction[],
-}
-
 export type Action = {
   id: number,
   name: string,
@@ -102,15 +92,64 @@ export type Action = {
   active: boolean,
 }
 
+export type Service = { // TODO?: timestamps
+  id: number,
+  name: ServiceName,
+  title: string,
+  icon: string,
+  active: boolean,
+  actions?: Action[],
+  serviceActions?: ServiceAction[],
+}
+
+export enum ServiceNameEnum {
+  APP = 'app',
+  TELEGRAM = 'tg',
+  X = 'x',
+  INSTAGRAM = 'instagram',
+  TIKTOK = 'tiktok',
+  YOUTUBE = 'youtube',
+  VK = 'vk',
+  FARCASTER = 'farcaster',
+  LINK = 'link',
+}
+export type ServiceName = 
+  ServiceNameEnum.APP | 
+  ServiceNameEnum.TELEGRAM | 
+  ServiceNameEnum.X | 
+  ServiceNameEnum.INSTAGRAM | 
+  ServiceNameEnum.TIKTOK | 
+  ServiceNameEnum.YOUTUBE | 
+  ServiceNameEnum.VK | 
+  ServiceNameEnum.FARCASTER | 
+  ServiceNameEnum.LINK
+;
+
 export type ServiceAction = {
   id: number,
   serviceId: number,
   actionId: number,
-  name?: string,
+  name?: string, // TODO: type ServiceActionName
   title?: string,
   active: boolean,
   service?: Service,
   action?: Action,
+}
+
+export enum ServiceActionNameEnum {
+  APP_CHECK_IN = 'app_check_in',
+  APP_AD = 'app_ad',
+  APP_INVITE = 'app_invite',
+  APP_TASK_CREATE = 'app_task_create',
+  APP_TASK_DONE = 'app_task_done',
+  APP_QUEST_DONE = 'app_quest_done',
+  APP_KYC = 'app_kyc',
+  TELEGRAM_VIEW = 'tg_view',
+  TELEGRAM_REACTION = 'tg_react',
+  TELEGRAM_COMMENT = 'tg_comment',
+  TELEGRAM_VOTE = 'tg_vote',
+  TELEGRAM_SUBSCRIBE = 'tg_subscribe',
+  TELEGRAM_BOOST = 'tg_boost',
 }
 
 export type Task = {
@@ -288,45 +327,6 @@ export type BlackListReasonsMapItem = {
 //   USDT = 'usdt',
 // }
 // export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;
-
-export enum ServiceActionNameEnum {
-  APP_CHECK_IN = 'app_check_in',
-  APP_AD = 'app_ad',
-  APP_INVITE = 'app_invite',
-  APP_TASK_CREATE = 'app_task_create',
-  APP_TASK_DONE = 'app_task_done',
-  APP_QUEST_DONE = 'app_quest_done',
-  APP_KYC = 'app_kyc',
-  TELEGRAM_VIEW = 'tg_view',
-  TELEGRAM_REACTION = 'tg_react',
-  TELEGRAM_COMMENT = 'tg_comment',
-  TELEGRAM_VOTE = 'tg_vote',
-  TELEGRAM_SUBSCRIBE = 'tg_subscribe',
-  TELEGRAM_BOOST = 'tg_boost',
-}
-
-export enum ServiceNameEnum {
-  APP = 'app',
-  TELEGRAM = 'tg',
-  X = 'x',
-  INSTAGRAM = 'instagram',
-  TIKTOK = 'tiktok',
-  YOUTUBE = 'youtube',
-  VK = 'vk',
-  FARCASTER = 'farcaster',
-  LINK = 'link',
-}
-export type ServiceName = 
-  ServiceNameEnum.APP | 
-  ServiceNameEnum.TELEGRAM | 
-  ServiceNameEnum.X | 
-  ServiceNameEnum.INSTAGRAM | 
-  ServiceNameEnum.TIKTOK | 
-  ServiceNameEnum.YOUTUBE | 
-  ServiceNameEnum.VK | 
-  ServiceNameEnum.FARCASTER | 
-  ServiceNameEnum.LINK
-;
 
 export type LeaderboardItem = { // TODO?: id?
   position: number,

@@ -4,11 +4,11 @@ import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
-import { tgOpenLink } from "@/utils/helpers";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { formatLink, tgOpenLink } from "@/utils/helpers";
+import { ServiceName, Task } from "@/lib/definitions";
 import { checkTask } from "@/utils/task-checks";
-import { Task } from "@/lib/definitions";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
@@ -28,7 +28,8 @@ export default function EarnTaskCard({
   const [checking, setChecking] = useState(false);
 
   function startClick() {
-    if (tgOpenLink(task.link as string)) {
+    const link = formatLink(task.link as string, task.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
+    if (tgOpenLink(link)) {
       setChecking(true);
     }
   }

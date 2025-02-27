@@ -2,8 +2,8 @@ import { addToast, ToastProps } from "@heroui/toast";
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
-import { checkDailyDone, tgOpenLink } from "@/utils/helpers";
-import { Quest, ServiceNameEnum } from "@/lib/definitions";
+import { checkDailyDone, formatLink, tgOpenLink } from "@/utils/helpers";
+import { Quest, ServiceName, ServiceNameEnum } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
 import { actionIcons } from "@/lib/icons";
 import { FaCheck } from "react-icons/fa";
@@ -32,7 +32,8 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
       return;
     }
 
-    if (tgOpenLink(quest.link as string)) {
+    const link = formatLink(quest.link as string, quest.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
+    if (tgOpenLink(link)) {
       setChecking(true);
     }
     setLoading(false);
