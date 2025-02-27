@@ -2,15 +2,16 @@ import { addToast, ToastProps } from "@heroui/toast";
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
+import { checkDailyDone, tgOpenLink } from "@/utils/helpers";
 import { Quest, ServiceName } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
-import { checkDailyDone } from "@/utils/helpers";
 import { actionIcons } from "@/lib/icons";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
+
+// TODO: quest progress (e.g. 3/5 friends invited...)
 
 export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const title = quest.title ? quest.title : (quest.serviceAction.title ?? quest.action?.title);
@@ -21,8 +22,24 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(false);
 
-  async function startClick() { // TODO: start -> check on external services
+  async function startClick() {
+    setLoading(true);
+
+    if (quest.service?.name === ServiceName.APP) {
+      checkClick();
+      return;
+    }
+
+    if (tgOpenLink(quest.link as string)) {
+      setChecking(true);
+    }
+    setLoading(false);
+  }
+
+
+  async function checkClick() {
     setLoading(true);
 
     const result = await checkQuest(quest.id);
@@ -33,6 +50,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     };
 
     addToast(toast as ToastProps);
+    setChecking(false);
     setLoading(false);
   }
 
@@ -60,37 +78,23 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
             <div className="flex items-center text-small text-primary-500">
               + <CoinValue value={quest.price} />
             </div>
-            {/* {quest.link 
-              ?
-                <>
-                  <span className="text-medium">{ title }</span>
-                  <Link isExternal showAnchorIcon className="text-small" href='/img/social/telegram.png'>
-                    <span className="max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">{quest.link}</span>
-                  </Link>
-                </>
-              : <span className="text-medium">{ title }</span>
-            } */}
           </div>
         </div>
 
         <div className="flex justify-between">
-          {/* <div className="flex items-center text-medium mr-6">
-            <CoinValue value={quest.price} />
-          </div> */}
-
           <div className="flex items-center">
             <Button 
               color="primary" 
-              variant="bordered" 
               className="btn-border-shadow w-20" 
-              onPress={startClick}
+              variant={checking ? "solid" : "bordered"}
               isLoading={loading}
               isDisabled={questIsDone}
               isIconOnly={questIsDone}
+              onPress={() => checking ? checkClick() : startClick()}
             >
               {questIsDone 
                 ? <FaCheck /> 
-                : !loading && `Start`
+                : !loading && (checking ? 'Check' : 'Start')
               }
             </Button>
           </div>
