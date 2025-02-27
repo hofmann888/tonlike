@@ -13,7 +13,6 @@ import clsx from "clsx";
 // TODO: move card to separate component and add loaders on btn clicks
 // TODO?: show no performers message on empty list
 // TODO?: move modal to tasklist component?
-// TODO?: show profit?
 export default function TaskPerformersList({ performers }: { performers: Performer[] }) {
   // console.log('TaskPerformersList:', performers);
   // for (let i = 0; i < 20; i++) {

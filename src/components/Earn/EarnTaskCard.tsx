@@ -12,7 +12,8 @@ import { Task } from "@/lib/definitions";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
-// TODO?: show price instead of links?
+// TODO: tg action link on boost
+
 export default function EarnTaskCard({
   task,
   onHideClick,
@@ -27,8 +28,9 @@ export default function EarnTaskCard({
   const [checking, setChecking] = useState(false);
 
   function startClick() {
-    tgOpenLink(task.link);
-    setChecking(true);
+    if (tgOpenLink(task.link as string)) {
+      setChecking(true);
+    }
   }
 
   async function checkClick() {

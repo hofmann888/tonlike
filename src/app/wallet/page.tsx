@@ -9,13 +9,9 @@ import { tgOpenLink } from '@/utils/helpers';
 import { Button } from "@heroui/button";
 import Image from 'next/image';
 
-export default function Walletage() {
+export default function WalletPage() {
   // const { connected } = useTonConnect();
   const link = 'https://t.me/tonlike_app';
-
-  function btnClick() {
-    tgOpenLink(link);
-  }
 
   return (
     <div className="py-5 px-2 h-full">
@@ -30,7 +26,7 @@ export default function Walletage() {
           variant="light" 
           aria-label="Telegram"
           startContent={<Image width={30} height={30} src="/img/social/telegram.png" alt="telegram" />}
-          onPress={() => btnClick()}
+          onPress={() => tgOpenLink(link)}
         >
           Subscribe
         </Button>
