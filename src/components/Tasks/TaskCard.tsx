@@ -13,6 +13,7 @@ import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { GetTaskPerformers } from "@/core/actions";
+import { FiExternalLink } from "react-icons/fi";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
 import EditTaskForm from "./EditTaskForm";
@@ -67,16 +68,21 @@ export default function TaskCard({
       shadow="sm"
     >
       <CardBody className="flex-row justify-between pb-2 pr-0">
-        <div className="flex items-center gap-2 w-1/2">
+        <div className="flex items-center gap-2 w-1/2 max-[350px]:w-[40%]">
           <Avatar
             size="sm"
             className="flex-shrink-0 w-10 h-10"
             src={task.service?.icon}
             alt={task.service?.title}
           />
-          <div className="flex flex-col">
-            <Link isExternal showAnchorIcon href={task.link}>
-              <span className="max-w-24 max-[380px]:max-w-20 max-[360px]:max-w-14 overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
+          <div className="flex flex-col max-w-[70%]">
+            <Link 
+              href={task.link} 
+              anchorIcon={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
+              showAnchorIcon 
+              isExternal 
+            >
+              <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </Link>
             {/* <div className="flex justify-between"> */}
               <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
@@ -86,46 +92,43 @@ export default function TaskCard({
           </div>
         </div>
 
-        {/* <div className="flex flex-row justify-between w-1/2"> */}
+        <div className="flex justify-end w-1/2 max-[350px]:w-[60%]">
+          <CoinValue value={task.price} className="mr-3 text-medium max-[400px]:text-small" />
+          
+          <div className="flex gap-1">
+            {task.status === TaskStatusEnum.ACTIVE && 
+              <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
+                <FaPause />
+              </Button>
+            }
+            {task.status === TaskStatusEnum.PAUSED && 
+              <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
+                <FaPlay />
+              </Button>
+            }
 
-          <div className="flex">
-            <CoinValue value={task.price} className="mr-3 text-medium max-[400px]:text-small" />
-            
-            <div className="flex gap-1">
-              {task.status === TaskStatusEnum.ACTIVE && 
-                <Button isIconOnly aria-label="pause" color="warning" variant="faded" onPress={() => onPauseClick(task.id)}>
-                  <FaPause />
-                </Button>
-              }
-              {task.status === TaskStatusEnum.PAUSED && 
-                <Button isIconOnly aria-label="activate" color="success" variant="faded" onPress={() => onActivateClick(task.id)}>
-                  <FaPlay />
-                </Button>
-              }
-
-              {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
-                <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
-                  <FaTrashAlt />
-                </Button>
-              }
-            </div>
-
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly aria-label="Task Actions Button" variant="light" isLoading={loading}>
-                  <PiDotsThreeOutlineVerticalFill />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Task Actions">
-                {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
-                  ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
-                  : null
-                }
-                <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            {[TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED].includes(task.status) &&
+              <Button isIconOnly aria-label="delete" color="danger" variant="faded" onPress={() => onDeleteClick(task.id)}>
+                <FaTrashAlt />
+              </Button>
+            }
           </div>
-        {/* </div> */}
+
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly aria-label="Task Actions Button" variant="light" isLoading={loading}>
+                <PiDotsThreeOutlineVerticalFill />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Task Actions">
+              {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
+                ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+                : null
+              }
+              <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </CardBody>
 
       <CardFooter className="pt-0 flex-col">
