@@ -39,33 +39,48 @@ export function tgOpenLink(link: string) {
 }
 
 // TODO?: return false | error on missing substring?
-// TODO!: add link aliases (eg. https://x.com/ - https://twitter.com/)
 export function formatLink(str: string, serviceName: ServiceName, format: 'link' | 'name') {
-  let search = format === 'link' ? '@' : serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
-  if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName) && format === 'name') {
-    search += '@';
+  let strPrepared = str;
+  let search = '@';
+
+  if (format === 'name') {
+    search = '';
+    strPrepared = str.replace(/^https?:\/\/(www\.)?/, 'https://');
+    const searchArray = serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
+    if (!searchArray) {
+      return str;
+    }
+    searchArray.some((item) => {
+      if (strPrepared.startsWith(item)) {
+        search = item;
+        return true;
+      }
+    })
+    if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName)) {
+      search += '@';
+    }
   }
-  console.log('search', search);
-  if (!search) {
+
+  if (!search.length || !strPrepared.startsWith(search)) {
     return str;
   }
 
-  str = str.replace(/^https?:\/\/(www\.)?/, 'https://');
-  console.log('str', str);
-  if (!str.startsWith(search)) {
-    return str;
+  let replace = '@';
+  if (format === 'link') {
+    const replaceArray = serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
+    if (!replaceArray?.length) {
+      return str;
+    }
+    replace = replaceArray[0];
+    if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName)) {
+      replace += '@';
+    }
   }
-
-  let replace = format !== 'link' ? '@' : serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
-  if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName) && format === 'link') {
-    replace += '@';
-  }
-  console.log('replace', replace);
 
   if (replace) {
-    str = str.replace(search, replace);
+    str = strPrepared.replace(search, replace);
     if (format === 'name') {
-      str = str.replace(/\?.+$/, ''); // removing search params
+      str = str.replace(/\?.+$/, '');
       str = str.replace(/\/$/, '');
     }
     if (format === 'link') {
@@ -77,11 +92,11 @@ export function formatLink(str: string, serviceName: ServiceName, format: 'link'
 }
 
 export const serviceLinksMap = {
-  [ServiceNameEnum.TELEGRAM]: 'https://t.me/', // https://telegram.org/
-  [ServiceNameEnum.X]: 'https://x.com/', // https://twitter.com/
-  [ServiceNameEnum.INSTAGRAM]: 'https://instagram.com/',
-  [ServiceNameEnum.TIKTOK]: 'https://tiktok.com/', // https://www.tiktok.com/@username/
-  [ServiceNameEnum.YOUTUBE]: 'https://youtube.com/', // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
-  [ServiceNameEnum.VK]: 'https://vk.com/',
-  [ServiceNameEnum.FARCASTER]: 'https://farcaster.xyz/',
+  [ServiceNameEnum.TELEGRAM]: ['https://t.me/'],
+  [ServiceNameEnum.X]: ['https://x.com/', 'https://twitter.com/'],
+  [ServiceNameEnum.INSTAGRAM]: ['https://instagram.com/'],
+  [ServiceNameEnum.TIKTOK]: ['https://tiktok.com/'], // https://www.tiktok.com/@username/
+  [ServiceNameEnum.YOUTUBE]: ['https://youtube.com/'], // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
+  [ServiceNameEnum.VK]: ['https://vk.com/'],
+  [ServiceNameEnum.FARCASTER]: ['https://farcaster.xyz/'],
 }
