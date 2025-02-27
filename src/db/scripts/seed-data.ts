@@ -81,7 +81,7 @@ export const serviceActions = [
   { serviceId: 8, actionId: 2, name: 'warpcast_like', active: true }, // id: 29,
   { serviceId: 8, actionId: 3, name: 'warpcast_repost', title: 'Recast', active: true }, // id: 30,
   { serviceId: 8, actionId: 4, name: 'warpcast_comment', title: 'Reply', active: true }, // id: 31,
-  { serviceId: 8, actionId: 6, name: 'warpcast_subscribe', active: true }, // id: 32,
+  { serviceId: 8, actionId: 6, name: 'warpcast_subscribe', title: 'Follow', active: true }, // id: 32,
   // Link
   { serviceId: 9, actionId: 1, name: 'link_view', active: true }, // id: 33,
   // App

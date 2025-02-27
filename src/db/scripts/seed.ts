@@ -79,6 +79,16 @@ async function seedTasksWithRelations() {
           serviceActionId: f.int({ minValue: 1, maxValue: 29 }),
           price: f.int({ minValue: 1, maxValue: 10 }),
           count: f.int({ minValue: 100, maxValue: 1000 }),
+          link: f.valuesFromArray({ values: [
+            'https://t.me/test/',
+            'https://x.com/test/',
+            'https://twitter.com/test/',
+            'https://instagram.com/test/',
+            'https://tiktok.com/@test/',
+            'https://youtube.com/@test/',
+            'https://vk.com/test/',
+            'https://warpcast.com/test/',
+          ]}),
           status: f.weightedRandom([
             { weight: 0.8, value: f.default({ defaultValue: TaskStatusEnum.ACTIVE }) },
             { weight: 0.2, value: f.default({ defaultValue: TaskStatusEnum.PAUSED }) }
