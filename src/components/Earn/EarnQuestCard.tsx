@@ -5,7 +5,7 @@ import { Button } from "@heroui/button";
 import { checkDailyDone, formatLink, tgOpenLink } from "@/utils/helpers";
 import { Quest, ServiceName, ServiceNameEnum } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
-import { actionIcons } from "@/lib/icons";
+import { actionIcons } from "@/lib/const";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { useState } from "react";
@@ -15,7 +15,7 @@ import CoinValue from "../Common/CoinValue";
 
 export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const title = quest.title ? quest.title : (quest.serviceAction.title ?? quest.action?.title);
-  const iconKey = quest.action?.id as keyof typeof actionIcons;
+  const iconKey = quest.action?.name as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
   const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
   const oneTimeDone = !quest.daily && !!quest.doneLastAt;

@@ -1,6 +1,7 @@
-import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
 import { addToast, ToastProps } from "@heroui/toast";
+import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
 import { ServiceName, ServiceNameEnum } from '@/lib/definitions';
+import { serviceLinksMap } from '@/lib/const';
 
 export function checkDailyDone(date: Date) {
   if (!date) { // TODO?: throw error?
@@ -18,7 +19,7 @@ export function checkDailyDone(date: Date) {
 
 export function tgOpenLink(link: string) {
   try {
-    if (openTelegramLink.isAvailable()) { // TODO: format link
+    if (openTelegramLink.isAvailable()) {
       openTelegramLink(link);
     } else if (openLink.isAvailable()) {
       openLink(link, {
@@ -89,14 +90,4 @@ export function formatLink(str: string, serviceName: ServiceName, format: 'link'
   }
 
   return str;
-}
-
-export const serviceLinksMap = {
-  [ServiceNameEnum.TELEGRAM]: ['https://t.me/'],
-  [ServiceNameEnum.X]: ['https://x.com/', 'https://twitter.com/'],
-  [ServiceNameEnum.INSTAGRAM]: ['https://instagram.com/'],
-  [ServiceNameEnum.TIKTOK]: ['https://tiktok.com/'], // https://www.tiktok.com/@username/
-  [ServiceNameEnum.YOUTUBE]: ['https://youtube.com/'], // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
-  [ServiceNameEnum.VK]: ['https://vk.com/'],
-  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'], // channel: https://warpcast.com/~/channel/ru    acc: https://warpcast.com/hofmann888
 }

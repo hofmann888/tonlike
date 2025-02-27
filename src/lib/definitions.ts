@@ -86,11 +86,47 @@ export type Referral = {
 
 export type Action = {
   id: number,
-  name: string,
+  name: ActionName,
   title: string,
   icon: string,
   active: boolean,
 }
+
+export enum ActionNameEnum {
+  // Social
+  VIEW = 'view',
+  LIKE = 'like',
+  REPOST = 'repost',
+  COMMENT = 'comment',
+  VOTE = 'vote',
+  SUBSCRIBE = 'subscribe',
+  BOOST = 'boost',
+  // App
+  CHECK_IN = 'check_in',
+  AD = 'ad',
+  INVITE = 'invite',
+  TASK_CREATE = 'task_create',
+  TASK_DONE = 'task_done',
+  QUEST_DONE = 'quest_done',
+  KYC = 'kyc',
+}
+
+export type ActionName = 
+  ActionNameEnum.VIEW |
+  ActionNameEnum.LIKE |
+  ActionNameEnum.REPOST |
+  ActionNameEnum.COMMENT |
+  ActionNameEnum.VOTE |
+  ActionNameEnum.SUBSCRIBE |
+  ActionNameEnum.BOOST |
+  ActionNameEnum.CHECK_IN |
+  ActionNameEnum.AD |
+  ActionNameEnum.INVITE |
+  ActionNameEnum.TASK_CREATE |
+  ActionNameEnum.TASK_DONE |
+  ActionNameEnum.QUEST_DONE |
+  ActionNameEnum.KYC
+;
 
 export type Service = { // TODO?: timestamps
   id: number,
@@ -150,6 +186,7 @@ export enum ServiceActionNameEnum {
   TELEGRAM_VOTE = 'tg_vote',
   TELEGRAM_SUBSCRIBE = 'tg_subscribe',
   TELEGRAM_BOOST = 'tg_boost',
+  // TODO: ...
 }
 
 export type Task = {
