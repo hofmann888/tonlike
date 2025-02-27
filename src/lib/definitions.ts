@@ -110,7 +110,7 @@ export enum ServiceNameEnum {
   TIKTOK = 'tiktok',
   YOUTUBE = 'youtube',
   VK = 'vk',
-  FARCASTER = 'farcaster',
+  WARPCAST = 'warpcast',
   LINK = 'link',
 }
 export type ServiceName = 
@@ -121,7 +121,7 @@ export type ServiceName =
   ServiceNameEnum.TIKTOK | 
   ServiceNameEnum.YOUTUBE | 
   ServiceNameEnum.VK | 
-  ServiceNameEnum.FARCASTER | 
+  ServiceNameEnum.WARPCAST | 
   ServiceNameEnum.LINK
 ;
 
@@ -145,7 +145,7 @@ export enum ServiceActionNameEnum {
   APP_QUEST_DONE = 'app_quest_done',
   APP_KYC = 'app_kyc',
   TELEGRAM_VIEW = 'tg_view',
-  TELEGRAM_REACTION = 'tg_react',
+  TELEGRAM_LIKE = 'tg_like',
   TELEGRAM_COMMENT = 'tg_comment',
   TELEGRAM_VOTE = 'tg_vote',
   TELEGRAM_SUBSCRIBE = 'tg_subscribe',

@@ -98,5 +98,5 @@ export const serviceLinksMap = {
   [ServiceNameEnum.TIKTOK]: ['https://tiktok.com/'], // https://www.tiktok.com/@username/
   [ServiceNameEnum.YOUTUBE]: ['https://youtube.com/'], // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
   [ServiceNameEnum.VK]: ['https://vk.com/'],
-  [ServiceNameEnum.FARCASTER]: ['https://farcaster.xyz/'],
+  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'], // channel: https://warpcast.com/~/channel/ru    acc: https://warpcast.com/hofmann888
 }

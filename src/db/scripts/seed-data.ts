@@ -17,7 +17,7 @@ export const services = [
   { name: 'tiktok', title: 'TikTok', icon: '/img/social/tiktok.png', active: true }, // id: 5,
   { name: 'youtube', title: 'YouTube', icon: '/img/social/youtube.png', active: true }, // id: 6,
   { name: 'vk', title: 'VKontakte', icon: '/img/social/vk.png', active: true }, // id: 7,
-  { name: 'farcaster', title: 'Farcaster', icon: '/img/social/farcaster.png', active: true }, // id: 8,
+  { name: 'warpcast', title: 'Warpcast', icon: '/img/social/warpcast.png', active: true }, // id: 8,
   { name: 'link', title: 'Link', icon: '/img/social/link.png', active: true }, // id: 9,
   { name: 'test', title: 'test', active: false }, // id: 10,
 ];
@@ -41,10 +41,11 @@ export const actions = [
   { name: 'kyc', title: 'Sign up to exchange + KYC', active: true }, // id: 13,
 ];
 
+// TODO: Odnoklassniki?
 export const serviceActions = [
   // Telegram
   { serviceId: 2, actionId: 1, name: 'tg_view', active: true }, // id: 1,
-  { serviceId: 2, actionId: 2, name: 'tg_react', title: 'Reaction', active: true }, // id: 2,
+  { serviceId: 2, actionId: 2, name: 'tg_like', title: 'Reaction', active: true }, // id: 2,
   { serviceId: 2, actionId: 4, name: 'tg_comment', active: true }, // id: 3,
   { serviceId: 2, actionId: 5, name: 'tg_vote', active: true }, // id: 4,
   { serviceId: 2, actionId: 6, name: 'tg_subscribe', active: true }, // id: 5,
@@ -53,7 +54,7 @@ export const serviceActions = [
   { serviceId: 3, actionId: 2, name: 'x_like', active: true }, // id: 7,
   { serviceId: 3, actionId: 3, name: 'x_repost', active: true }, // id: 8,
   { serviceId: 3, actionId: 4, name: 'x_comment', active: true }, // id: 9,
-  { serviceId: 3, actionId: 6, name: 'x_follow', title: 'Follow', active: true }, // id: 10,
+  { serviceId: 3, actionId: 6, name: 'x_subscribe', title: 'Follow', active: true }, // id: 10,
   // Instagram
   { serviceId: 4, actionId: 1, name: 'instagram_view', active: true }, // id: 11,
   { serviceId: 4, actionId: 2, name: 'instagram_like', active: true }, // id: 12,
@@ -71,22 +72,26 @@ export const serviceActions = [
   // VK
   { serviceId: 7, actionId: 1, name: 'vk_view', active: true }, // id: 22,
   { serviceId: 7, actionId: 2, name: 'vk_like', active: true }, // id: 23,
-  { serviceId: 7, actionId: 3, name: 'vk_subscribe', active: true }, // id: 24,
+  { serviceId: 7, actionId: 3, name: 'vk_repost', active: true }, // id: 24,
   { serviceId: 7, actionId: 4, name: 'vk_comment', active: true }, // id: 25,
   { serviceId: 7, actionId: 5, name: 'vk_vote', active: false }, // id: 26,
   { serviceId: 7, actionId: 6, name: 'vk_subscribe', active: true }, // id: 27,
-  // Farcaster
-  { serviceId: 8, actionId: 1, name: 'farcaster_view', active: true }, // id: 28,
+  // Warpcast
+  { serviceId: 8, actionId: 1, name: 'warpcast_view', active: true }, // id: 28,
+  { serviceId: 8, actionId: 2, name: 'warpcast_like', active: true }, // id: 29,
+  { serviceId: 8, actionId: 3, name: 'warpcast_repost', title: 'Recast', active: true }, // id: 30,
+  { serviceId: 8, actionId: 4, name: 'warpcast_comment', title: 'Reply', active: true }, // id: 31,
+  { serviceId: 8, actionId: 6, name: 'warpcast_subscribe', active: true }, // id: 32,
   // Link
-  { serviceId: 9, actionId: 1, name: 'link_view', active: true }, // id: 29,
+  { serviceId: 9, actionId: 1, name: 'link_view', active: true }, // id: 33,
   // App
-  { serviceId: 1, actionId: 8, name: 'app_check_in', active: true }, // id: 30,
-  { serviceId: 1, actionId: 9, name: 'app_ad', active: true }, // id: 31,
-  { serviceId: 1, actionId: 10, name: 'app_invite', active: true }, // id: 32,
-  { serviceId: 1, actionId: 11, name: 'app_task_create', active: true }, // id: 33,
-  { serviceId: 1, actionId: 12, name: 'app_task_done', active: true }, // id: 34,
-  { serviceId: 1, actionId: 13, name: 'app_quest_done', active: true }, // id: 35,
-  { serviceId: 1, actionId: 14, name: 'app_kyc', active: true }, // id: 36,
+  { serviceId: 1, actionId: 8, name: 'app_check_in', active: true }, // id: 34,
+  { serviceId: 1, actionId: 9, name: 'app_ad', active: true }, // id: 35,
+  { serviceId: 1, actionId: 10, name: 'app_invite', active: true }, // id: 36,
+  { serviceId: 1, actionId: 11, name: 'app_task_create', active: true }, // id: 37,
+  { serviceId: 1, actionId: 12, name: 'app_task_done', active: true }, // id: 38,
+  { serviceId: 1, actionId: 13, name: 'app_quest_done', active: true }, // id: 39,
+  { serviceId: 1, actionId: 14, name: 'app_kyc', active: true }, // id: 40,
 ]
 
 export const tasks = [
