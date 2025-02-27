@@ -19,7 +19,7 @@ export function checkDailyDone(date: Date) {
 
 export function tgOpenLink(link: string) {
   try {
-    if (openTelegramLink.isAvailable()) {
+    if (link.startsWith('https://t.me/') && openTelegramLink.isAvailable()) {
       openTelegramLink(link);
     } else if (openLink.isAvailable()) {
       openLink(link, {
