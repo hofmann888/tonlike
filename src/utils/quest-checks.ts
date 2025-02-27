@@ -11,7 +11,7 @@ import {
   fetchTaskCountByUserId,
   createQuestEarningWithBalanceUpdate,
 } from "@/db/query";
-import { Quest, User, ServiceActionName } from '@/lib/definitions';
+import { Quest, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { checkDailyDone } from "./helpers";
 import { QuestRelationEnum } from "@/db/schema";
 import { checkTgSubscribe, checkTgBoost } from "./task-checks";
@@ -39,29 +39,29 @@ export async function checkQuest(questId: number) {
     let check = false;
   
     switch (quest.serviceAction.name) {
-      case ServiceActionName.APP_CHECK_IN:
+      case ServiceActionNameEnum.APP_CHECK_IN:
         check = true;
         break;
-      case ServiceActionName.APP_INVITE:
+      case ServiceActionNameEnum.APP_INVITE:
         check = await checkInvitedCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.APP_QUEST_DONE:
+      case ServiceActionNameEnum.APP_QUEST_DONE:
         check = await checkQuestDoneCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.APP_TASK_CREATE:
+      case ServiceActionNameEnum.APP_TASK_CREATE:
         check = await checkTaskCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.APP_TASK_DONE:
+      case ServiceActionNameEnum.APP_TASK_DONE:
         if (quest.daily) {
           check = await checkDailyAnyTaskDone(user.id);
           break;
         }
         check = await checkTaskDoneCount(user.id, quest.countPerUser);
         break;
-      case ServiceActionName.TELEGRAM_SUBSCRIBE:
+      case ServiceActionNameEnum.TELEGRAM_SUBSCRIBE:
         check = await checkTgSubscribe(user.tgId, quest.link as string);
         break;
-      case ServiceActionName.TELEGRAM_BOOST:
+      case ServiceActionNameEnum.TELEGRAM_BOOST:
         check = await checkTgBoost(user.tgId, quest.link as string);
         break;
       default:

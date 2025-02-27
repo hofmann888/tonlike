@@ -289,7 +289,7 @@ export type BlackListReasonsMapItem = {
 // }
 // export type Currency = CurrencyEnum.COIN | CurrencyEnum.USDT;
 
-export enum ServiceActionName {
+export enum ServiceActionNameEnum {
   APP_CHECK_IN = 'app_check_in',
   APP_AD = 'app_ad',
   APP_INVITE = 'app_invite',
@@ -305,7 +305,7 @@ export enum ServiceActionName {
   TELEGRAM_BOOST = 'tg_boost',
 }
 
-export enum ServiceName {
+export enum ServiceNameEnum {
   APP = 'app',
   TELEGRAM = 'tg',
   X = 'x',
@@ -316,6 +316,17 @@ export enum ServiceName {
   FARCASTER = 'farcaster',
   LINK = 'link',
 }
+export type ServiceName = 
+  ServiceNameEnum.APP | 
+  ServiceNameEnum.TELEGRAM | 
+  ServiceNameEnum.X | 
+  ServiceNameEnum.INSTAGRAM | 
+  ServiceNameEnum.TIKTOK | 
+  ServiceNameEnum.YOUTUBE | 
+  ServiceNameEnum.VK | 
+  ServiceNameEnum.FARCASTER | 
+  ServiceNameEnum.LINK
+;
 
 export type LeaderboardItem = { // TODO?: id?
   position: number,

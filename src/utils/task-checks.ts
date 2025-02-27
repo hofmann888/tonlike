@@ -2,7 +2,7 @@
 
 import { createTaskEarningWithBalanceUpdate, fetchTaskById, fetchTaskDoneCount, taskIsAvailableForUser } from "@/db/query";
 import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
-import { Task, User, ServiceActionName } from '@/lib/definitions';
+import { Task, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { getAuthUser, setSession } from "@/app/auth/session";
 import { TaskRelationEnum } from "@/db/schema";
 
@@ -25,10 +25,10 @@ export async function checkTask(taskId: number) {
     let check = false;
 
     switch (task.serviceAction?.name) { // TODO: link to channel format
-      case ServiceActionName.TELEGRAM_SUBSCRIBE:
+      case ServiceActionNameEnum.TELEGRAM_SUBSCRIBE:
         check = await checkTgSubscribe(user.tgId, task.link as string);
         break;
-      case ServiceActionName.TELEGRAM_BOOST:
+      case ServiceActionNameEnum.TELEGRAM_BOOST:
         check = await checkTgBoost(user.tgId, task.link as string);
         break;
       default:

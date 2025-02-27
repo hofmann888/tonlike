@@ -3,7 +3,7 @@ import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { checkDailyDone, tgOpenLink } from "@/utils/helpers";
-import { Quest, ServiceName } from "@/lib/definitions";
+import { Quest, ServiceNameEnum } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
 import { actionIcons } from "@/lib/icons";
 import { FaCheck } from "react-icons/fa";
@@ -27,7 +27,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   async function startClick() {
     setLoading(true);
 
-    if (quest.service?.name === ServiceName.APP) {
+    if (quest.service?.name === ServiceNameEnum.APP) {
       checkClick();
       return;
     }
@@ -66,7 +66,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           <Avatar
             alt={quest.service?.title}
             classNames={{
-              base: `${quest.service?.name === ServiceName.APP && 'bg-gradient-to-b from-pink-500 to-blue-500'} w-10 h-10 min-w-10 min-h-10`,
+              base: `${quest.service?.name === ServiceNameEnum.APP && 'bg-gradient-to-b from-pink-500 to-blue-500'} w-10 h-10 min-w-10 min-h-10`,
               icon: "text-2xl"
             }}
             src={quest.service?.icon}
