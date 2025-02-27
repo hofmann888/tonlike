@@ -1,5 +1,6 @@
 import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
 import { addToast, ToastProps } from "@heroui/toast";
+import { ServiceName, ServiceNameEnum } from '@/lib/definitions';
 
 export function checkDailyDone(date: Date) {
   if (!date) { // TODO?: throw error?
@@ -35,4 +36,52 @@ export function tgOpenLink(link: string) {
     addToast(toast as ToastProps);
     return false;
   }
+}
+
+// TODO?: return false | error on missing substring?
+// TODO!: add link aliases (eg. https://x.com/ - https://twitter.com/)
+export function formatLink(str: string, serviceName: ServiceName, format: 'link' | 'name') {
+  let search = format === 'link' ? '@' : serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
+  if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName) && format === 'name') {
+    search += '@';
+  }
+  console.log('search', search);
+  if (!search) {
+    return str;
+  }
+
+  str = str.replace(/^https?:\/\/(www\.)?/, 'https://');
+  console.log('str', str);
+  if (!str.startsWith(search)) {
+    return str;
+  }
+
+  let replace = format !== 'link' ? '@' : serviceLinksMap[serviceName as keyof typeof serviceLinksMap];
+  if ([ServiceNameEnum.TIKTOK, ServiceNameEnum.YOUTUBE].includes(serviceName) && format === 'link') {
+    replace += '@';
+  }
+  console.log('replace', replace);
+
+  if (replace) {
+    str = str.replace(search, replace);
+    if (format === 'name') {
+      str = str.replace(/\?.+$/, ''); // removing search params
+      str = str.replace(/\/$/, '');
+    }
+    if (format === 'link') {
+      str += '/';
+    }
+  }
+
+  return str;
+}
+
+export const serviceLinksMap = {
+  [ServiceNameEnum.TELEGRAM]: 'https://t.me/', // https://telegram.org/
+  [ServiceNameEnum.X]: 'https://x.com/', // https://twitter.com/
+  [ServiceNameEnum.INSTAGRAM]: 'https://instagram.com/',
+  [ServiceNameEnum.TIKTOK]: 'https://tiktok.com/', // https://www.tiktok.com/@username/
+  [ServiceNameEnum.YOUTUBE]: 'https://youtube.com/', // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
+  [ServiceNameEnum.VK]: 'https://vk.com/',
+  [ServiceNameEnum.FARCASTER]: 'https://farcaster.xyz/',
 }
