@@ -491,6 +491,12 @@ export async function fetchEarnTasksByUserId(userId: number) {
           eq(schema.reports.userId, userId)
         )
       )
+      .leftJoin(schema.blackList, 
+        and(
+          eq(schema.blackList.userId, schema.tasks.userId), 
+          eq(schema.blackList.blockedUserId, userId)
+        )
+      )
       .where(
         and(
           ne(schema.tasks.userId, userId),
@@ -498,8 +504,9 @@ export async function fetchEarnTasksByUserId(userId: number) {
           eq(schema.serviceActions.active, true),
           eq(schema.services.active, true),
           eq(schema.actions.active, true),
-          isNull(schema.reports.id),
           isNull(schema.taskEarnings.id),
+          isNull(schema.reports.id),
+          isNull(schema.blackList.id),
         )
       )
       .orderBy(desc(schema.tasks.createdAt))
