@@ -8,17 +8,16 @@ import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Progress } from "@heroui/progress";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { GetTaskPerformers } from "@/core/actions";
 import { FiExternalLink } from "react-icons/fi";
 import { tgOpenLink } from "@/utils/helpers";
 import { useState } from "react";
 import TaskPerformersList from "./TaskPerformersList";
-import EditTaskForm from "./EditTaskForm";
 import CoinValue from "../Common/CoinValue";
+import EditTaskForm from "./EditTaskForm";
 
 export default function TaskCard({
   task, 
@@ -77,20 +76,19 @@ export default function TaskCard({
             alt={task.service?.title}
           />
           <div className="flex flex-col max-w-[70%]">
-            <Link 
-              href={task.link} 
-              anchorIcon={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
-              showAnchorIcon 
-              isExternal 
+            <Button 
+              color="primary" 
+              variant="light" 
+              className="p-0 h-auto gap-0 data-[hover=true]:bg-tranparent"
+              endContent={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
               onPress={() => tgOpenLink(task.link)}
+              disableRipple
+              disableAnimation
             >
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
-            </Link>
-            {/* <div className="flex justify-between"> */}
-              <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
+            </Button>
 
-              {/* <CoinValue value={task.price} className="text-small" /> */}
-            {/* </div> */}
+            <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
           </div>
         </div>
 
