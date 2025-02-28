@@ -68,103 +68,103 @@ export const serviceActions = [
   { serviceId: 1, actionId: 19, name: 'app_task_create', active: true }, // id: 4,
   { serviceId: 1, actionId: 20, name: 'app_task_done', active: true }, // id: 5,
   { serviceId: 1, actionId: 21, name: 'app_quest_done', active: true }, // id: 6,
-  { serviceId: 1, actionId: 22, name: 'app_ton_tx', active: false }, // id: 8,
-  { serviceId: 1, actionId: 23, name: 'app_kyc', active: false }, // id: 9,
+  { serviceId: 1, actionId: 22, name: 'app_ton_tx', active: false }, // id: 7,
+  { serviceId: 1, actionId: 23, name: 'app_kyc', active: false }, // id: 8,
   // Link
-  { serviceId: 2, actionId: 1, name: 'link_view', active: true }, // id: 11
+  { serviceId: 2, actionId: 1, name: 'link_view', active: true }, // id: 9
   // Telegram
-  { serviceId: 3, actionId: 1, name: 'tg_view', active: true }, // id: 12,
-  { serviceId: 3, actionId: 3, name: 'tg_like', title: 'Reaction', active: true }, // id: 13,
-  { serviceId: 3, actionId: 5, name: 'tg_comment', active: true }, // id: 14,
-  { serviceId: 3, actionId: 6, name: 'tg_repost', active: true }, // id: 15,
-  { serviceId: 3, actionId: 7, name: 'tg_story', active: true }, // id: 16,
-  { serviceId: 3, actionId: 10, name: 'tg_vote', active: true }, // id: 17,
-  { serviceId: 3, actionId: 12, name: 'tg_subscribe', active: true }, // id: 18,
-  { serviceId: 3, actionId: 13, name: 'tg_boost', active: true }, // id: 19,
-  { serviceId: 3, actionId: 14, name: 'tg_report', active: false }, // id: 20,
-  { serviceId: 3, actionId: 15, name: 'tg_play', title: 'Play Mini App', active: false }, // id: 21,
+  { serviceId: 3, actionId: 1, name: 'tg_view', active: true }, // id: 10,
+  { serviceId: 3, actionId: 3, name: 'tg_like', title: 'Reaction', active: true }, // id: 11,
+  { serviceId: 3, actionId: 5, name: 'tg_comment', active: true }, // id: 12,
+  { serviceId: 3, actionId: 6, name: 'tg_repost', active: true }, // id: 13,
+  { serviceId: 3, actionId: 7, name: 'tg_story', active: true }, // id: 14,
+  { serviceId: 3, actionId: 10, name: 'tg_vote', active: true }, // id: 15,
+  { serviceId: 3, actionId: 12, name: 'tg_subscribe', active: true }, // id: 16,
+  { serviceId: 3, actionId: 13, name: 'tg_boost', active: true }, // id: 17,
+  { serviceId: 3, actionId: 14, name: 'tg_report', active: false }, // id: 18,
+  { serviceId: 3, actionId: 15, name: 'tg_play', title: 'Play Mini App', active: false }, // id: 19,
   // X
-  { serviceId: 4, actionId: 1, name: 'x_view', active: true }, // id: 22,
-  { serviceId: 4, actionId: 2, name: 'x_stream', active: false }, // id: 23,
-  { serviceId: 4, actionId: 3, name: 'x_like', active: true }, // id: 24,
-  { serviceId: 4, actionId: 5, name: 'x_comment', active: true }, // id: 25,
-  { serviceId: 4, actionId: 6, name: 'x_repost', active: true }, // id: 26,
-  { serviceId: 4, actionId: 8, name: 'x_save', title: 'Bookmark', active: true }, // id: 27,
-  { serviceId: 4, actionId: 10, name: 'x_vote', active: false }, // id: 28,
-  { serviceId: 4, actionId: 12, name: 'x_subscribe', title: 'Follow', active: true }, // id: 29,
-  { serviceId: 4, actionId: 14, name: 'x_report', active: false }, // id: 30,
+  { serviceId: 4, actionId: 1, name: 'x_view', active: true }, // id: 20,
+  { serviceId: 4, actionId: 2, name: 'x_stream', active: false }, // id: 21,
+  { serviceId: 4, actionId: 3, name: 'x_like', active: true }, // id: 22,
+  { serviceId: 4, actionId: 5, name: 'x_comment', active: true }, // id: 23,
+  { serviceId: 4, actionId: 6, name: 'x_repost', active: true }, // id: 24,
+  { serviceId: 4, actionId: 8, name: 'x_save', title: 'Bookmark', active: true }, // id: 25,
+  { serviceId: 4, actionId: 10, name: 'x_vote', active: false }, // id: 26,
+  { serviceId: 4, actionId: 12, name: 'x_subscribe', title: 'Follow', active: true }, // id: 27,
+  { serviceId: 4, actionId: 14, name: 'x_report', active: false }, // id: 28,
   // Instagram
-  { serviceId: 5, actionId: 1, name: 'instagram_view', active: true }, // id: 31,
-  { serviceId: 5, actionId: 2, name: 'instagram_stream', active: false }, // id: 32,
-  { serviceId: 5, actionId: 3, name: 'instagram_like', active: true }, // id: 33,
-  { serviceId: 5, actionId: 5, name: 'instagram_comment', active: true }, // id: 34,
-  { serviceId: 5, actionId: 6, name: 'instagram_repost', active: true }, // id: 35,
-  { serviceId: 5, actionId: 7, name: 'instagram_story', active: true }, // id: 36,
-  { serviceId: 5, actionId: 8, name: 'instagram_save', active: true }, // id: 37,
-  { serviceId: 5, actionId: 12, name: 'instagram_subscribe', title: 'Follow', active: true }, // id: 38,
-  { serviceId: 5, actionId: 14, name: 'instagram_report', active: false }, // id: 39,
+  { serviceId: 5, actionId: 1, name: 'instagram_view', active: true }, // id: 29,
+  { serviceId: 5, actionId: 2, name: 'instagram_stream', active: false }, // id: 30,
+  { serviceId: 5, actionId: 3, name: 'instagram_like', active: true }, // id: 31,
+  { serviceId: 5, actionId: 5, name: 'instagram_comment', active: true }, // id: 32,
+  { serviceId: 5, actionId: 6, name: 'instagram_repost', active: true }, // id: 33,
+  { serviceId: 5, actionId: 7, name: 'instagram_story', active: true }, // id: 34,
+  { serviceId: 5, actionId: 8, name: 'instagram_save', active: true }, // id: 35,
+  { serviceId: 5, actionId: 12, name: 'instagram_subscribe', title: 'Follow', active: true }, // id: 36,
+  { serviceId: 5, actionId: 14, name: 'instagram_report', active: false }, // id: 37,
   // Facebook
-  { serviceId: 6, actionId: 1, name: 'facebook_view', active: true }, // id: 40,
-  { serviceId: 6, actionId: 2, name: 'facebook_stream', active: false }, // id: 41,
-  { serviceId: 6, actionId: 3, name: 'facebook_like', active: true }, // id: 42,
-  { serviceId: 6, actionId: 5, name: 'facebook_comment', active: true }, // id: 43,
-  { serviceId: 6, actionId: 6, name: 'facebook_repost', active: true }, // id: 44,
-  { serviceId: 6, actionId: 7, name: 'facebook_story', active: true }, // id: 45,
-  { serviceId: 6, actionId: 8, name: 'facebook_save', active: true }, // id: 46,
-  { serviceId: 6, actionId: 11, name: 'facebook_friend', active: true }, // id: 47,
-  { serviceId: 6, actionId: 12, name: 'facebook_subscribe', title: 'Follow', active: true }, // id: 48,
-  { serviceId: 6, actionId: 14, name: 'facebook_report', active: false }, // id: 49,
+  { serviceId: 6, actionId: 1, name: 'facebook_view', active: true }, // id: 38,
+  { serviceId: 6, actionId: 2, name: 'facebook_stream', active: false }, // id: 39,
+  { serviceId: 6, actionId: 3, name: 'facebook_like', active: true }, // id: 40,
+  { serviceId: 6, actionId: 5, name: 'facebook_comment', active: true }, // id: 41,
+  { serviceId: 6, actionId: 6, name: 'facebook_repost', active: true }, // id: 42,
+  { serviceId: 6, actionId: 7, name: 'facebook_story', active: true }, // id: 43,
+  { serviceId: 6, actionId: 8, name: 'facebook_save', active: true }, // id: 44,
+  { serviceId: 6, actionId: 11, name: 'facebook_friend', active: true }, // id: 45,
+  { serviceId: 6, actionId: 12, name: 'facebook_subscribe', title: 'Follow', active: true }, // id: 46,
+  { serviceId: 6, actionId: 14, name: 'facebook_report', active: false }, // id: 47,
   // TikTok
-  { serviceId: 7, actionId: 1, name: 'tiktok_view', active: true }, // id: 50,
-  { serviceId: 7, actionId: 2, name: 'tiktok_stream', active: false }, // id: 51,
-  { serviceId: 7, actionId: 3, name: 'tiktok_like', active: true }, // id: 52,
-  { serviceId: 7, actionId: 5, name: 'tiktok_comment', active: true }, // id: 53,
-  { serviceId: 7, actionId: 6, name: 'tiktok_repost', active: true }, // id: 54,
-  { serviceId: 7, actionId: 8, name: 'tiktok_save', title: 'Add to Favorites', active: true }, // id: 55,
-  { serviceId: 7, actionId: 9, name: 'tiktok_download', active: true }, // id: 56,
-  { serviceId: 7, actionId: 12, name: 'tiktok_subscribe', active: true }, // id: 57,
-  { serviceId: 7, actionId: 14, name: 'tiktok_report', active: false }, // id: 58,
+  { serviceId: 7, actionId: 1, name: 'tiktok_view', active: true }, // id: 48,
+  { serviceId: 7, actionId: 2, name: 'tiktok_stream', active: false }, // id: 49,
+  { serviceId: 7, actionId: 3, name: 'tiktok_like', active: true }, // id: 50,
+  { serviceId: 7, actionId: 5, name: 'tiktok_comment', active: true }, // id: 51,
+  { serviceId: 7, actionId: 6, name: 'tiktok_repost', active: true }, // id: 52,
+  { serviceId: 7, actionId: 8, name: 'tiktok_save', title: 'Add to Favorites', active: true }, // id: 53,
+  { serviceId: 7, actionId: 9, name: 'tiktok_download', active: true }, // id: 54,
+  { serviceId: 7, actionId: 12, name: 'tiktok_subscribe', active: true }, // id: 55,
+  { serviceId: 7, actionId: 14, name: 'tiktok_report', active: false }, // id: 56,
   // Likee
-  { serviceId: 8, actionId: 1, name: 'likee_view', active: true }, // id: 59,
-  { serviceId: 8, actionId: 3, name: 'likee_like', active: true }, // id: 60,
-  { serviceId: 8, actionId: 5, name: 'likee_comment', active: true }, // id: 61,
-  { serviceId: 8, actionId: 6, name: 'likee_repost', active: true }, // id: 62,
-  { serviceId: 8, actionId: 8, name: 'likee_save', title: 'Add to Favorites', active: true }, // id: 63,
-  { serviceId: 8, actionId: 9, name: 'likee_download', active: true }, // id: 64,
-  { serviceId: 8, actionId: 12, name: 'likee_subscribe', active: true }, // id: 65,
-  { serviceId: 8, actionId: 14, name: 'likee_report', active: false }, // id: 66,
+  { serviceId: 8, actionId: 1, name: 'likee_view', active: true }, // id: 57,
+  { serviceId: 8, actionId: 3, name: 'likee_like', active: true }, // id: 58,
+  { serviceId: 8, actionId: 5, name: 'likee_comment', active: true }, // id: 59,
+  { serviceId: 8, actionId: 6, name: 'likee_repost', active: true }, // id: 60,
+  { serviceId: 8, actionId: 8, name: 'likee_save', title: 'Add to Favorites', active: true }, // id: 61,
+  { serviceId: 8, actionId: 9, name: 'likee_download', active: true }, // id: 62,
+  { serviceId: 8, actionId: 12, name: 'likee_subscribe', active: true }, // id: 63,
+  { serviceId: 8, actionId: 14, name: 'likee_report', active: false }, // id: 64,
   // Youtube
-  { serviceId: 9, actionId: 1, name: 'youtube_view', title: 'Watch a video', active: true }, // id: 67,
-  { serviceId: 9, actionId: 2, name: 'youtube_stream', active: false }, // id: 68,
-  { serviceId: 9, actionId: 3, name: 'youtube_like', active: true }, // id: 69,
-  { serviceId: 9, actionId: 4, name: 'youtube_dislike', active: false }, // id: 70,
-  { serviceId: 9, actionId: 5, name: 'youtube_comment', active: true }, // id: 71,
-  { serviceId: 9, actionId: 6, name: 'youtube_repost', active: true }, // id: 72,
-  { serviceId: 9, actionId: 8, name: 'youtube_save', title: 'Save to Playlist', active: true }, // id: 73,
-  { serviceId: 9, actionId: 9, name: 'youtube_download', active: true }, // id: 74,
-  { serviceId: 9, actionId: 12, name: 'youtube_subscribe', active: true }, // id: 75,
-  { serviceId: 9, actionId: 14, name: 'youtube_report', active: false }, // id: 76,
+  { serviceId: 9, actionId: 1, name: 'youtube_view', title: 'Watch a video', active: true }, // id: 65,
+  { serviceId: 9, actionId: 2, name: 'youtube_stream', active: false }, // id: 66,
+  { serviceId: 9, actionId: 3, name: 'youtube_like', active: true }, // id: 67,
+  { serviceId: 9, actionId: 4, name: 'youtube_dislike', active: false }, // id: 68,
+  { serviceId: 9, actionId: 5, name: 'youtube_comment', active: true }, // id: 69,
+  { serviceId: 9, actionId: 6, name: 'youtube_repost', active: true }, // id: 70,
+  { serviceId: 9, actionId: 8, name: 'youtube_save', title: 'Save to Playlist', active: true }, // id: 71,
+  { serviceId: 9, actionId: 9, name: 'youtube_download', active: true }, // id: 72,
+  { serviceId: 9, actionId: 12, name: 'youtube_subscribe', active: true }, // id: 73,
+  { serviceId: 9, actionId: 14, name: 'youtube_report', active: false }, // id: 74,
   // Twitch
-  { serviceId: 10, actionId: 1, name: 'twitch_view', active: true }, // id: 77,
-  { serviceId: 10, actionId: 2, name: 'twitch_stream', active: false }, // id: 78,
-  { serviceId: 10, actionId: 12, name: 'twitch_subscribe', title: 'Follow', active: true }, // id: 79,
-  { serviceId: 10, actionId: 14, name: 'twitch_report', active: false }, // id: 80,
+  { serviceId: 10, actionId: 1, name: 'twitch_view', active: true }, // id: 75,
+  { serviceId: 10, actionId: 2, name: 'twitch_stream', active: false }, // id: 76,
+  { serviceId: 10, actionId: 12, name: 'twitch_subscribe', title: 'Follow', active: true }, // id: 77,
+  { serviceId: 10, actionId: 14, name: 'twitch_report', active: false }, // id: 78,
   // Discord
-  { serviceId: 11, actionId: 3, name: 'discord_like', title: 'React', active: true }, // id: 81,
-  { serviceId: 11, actionId: 12, name: 'discord_subscribe', title: 'Subscribe', active: true }, // id: 82,
-  { serviceId: 11, actionId: 13, name: 'discord_boost', active: true }, // id: 83,
-  { serviceId: 11, actionId: 14, name: 'discord_report', active: false }, // id: 84,
+  { serviceId: 11, actionId: 3, name: 'discord_like', title: 'React', active: true }, // id: 79,
+  { serviceId: 11, actionId: 12, name: 'discord_subscribe', title: 'Subscribe', active: true }, // id: 80,
+  { serviceId: 11, actionId: 13, name: 'discord_boost', active: true }, // id: 81,
+  { serviceId: 11, actionId: 14, name: 'discord_report', active: false }, // id: 82,
   // VK
-  { serviceId: 12, actionId: 1, name: 'vk_view', active: true }, // id: 85,
-  { serviceId: 12, actionId: 3, name: 'vk_like', active: true }, // id: 86,
-  { serviceId: 12, actionId: 5, name: 'vk_comment', active: true }, // id: 87,
-  { serviceId: 12, actionId: 6, name: 'vk_repost', active: true }, // id: 88,
-  { serviceId: 12, actionId: 7, name: 'vk_story', active: true }, // id: 89,
-  { serviceId: 12, actionId: 8, name: 'vk_save', title: 'Add to Bookmarks', active: true }, // id: 90,
-  { serviceId: 12, actionId: 10, name: 'vk_vote', active: true }, // id: 91,
-  { serviceId: 12, actionId: 11, name: 'vk_friend', active: true }, // id: 92,
-  { serviceId: 12, actionId: 12, name: 'vk_subscribe', title: 'Follow', active: true }, // id: 93,
-  { serviceId: 12, actionId: 14, name: 'vk_report', active: false }, // id: 94,
+  { serviceId: 12, actionId: 1, name: 'vk_view', active: true }, // id: 83,
+  { serviceId: 12, actionId: 3, name: 'vk_like', active: true }, // id: 84,
+  { serviceId: 12, actionId: 5, name: 'vk_comment', active: true }, // id: 85,
+  { serviceId: 12, actionId: 6, name: 'vk_repost', active: true }, // id: 86,
+  { serviceId: 12, actionId: 7, name: 'vk_story', active: true }, // id: 87,
+  { serviceId: 12, actionId: 8, name: 'vk_save', title: 'Add to Bookmarks', active: true }, // id: 88,
+  { serviceId: 12, actionId: 10, name: 'vk_vote', active: true }, // id: 89,
+  { serviceId: 12, actionId: 11, name: 'vk_friend', active: true }, // id: 90,
+  { serviceId: 12, actionId: 12, name: 'vk_subscribe', title: 'Follow', active: true }, // id: 91,
+  { serviceId: 12, actionId: 14, name: 'vk_report', active: false }, // id: 92,
   // OK
   // Dzen
   // Warpcast
@@ -176,22 +176,22 @@ export const serviceActions = [
 ] as ServiceAction[];
 
 export const tasks = [
-  { userId: 2, serviceActionId: 12, link: 'https://t.me/tonlike_app/', price: 1, count: 101, status: 'active' }, // id: 1 # tg_view
-  { userId: 2, serviceActionId: 18, link: 'https://t.me/tonlike_app/', price: 2, count: 102, status: 'active' }, // id: 2 # tg_subscribe
-  { userId: 2, serviceActionId: 19, link: 'https://t.me/tonlike_app/', price: 3, count: 103, status: 'active' }, // id: 3 # tg_boost
-  { userId: 3, serviceActionId: 22, link: 'https://x.com/RealXavier011/status/1895042084232401143', price: 4, count: 104, status: 'active' }, // id: 4 # x_view
-  { userId: 4, serviceActionId: 31, link: 'https://www.instagram.com/p/DDkWZGANPbh/?igsh=d2tkMGUwYnR6MHV0', price: 5, count: 105, status: 'active' }, // id: 5 # instagram_view
-  { userId: 5, serviceActionId: 50, link: 'https://vt.tiktok.com/ZSMPVewdk/', price: 6, count: 106, status: 'active' }, // id: 6 # tiktok_view
-  { userId: 6, serviceActionId: 67, link: 'https://youtu.be/hwXdkQCob6U?si=9Ke5Xqcw39fA5BSK', price: 7, count: 107, status: 'active' }, // id: 7 # youtube_view
-  { userId: 7, serviceActionId: 85, link: 'https://vk.com/wall-124685923_430790', price: 8, count: 108, status: 'active' }, // id: 8 # vk_view
-  { userId: 8, serviceActionId: 11, link: 'https://www.google.com/', price: 9, count: 109, status: 'active' }, // id: 9 # link_view
-  { userId: 8, serviceActionId: 11, link: 'https://www.google.com/', price: 10, count: 110, status: 'paused' }, // id: 10 # link_view
-  { userId: 8, serviceActionId: 11, link: 'https://www.google.com/', price: 11, count: 111, status: 'done' }, // id: 11 # link_view
-  { userId: 8, serviceActionId: 11, link: 'https://www.google.com/', price: 12, count: 112, status: 'deleted' }, // id: 12 # link_view
-  { userId: 8, serviceActionId: 11, link: 'https://www.google.com/', price: 13, count: 113, status: 'active' }, // id: 13 # link_view (task_earnings)
-  { userId: 8, serviceActionId: 20, link: 'https://t.me/tonlike_app/', price: 14, count: 114, status: 'active' }, // id: 14 # tg_report
-  { userId: 8, serviceActionId: 40, link: 'https://www.facebook.com/VIKRAMINFINITY/posts/pfbid0NMrThjrpMN6WKLMAmHBVRjXc7CiDEyRkWjHejqk8ZfxVGEmMTh9JJSq8X6h5QvU5l', price: 15, count: 115, status: 'active' }, // id: 15 # facebook_view
-  { userId: 9, serviceActionId: 11, link: 'https://www.google.com/', price: 16, count: 116, status: 'active' }, // id: 16 # link_view (black_list)
+  { userId: 2, serviceActionId: 10, link: 'https://t.me/tonlike_app/', price: 1, count: 101, status: 'active' }, // id: 1 # tg_view
+  { userId: 2, serviceActionId: 16, link: 'https://t.me/tonlike_app/', price: 2, count: 102, status: 'active' }, // id: 2 # tg_subscribe
+  { userId: 2, serviceActionId: 17, link: 'https://t.me/tonlike_app/', price: 3, count: 103, status: 'active' }, // id: 3 # tg_boost
+  { userId: 3, serviceActionId: 20, link: 'https://x.com/RealXavier011/status/1895042084232401143', price: 4, count: 104, status: 'active' }, // id: 4 # x_view
+  { userId: 4, serviceActionId: 29, link: 'https://www.instagram.com/p/DDkWZGANPbh/?igsh=d2tkMGUwYnR6MHV0', price: 5, count: 105, status: 'active' }, // id: 5 # instagram_view
+  { userId: 5, serviceActionId: 48, link: 'https://vt.tiktok.com/ZSMPVewdk/', price: 6, count: 106, status: 'active' }, // id: 6 # tiktok_view
+  { userId: 6, serviceActionId: 65, link: 'https://youtu.be/hwXdkQCob6U?si=9Ke5Xqcw39fA5BSK', price: 7, count: 107, status: 'active' }, // id: 7 # youtube_view
+  { userId: 7, serviceActionId: 83, link: 'https://vk.com/wall-124685923_430790', price: 8, count: 108, status: 'active' }, // id: 8 # vk_view
+  { userId: 8, serviceActionId: 9, link: 'https://www.google.com/', price: 9, count: 109, status: 'active' }, // id: 9 # link_view
+  { userId: 8, serviceActionId: 9, link: 'https://www.google.com/', price: 10, count: 110, status: 'paused' }, // id: 10 # link_view
+  { userId: 8, serviceActionId: 9, link: 'https://www.google.com/', price: 11, count: 111, status: 'done' }, // id: 11 # link_view
+  { userId: 8, serviceActionId: 9, link: 'https://www.google.com/', price: 12, count: 112, status: 'deleted' }, // id: 12 # link_view
+  { userId: 8, serviceActionId: 9, link: 'https://www.google.com/', price: 13, count: 113, status: 'active' }, // id: 13 # link_view (task_earnings)
+  { userId: 8, serviceActionId: 18, link: 'https://t.me/tonlike_app/', price: 14, count: 114, status: 'active' }, // id: 14 # tg_report
+  { userId: 8, serviceActionId: 38, link: 'https://www.facebook.com/VIKRAMINFINITY/posts/pfbid0NMrThjrpMN6WKLMAmHBVRjXc7CiDEyRkWjHejqk8ZfxVGEmMTh9JJSq8X6h5QvU5l', price: 15, count: 115, status: 'active' }, // id: 15 # facebook_view
+  { userId: 9, serviceActionId: 9, link: 'https://www.google.com/', price: 16, count: 116, status: 'active' }, // id: 16 # link_view (black_list)
 ] as Task[];
 
 export const taskEarnings = [
