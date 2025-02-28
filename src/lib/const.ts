@@ -18,12 +18,22 @@ export const actionIcons = { // TODO: refactor
   [ActionNameEnum.QUEST_DONE]: GoGoal,
 }
 
+// TODO: check share links from mobile
 export const serviceLinksMap = {
   [ServiceNameEnum.TELEGRAM]: ['https://t.me/'],
   [ServiceNameEnum.X]: ['https://x.com/', 'https://twitter.com/'],
   [ServiceNameEnum.INSTAGRAM]: ['https://instagram.com/'],
-  [ServiceNameEnum.TIKTOK]: ['https://tiktok.com/'], // https://www.tiktok.com/@username/
-  [ServiceNameEnum.YOUTUBE]: ['https://youtube.com/'], // https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
+  // acc: https://www.instagram.com/deani.nesss?igsh=MnBnbXMwdnh5eTF5
+  // post: https://www.instagram.com/p/DDkWZGANPbh/?igsh=d2tkMGUwYnR6MHV0
+  [ServiceNameEnum.TIKTOK]: ['https://tiktok.com/'], 
+  // acc: https://www.tiktok.com/@username/
+  // video: https://vt.tiktok.com/ZSMPVewdk/
+  [ServiceNameEnum.YOUTUBE]: ['https://youtube.com/'], 
+  // acc: https://www.youtube.com/channel/UCdp-kaIi7YO2WmNQ-LafmpA = https://www.youtube.com/@wearearchitects
+  // video: https://youtu.be/hwXdkQCob6U?si=9Ke5Xqcw39fA5BSK 
   [ServiceNameEnum.VK]: ['https://vk.com/'],
-  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'], // channel: https://warpcast.com/~/channel/ru    acc: https://warpcast.com/hofmann888
+  // post: https://vk.com/wall-124685923_430790
+  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'], 
+  // acc: https://warpcast.com/hofmann888
+  // channel: https://warpcast.com/~/channel/ru 
 }
