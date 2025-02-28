@@ -199,20 +199,34 @@ export const taskEarnings = [
 ] as TaskEarning[];
 
 export const quests = [
-  { serviceActionId: 1, price: 1, countPerUser: 1, daily: true, priority: 100 }, // id: 1 # app_check_in
-  { serviceActionId: 2, price: 2, countPerUser: 20, daily: true, priority: 95 },  // id: 2 # app_ad
-  { serviceActionId: 5, price: 3, countPerUser: 1, daily: true, priority: 90 },  // id: 3 # app_task_done
-  { serviceActionId: 18, price: 4, countPerUser: 1, daily: false, priority: 85, link: 'https://t.me/tonlike_app/' },  // id: 4 # tg_subscribe
-  { serviceActionId: 19, price: 5, countPerUser: 1, daily: false, priority: 80, link: 'https://t.me/tonlike_app/' },  // id: 5 # tg_boost
-  { serviceActionId: 29, price: 6, countPerUser: 1, daily: false, priority: 75, link: 'https://x.com/cz_binance/status/1894996181752619322?t=hn1MPoJzZBbYvgZh9YhiSQ&s=19' },  // id: 6 # x_subscribe
-  { serviceActionId: 3, price: 7, countPerUser: 1, daily: false, priority: 70 },  // id: 7 # app_invite
-  { serviceActionId: 3, price: 8, countPerUser: 5, daily: false, priority: 65, title: 'Invite 5 friends' },  // id: 8 # app_invite
-  { serviceActionId: 4, price: 9, countPerUser: 1, daily: false, priority: 60, title: 'Create a task' },  // id: 9 # app_task_create
-  { serviceActionId: 4, price: 10, countPerUser: 5, daily: false, priority: 55, title: 'Create 5 tasks' },  // id: 10 # app_task_create
-  { serviceActionId: 5, price: 11, countPerUser: 5, daily: false, priority: 50, title: 'Complete 5 tasks' },  // id: 11 # app_task_done
-  { serviceActionId: 6, price: 12, countPerUser: 5, daily: false, priority: 45, title: 'Complete 5 quests' },  // id: 12 # app_quest_done
-  { serviceActionId: 8, price: 13, countPerUser: 1, daily: false, priority: 40 },  // id: 13 # app_ton_tx
-  { serviceActionId: 1, price: 13, countPerUser: 1, daily: false, priority: 1, title: 'Test not active', active: false },  // id: 14 # app_check_in
+  { serviceActionId: 1, price: 100, countPerUser: 1, daily: true, priority: 100 }, // id: 1 # app_check_in
+  { serviceActionId: 2, price: 100, countPerUser: 20, daily: true, priority: 95, active: false },  // id: 2 # app_ad
+  { serviceActionId: 5, price: 100, countPerUser: 1, daily: true, priority: 90 },  // id: 3 # app_task_done
+  { serviceActionId: 16, price: 1000, countPerUser: 1, daily: false, priority: 85, link: 'https://t.me/tonlike_app/' },  // id: 4 # tg_subscribe
+  { serviceActionId: 17, price: 5000, countPerUser: 1, daily: false, priority: 80, link: 'https://t.me/tonlike_app/' },  // id: 5 # tg_boost
+  { serviceActionId: 3, price: 100, countPerUser: 1, daily: false, priority: 70 },  // id: 7 # app_invite
+  { serviceActionId: 3, price: 500, countPerUser: 5, daily: false, priority: 65, title: 'Invite 5 friends' },  // id: 8 # app_invite
+  { serviceActionId: 3, price: 1000, countPerUser: 10, daily: false, priority: 64, title: 'Invite 10 friends' },  // id: 8 # app_invite
+  { serviceActionId: 3, price: 2500, countPerUser: 25, daily: false, priority: 63, title: 'Invite 25 friends' },  // id: 8 # app_invite
+  { serviceActionId: 3, price: 5000, countPerUser: 50, daily: false, priority: 62, title: 'Invite 50 friends' },  // id: 8 # app_invite
+  { serviceActionId: 3, price: 10000, countPerUser: 100, daily: false, priority: 61, title: 'Invite 100 friends' },  // id: 8 # app_invite
+  { serviceActionId: 4, price: 100, countPerUser: 1, daily: false, priority: 60, title: 'Create a task' },  // id: 9 # app_task_create
+  { serviceActionId: 4, price: 500, countPerUser: 5, daily: false, priority: 59, title: 'Create 5 tasks' },  // id: 10 # app_task_create
+  { serviceActionId: 4, price: 1000, countPerUser: 10, daily: false, priority: 58, title: 'Create 10 tasks' },  // id: 10 # app_task_create
+  { serviceActionId: 4, price: 2500, countPerUser: 25, daily: false, priority: 57, title: 'Create 25 tasks' },  // id: 10 # app_task_create
+  { serviceActionId: 4, price: 5000, countPerUser: 50, daily: false, priority: 56, title: 'Create 50 tasks' },  // id: 10 # app_task_create
+  { serviceActionId: 4, price: 10000, countPerUser: 100, daily: false, priority: 55, title: 'Create 100 tasks' },  // id: 10 # app_task_create
+  { serviceActionId: 5, price: 500, countPerUser: 5, daily: false, priority: 54, title: 'Complete 5 tasks' },  // id: 11 # app_task_done
+  { serviceActionId: 5, price: 1000, countPerUser: 10, daily: false, priority: 53, title: 'Complete 10 tasks' },  // id: 11 # app_task_done
+  { serviceActionId: 5, price: 2500, countPerUser: 25, daily: false, priority: 52, title: 'Complete 25 tasks' },  // id: 11 # app_task_done
+  { serviceActionId: 5, price: 5000, countPerUser: 50, daily: false, priority: 51, title: 'Complete 50 tasks' },  // id: 11 # app_task_done
+  { serviceActionId: 5, price: 10000, countPerUser: 100, daily: false, priority: 50, title: 'Complete 100 tasks' },  // id: 11 # app_task_done
+  { serviceActionId: 6, price: 500, countPerUser: 5, daily: false, priority: 49, title: 'Complete 5 quests' },  // id: 12 # app_quest_done
+  { serviceActionId: 6, price: 1000, countPerUser: 10, daily: false, priority: 48, title: 'Complete 10 quests' },  // id: 12 # app_quest_done
+  { serviceActionId: 6, price: 2500, countPerUser: 25, daily: false, priority: 47, title: 'Complete 25 quests' },  // id: 12 # app_quest_done
+  { serviceActionId: 6, price: 5000, countPerUser: 50, daily: false, priority: 46, title: 'Complete 50 quests' },  // id: 12 # app_quest_done
+  { serviceActionId: 6, price: 10000, countPerUser: 100, daily: false, priority: 45, title: 'Complete 100 quests' },  // id: 12 # app_quest_done
+  { serviceActionId: 7, price: 1000, countPerUser: 1, daily: false, priority: 40, active: false },  // id: 13 # app_ton_tx
 ] as Quest[];
 
 export const blackList = [

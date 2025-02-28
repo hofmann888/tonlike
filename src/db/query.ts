@@ -887,7 +887,7 @@ export async function fetchQuestById(id: number, relations?: schema.QuestRealati
   }
 }
 
-export async function fetchEarnQuestsByUserId(userId: number) {
+export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refactor active for app service and check active
   console.log('fetchQuestsByUserId');
   try {
     const data = await db
