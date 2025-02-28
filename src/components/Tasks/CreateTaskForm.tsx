@@ -21,7 +21,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
 
   const [serviceActionId, setServiceActionId] = useState('0');
-  const [serviceId, setServiceId] = useState('2');
+  const [serviceId, setServiceId] = useState('3');
   const [service, setService] = useState(services[0]);
   const [link, setLink] = useState('');
   const [price, setPrice] = useState(1);

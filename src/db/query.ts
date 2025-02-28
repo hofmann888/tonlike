@@ -262,16 +262,23 @@ export async function fetchServicesWithActions(active?: boolean) { // TODO: chec
     const data = await db.query.services.findMany({ 
       with: { 
         serviceActions: { 
-          // columns: {},
-          where: eq(schema.serviceActions.active, true),
+          ...(active && { where: eq(schema.serviceActions.active, active) }),
           with: { 
-            action: true, // TODO?: check action active
+            action: true, // TODO: refactor for check 'active' in query
           } 
         } 
       },
       orderBy: [asc(schema.services.id)],
       ...(active !== undefined && { where: eq(schema.services.active, active) })
     });
+
+    if (active !== undefined) { // TODO: refactor - move to query
+      data.map((service) => {
+        if (!!service.serviceActions.length) {
+          service.serviceActions = service.serviceActions.filter((serviceAction) => serviceAction.action.active === active);
+        }
+      })
+    }
 
     return data as Service[];
   } catch (error) {
