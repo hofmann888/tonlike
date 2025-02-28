@@ -256,7 +256,7 @@ export async function fetchServiceById(id: number) {
   }
 }
 
-export async function fetchServicesWithActions(active?: boolean) {
+export async function fetchServicesWithActions(active?: boolean) { // TODO: check if service.name !== app
   console.log('fetchServicesWithActions');
   try {
     const data = await db.query.services.findMany({ 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fetchServiceActionById } from '@/db/query';
-import { ReportReasonEnum, BlackListReasonEnum, TaskStatusEnum } from '@/lib/definitions';
+import { ReportReasonEnum, BlackListReasonEnum, ServiceNameEnum } from '@/lib/definitions';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 // import { CurrencyEnum } from '@/lib/definitions';
 
@@ -18,7 +18,7 @@ export const createTaskFormSchema = z.object({
     .positive({ message: 'Wrong action.' })
     .refine(async (id) => {
       const serviceAction = await fetchServiceActionById(id, [ServiceActionsRelationsEnum.ACTION, ServiceActionsRelationsEnum.SERVICE]);
-      return serviceAction && serviceAction.active && serviceAction.service?.active && serviceAction.action?.active;
+      return serviceAction && serviceAction.active && serviceAction.action?.active && serviceAction.service?.active && serviceAction.service?.name !== ServiceNameEnum.APP;
     }, { message: 'Wrong action.' }),
   link: z.string()
     .min(3, { message: 'Must be 3 or more characters long.' })
