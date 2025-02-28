@@ -14,7 +14,10 @@ async function main() {
   await seedActions();
   await seedServiceActions();
   await seedQuests();
-  await seedTasksWithRelations();
+  await seedTasks();
+  await seedTasksEarning();
+  await seedBlackList();
+  // await seedTasksWithRelations();
 }
 
 async function clearData() {
@@ -62,6 +65,24 @@ async function seedQuests() {
   console.log('seedQuests');
   await db.execute(sql`alter sequence quests_id_seq restart with 1`);
   await db.insert(schema.quests).values(seedData.quests);
+}
+
+async function seedTasks() {
+  console.log('seedTasks');
+  await db.execute(sql`alter sequence tasks_id_seq restart with 1`);
+  await db.insert(schema.tasks).values(seedData.tasks);
+}
+
+async function seedTasksEarning() {
+  console.log('seedTasksEarning');
+  await db.execute(sql`alter sequence task_earnings_id_seq restart with 1`);
+  await db.insert(schema.taskEarnings).values(seedData.taskEarnings);
+}
+
+async function seedBlackList() {
+  console.log('seedBlackList');
+  await db.execute(sql`alter sequence black_list_id_seq restart with 1`);
+  await db.insert(schema.blackList).values(seedData.blackList);
 }
 
 async function seedTasksWithRelations() {

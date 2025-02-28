@@ -46,7 +46,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 // }));
 
 // =============== Services ===============
-export const services = pgTable('services', {
+export const services = pgTable('services', { // add order(priority)
   id: smallint().primaryKey().generatedByDefaultAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   title: varchar({ length: 255 }).notNull(),
