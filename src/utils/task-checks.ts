@@ -1,7 +1,7 @@
 'use server'
 
 import { createTaskEarningWithBalanceUpdate, fetchTaskById, fetchTaskDoneCount, taskIsAvailableForUser } from "@/db/query";
-import { tgCheckBoostRequest, tgCheckMembershipRequest } from "./requests";
+import { tgCheckMembershipRequest, tgCheckBoostRequest } from "./tg-requests";
 import { Task, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { getAuthUser, setSession } from "@/app/auth/session";
 import { TaskRelationEnum } from "@/db/schema";
@@ -68,10 +68,10 @@ export async function earnOnTask(task: Task, user: User) {
   await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
 }
 
-export async function checkTgSubscribe(tgId: number, channel: string) {
+export async function checkTgSubscribe(tgId: number, channel: string) { // TODO?: add common method checkTg(tgId, channel, method)?
   console.log('checkTgSubscribe');
   const data: any = await tgCheckMembershipRequest(tgId, channel);
-  const check = data?.success && data?.result;
+  const check = !data?.success || data?.result;
   
   return check;
 }
@@ -79,7 +79,7 @@ export async function checkTgSubscribe(tgId: number, channel: string) {
 export async function checkTgBoost(tgId: number, channel: string) {
   console.log('checkTgBoost');
   const data: any = await tgCheckBoostRequest(tgId, channel);
-  const check = data?.success && data?.result;
+  const check = !data?.success || data?.result;
   
   return check;
 }

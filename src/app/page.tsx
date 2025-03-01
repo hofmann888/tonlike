@@ -1,6 +1,5 @@
 'use client'
 
-import { tgCheckMembershipRequest, tgCheckBoostRequest } from "@/utils/requests";
 import { deleteSession } from "./auth/session";
 import { tgOpenLink, formatLink } from "@/utils/helpers";
 import { Button } from "@heroui/button";

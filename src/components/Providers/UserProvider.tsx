@@ -1,7 +1,7 @@
 'use client'
 
 import { User } from "@/lib/definitions";
-import { authRequest } from "@/utils/requests";
+import { authRequest } from "@/utils/api-requests";
 import { createContext, useEffect, useState } from "react";
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
 
