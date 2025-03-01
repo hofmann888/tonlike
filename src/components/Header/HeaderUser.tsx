@@ -11,7 +11,7 @@ import {
 } from "@heroui/dropdown";
 
 export default function HeaderUser() {
-  const { tgUserName, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
+  const { tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
 
   return (
     <div className="header-user">
@@ -31,7 +31,7 @@ export default function HeaderUser() {
               description: "inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap text-medium"
             }}
             name={`${tgFirstName} ${tgLastName}`}
-            description={!!tgUserName?.length && `@${tgUserName}`}
+            description={!!tgUsername?.length && `@${tgUsername}`}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">

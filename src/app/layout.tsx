@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Providers } from "@/components/Providers/Providers";
 import { TWARoot } from "@/components/TWA/TWARoot";
 import { getAuthUser } from "./auth/session";
-import localFont from "next/font/local";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import LayoutLoader from "@/components/Common/LayoutLoader";
+import localFont from "next/font/local";
 import "@/css/globals.scss";
-
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -41,17 +39,15 @@ export default async function RootLayout({
             userData={user}
             themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
           >
-            <LayoutLoader>
-              <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
-                <Header />
-                
-                <main className="layout-content">
-                  {children}
-                </main>
+            <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
+              <Header />
+              
+              <main className="layout-content">
+                {children}
+              </main>
 
-                <Footer />
-              </div>
-            </LayoutLoader>
+              <Footer />
+            </div>
           </Providers>
         </TWARoot>
       </body>

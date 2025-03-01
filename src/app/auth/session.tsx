@@ -70,6 +70,7 @@ export async function getSession() {
 }
 
 export async function deleteSession() {
+  console.log('deleteSession');
   cookies().delete('session');
 }
 

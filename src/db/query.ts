@@ -72,7 +72,7 @@ export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) 
 }
 
 export async function fetchUserById(id: number) {
-  console.log('fetchUserByTgId');
+  console.log('fetchUserById');
   try {
     const data = await db.query.users.findFirst({ where: eq(schema.users.id, id) });
 
