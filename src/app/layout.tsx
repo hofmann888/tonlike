@@ -18,9 +18,11 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = { // TODO: icon
   title: "TonLike",
+  applicationName: "TonLike",
   description: "TonLike is a mini app in Telegram for promoting social media.",
+  icons: "/img/logo-circle.png",
 };
 
 export default async function RootLayout({
