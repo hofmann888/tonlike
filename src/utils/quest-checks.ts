@@ -107,7 +107,7 @@ export async function checkQuestDone(questId: number, userId: number, daily: boo
 export async function checkDailyAnyTaskDone(userId: number) {
   console.log('checkDailyAnyTaskDone');
   const taskEarning = await fetchTaskEarningLastDoneByUserId(userId);
-  const check = checkDailyDone(taskEarning.createdAt);
+  const check = checkDailyDone(taskEarning?.createdAt);
  
   return check;
 }
