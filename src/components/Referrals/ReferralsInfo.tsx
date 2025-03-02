@@ -1,9 +1,9 @@
 'use client'
 
 import { Card, CardHeader, CardBody } from "@heroui/card";
+import { ClaimReferralEarnings } from "@/core/actions";
 import { Button } from "@heroui/button";
 import { useState } from "react";
-import { claimReferralEarnings } from "@/core/actions";
 import CoinValue from "../Common/CoinValue";
 
 export default function ReferralsInfo({ 
@@ -20,7 +20,7 @@ export default function ReferralsInfo({
     setLoading(true);
     !!error.length && setError('');
 
-    const result = await claimReferralEarnings();
+    const result = await ClaimReferralEarnings();
     if (result?.message.length) {
       setError(result.message);
     }

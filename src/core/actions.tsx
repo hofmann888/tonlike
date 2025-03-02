@@ -4,11 +4,12 @@ import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser,
 import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
 import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache'; 
-import { sql } from 'drizzle-orm';
-import { formatLink } from '@/utils/helpers';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
+import { formatLink } from '@/utils/helpers';
+import { revalidatePath } from 'next/cache'; 
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { sql } from 'drizzle-orm';
 
 // TODO?: rename form-actions
 
@@ -321,8 +322,8 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
   }
 }
 
-export async function claimReferralEarnings() {
-  console.log('claimReferralEarnings');
+export async function ClaimReferralEarnings() {
+  console.log('ClaimReferralEarnings');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -349,6 +350,20 @@ export async function claimReferralEarnings() {
 
   revalidatePath('/referrals');
   redirect('/referrals');
+}
+
+export async function HideEarnWaning(dontShow: boolean = false) {
+  console.log('HideEarnWaning');
+  const expiresIn = dontShow ? 365 * 24 * 60 * 60 : 24 * 60 * 60;
+  const expires = Date.now() + expiresIn * 1000; 
+
+  cookies().set({ 
+    name: 'earnWarningHide',
+    value: '1',
+    sameSite: 'none',
+    secure: true,
+    expires: expires,
+  });
 }
 
 // export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {

@@ -50,7 +50,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onHideClick={() => hideClick(task.id)} 
           onReportClick={() => reportClick(task.id)} 
         />
-      )) : <p className="text-center text-large mt-4">No tasks found.</p>}
+      )) : <p className="text-center text-medium mt-4">No tasks found.</p>}
 
       <EarnTaskReportModal 
         taskId={modalTaskId} 

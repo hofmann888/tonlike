@@ -4,11 +4,13 @@ import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest } from "@/lib/d
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
 import { getAuthUser } from "@/app/auth/session";
+import { cookies } from "next/headers";
 import EarnTabs from "@/components/Earn/EarnTabs";
 import PageLoader from "@/components/Common/PageLoader";
 import TasksFilter from "@/components/Tasks/TasksFilter";
 import EarnTaskList from "@/components/Earn/EarnTaskList";
 import EarnQuestList from "@/components/Earn/EarnQuestList";
+import EarnWaringModal from "@/components/Earn/EarnWarningModal";
 
 export default async function EarnPage({
   searchParams
@@ -48,6 +50,8 @@ export default async function EarnPage({
     tasksFiltered = tasksSort(tasksFiltered, sortParam as string);
   }
 
+  const earnWarningShow = !cookies().get('earnWarningHide')?.value;
+
   return (
     <div className="earn-page pb-5">
 
@@ -61,6 +65,8 @@ export default async function EarnPage({
           <EarnTaskList tasks={tasksFiltered} />
         </>
       }
+
+      {earnWarningShow && <EarnWaringModal />}
     </div>
   )
 }
