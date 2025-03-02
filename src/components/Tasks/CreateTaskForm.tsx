@@ -1,25 +1,30 @@
 'use client'
 
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { type SliderValue, Slider } from "@heroui/slider";
 import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 import { Avatar } from "@heroui/avatar";
+import { Alert } from "@heroui/alert";
 import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
-import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
-import { useUser } from "@/hooks/useUser";
-import { CreateTaskFormSubmit } from "@/core/actions";
 import { CreateTaskFormState, Service } from "@/lib/definitions";
+import { CreateTaskFormSubmit } from "@/core/actions";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import { useUser } from "@/hooks/useUser";
+import TgSubscribeActionMessage from "@/components/Messages/TgSubscribeActionMessage";
+import TgBoostActionMessage from "@/components/Messages/TgBoostActionMessage";
 import SubmitButton from "@/components/Forms/SubmitButton";
-import CoinIcon from "../Common/CoinIcon";
-
+import CoinIcon from "@/components/Common/CoinIcon";
 
 // TODO: format + validation (numbers float, link) +-
 // TODO: link placeholders map
 // TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
-
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  
   const [serviceActionId, setServiceActionId] = useState('0');
   const [serviceId, setServiceId] = useState('3');
   const [service, setService] = useState(services[0]);
@@ -27,6 +32,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   const [price, setPrice] = useState(1);
   const [count, setCount] = useState<SliderValue>(10);
   const [sum, setSum] = useState(0);
+  const [alert, setAlert] = useState<React.JSX.Element|null>(null);
   
   const maxCount = price ? Math.floor(balance / Number(price)) : 10;
   const submitContent = <div className="flex items-center">Create (<CoinIcon className="inline" />{sum})</div>;
@@ -42,6 +48,17 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   }, [serviceId]);
 
   useEffect(() => {
+    switch (serviceActionId) { // TODO: refactor - check by name
+      case '16':
+        setAlert(<TgSubscribeActionMessage />); break;
+      case '17':
+        setAlert(<TgBoostActionMessage />); break;
+      default:
+        setAlert(null); break;
+    }
+  }, [serviceActionId]);
+
+  useEffect(() => {
     setLink('');
   }, [serviceId, serviceActionId]);
 
@@ -55,8 +72,30 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
     }
   }, [sum]);
 
+  // TODO?: move modal to separate component
   return (
     <Form action={formAction}>
+      {!!alert && 
+        <Alert 
+          color="primary" 
+          title={
+            <>
+              <p>This task requires additional steps for verification.</p>
+              <Button 
+                color="primary" 
+                variant="light"
+                className="h-auto min-w-fit p-0 data-[hover=true]:bg-tranparent"
+                onPress={onOpen}
+                disableRipple
+                disableAnimation
+              >
+                Learn More
+              </Button>
+            </>
+          } 
+        /> 
+      }
+
       <Select
         name="serviceId"
         label="Service"
@@ -230,6 +269,25 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </div>
 
       <SubmitButton content={submitContent} disabled={!sum || sum > balance} className="mt-4" />
+
+
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Alert</ModalHeader>
+              <ModalBody>
+                {alert}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </Form>
   )
 }
