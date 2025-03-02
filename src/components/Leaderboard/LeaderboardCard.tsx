@@ -7,8 +7,8 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
   return (
     <Card  isBlurred className="border-none bg-background/60 dark:bg-default-100/50 mt-1">
       <CardBody className="flex flex-row justify-between items-center py-2">
-        <div className="flex items-center">
-          <span className="text-small inline-block w-[20px] text-center mr-4">
+        <div className="flex items-center w-3/4 max-[350px]:w-2/3">
+          <span className="text-small inline-block w-[25px] text-center mr-4">
             {item.position === 1 && <span className="text-xl">🥇</span>}
             {item.position === 2 && <span className="text-xl">🥈</span>}
             {item.position === 3 && <span className="text-xl">🥉</span>} 
@@ -22,7 +22,15 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
               size: 'sm',
             }}
             className="justify-start"
-            name={!!item.tgUsername?.length ? `@${item.tgUsername}` : '???'}
+            classNames={{ 
+              base: "w-[80%]",
+              wrapper: "w-[70%]",
+              name: "w-full"
+            }}
+            name={!!item.tgUsername?.length 
+              ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{item.tgUsername}</span>
+              : '???'
+            }
             // description={<CoinValue value={user.balance} className="text-tiny text-primary-500" />}
           />
         </div>
@@ -43,7 +51,9 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
           {idx > 2 && `#${idx + 1}`}
         </span> */}
 
-        <div className="w-1/6 text-right text-small text-primary-500"> <CoinValue value={item.balance} /></div>
+        <div className="w-1/4 max-[350px]:w-1/3 text-right text-small text-primary-500"> 
+          <CoinValue value={item.balance} />
+        </div>
       </CardBody>
     </Card>
   )

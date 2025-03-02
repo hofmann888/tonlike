@@ -24,7 +24,7 @@ export default async function LeaderboardPage() {
   }
 
   return (
-    <div className="py-5 px-2">
+    <div className="py-5 px-2 max-w-[100vw]">
       <div className="mb-10">
         <p className="text-medium">You:</p>
         {/* <Chip color="primary" variant="dot" className="mb-2">Your position:</Chip> */}
