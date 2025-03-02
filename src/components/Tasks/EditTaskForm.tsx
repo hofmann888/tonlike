@@ -26,6 +26,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
   const sum = task.price * (task.count - doneCount) + doneSum;
   const reserve = Number(balance) + sum - doneSum;
   const maxCount = price ? Math.floor(reserve / Number(price) + doneCount) : 10;
+  const coin = process.env.NEXT_PUBLIC_COIN_SYMBOL;
 
   const initialState: EditTaskFormState = { errors: {}, message: null };
   const action = EditTaskFormSubmit.bind(null, task.id);
@@ -56,7 +57,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           type="number"
           placeholder="0"
           variant="bordered"
-          className="mr-2 w-3/4 max-[400px]:w-2/3"
+          className="mr-2 w-3/4 max-[410px]:w-2/3"
           min={1}
           step={1}
           value={`${price}`}
@@ -79,13 +80,13 @@ export default function EditTaskForm({ task }: { task: Task }) {
           name="currency" 
           label="Currency" 
           variant="bordered" 
-          className="w-1/4 max-[400px]:w-1/3"
+          className="w-1/4 max-[410px]:w-1/3"
           disallowEmptySelection
           selectedKeys={['coin']}
           isDisabled
         >
           <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
-            COIN
+            {`$${coin}`}
           </SelectItem>
         </Select>
       </div>  

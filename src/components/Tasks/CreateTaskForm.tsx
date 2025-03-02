@@ -23,7 +23,7 @@ import CoinIcon from "@/components/Common/CoinIcon";
 // TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
   const { balance } = useUser();
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   
   const [serviceActionId, setServiceActionId] = useState('0');
   const [serviceId, setServiceId] = useState('3');
@@ -35,6 +35,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   const [alert, setAlert] = useState<React.JSX.Element|null>(null);
   
   const maxCount = price ? Math.floor(balance / Number(price)) : 10;
+  const coin = process.env.NEXT_PUBLIC_COIN_SYMBOL;
 
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
@@ -180,7 +181,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           type="number"
           placeholder="0"
           variant="bordered"
-          className="w-3/4 mr-2 max-[374px]:w-2/3"
+          className="w-3/4 mr-2 max-[390px]:w-2/3"
           min={1}
           step={1}
           value={`${price}`}
@@ -203,13 +204,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           name="currency" 
           label="Currency" 
           variant="bordered" 
-          className="w-1/4 max-[374px]:w-1/3"
+          className="w-1/4 max-[390px]:w-1/3"
           selectedKeys={['coin']}
           isDisabled
           disallowEmptySelection
         >
           <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
-            COIN
+            {`$${coin}`}
           </SelectItem>
         </Select>
       </div>
