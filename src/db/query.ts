@@ -509,7 +509,7 @@ export async function fetchEarnTasksByUserId(userId: number) {
           isNull(schema.blackList.id),
         )
       )
-      .orderBy(desc(schema.tasks.createdAt))
+      .orderBy(desc(schema.tasks.price))
     ;
 
     return data as Task[];
