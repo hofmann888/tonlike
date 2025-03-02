@@ -5,13 +5,13 @@ import { Button } from "@heroui/button";
 import { ReactNode } from 'react';
 
 export default function SubmitButton({ 
-  disabled = false, size = 'lg', variant = 'shadow', className, content
+  disabled = false, size = 'lg', variant = 'shadow', className, children
 }: { 
   disabled?: boolean, 
   size?: 'sm' | 'md' | 'lg',
   variant?: "shadow" | "solid" | "bordered" | "light" | "flat" | "faded" | "ghost",
   className?: string 
-  content: string | ReactNode, 
+  children: ReactNode, 
 }) {
   const { pending } = useFormStatus();
 
@@ -26,7 +26,7 @@ export default function SubmitButton({
       isDisabled={disabled || pending}
       aria-label="Submit"
     >
-      {content}
+      {children}
     </Button>
   );
 }

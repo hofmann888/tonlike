@@ -15,7 +15,7 @@ import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import TgSubscribeActionMessage from "@/components/Messages/TgSubscribeActionMessage";
 import TgBoostActionMessage from "@/components/Messages/TgBoostActionMessage";
-import SubmitButton from "@/components/Forms/SubmitButton";
+import SubmitButton from "@/components/Common/SubmitButton";
 import CoinIcon from "@/components/Common/CoinIcon";
 
 // TODO: format + validation (numbers float, link) +-
@@ -35,7 +35,6 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
   const [alert, setAlert] = useState<React.JSX.Element|null>(null);
   
   const maxCount = price ? Math.floor(balance / Number(price)) : 10;
-  const submitContent = <div className="flex items-center">Create (<CoinIcon className="inline" />{sum})</div>;
 
   const initialState: CreateTaskFormState = { errors: {}, message: null };
   const [state, formAction] = useFormState(CreateTaskFormSubmit, initialState);
@@ -77,7 +76,8 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
     <Form action={formAction}>
       {!!alert && 
         <Alert 
-          color="primary" 
+          color="primary"
+          className="px-3 gap-0"
           title={
             <>
               <p>This task requires additional steps for verification.</p>
@@ -268,7 +268,9 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         }
       </div>
 
-      <SubmitButton content={submitContent} disabled={!sum || sum > balance} className="mt-4" />
+      <SubmitButton disabled={!sum || sum > balance} className="mt-4">
+        <div className="flex items-center">Create (<CoinIcon className="inline" />{sum})</div>
+      </SubmitButton>
 
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

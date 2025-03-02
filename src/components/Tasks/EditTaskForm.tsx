@@ -7,9 +7,9 @@ import { EditTaskFormSubmit } from "@/core/actions";
 import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
-import SubmitButton from "../Forms/SubmitButton";
-import CoinValue from "../Common/CoinValue";
-import CoinIcon from "../Common/CoinIcon";
+import SubmitButton from "@/components/Common/SubmitButton";
+import CoinValue from "@/components/Common/CoinValue";
+import CoinIcon from "@/components/Common/CoinIcon";
 
 // TODO: check if count < done on price change
 export default function EditTaskForm({ task }: { task: Task }) {
@@ -144,7 +144,9 @@ export default function EditTaskForm({ task }: { task: Task }) {
         }
       </div>
 
-      <SubmitButton content="Update" disabled={!newSum || newSum - doneSum > reserve} size="md" variant="flat" className="mt-2" />
+      <SubmitButton disabled={!newSum || newSum - doneSum > reserve} size="md" variant="flat" className="mt-2">
+        Update
+      </SubmitButton>
     </Form>
   )
 }

@@ -1,4 +1,4 @@
-import TgLinkButton from "../Common/TgLinkButton";
+import TgLinkButton from "@/components/Common/TgLinkButton";
 
 export default function TgSubscribeActionMessage() {
   const bot = process.env.NEXT_PUBLIC_TG_BOT_NAME as string;
@@ -7,7 +7,7 @@ export default function TgSubscribeActionMessage() {
   return (
     <p className="text-medium">
       In order for us to verify the completion of the task for the channel, you need to add our bot 
-      <TgLinkButton link={botLink} text={`@${bot}`} className="mx-1" /> 
+      <TgLinkButton link={botLink} className="mx-1 text-medium">@{bot}</TgLinkButton> 
       as an administrator of the channel (this does not apply to groups).
       <br /><br />
       You can still create a task without this action. 

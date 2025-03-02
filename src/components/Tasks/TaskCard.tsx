@@ -13,10 +13,10 @@ import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { GetTaskPerformers } from "@/core/actions";
 import { FiExternalLink } from "react-icons/fi";
-import { tgOpenLink } from "@/utils/helpers";
 import { useState } from "react";
+import TgLinkButton from "@/components/Common/TgLinkButton";
+import CoinValue from "@/components/Common/CoinValue";
 import TaskPerformersList from "./TaskPerformersList";
-import CoinValue from "../Common/CoinValue";
 import EditTaskForm from "./EditTaskForm";
 
 export default function TaskCard({
@@ -76,17 +76,12 @@ export default function TaskCard({
             alt={task.service?.title}
           />
           <div className="flex flex-col max-w-[70%]">
-            <Button 
-              color="primary" 
-              variant="light" 
-              className="p-0 h-auto gap-0 data-[hover=true]:bg-tranparent"
+            <TgLinkButton 
+              link={task.link}
               endContent={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
-              onPress={() => tgOpenLink(task.link)}
-              disableRipple
-              disableAnimation
             >
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
-            </Button>
+            </TgLinkButton>
 
             <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
           </div>
