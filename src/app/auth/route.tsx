@@ -1,8 +1,9 @@
 'use server'
 
+import { createUser, updateUser, fetchUserByTgId } from '@/db/query';
 import { deleteSession, getSession, setSession } from './session';
 import { validate, parse } from '@telegram-apps/init-data-node';
-import { createUser, updateUser, fetchUserByTgId } from '@/db/query';
+import { AppEnv, AppEnvEnum } from '@/lib/definitions';
 import { headers } from 'next/headers';
 
 export async function POST() {
@@ -17,7 +18,7 @@ export async function POST() {
       throw Error('Bad request: missing authData or token');
     }
 
-    if (['production', 'test'].includes(process.env.NEXT_PUBLIC_APP_ENV as string)) {
+    if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv)) {
       const expiresIn = parseInt(process.env.SESSION_TIME as string);
       validate(authData, token, {
         expiresIn: expiresIn, // TODO?: coockie expires && validate expiresIn?
@@ -27,7 +28,7 @@ export async function POST() {
     const initData = parse(authData);
     console.log('post auth parsed initData:', initData);
     if (!initData?.user?.id) {
-      throw Error('Undefined tg user!');
+      throw Error('Undefined Telegram User.');
     }
     const tgUsername = initData.user.username ?? null;
     const tgPhotoUrl = initData.user.photoUrl ?? null;

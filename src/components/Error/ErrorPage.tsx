@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Button } from '@heroui/button';
+import { AppEnv, AppEnvEnum } from '@/lib/definitions';
 
 export function ErrorPage({
   error,
@@ -12,13 +13,13 @@ export function ErrorPage({
     console.error(error);
   }, [error]);
 
-  const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string;
+  const appEnv = process.env.NEXT_PUBLIC_APP_ENV as AppEnv; 
 
   return (
     <div className="py-5 px-2 flex flex-col justify-center items-center h-[100vh]">
       <h2>Something went wrong...</h2>
 
-      {appEnv !== 'production' && 
+      {appEnv !== AppEnvEnum.PROD && // TODO?: AppEnvEnum.STAGE?
         <p className="text-danger text-medium mt-1">
           <code>
             {error.message}

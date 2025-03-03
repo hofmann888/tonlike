@@ -371,3 +371,11 @@ export type LeaderboardItem = { // TODO?: id?
   tgPhotoUrl: string | null,
   tgUsername: string | null,
 }
+
+export enum AppEnvEnum {
+  LOCAL = 'local',
+  DEV = 'development',
+  STAGE = 'stage',
+  PROD = 'production',
+}
+export type AppEnv =  AppEnvEnum.LOCAL | AppEnvEnum.DEV | AppEnvEnum.STAGE | AppEnvEnum.PROD;
