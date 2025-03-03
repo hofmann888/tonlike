@@ -8,6 +8,7 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { useTelegramMock } from '@/hooks/useTelegramMock';
 import { useClientOnce } from '@/hooks/useClientOnce';
 import { useDidMount } from '@/hooks/useDidMount';
+import { getEnvBoolean } from '@/utils/helpers';
 import { init } from '@/core/init';
 // import { setLocale } from '@/core/i18n/locale'; // TODO: localization
 import {
@@ -29,7 +30,7 @@ function RootInner({ children }: PropsWithChildren) {
   }
 
   const lp = useLaunchParams();
-  const debug = !!process.env.NEXT_PUBLIC_APP_DEBUG;
+  const debug = getEnvBoolean(process.env.NEXT_PUBLIC_APP_DEBUG);
 
   // Initialize the library.
   useClientOnce(() => {

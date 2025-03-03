@@ -91,3 +91,7 @@ export function formatLink(str: string, serviceName: ServiceName, format: 'link'
 
   return str;
 }
+
+export function getEnvBoolean(value?: string) {
+  return (value?.length && ['true', '1'].includes(value.toLowerCase())) as boolean;
+}
