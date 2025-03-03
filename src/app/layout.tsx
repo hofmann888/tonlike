@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/Providers/Providers";
 import { TWARoot } from "@/components/TWA/TWARoot";
+import { getEnvBoolean } from "@/utils/helpers";
 import { getAuthUser } from "./auth/session";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import localFont from "next/font/local";
 import "@/css/globals.scss";
+import Maintenance from "@/components/Common/Maintenance";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -32,6 +34,10 @@ export default async function RootLayout({
 }>) {
   const user = await getAuthUser(); // TODO?: from db?
   const defaultTheme = 'dark';
+
+  if (getEnvBoolean(process.env.MAINTENANCE_MODE)) {
+    return <Maintenance />;
+  }
 
   return (
     <html lang="en" className={defaultTheme}>

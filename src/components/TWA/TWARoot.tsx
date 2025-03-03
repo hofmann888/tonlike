@@ -12,12 +12,12 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { useDidMount } from '@/hooks/useDidMount';
 import { getEnvBoolean } from '@/utils/helpers';
 import { init } from '@/core/init';
-import PageLoader from '@/components/Common/PageLoader';
+import LayoutLoader from "@/components/Common/LayoutLoader";
 // import { setLocale } from '@/core/i18n/locale'; // TODO: localization
 
 const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json'; // TODO!: edit
 
-function RootInner({ children }: PropsWithChildren) {
+function RootInner({ children }: PropsWithChildren) { // TODO?: move under Providers?
   const useMock = [AppEnvEnum.LOCAL, AppEnvEnum.DEV].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv);
   if (useMock) {
     useTelegramMock(); // TODO: eslint-disable-next-line react-hooks/rules-of-hooks
@@ -55,9 +55,10 @@ export function TWARoot(props: PropsWithChildren) {
   // That's why we are showing loader on the server side.
   const didMount = useDidMount();
 
-  return didMount ? (
-    <ErrorBoundary fallback={ErrorPage}>
-      <RootInner {...props}/>
-    </ErrorBoundary>
-  ) : <div className="h-[100vh]"><PageLoader /></div>;
+  return !didMount 
+    ? <LayoutLoader />
+    : 
+      <ErrorBoundary fallback={ErrorPage}>
+        <RootInner {...props}/>
+      </ErrorBoundary>
 }
