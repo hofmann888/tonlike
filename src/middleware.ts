@@ -1,10 +1,13 @@
-import { NextRequest } from "next/server";
-// import { updateSession } from "@/app/auth/session";
+import { NextRequest, NextResponse } from "next/server";
+import { AppEnvEnum } from "./lib/definitions";
 
-// TODO: runs to many times on one request
-//        probably because of img, ico... GET requests, so I need to restrict them
-export async function middleware(request: NextRequest) { // TODO: do i need this?
-  // console.log('middleware');
-  // return await updateSession(request); // TODO: caches and do not update session expire time
+export async function middleware(request: NextRequest) {
+  console.log('middleware');
+
+  const pathname = request.nextUrl.pathname;
+  console.log('pathname', pathname);
+  
+  if (pathname === '/' && process.env.NEXT_PUBLIC_APP_ENV === AppEnvEnum.PROD) {
+    return NextResponse.redirect(new URL('/earn', request.url));
+  }
 }
-// test
