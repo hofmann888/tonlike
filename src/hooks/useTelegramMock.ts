@@ -36,7 +36,7 @@ export function useTelegramMock(): void {
         })],
         ['hash', '89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31'],
         ['auth_date', '1716922846'],
-        ['start_param', 'debug'],
+        ['start_param', 'test'],
         ['chat_type', 'sender'],
         ['chat_instance', '8428209589180549439'],
         ['signature', '6fbdaab833d39f54518bd5c3eb3f511d035e68cb'],

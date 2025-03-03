@@ -17,7 +17,7 @@ import {
   useSignal,
 } from '@telegram-apps/sdk-react';
 
-const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json';
+const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json'; // TODO!: edit
 
 function RootInner({ children }: PropsWithChildren) {
   console.log('process.env.NEXT_PUBLIC_APP_ENV', process.env.NEXT_PUBLIC_APP_ENV);
@@ -29,7 +29,7 @@ function RootInner({ children }: PropsWithChildren) {
   }
 
   const lp = useLaunchParams();
-  const debug = !!process.env.NEXT_PUBLIC_APP_DEBUG || lp.startParam === 'debug';
+  const debug = !!process.env.NEXT_PUBLIC_APP_DEBUG;
 
   // Initialize the library.
   useClientOnce(() => {
