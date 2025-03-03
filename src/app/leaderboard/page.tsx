@@ -26,11 +26,11 @@ export default async function LeaderboardPage() {
   return (
     <div className="py-5 px-2 max-w-[100vw]">
       <div className="mb-8">
-        <Chip color="primary" variant="dot" className="mb-2 border-none">You:</Chip>
+        <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">You:</Chip>
         <LeaderboardCard item={userLeaderboardItem} />
       </div>
 
-      <Chip color="primary" variant="dot" className="mb-2 border-none">Top 10:</Chip>
+      <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">Top 10:</Chip>
       {leaderboard.map((item, idx) => (
         <LeaderboardCard key={idx} item={item} />
       ))}
