@@ -15,7 +15,7 @@ export function ErrorPage({
   const appEnv = process.env.NEXT_PUBLIC_APP_ENV as string;
 
   return (
-    <div className="py-5 px-2 flex flex-col justify-center items-center h-full">
+    <div className="py-5 px-2 flex flex-col justify-center items-center h-[100vh]">
       <h2>Something went wrong...</h2>
 
       {appEnv !== 'production' && 
