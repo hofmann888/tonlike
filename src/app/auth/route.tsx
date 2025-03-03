@@ -35,8 +35,9 @@ export async function POST() {
     let user = await fetchUserByTgId(initData.user.id);
     if (!user) { 
       let reffererId = null;
-      if (initData.startParam?.length && initData.startParam !== 'debug') {
-        const referrer = await fetchUserByTgId(initData.startParam as any as number); // TODO!: if startParam not number -> inifinite auth request loop
+      const startParam = initData?.startParam;
+      if (startParam?.length && startParam.match(/^\d+$/)) {
+        const referrer = await fetchUserByTgId(startParam as any as number);
         if (referrer?.id) {
           reffererId = referrer.id;
         }
