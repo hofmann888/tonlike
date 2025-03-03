@@ -164,7 +164,7 @@ export async function fetchUserReferralsTaskEarningsSum(userId: number, today: b
   }
 }
 
-export async function fetchLeaderboard() {
+export async function fetchLeaderboard(limit: number) {
   console.log('fetchLeaderboard');
   try {
     const data = await db.select({ 
@@ -174,7 +174,7 @@ export async function fetchLeaderboard() {
       tgPhotoUrl: schema.users.tgPhotoUrl,
     })
     .from(schema.users)
-    .limit(100);
+    .limit(limit);
 
     return data as LeaderboardItem[];
   } catch (error) {

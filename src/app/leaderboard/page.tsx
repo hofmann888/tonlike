@@ -1,6 +1,6 @@
 'use server'
 
-// import { Chip } from "@heroui/chip";
+import { Chip } from "@heroui/chip";
 import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
 import { getAuthUser } from "@/app/auth/session";
@@ -12,7 +12,7 @@ export default async function LeaderboardPage() {
   if (!user) return (<PageLoader />);
 
   const [leaderboard, userPosition] = await Promise.all([
-    fetchLeaderboard(),
+    fetchLeaderboard(10),
     fetchLeaderboardPositionByUserId(user.id), // TODO?: fetch item?
   ]);
 
@@ -25,14 +25,12 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="py-5 px-2 max-w-[100vw]">
-      <div className="mb-10">
-        <p className="text-medium">You:</p>
-        {/* <Chip color="primary" variant="dot" className="mb-2">Your position:</Chip> */}
+      <div className="mb-8">
+        <Chip color="primary" variant="dot" className="mb-2 border-none">You:</Chip>
         <LeaderboardCard item={userLeaderboardItem} />
       </div>
 
-      <p className="text-medium">Top 100:</p>
-      {/* <Chip color="primary" variant="dot" className="mb-2">Top 100:</Chip> */}
+      <Chip color="primary" variant="dot" className="mb-2 border-none">Top 10:</Chip>
       {leaderboard.map((item, idx) => (
         <LeaderboardCard key={idx} item={item} />
       ))}
