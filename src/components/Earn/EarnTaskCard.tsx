@@ -39,9 +39,9 @@ export default function EarnTaskCard({
 
     const result = await checkTask(task.id);
     const toast = {
-      color: result.success ? "success" : "danger",
-      title: result.success ? "Success." : "Something went wrong.",
-      description: result.message,
+      color: result?.success ? "success" : "danger",
+      title: result?.success ? "Success." : "Something went wrong.",
+      description: result?.message,
     };
 
     addToast(toast as ToastProps);
