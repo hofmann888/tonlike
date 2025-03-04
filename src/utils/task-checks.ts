@@ -63,14 +63,14 @@ export async function earnOnTask(task: Task, user: User) {
 
 export async function checkTgSubscribe(tgId: number, channel: string) { // TODO?: add common method checkTg(tgId, channel, action)?
   const data: any = await tgCheckMembershipRequest(tgId, channel);
-  const check = !data?.success || data?.result;
+  const check = !data?.success || !!data?.result;
   
   return check;
 }
 
 export async function checkTgBoost(tgId: number, channel: string) {
   const data: any = await tgCheckBoostRequest(tgId, channel);
-  const check = !data?.success || data?.result;
+  const check = !data?.success || !!data?.result;
   
   return check;
 }
