@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { User } from "@/lib/definitions";
 import LayoutLoader from "../Common/LayoutLoader";
 
-
 export const UserContext = createContext({
   isAuth: false,
   user: {} as User,
@@ -20,12 +19,11 @@ export default function UserProvider({
 }: {
   children: React.ReactNode, userData: User
 }) {
-  console.log('UserProvider userData:', userData);
   const router = useRouter();
   const [user, setUser] = useState(userData);
   const [isAuth, setIsAuth] = useState(!!userData?.id);
-  const [isPending, setIsPending] = useState(false); // TODO?: useTransition (error: can't use while render...)
-  const { initData, initDataRaw } = retrieveLaunchParams(); // TODO: TypedError: Unable to retrieve launch parameters from any known source. Perhaps, you have opened your app outside Telegram?
+  const [isPending, setIsPending] = useState(false); // TODO?: useTransition # Error: can't use while render...
+  const { initData, initDataRaw } = retrieveLaunchParams();
   
   if (isAuth && user?.tgId !== initData?.user?.id) {
     deleteSession();
@@ -66,8 +64,6 @@ export default function UserProvider({
     setIsAuth(true);
     setIsPending(false);
   }
-
-  console.log('UserProvider user:', user);  
 
   return !isAuth
     ? <LayoutLoader />

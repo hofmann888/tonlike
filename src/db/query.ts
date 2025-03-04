@@ -10,14 +10,11 @@ import * as schema from './schema';
 import * as dto from './dto';
 
 // TODO: errors
-// ? Failed to (fetch|update|insert|delete data) | (execute query)
-// ? dto -> ...Data
-
-// !? split comlicated queries to separate and execute the in parallel Promise.all() # zatestil: odnohuistvenno po time
+// TODO?: Failed to (fetch|update|insert|delete data) | (execute query)
+// TODO?: dto -> ...Data
 
 // ------------ USERS ------------
 export async function createUser(dto: dto.UserInsertDTO) {
-  console.log('createUser');
   try {
     const data = await db
       .insert(schema.users)
@@ -42,13 +39,11 @@ function updateUserQuery(id: number, dto: dto.UserUpdateDto) {
 }
 
 export async function updateUser(id: number, dto: dto.UserUpdateDto) {
-  console.log('updateUser');
-
   try {
     const [data] = await updateUserQuery(id, dto);
 
     if (!data) {
-      throw new Error('Wrong user ID!');
+      throw new Error('Wrong user ID.');
     }
 
     return data as User;
@@ -59,8 +54,8 @@ export async function updateUser(id: number, dto: dto.UserUpdateDto) {
 }
 
 export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) { // TODO?: move to session? or just update user with param?
-  console.log('updateUserWithSession');
   try {
+    // TODO?: tx?
     const user = await updateUser(id, dto);
     await setSession(user);
     
@@ -72,7 +67,6 @@ export async function updateUserWithSession(id: number, dto: dto.UserUpdateDto) 
 }
 
 export async function fetchUserById(id: number) {
-  console.log('fetchUserById');
   try {
     const data = await db.query.users.findFirst({ where: eq(schema.users.id, id) });
 
@@ -84,7 +78,6 @@ export async function fetchUserById(id: number) {
 }
 
 export async function fetchUserByTgId(tgId: number) {
-  console.log('fetchUserByTgId');
   try {
     const data = await db.query.users.findFirst({ where: eq(schema.users.tgId, tgId) });
 
@@ -96,7 +89,6 @@ export async function fetchUserByTgId(tgId: number) {
 }
 
 export async function fetchUserReferrals(userId: number) {
-  console.log('fetchUserReferrals');
   try {
     const data = await db
       .select({
@@ -126,7 +118,6 @@ export async function fetchUserReferrals(userId: number) {
 }
 
 export async function fetchUserReferralsCount(userId: number) {
-  console.log('fetchUserReferralsCount');
   try {
     const data = await db.$count(schema.users, eq(schema.users.referrerId, userId));
 
@@ -138,7 +129,6 @@ export async function fetchUserReferralsCount(userId: number) {
 }
 
 export async function fetchUserReferralsTaskEarningsSum(userId: number, today: boolean = false) {
-  console.log('fetchRefferalsTaskEarnings');
   try {
     const [data] = await db.select({
       sum: sum(schema.taskEarnings.profit).mapWith(Number)
@@ -165,10 +155,9 @@ export async function fetchUserReferralsTaskEarningsSum(userId: number, today: b
 }
 
 export async function fetchLeaderboard(limit: number) {
-  console.log('fetchLeaderboard');
   try {
     const data = await db.select({ 
-      position: sql<number>`row_number() over(order by balance desc)`.mapWith(Number).as('rn'),
+      position: sql<number>`row_number() over(order by balance desc)`.mapWith(Number),
       balance: schema.users.balance,
       tgUsername: schema.users.tgUsername,
       tgPhotoUrl: schema.users.tgPhotoUrl,
@@ -184,7 +173,6 @@ export async function fetchLeaderboard(limit: number) {
 }
 
 export async function fetchLeaderboardPositionByUserId(userId: number) {
-  console.log('fetchLeaderboardPositionByUserId');
   try {
     const sq = db.select({ 
       id: schema.users.id,
@@ -202,7 +190,6 @@ export async function fetchLeaderboardPositionByUserId(userId: number) {
 
 // ------------ ACTIONS ------------ 
 export async function fetchActions(active?: boolean) {
-  console.log('fetchActions');
   try {
     const data = await db.query.actions.findMany({ 
       orderBy: [asc(schema.actions.id)],
@@ -217,7 +204,6 @@ export async function fetchActions(active?: boolean) {
 }
 
 export async function fetchActionById(id: number) {
-  console.log('fetchActionById');
   try {
     const data = await db.query.actions.findFirst({ where: eq(schema.actions.id, id) });
 
@@ -230,7 +216,6 @@ export async function fetchActionById(id: number) {
 
 // ------------ SERVICES ------------ 
 export async function fetchServices(active?: boolean) {
-  console.log('fetchServices');
   try {
     const data = await db.query.services.findMany({ 
       orderBy: [asc(schema.services.id)],
@@ -245,7 +230,6 @@ export async function fetchServices(active?: boolean) {
 }
 
 export async function fetchServiceById(id: number) {
-  console.log('fetchServiceById');
   try {
     const data = await db.query.actions.findFirst({ where: eq(schema.services.id, id) });
 
@@ -256,10 +240,9 @@ export async function fetchServiceById(id: number) {
   }
 }
 
-export async function fetchServicesWithActions(active?: boolean) { // TODO: check if service.name !== app
-  console.log('fetchServicesWithActions');
+export async function fetchServicesWithActions(active?: boolean) {
   try {
-    const data = await db.query.services.findMany({ 
+    const data = await db.query.services.findMany({ // TODO: check if service.name !== app
       with: { 
         serviceActions: { 
           ...(active && { where: eq(schema.serviceActions.active, active) }),
@@ -289,7 +272,6 @@ export async function fetchServicesWithActions(active?: boolean) { // TODO: chec
 
 // ------------ SERVICE ACTIONS ------------ 
 export async function fetchServiceActionById(id: number, relations: schema.ServiceActionsRelation[]) {
-  console.log('fetchServiceActionById');
   try {
     let withObject: any;
     if (relations && relations.length) {
@@ -316,7 +298,6 @@ export async function fetchServiceActionById(id: number, relations: schema.Servi
 // TODO?: check deleted_at? (remove status 'deleted'?)
 
 export async function createTask(dto: dto.TaskInsertDTO, tx?: any) {
-  console.log('createTask');
   try {
     const con = tx ?? db;
     const data = await con.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id });
@@ -328,11 +309,8 @@ export async function createTask(dto: dto.TaskInsertDTO, tx?: any) {
   }
 }
 
-// TODO: ochen' ploho eto vse konechno...ept ne mogli norm mehanism transakcii pridumat'...cal prosoto...nu libo ya tupoi
-// kak to peredelat' eto karoche nado budet...
-// tx na paru sec dolshe
+// TODO?: refactor tx?
 export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
-  console.log('createTaskWithBalanceUpdate');
   try {
     const batch = await db.batch([
       db.insert(schema.tasks).values(dto).returning({ id: schema.tasks.id }),
@@ -359,7 +337,6 @@ function updateTaskQuery(id: number, dto: dto.TaskUpdateDTO) {
 }
 
 export async function updateTask(id: number, dto: dto.TaskUpdateDTO) {
-  console.log('updateTask');
   try {
     const [data] = await updateTaskQuery(id, dto);
 
@@ -370,9 +347,8 @@ export async function updateTask(id: number, dto: dto.TaskUpdateDTO) {
   }
 }
 
-// polniy bred...
+// TODO!: refactor!
 export async function updateTaskWithBalance(id: number, dto: dto.TaskUpdateDTO, userId: number, balance: number) {
-  console.log('updateTaskWithBalance');
   try {
     const batch = await db.batch([
       db.update(schema.tasks)
@@ -393,7 +369,6 @@ export async function updateTaskWithBalance(id: number, dto: dto.TaskUpdateDTO, 
 }
 
 export async function fetchTaskById(id: number, relations?: schema.TaskRelation[]) {
-  console.log('fetchTaskById');
   try {
     let withObject: any;
     if (relations && relations.length) {
@@ -416,7 +391,6 @@ export async function fetchTaskById(id: number, relations?: schema.TaskRelation[
 }
 
 export async function fetchTasksByUserId(userId: number) {
-  console.log('fetchTasksByUserId');
   try {
     const data = await db
       .select({
@@ -450,7 +424,6 @@ export async function fetchTasksByUserId(userId: number) {
 }
 
 export async function fetchTaskCountByUserId(userId: number) {
-  console.log('fetchDoneTaskCountByUserId');
   try {
     const data = await db.$count(schema.tasks, 
       and(
@@ -466,7 +439,6 @@ export async function fetchTaskCountByUserId(userId: number) {
 }
 
 export async function fetchEarnTasksByUserId(userId: number) {
-  console.log('fetchEarnTasksByUserId');
   try {
     const data = await db
       .select({
@@ -520,7 +492,6 @@ export async function fetchEarnTasksByUserId(userId: number) {
 }
 
 export async function fetchTaskPerformers(taskId: number) {
-  console.log('fetchTaskPerformers');
   try {
     const data = await db
       .select({
@@ -529,7 +500,7 @@ export async function fetchTaskPerformers(taskId: number) {
         tgPhotoUrl: schema.users.tgPhotoUrl,
         profit: schema.taskEarnings.profit,
         doneAt: schema.taskEarnings.createdAt,
-        isBlocked: sql`CASE WHEN black_list.id IS NOT NULL THEN TRUE ELSE FALSE END`.as('is_blocked'),
+        isBlocked: sql`CASE WHEN black_list.id IS NOT NULL THEN TRUE ELSE FALSE END`,
       })
       .from(schema.taskEarnings)
       .leftJoin(schema.users, eq(schema.users.id, schema.taskEarnings.userId))
@@ -555,7 +526,6 @@ export async function fetchTaskPerformers(taskId: number) {
 }
 
 export async function userHasTask(taskId: number, userId: number) {
-  console.log('userHasTask');
   try {
     const data = await db.query.tasks.findFirst({
       columns: { id: true },
@@ -570,17 +540,7 @@ export async function userHasTask(taskId: number, userId: number) {
 }
 
 export async function taskIsAvailableForUser(taskId: number, userId: number) {
-  console.log('taskIsAvailableForUser');
   try {
-    // TODO!?: split on defferent queries and execute Promise.all() ? # po vremeni odna huinya...hzhz...
-    // const [can, done, reported, blocked] = await Promise.all([
-    //   userCanTask(taskId, userId), 
-    //   userDoneTask(taskId, userId), 
-    //   userReportedTask(taskId, userId);
-    //   userInBlackList(taskUserId, userId)
-    // ]);
-    // return can && !done && !reported && !blocked;
-
     const data = await db
       .select({
         id: schema.tasks.id,
@@ -626,17 +586,17 @@ export async function taskIsAvailableForUser(taskId: number, userId: number) {
 }
 
 export async function isTaskExists(userId: number, serviceActionId: number, link: string) {
-  console.log('isTaskExists');
   try {
     const data = await db.query.tasks.findFirst({ 
       where: and(
         eq(schema.tasks.userId, userId),
         eq(schema.tasks.serviceActionId, serviceActionId),
         eq(schema.tasks.link, link),
-        inArray(schema.tasks.status, [TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED])
+        inArray(schema.tasks.status, [TaskStatusEnum.ACTIVE, TaskStatusEnum.PAUSED]) // TODO?: TaskStatusEnum.DONE
       ),
       columns: { id: true }
      });
+
      return !!data?.id;
   } catch (error) {
     console.error('Database Error:', error);
@@ -646,7 +606,6 @@ export async function isTaskExists(userId: number, serviceActionId: number, link
 
 // ------------ TASK EARNINGS ------------
 export async function createTaskEarning(dto: dto.TaskEarningInsertDTO) {
-  console.log('createTaskEarning');
   try {
     const data = await db
       .insert(schema.taskEarnings)
@@ -662,9 +621,7 @@ export async function createTaskEarning(dto: dto.TaskEarningInsertDTO) {
 }
 
 export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningInsertDTO, balance: number, done: boolean = false) { // TODO refactor balance recalculate logic
-  console.log('createTaskWithBalanceUpdate');
   try {
-
     const queries: any = [
       db.insert(schema.taskEarnings).values(dto).returning({ id: schema.questEarnings.id }),
       updateUserQuery(dto.userId, { balance: balance }),
@@ -677,7 +634,7 @@ export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningIns
     const batch = await db.batch(queries);
 
     return { 
-      takEarningId: batch[0][0].id, 
+      taskEarningId: batch[0][0].id, 
       updatedUser: batch[1][0] as User 
     };
   } catch (error ) {
@@ -686,8 +643,7 @@ export async function createTaskEarningWithBalanceUpdate(dto: dto.TaskEarningIns
   }
 }
 
-export async function hideTaskEarningForUser(userId: number, taskId: number) { // TODO?: isHidden?
-  console.log('hideUserEarning');
+export async function hideTaskEarningForUser(taskId: number, userId: number) { // TODO?: isHidden?
   try {
     const data = await db
       .insert(schema.taskEarnings)
@@ -703,7 +659,6 @@ export async function hideTaskEarningForUser(userId: number, taskId: number) { /
 }
 
 export async function fetchTaskEarningLastDoneByUserId(userId: number) {
-  console.log('fetchTaskEarningLastDoneByUserId');
   try {
     const data = await db.query.taskEarnings.findFirst({ 
       where: 
@@ -722,7 +677,6 @@ export async function fetchTaskEarningLastDoneByUserId(userId: number) {
 }
 
 export async function fetchTaskEarningDoneCountByUserId(userId: number) {
-  console.log('fetchTaskEarningDoneCountByUserId');
   try {
     const data = await db.$count(schema.taskEarnings, 
       and(
@@ -739,7 +693,6 @@ export async function fetchTaskEarningDoneCountByUserId(userId: number) {
 }
 
 export async function fetchTaskDoneCount(taskId: number) {
-  console.log('fetchTaskDoneCount');
   try {
     const data = await db.$count(schema.taskEarnings, 
       and(
@@ -756,7 +709,6 @@ export async function fetchTaskDoneCount(taskId: number) {
 }
 
 export async function fetchTaskDoneSum(taskId: number) {
-  console.log('fetchTaskSpentSum');
   try {
     const [data] = await db.select({
       sum: sum(schema.taskEarnings.profit).mapWith(Number)
@@ -778,7 +730,6 @@ export async function fetchTaskDoneSum(taskId: number) {
 
 // ------------ REPORTS ------------
 export async function createReport(dto: dto.ReportInsertDTO) {
-  console.log('createReport');
   try {
     const data = await db
       .insert(schema.reports)
@@ -795,7 +746,6 @@ export async function createReport(dto: dto.ReportInsertDTO) {
 
 // ------------ BLACK LIST ------------
 export async function fetchBlackListByUserId(userId: number) {
-  console.log('fetchBlackListByUserId');
   try {
     const data = await db.query.blackList.findMany({ 
       with: {
@@ -813,7 +763,6 @@ export async function fetchBlackListByUserId(userId: number) {
 }
 
 export async function addUserToBlackList(dto: dto.BlackListInsertDTO) { // TODO!?: limit on blocked users  
-  console.log('addUserToBlackList');
   try {
     const data = await db
       .insert(schema.blackList)
@@ -829,7 +778,6 @@ export async function addUserToBlackList(dto: dto.BlackListInsertDTO) { // TODO!
 }
 
 export async function removeUserFromBlackList(userId: number, blockedUserId: number) { // TODO?: deleted_at?
-  console.log('removeUserFromBlackList');
   try {
     const data = await db
       .delete(schema.blackList)
@@ -861,11 +809,8 @@ export async function userInBlackList(userId: number, blockedUserId: number) {
   return !!data?.id;
 }
 
-
-
 // ------------ QUESTS ------------
 export async function fetchQuestById(id: number, relations?: schema.QuestRealation[]) {
-  console.log('fetchQuestById');
   try {
     let withObject: any;
     if (relations && relations.length) {
@@ -887,17 +832,15 @@ export async function fetchQuestById(id: number, relations?: schema.QuestRealati
   }
 }
 
-export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refactor active for app service and check active
-  console.log('fetchQuestsByUserId');
+export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refactor 'active' for app service and check 'active'
   try {
     const data = await db
       .select({
         ...getTableColumns(schema.quests), 
-        doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`.as('doneLastDate'),
+        doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`,
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
         serviceAction: getTableColumns(schema.serviceActions),
-        // doneCount: count(schema.questEarnings.id), // TODO: ne podhodit dlya countPerUser
       })
       .from(schema.quests)
       .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.quests.serviceActionId))
@@ -927,7 +870,6 @@ export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refact
 
 // ------------ QUESTS EARNINGS ------------
 export async function createQuestEarning(dto: dto.QuestEarningInsertDTO) {
-  console.log('createQuestEarning');
   try {
     const data = await db
       .insert(schema.questEarnings)
@@ -943,9 +885,8 @@ export async function createQuestEarning(dto: dto.QuestEarningInsertDTO) {
 }
 
 export async function createQuestEarningWithBalanceUpdate(dto: dto.QuestEarningInsertDTO, balance: number) {
-  console.log('createQuestEarningWithBalanceUpdate');
   try {
-    const batch = await db.batch([
+    const batch = await db.batch([ // TODO?: tx?
       db.insert(schema.questEarnings).values(dto).returning({ id: schema.questEarnings.id }),
       updateUserQuery(dto.userId, { balance: balance }),
     ]);
@@ -979,7 +920,6 @@ export async function fetchLastDateUserDoneQuest(userId: number, questId: number
 }
 
 export async function fetchDoneQuestEarningCountByUserId(userId: number) {
-  console.log('fetchDoneQuestEarningCountByUserId');
   try {
     const data = await db.$count(schema.questEarnings, 
       and(
@@ -1000,11 +940,10 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 // SELECT (CURRENT_DATE - '2025-01-27 22:00:01.870075'::date) AS difference_in_days; # days between midnight
 // SELECT DATE_PART('day', CURRENT_TIMESTAMP - '2025-01-27 07:46:01.870075'::timestamp) AS days; # days beetwen time
 // export async function questCheckDaily(userId: number, questId: number) { // TODO?: fetchLastDateUserDoneQuest
-//   console.log('questCheckDayli');
 //   try {
 //     const [data] = await db
 //       .select({
-//         dailyCheck: sql<boolean>`DATE_PART('day', CURRENT_TIMESTAMP - MAX(${schema.questEarnings.createdAt})::timestamp) > 0`.as('dailyCheck'),
+//         dailyCheck: sql<boolean>`DATE_PART('day', CURRENT_TIMESTAMP - MAX(${schema.questEarnings.createdAt})::timestamp) > 0`,
 //       })
 //       .from(schema.questEarnings)
 //       .where(
@@ -1014,7 +953,6 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //         )
 //       )
 //     ;
-
 //     return data.dailyCheck === null ? true : data.dailyCheck;
 //   } catch (error) {
 //     console.error('Database Error:', error);
@@ -1023,25 +961,19 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 // }
 //- - - - - - - - - - - - -
 
-
-
 // export async function deleteTask(id: number) {
-//   console.log('deleteTask');
 //   try {
 //     const data = await db
 //       .update(schema.tasks)
 //       .set({ status: TaskStatusEnum.DELETED, updatedAt: sql`NOW()`, deletedAt: sql`NOW()` })
 //       .where(eq(schema.tasks.id, id))
 //       .returning({ id: schema.tasks.id });
-
 //     return data[0]?.id;
 //   } catch (error) {
 //     console.error('Database Error:', error);
 //     throw new Error('Failed to delete task.');
 //   }
 // }
-
-
 
 // export async function userCanTask(taskId: number, userId: number) {
 //   const data = await db.query.tasks.findFirst({ 
@@ -1052,7 +984,6 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //       ne(schema.tasks.userId, userId),
 //     )
 //   });
-
 //   return !!data?.id;
 // }
 // export async function userDoneTask(taskId: number, userId: number) {
@@ -1063,7 +994,6 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //       eq(schema.taskEarnings.userId, userId),
 //     )
 //   });
-
 //   return !!data?.id;
 // }
 // export async function userReportedTask(taskId: number, userId: number) {
@@ -1074,49 +1004,13 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //       eq(schema.taskEarnings.userId, userId),
 //     )
 //   });
-
 //   return !!data?.id;
-// }
-
-// TODO?: separate parallel queries? # skoree uzh taskId naxui vipilit'...
-// export async function performerCanBeBlocked(userId: number, blockUserId: number, taskId: number) {
-//   console.log('performerCanBeBlocked');
-//   try {
-//     const data = await db
-//       .select({
-//         id: schema.taskEarnings.id,
-//       })
-//       .from(schema.taskEarnings)
-//       .leftJoin(schema.blackList, 
-//         and(
-//           eq(schema.blackList.userId, userId),
-//           eq(schema.blackList.blockedUserId, blockUserId)
-//         )
-//       )
-//       .where(
-//         and(
-//           eq(schema.taskEarnings.userId, blockUserId),
-//           eq(schema.taskEarnings.taskId, taskId),
-//           gt(schema.taskEarnings.profit, 0),
-//           isNull(schema.blackList.id),
-//         )
-//       )
-//       .limit(1)
-//       .orderBy(desc(schema.taskEarnings.createdAt))
-//     ;
-
-//     return !!data[0]?.id;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to execute query.');
-//   }
 // }
 
 // -------- tx
 
 // dolshe na paru seconds chem batch. Hotya tut vatiant bolee gibkiy
 // export async function createTaskWithBalanceUpdate(dto: dto.TaskInsertDTO, balance: number) {
-//   console.log('createTaskWithBalanceUpdateTr');
 //   try {
 //     const result = await dbPool.transaction(async (tx) => {
 //       try {
@@ -1127,16 +1021,14 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //         tx.rollback();
 //       }
 //     });
-
 //     return result;
-//   } catch (error ) {
+//   } catch (error) {
 //     console.error('Database Error:', error);
 //     throw new Error('Failed to create task.');
 //   }
 // }
 
 // export async function createQuestEarningWithBalanceUpdate(dto: dto.QuestEarningInsertDTO, balance: number) {
-//   console.log('createQuestEarningWithBalanceUpdate');
 //   try {
 //     const result = await dbPool.transaction(async (tx) => {
 //       try {
@@ -1149,7 +1041,6 @@ export async function fetchDoneQuestEarningCountByUserId(userId: number) {
 //         tx.rollback();
 //       }
 //     });
-
 //     return result;
 //   } catch (error) {
 //     console.error('Database Error:', error);

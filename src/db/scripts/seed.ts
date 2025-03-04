@@ -1,4 +1,3 @@
-// import { users, services, actions, serviceActions } from './seed-data';
 import { Task, TaskStatusEnum } from "@/lib/definitions";
 import { seed } from "drizzle-seed";
 import { sql } from 'drizzle-orm';
@@ -15,13 +14,13 @@ async function main() {
   await seedServiceActions();
   await seedQuests();
   await seedTasks();
-  await seedTasksEarning();
+  await seedTaskEarnings();
   await seedBlackList();
   // await seedTasksWithRelations();
 }
 
 async function clearData() {
-  console.log('clearData');
+  console.log('clearing data...');
   await db.delete(schema.blackList);
   await db.delete(schema.reports);
   await db.delete(schema.questEarnings);
@@ -38,55 +37,55 @@ async function clearData() {
 }
 
 async function seedUsers() {
-  console.log('seedUsers');
+  console.log('seeding users...');
   await db.execute(sql`alter sequence users_id_seq restart with 1`);
   await db.insert(schema.users).values(seedData.users);
 }
 
 async function seedServices() {
-  console.log('seedServices');
+  console.log('seeding services...');
   await db.execute(sql`alter sequence services_id_seq restart with 1`);
   await db.insert(schema.services).values(seedData.services);
 }
 
 async function seedActions() {
-  console.log('seedActions');
+  console.log('seeding actions...');
   await db.execute(sql`alter sequence actions_id_seq restart with 1`);
   await db.insert(schema.actions).values(seedData.actions);
 }
 
 async function seedServiceActions() {
-  console.log('seedServiceActions');
+  console.log('seeding service_actions...');
   await db.execute(sql`alter sequence service_actions_id_seq restart with 1`);
   await db.insert(schema.serviceActions).values(seedData.serviceActions);
 }
 
 async function seedQuests() {
-  console.log('seedQuests');
+  console.log('seeding quests...');
   await db.execute(sql`alter sequence quests_id_seq restart with 1`);
   await db.insert(schema.quests).values(seedData.quests);
 }
 
 async function seedTasks() {
-  console.log('seedTasks');
+  console.log('seeding tasks...');
   await db.execute(sql`alter sequence tasks_id_seq restart with 1`);
   await db.insert(schema.tasks).values(seedData.tasks);
 }
 
-async function seedTasksEarning() {
-  console.log('seedTasksEarning');
+async function seedTaskEarnings() {
+  console.log('seeding tasks_earnings...');
   await db.execute(sql`alter sequence task_earnings_id_seq restart with 1`);
   await db.insert(schema.taskEarnings).values(seedData.taskEarnings);
 }
 
 async function seedBlackList() {
-  console.log('seedBlackList');
+  console.log('seeding black_list...');
   await db.execute(sql`alter sequence black_list_id_seq restart with 1`);
   await db.insert(schema.blackList).values(seedData.blackList);
 }
 
 async function seedTasksWithRelations() {
-  console.log('seeedTasksWithRelations');
+  console.log('seeeding tasks with relations...');
   await seed(db, { 
     tasks: schema.tasks,
     taskEarnings: schema.taskEarnings,
@@ -114,9 +113,6 @@ async function seedTasksWithRelations() {
             { weight: 0.8, value: f.default({ defaultValue: TaskStatusEnum.ACTIVE }) },
             { weight: 0.2, value: f.default({ defaultValue: TaskStatusEnum.PAUSED }) }
           ])  
-          // serviceId: f.int({ minValue: 1, maxValue: 8 }),
-          // actionId: f.int({ minValue: 1, maxValue: 7 }),
-          // done: f.int({ minValue: 0, maxValue: 99 }),
       },
       with: {
         taskEarnings: 1,
@@ -130,10 +126,6 @@ async function seedTasksWithRelations() {
       columns: {
         userId: f.int({ minValue: 1, maxValue: 3 }),
         profit: f.int({ minValue: 0, maxValue: 10 }),
-        // status: f.weightedRandom([
-        //   { weight: 0.8, value: f.default({ defaultValue: TaskEarningStatusEnum.DONE }) },
-        //   { weight: 0.2, value: f.default({ defaultValue: TaskEarningStatusEnum.HIDDEN }) }
-        // ]) 
       }
     },
     blackList: {
@@ -156,7 +148,7 @@ async function seedTasksWithRelations() {
 }
 
 async function addTasks() {
-  console.log('addTasks');
+  console.log('adding tasks...');
   const task = {
     userId: 1,
     serviceActionId: 1,

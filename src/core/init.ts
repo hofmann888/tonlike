@@ -12,7 +12,6 @@ import {
  * Initializes the application and configures its dependencies.
  */
 export function init(debug: boolean): void {
-  console.log('twa init');
   // Set @telegram-apps/sdk-react debug mode.
   $debug.set(debug);
 
@@ -28,7 +27,7 @@ export function init(debug: boolean): void {
   !viewport.isMounting() && !viewport.isMounted() && void viewport.mount().then(() => {
     !viewport.isCssVarsBound() && viewport.bindCssVars();
   }).catch(e => {
-    console.error('Something went wrong mounting the viewport', e); // TODO: init.ts:31 Something went wrong mounting the viewport ir: The viewport component is already mounting
+    console.error('Something went wrong mounting the viewport.', e); // TODO: Error - Something went wrong mounting the viewport ir: The viewport component is already mounting
   });
 
   // Define components-related CSS variables.

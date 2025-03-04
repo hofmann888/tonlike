@@ -1,12 +1,6 @@
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/modal";
-import { Button } from "@heroui/button";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { useEffect, useRef, useState } from 'react';
+import { Button } from "@heroui/button";
 import PerformerBlockForm from "./PerformerBlockForm";
 
 export default function PerformerBlockModal({ 
@@ -18,8 +12,6 @@ export default function PerformerBlockModal({
   onClose: () => void,
   performerBlocked: (id: number) => void
 }) {
-  console.log('PerformerBlockModal');
-
   const formRef: any = useRef(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [message, setMessage] = useState('');

@@ -13,27 +13,25 @@ async function tgApiRequest(method: string, params: URLSearchParams) { // TODO?:
 
   const url = `https://api.telegram.org/bot${token}/${method}?${params.toString()}`;
 
-  // # channel - bot must be admin; group - can check
-  // TODO?: check by response code (e.g. 403 means that bot not admin)
-  const response = await fetch(url); // TODO: 400 (Bad Request) if user not in group...i to hz ne vsegda vrode
+  const response = await fetch(url); // TODO: 400 (Bad Request) if user not in group
   console.log('Telegram Bot API response:', response);
+  // TODO?: check by response code (e.g. 403 - bot not admin)
   if (!response.ok) {
-    throw new Error(`Telegram Bot API error: ${response.text()} - ${response.status}`);
+    throw new Error(`Telegram Bot API Error: ${response.text()} - ${response.status}`);
   }
 
   const data = await response.json();
   console.log('Telegram Bot API data:', data);
   if (!data.ok) {
-    throw new Error(`Telegram API data error: ${JSON.stringify(data)}`);
+    throw new Error(`Telegram API data Error: ${JSON.stringify(data)}`);
   }
 
   return data;
 }
 
-export async function tgCheckMembershipRequest(tgId: number, channel: string) {
-  console.log('tgCheckMembershipRequest');
-  if (!tgId || !channel) { // TODO: move to common function
-    throw new Error('Invalid request: missing telegram user ig or channel name.');
+export async function tgCheckMembershipRequest(tgId: number, channel: string) { // channel - bot must be admin; group - can check
+  if (!tgId || !channel) { // TODO?: move to common function
+    throw new Error('Invalid request data.');
   }
 
   let chatId = channel;
@@ -45,17 +43,17 @@ export async function tgCheckMembershipRequest(tgId: number, channel: string) {
   try {
     const data = await tgApiRequest('getChatMember', params);
     const isMember = !!data.result.status?.length && ['creator', 'administrator', 'member'].includes(data.result.status);
+    
     return { success: data.ok, result: isMember };
   } catch (error) {
-    console.log('tgCheckMembershipRequest Error:', error);
+    console.log('Telegram Request Error:', error);
     return { success: false };
   }
 }
 
 export async function tgCheckBoostRequest(tgId: number, channel: string) {
-  console.log('tgCheckBoostRequest');
-  if (!tgId || !channel) {
-    throw new Error('Invalid request: missing telegram user ig or channel name.');
+  if (!tgId || !channel) { // TODO?: move to common function
+    throw new Error('Invalid request data.');
   }
 
   let chatId = channel;
@@ -67,9 +65,10 @@ export async function tgCheckBoostRequest(tgId: number, channel: string) {
   try {
     const data = await tgApiRequest('getUserChatBoosts', params);
     const isBoosted = !!data.result.boosts.length;
+    
     return { success: data.ok, result: isBoosted };
   } catch (error) {
-    console.log('tgCheckMembershipRequest Error:', error);
+    console.log('Telegram Request Error:', error);
     return { success: false };
   }
 }

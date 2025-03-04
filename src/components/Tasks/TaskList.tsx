@@ -1,22 +1,15 @@
 'use client'
 
-import { Button } from "@heroui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure
-} from "@heroui/modal";
-import { Pagination } from "@heroui/pagination";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
 import { ChangeTaskStatus, DeleteTask } from "@/core/actions";
+import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
+import { Button } from "@heroui/button";
 import TaskCard from "./TaskCard";
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
-  const {isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const [modalError, setModalError] = useState('');
   const [modalText, setModalText] = useState('');
@@ -48,16 +41,15 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
     setLoading(false);
   }
 
+  // TODO: compbine to one function
   function activateButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.ACTIVE);
     openModal(id, 'Activate');
   }
-
   function pauseButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.PAUSED);
     openModal(id, 'Pause');
   }
-
   function deleteButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.DELETED);
     openModal(id, 'Delete');
@@ -75,7 +67,6 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   }, [tasks])
 
   useEffect(() => {
-    console.log('useEffect paginate takskaksda');
     const start = (page - 1) * pageItemsSize;
     const end = start + pageItemsSize;
     setTasksPaginated(tasks.slice(start, end));

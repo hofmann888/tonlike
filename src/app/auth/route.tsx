@@ -7,7 +7,6 @@ import { AppEnv, AppEnvEnum } from '@/lib/definitions';
 import { headers } from 'next/headers';
 
 export async function POST() {
-  console.log('post auth');
   try {
     const headersList = headers();
     const authData = headersList.get('Authorization');
@@ -15,7 +14,7 @@ export async function POST() {
     let session: any = null;
     
     if (!authData || !token) {
-      throw Error('Bad request: missing authData or token');
+      throw Error('Missing auth data or token.');
     }
 
     if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv)) {
@@ -25,10 +24,10 @@ export async function POST() {
       });
     }
 
-    const initData = parse(authData);
-    console.log('post auth parsed initData:', initData);
+    const initData = parse(authData); 
+    console.log('Telegram initData:', initData);
     if (!initData?.user?.id) {
-      throw Error('Undefined Telegram User.');
+      throw Error('Undefined Telegram user.');
     }
     const tgUsername = initData.user.username ?? null;
     const tgPhotoUrl = initData.user.photoUrl ?? null;
@@ -49,7 +48,7 @@ export async function POST() {
         tgUsername: tgUsername,
         tgPhotoUrl: tgPhotoUrl,
         referrerId: reffererId,
-        balance: 1000,
+        balance: 1000, // TODO: env
       });
     }
     if (user.tgUsername !== tgUsername || user.tgPhotoUrl !== tgPhotoUrl) {
@@ -63,14 +62,14 @@ export async function POST() {
 
     return Response.json({ success: true, session: session });
   } catch (error: any) {
-    // TODO: redirect on 403 if auth failed?
-    console.log(error);
+    console.log('Auth Error:', error);
     await deleteSession();
 
     let status = 500;
     if (error?.type === 'ERR_EXPIRED') { // TODO: 'ERR_EXPIRED' | ...
       status = 401; // Invalid credentials
     }
+    // TODO?: redirect on 403 if auth failed?
     return Response.json({ success: false, error }, { status: status });
   }
 }

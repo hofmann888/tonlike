@@ -1,8 +1,9 @@
 'use server'
 
+// TODO: import * as query from "@/db/query";
 import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum, fetchServiceActionById } from '../db/query';
-import { DepostitFormState, WithdrawFormState, CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
-import { depositFormSchema, withdrawFormSchema, createTaskFormSchema, editTaskFormSchema, earnItemReportFormSchema, performerBlockFormSchema } from './validation';
+import { CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
+import { createTaskFormSchema, editTaskFormSchema, earnTaskReportFormSchema, performerBlockFormSchema } from './validation';
 import { getAuthUser, setSession } from '@/app/auth/session';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 import { formatLink } from '@/utils/helpers';
@@ -11,10 +12,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { sql } from 'drizzle-orm';
 
-// TODO?: rename form-actions
-
 export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
-  console.log('CreateTaskFormSubmit');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -23,9 +21,6 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
       link: formData.get('link'),
       price: formData.get('price'),
       count: formData.get('count'),
-      // serviceId: formData.get('serviceId'),
-      // actionId: formData.get('actionId'),
-      // currency: formData.get('currency'),
     });
 
     if (!validated.success) {
@@ -38,11 +33,11 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     const serviceAction = await fetchServiceActionById(validated.data.serviceActionId, [ServiceActionsRelationsEnum.ACTION, ServiceActionsRelationsEnum.SERVICE]);
     
     const data = { userId: user.id, ...validated.data };
-    data.link = formatLink(data.link, serviceAction.service?.name as ServiceName, 'link'); // TODO?: ???
+    data.link = formatLink(data.link, serviceAction.service?.name as ServiceName, 'link'); // TODO?
     data.count = Math.floor(Number(data.count));
     data.price = Math.floor(Number(data.price));
     const sum = data.count * data.price;
-
+    
     if (user.balance < sum) { // TODO?: refactor zod refine?
       return {
         errors: { price: ['Lower the price'] },
@@ -55,7 +50,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     }
 
     const { updatedUser } = await createTaskWithBalanceUpdate(data, user.balance - sum);
-    await setSession(updatedUser); // TODO?: move to tx?
+    await setSession(updatedUser); // TODO!?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
     return { message: 'Failed to create task.' };
@@ -66,7 +61,6 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 }
 
 export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskFormState, formData: FormData) {
-  console.log('EditTaskFormSubmit');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -78,7 +72,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     if (!validated.success) {
       return {
         errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to edit task.',
+        message: 'Failed to update task.',
       };
     }
 
@@ -121,9 +115,8 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
       }
     }
 
-    // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
-    const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, newBalance);
-    await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
+    const { updatedUser } = await updateTaskWithBalance(taskId, { price: data.price, count: data.count }, user.id, newBalance); // TODO!: refactor
+    await setSession(updatedUser); // TODO!?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
     return { message: 'Failed to update task.' };
@@ -134,7 +127,6 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 }
 
 export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
-  console.log('ChangeTaskStatus');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -157,7 +149,6 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
 }
 
 export async function DeleteTask(taskId: number) {
-  console.log('DeleteTask');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -179,9 +170,8 @@ export async function DeleteTask(taskId: number) {
     const newBalance = user.balance + task.price * (task.count - doneCount);
 
     // await deleteTask(taskId);
-    // TODO: peredelat' viser etot...po horoshemu bi na classi eto vse perepisat'
-    const { updatedUser } = await updateTaskWithBalance(taskId, { status: TaskStatusEnum.DELETED, deletedAt: sql`NOW()` }, user.id, newBalance);
-    await setSession(updatedUser); // TODO: elsi error to zalupa, mb na transactioni vse taki? hui s nim s etimi paru seceonds of delay?
+    const { updatedUser } = await updateTaskWithBalance(taskId, { status: TaskStatusEnum.DELETED, deletedAt: sql`NOW()` }, user.id, newBalance); // TODO!: refactor
+    await setSession(updatedUser); // TODO?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
     return { message: 'Failed to delete task.' };
@@ -192,7 +182,6 @@ export async function DeleteTask(taskId: number) {
 }
 
 export async function GetTaskPerformers(taskId: number) {
-  console.log('GetTaskPerformers');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -211,7 +200,6 @@ export async function GetTaskPerformers(taskId: number) {
 }
 
 export async function PerformerBlockFormSubmit(blockUserId: number, prevState: PerformerBlockFormState, formData: FormData) {
-  console.log('PerformerBlockFormSubmit');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -229,7 +217,7 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
     }
 
     if (await userInBlackList(user.id, blockUserId)) {
-      throw new Error("User already blocked.");
+      throw new Error('User already blocked.');
     }
 
     const data = { userId: user.id, blockedUserId: blockUserId, ...validated.data };
@@ -246,13 +234,12 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
 }
 
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
-  console.log('PerformerUnblock');
   try {
     const user: User = await getAuthUser(false, true);
     
     const result = await removeUserFromBlackList(user.id, unblockUserId);
     if (!result) {
-      throw new Error('Wrong unblockUserId!');
+      throw new Error('Wrong user.');
     }
 
     return { success: true };
@@ -266,7 +253,6 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
 }
 
 export async function HideUserEarnTask(taskId: number) {
-  console.log('HideUserEarnTask');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -274,7 +260,7 @@ export async function HideUserEarnTask(taskId: number) {
       throw new Error('Wrong task.');
     }
 
-    await hideTaskEarningForUser(user.id, taskId);
+    await hideTaskEarningForUser(taskId, user.id);
 
     return { success: true };
   } catch (error) {
@@ -287,12 +273,10 @@ export async function HideUserEarnTask(taskId: number) {
 }
 
 export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTaskReportFormState, formData: FormData) {
-  console.log('EarnTaskReportFormSubmit');
-
   try {
     const user: User = await getAuthUser(false, true);
 
-    const validated = earnItemReportFormSchema.safeParse({
+    const validated = earnTaskReportFormSchema.safeParse({
       reasons: formData.getAll('reasons'),
       comment: formData.get('comment'),
     });
@@ -306,7 +290,7 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
     }
 
     if (!await taskIsAvailableForUser(taskId, user.id)) {
-      throw new Error("Wrong task!");
+      throw new Error('Wrong task.');
     }
 
     const data = { userId: user.id, taskId: taskId, ...validated.data };
@@ -323,7 +307,6 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
 }
 
 export async function ClaimReferralEarnings() {
-  console.log('ClaimReferralEarnings');
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -353,9 +336,8 @@ export async function ClaimReferralEarnings() {
 }
 
 export async function HideEarnWaning(dontShow: boolean = false) {
-  console.log('HideEarnWaning');
   const expiresIn = dontShow ? 365 * 24 * 60 * 60 : 24 * 60 * 60;
-  const expires = Date.now() + expiresIn * 1000; 
+  const expires = Date.now() + expiresIn * 1000;
 
   cookies().set({ 
     name: 'earnWarningHide',
@@ -365,70 +347,3 @@ export async function HideEarnWaning(dontShow: boolean = false) {
     expires: expires,
   });
 }
-
-// export async function DepositFormSubmit(prevState: DepostitFormState, formData: FormData) {
-//   console.log('DepositFormSubmit');
-//   try {
-//     const user: User = await getAuthUser(false, true);
-
-//     const validated = depositFormSchema.safeParse({
-//       amount: formData.get('amount'),
-//     });
-//     console.log('validated:'); console.log(validated);
-
-//     if (!validated.success) {
-//       return {
-//         errors: validated.error.flatten().fieldErrors,
-//         message: 'Failed to deposit.',
-//       };
-//     }
-
-//     const { amount } = validated.data;
-//     const balance = user.balance + amount;
-
-//     await updateUserWithSession(user.id, { balance });
-//   } catch (error) {
-//     console.log('Operation Error:', error);
-//     return { message: 'Failed to update balance.' };
-//   }
-  
-//   revalidatePath('/wallet');
-//   redirect('/wallet');
-// }
-
-// export async function WithdrawFormSubmit(prevState: WithdrawFormState, formData: FormData) {
-//   console.log('WithdrawFormSubmit');
-//   try {
-//     const user: User = await getAuthUser(false, true);
-
-//     const validated = withdrawFormSchema.safeParse({
-//       amount: formData.get('amount'),
-//       address: formData.get('address'),
-//     });
-//     console.log('validated:'); console.log(validated);
-
-//     if (!validated.success) {
-//       return {
-//         errors: validated.error.flatten().fieldErrors,
-//         message: 'Failed to withdraw.',
-//       };
-//     }
-
-//     const { amount } = validated.data;
-//     if (user.balance < amount) { // TODO?: refactor zod refine?
-//       return {
-//         errors: { amount: ['Not enough balance']},
-//         message: 'Failed to withdraw.',
-//       }
-//     }
-//     const balance = user.balance - amount;
-
-//     await updateUserWithSession(user.id, { balance });
-//   } catch (error) {
-//     console.log('Operation Error:', error);
-//     return { message: 'Failed to update balance.' };
-//   }
-  
-//   revalidatePath('/wallet');
-//   redirect('/wallet');
-// }

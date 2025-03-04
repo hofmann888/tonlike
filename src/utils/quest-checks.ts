@@ -1,27 +1,15 @@
 'use server'
 
-import { getAuthUser, setSession } from "@/app/auth/session";
-import { 
-  fetchLastDateUserDoneQuest, 
-  fetchQuestById, 
-  fetchTaskEarningLastDoneByUserId, 
-  fetchUserReferralsCount, 
-  fetchTaskEarningDoneCountByUserId, 
-  fetchDoneQuestEarningCountByUserId,
-  fetchTaskCountByUserId,
-  createQuestEarningWithBalanceUpdate,
-} from "@/db/query";
+import { fetchLastDateUserDoneQuest, fetchQuestById, fetchTaskEarningLastDoneByUserId, fetchUserReferralsCount, fetchTaskEarningDoneCountByUserId, fetchDoneQuestEarningCountByUserId, fetchTaskCountByUserId, createQuestEarningWithBalanceUpdate } from "@/db/query";
 import { Quest, User, ServiceActionNameEnum } from '@/lib/definitions';
-import { checkDailyDone } from "./helpers";
-import { QuestRelationEnum } from "@/db/schema";
 import { checkTgSubscribe, checkTgBoost } from "./task-checks";
-// import { redirect } from 'next/navigation';
-// import { revalidatePath } from 'next/cache'; 
+import { getAuthUser, setSession } from "@/app/auth/session";
+import { QuestRelationEnum } from "@/db/schema";
+import { checkDailyDone } from "./helpers";
 
 // TODO: refactor on class oop
 
 export async function checkQuest(questId: number) {
-  console.log('checkQuest');
   try {
     const [user, quest] = await Promise.all([
       getAuthUser(false, true), 
@@ -87,17 +75,14 @@ export async function checkQuest(questId: number) {
 }
 
 export async function earnOnQuest(quest: Quest, user: User) {
-  console.log('earnOnQuest');
   const { updatedUser } = await createQuestEarningWithBalanceUpdate(
     { userId: user.id, questId: quest.id, profit: quest.price },
     user.balance + quest.price,
   )
-
-  await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
+  await setSession(updatedUser); // TODO!?: tx?
 }
 
 export async function checkQuestDone(questId: number, userId: number, daily: boolean) {
-  console.log('checkQuestDone');
   const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId);
   const check = daily ? checkDailyDone(lastDoneDate) : !!lastDoneDate;
  
@@ -105,15 +90,12 @@ export async function checkQuestDone(questId: number, userId: number, daily: boo
 }
 
 export async function checkDailyAnyTaskDone(userId: number) {
-  console.log('checkDailyAnyTaskDone');
   const taskEarning = await fetchTaskEarningLastDoneByUserId(userId);
   const check = checkDailyDone(taskEarning?.createdAt);
- 
   return check;
 }
 
 export async function checkInvitedCount(userId: number, countNeed: number) {
-  console.log('checkInvitedCount');
   const count = await fetchUserReferralsCount(userId);
   const check = count >= countNeed;
   
@@ -121,7 +103,6 @@ export async function checkInvitedCount(userId: number, countNeed: number) {
 }
 
 export async function checkTaskCount(userId: number, countNeed: number) {
-  console.log('checkTaskCount');
   const count = await fetchTaskCountByUserId(userId);
   const check = count >= countNeed;
   
@@ -129,7 +110,6 @@ export async function checkTaskCount(userId: number, countNeed: number) {
 }
 
 export async function checkTaskDoneCount(userId: number, countNeed: number) {
-  console.log('checkTaskDoneCount');
   const count = await fetchTaskEarningDoneCountByUserId(userId);
   const check = count >= countNeed;
   
@@ -137,7 +117,6 @@ export async function checkTaskDoneCount(userId: number, countNeed: number) {
 }
 
 export async function checkQuestDoneCount(userId: number, countNeed: number) {
-  console.log('checkQuestDoneCount');
   const count = await fetchDoneQuestEarningCountByUserId(userId);
   const check = count >= countNeed;
   

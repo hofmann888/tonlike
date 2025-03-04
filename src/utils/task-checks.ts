@@ -7,7 +7,6 @@ import { getAuthUser, setSession } from "@/app/auth/session";
 import { TaskRelationEnum } from "@/db/schema";
 
 export async function checkTask(taskId: number) {
-  console.log('checkTask');
   try {
     const [user, task] = await Promise.all([
       getAuthUser(false, true), 
@@ -24,7 +23,7 @@ export async function checkTask(taskId: number) {
 
     let check = false;
 
-    switch (task.serviceAction?.name) { // TODO: link to channel format
+    switch (task.serviceAction?.name) {
       case ServiceActionNameEnum.TELEGRAM_SUBSCRIBE:
         check = await checkTgSubscribe(user.tgId, task.link as string);
         break;
@@ -32,11 +31,7 @@ export async function checkTask(taskId: number) {
         check = await checkTgBoost(user.tgId, task.link as string);
         break;
       default:
-        check = true;
-        // return {
-        //   success: false,
-        //   message: 'Task is not available.',
-        // }
+        check = true; // TODO: return { success: false, message: 'Task is not available.' }
     }
 
     check && await earnOnTask(task, user);
@@ -55,7 +50,6 @@ export async function checkTask(taskId: number) {
 }
 
 export async function earnOnTask(task: Task, user: User) {
-  console.log('earnOnTask');
   const doneCount = await fetchTaskDoneCount(task.id);
   const done = doneCount + 1 === task.count;
 
@@ -64,12 +58,10 @@ export async function earnOnTask(task: Task, user: User) {
     user.balance + task.price,
     done
   )
-
-  await setSession(updatedUser); // TODO: what if error? mb use transaction and make rollback on this too?
+  await setSession(updatedUser); // TODO!?: tx?
 }
 
-export async function checkTgSubscribe(tgId: number, channel: string) { // TODO?: add common method checkTg(tgId, channel, method)?
-  console.log('checkTgSubscribe');
+export async function checkTgSubscribe(tgId: number, channel: string) { // TODO?: add common method checkTg(tgId, channel, action)?
   const data: any = await tgCheckMembershipRequest(tgId, channel);
   const check = !data?.success || data?.result;
   
@@ -77,7 +69,6 @@ export async function checkTgSubscribe(tgId: number, channel: string) { // TODO?
 }
 
 export async function checkTgBoost(tgId: number, channel: string) {
-  console.log('checkTgBoost');
   const data: any = await tgCheckBoostRequest(tgId, channel);
   const check = !data?.success || data?.result;
   

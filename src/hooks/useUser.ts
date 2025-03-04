@@ -3,7 +3,6 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 import { useContext } from "react";
 
 export function useUser() {
-  console.log('useUser');
   const { user, updateUser, isAuth } = useContext(UserContext);
   const { initData } = retrieveLaunchParams();
 

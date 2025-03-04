@@ -1,24 +1,19 @@
 import { ScrollShadow } from "@heroui/scroll-shadow";
+import { PerformerUnblock } from "@/core/actions";
 import { Card, CardBody } from "@heroui/card";
 import { useDisclosure } from "@heroui/modal";
+import { Performer } from "@/lib/definitions";
 import { Button } from "@heroui/button";
 import { User } from "@heroui/user";
-import { PerformerUnblock } from "@/core/actions";
-import { Performer } from "@/lib/definitions";
 import { useState } from "react";
-import CoinValue from "../Common/CoinValue";
 import PerformerBlockModal from "./PerformerBlockModal";
+import CoinValue from "../Common/CoinValue";
 import clsx from "clsx";
 
-// TODO: move card to separate component and add loaders on btn clicks
+// TODO?: add loaders on btn clicks
 // TODO?: show no performers message on empty list
-// TODO?: move modal to tasklist component?
+// TODO?: move modal to TaskList component
 export default function TaskPerformersList({ performers }: { performers: Performer[] }) {
-  // console.log('TaskPerformersList:', performers);
-  // for (let i = 0; i < 20; i++) {
-  //   performers.push(performers[0]);
-  // }
-
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const [blockUserId, setBlockUserId] = useState(0);

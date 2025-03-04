@@ -8,30 +8,12 @@ export type NavLink = {
 }
 
 ////========== Forms
-
-export type DepostitFormState = {
-  errors?: {
-    amount?: string[];
-  };
-  message?: string | null;
-};
-
-export type WithdrawFormState = {
-  errors?: {
-    amount?: string[];
-    address?: string[];
-  };
-  message?: string | null;
-};
-
 export type CreateTaskFormState = {
   errors?: {
     serviceActionId?: string[];
     link?: string[];
     price?: string[];
     count?: string[];
-    // serviceId?: string[];
-    // actionId?: string[];
   };
   message?: string | null;
 };

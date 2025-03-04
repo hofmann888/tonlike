@@ -1,8 +1,8 @@
 'use client'
 
 import { type BlackListItem, type BlackListReasonsMapItem, BlackListReasonEnum } from "@/lib/definitions";
-import BlackListCard from "./BlackListCard";
 import { useState } from "react";
+import BlackListCard from "./BlackListCard";
 
 export const blackListReasonsMap: BlackListReasonsMapItem[] = [
   { key: BlackListReasonEnum.TASK, title: 'Bad task completion' },
@@ -12,14 +12,9 @@ export const blackListReasonsMap: BlackListReasonsMapItem[] = [
 ];
 
 export default function BlackList({ blackList }: { blackList: BlackListItem[] }) {
-  // for (let i = 0; i < 50; i++) {
-  //   blackList.push(blackList[0]);
-  // }
-
   const [blackListState, setBlackListState] = useState(blackList);
 
   function userUnblocked(id: number) {
-    console.log('userUnblocked');
     const blackListUpdate = blackListState.filter((blackListItem) => 
       blackListItem.blockedUserId !== id
     );
