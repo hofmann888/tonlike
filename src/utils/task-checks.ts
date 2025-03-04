@@ -3,7 +3,7 @@
 import { createTaskEarningWithBalanceUpdate, fetchTaskById, fetchTaskDoneCount, taskIsAvailableForUser } from "@/db/query";
 import { tgCheckMembershipRequest, tgCheckBoostRequest } from "./tg-requests";
 import { Task, User, ServiceActionNameEnum } from '@/lib/definitions';
-import { getAuthUser, setSession } from "@/app/auth/session";
+import { getAuthUser, setSession } from "@/core/session";
 import { TaskRelationEnum } from "@/db/schema";
 
 export async function checkTask(taskId: number) {

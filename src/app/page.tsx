@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteSession } from "./auth/session";
+import { deleteSession } from "@/core/session";
 import { AppEnvEnum } from "@/lib/definitions";
 import { Button } from "@heroui/button";
 import PageLoader from "@/components/Common/PageLoader";

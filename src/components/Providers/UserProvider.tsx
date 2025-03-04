@@ -2,7 +2,7 @@
 
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
 import { createContext, useEffect, useState } from "react";
-import { deleteSession } from "@/app/auth/session";
+import { deleteSession } from "@/core/session";
 import { authRequest } from "@/utils/api-requests";
 import { useRouter } from "next/navigation";
 import { User } from "@/lib/definitions";

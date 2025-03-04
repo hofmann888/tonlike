@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchBlackListByUserId } from "@/db/query";
-import { getAuthUser } from "../auth/session"
+import { getAuthUser } from "@/core/session"
 import BlackList from "@/components/BlackList/BlackList";
 import PageLoader from "@/components/Common/PageLoader";
 

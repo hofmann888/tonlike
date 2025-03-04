@@ -1,7 +1,7 @@
 'use server'
 
 import { createUser, updateUser, fetchUserByTgId } from '@/db/query';
-import { deleteSession, getSession, setSession } from './session';
+import { deleteSession, getSession, setSession } from '@/core/session';
 import { validate, parse } from '@telegram-apps/init-data-node';
 import { AppEnv, AppEnvEnum } from '@/lib/definitions';
 import { headers } from 'next/headers';

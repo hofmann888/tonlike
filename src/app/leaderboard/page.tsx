@@ -3,7 +3,7 @@
 import { Chip } from "@heroui/chip";
 import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
-import { getAuthUser } from "@/app/auth/session";
+import { getAuthUser } from "@/core/session";
 import LeaderboardCard from "@/components/Leaderboard/LeaderboardCard";
 import PageLoader from "@/components/Common/PageLoader";
 

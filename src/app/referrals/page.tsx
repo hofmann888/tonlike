@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchUserReferrals, fetchUserReferralsTaskEarningsSum } from "@/db/query";
-import { getAuthUser } from "../auth/session";
+import { getAuthUser } from "@/core/session";
 import { User } from "@/lib/definitions";
 import ReferralsButtons from "@/components/Referrals/ReferralsButtons";
 import ReferralsList from "@/components/Referrals/ReferralsList";

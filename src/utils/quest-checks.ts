@@ -3,7 +3,7 @@
 import { fetchLastDateUserDoneQuest, fetchQuestById, fetchTaskEarningLastDoneByUserId, fetchUserReferralsCount, fetchTaskEarningDoneCountByUserId, fetchDoneQuestEarningCountByUserId, fetchTaskCountByUserId, createQuestEarningWithBalanceUpdate } from "@/db/query";
 import { Quest, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { checkTgSubscribe, checkTgBoost } from "./task-checks";
-import { getAuthUser, setSession } from "@/app/auth/session";
+import { getAuthUser, setSession } from "@/core/session";
 import { QuestRelationEnum } from "@/db/schema";
 import { checkDailyDone } from "./helpers";
 

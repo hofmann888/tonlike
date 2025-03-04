@@ -4,8 +4,8 @@
 import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum, fetchServiceActionById } from '../db/query';
 import { CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
 import { createTaskFormSchema, editTaskFormSchema, earnTaskReportFormSchema, performerBlockFormSchema } from './validation';
-import { getAuthUser, setSession } from '@/app/auth/session';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
+import { getAuthUser, setSession } from '@/core/session';
 import { formatLink } from '@/utils/helpers';
 import { revalidatePath } from 'next/cache'; 
 import { redirect } from 'next/navigation';

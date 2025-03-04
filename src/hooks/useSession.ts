@@ -1,6 +1,6 @@
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { getSession } from "@/app/auth/session";
+import { getSession } from "@/core/session";
 
 export function useSession() { // TODO?: remove?
   const data = useAsyncInitialize(async () => {

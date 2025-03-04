@@ -3,7 +3,7 @@
 import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest } from "@/lib/definitions";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
-import { getAuthUser } from "@/app/auth/session";
+import { getAuthUser } from "@/core/session";
 import { cookies } from "next/headers";
 import EarnTabs from "@/components/Earn/EarnTabs";
 import PageLoader from "@/components/Common/PageLoader";

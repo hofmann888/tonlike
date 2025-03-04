@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchServicesWithActions } from "@/db/query";
-import { getAuthUser } from "@/app/auth/session";
+import { getAuthUser } from "@/core/session";
 import { User } from "@/lib/definitions";
 import CreateTaskForm from "@/components/Tasks/CreateTaskForm";
 import PageLoader from "@/components/Common/PageLoader";

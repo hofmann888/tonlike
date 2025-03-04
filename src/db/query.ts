@@ -4,7 +4,7 @@ import 'server-only';
 
 import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
-import { setSession } from '@/app/auth/session';
+import { setSession } from '@/core/session';
 import { db } from './db';
 import * as schema from './schema';
 import * as dto from './dto';

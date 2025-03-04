@@ -2,8 +2,8 @@
 
 import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
-import { getAuthUser } from "@/app/auth/session";
 import { fetchTasksByUserId } from "@/db/query";
+import { getAuthUser } from "@/core/session";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import TasksFilter from "@/components/Tasks/TasksFilter";
