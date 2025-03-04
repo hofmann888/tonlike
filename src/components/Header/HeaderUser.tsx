@@ -1,14 +1,9 @@
 'use client'
 
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import { useUser } from "@/hooks/useUser";
 import { User } from "@heroui/user";
 import ThemeSwitcher from "@/components/Theme/ThemeSwither";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem
-} from "@heroui/dropdown";
 
 export default function HeaderUser() {
   const { tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
@@ -35,11 +30,8 @@ export default function HeaderUser() {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
-          <DropdownItem key="home" color="primary" href="/">
-            Home
-          </DropdownItem>
           <DropdownItem key="blackList" color="primary" href="/black-list">
-            Black List
+            <span className="text-medium">Black List</span>
           </DropdownItem>
           <DropdownItem key="theme" closeOnSelect={false}>
             <ThemeSwitcher />
