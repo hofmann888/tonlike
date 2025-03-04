@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('body:', body);
 
-    Response.json({"message": "ok"}); // Response.json(null);
+    return Response.json({ 'message': 'ok' }); // Response.json(null);
   } catch (error: any) {
     console.log('Webhook Error:', error);
     return Response.json({ success: false, error }, { status: 500 });
