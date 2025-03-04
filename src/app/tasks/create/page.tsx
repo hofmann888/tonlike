@@ -13,7 +13,7 @@ export default async function CreateTaskPage() {
   const services = await fetchServicesWithActions(true);
 
   return (
-    <div className="create-task-page py-5 px-2">
+    <div className="create-task-page py-5 px-2 max-w-[500px] max-[500px]:max-w-[100vw]">
       <CreateTaskForm services={services} />
     </div>
   )

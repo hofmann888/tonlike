@@ -14,7 +14,7 @@ export default function WalletPage() {
   const link = 'https://t.me/tonlike_app';
 
   return (
-    <div className="py-5 px-2 h-full">
+    <div className="py-5 px-2 h-full max-w-[500px] max-[500px]:max-w-[100vw]">
       <div className="flex flex-col justify-center items-center h-full">
         <p className="text-center text-4xl font-black text-primary">COMING SOON</p>
         <p className="text-center text-large font-bold mt-3">STAY TUNED...</p>

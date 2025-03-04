@@ -21,9 +21,8 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
               src: item.tgPhotoUrl as string,
               size: 'sm',
             }}
-            className="justify-start"
             classNames={{ 
-              base: "w-[80%]",
+              base: "w-[80%] justify-start",
               wrapper: "w-[70%]",
               name: "w-full"
             }}

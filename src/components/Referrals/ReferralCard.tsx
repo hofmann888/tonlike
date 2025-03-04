@@ -5,7 +5,7 @@ import CoinValue from "../Common/CoinValue";
 
 export default function ReferralCard({ referral }: { referral: Referral }) {
   const profit = Math.round(referral.profit / 10) + 1000;
-  const date = new Date(referral.createdAt); // TODO: some shit with toLocaleDateString (use ru-RU everywhere? or get from language)
+  const date = new Date(referral.createdAt);
 
   return (
     <Card 
@@ -15,10 +15,10 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
       isBlurred
     >
       <CardBody className="flex-row justify-between items-center">
-        <div className="flex">
-          <div className="text-tiny mr-8">
-            <p>{date.toLocaleDateString()}</p>
-            <p>{date.toLocaleTimeString()}</p>
+        <div className="flex items-center w-3/4 max-[350px]:w-2/3">
+          <div className="text-tiny w-20">
+            <p>{date.toLocaleDateString('ru-RU')}</p>
+            <p>{date.toLocaleTimeString('ru-RU')}</p>
           </div>
 
           <User
@@ -26,12 +26,23 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
               isBordered: true,
               src: referral.tgPhotoUrl as string,
               size: 'sm',
+              className: "min-w-8 min-h-8"
             }}
-            name={!!referral.tgUsername?.length ? `@${referral.tgUsername}` : '???'}
+            classNames={{ 
+              base: "w-[60%] justify-start",
+              wrapper: "w-[70%]",
+              name: "w-full"
+            }}
+            name={!!referral.tgUsername?.length 
+              ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{referral.tgUsername}</span> 
+              : '???'
+            }
           />
         </div>
-
-        <CoinValue value={profit} className="text-small text-primary-500" />
+        
+        <div className="w-[80px] text-right text-small text-primary-500"> 
+          <CoinValue value={profit} />
+        </div>
       </CardBody>
     </Card>
   )

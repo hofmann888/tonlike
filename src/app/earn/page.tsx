@@ -53,7 +53,7 @@ export default async function EarnPage({
   const earnWarningShow = !cookies().get('earnWarningHide')?.value;
 
   return (
-    <div className="earn-page pb-5">
+    <div className="earn-page pb-5 max-w-[500px] max-[500px]:max-w-[100vw]">
 
       <EarnTabs activeTab={tab} />
 

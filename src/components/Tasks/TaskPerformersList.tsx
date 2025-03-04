@@ -8,7 +8,6 @@ import { User } from "@heroui/user";
 import { useState } from "react";
 import PerformerBlockModal from "./PerformerBlockModal";
 import CoinValue from "../Common/CoinValue";
-import clsx from "clsx";
 
 // TODO?: add loaders on btn clicks
 // TODO?: show no performers message on empty list
@@ -59,34 +58,38 @@ export default function TaskPerformersList({ performers }: { performers: Perform
             shadow="sm"
           >
             <CardBody className="flex-row justify-between items-center">
-              <div className="text-tiny mr-3">
-                <p>{date.toLocaleDateString()}</p>
-                <p>{date.toLocaleTimeString()}</p>
+              <div className="flex items-center w-3/4 max-[400px]:w-3/5 max-[350px]:w-2/3">
+                <div className="text-tiny mr-3">
+                  <p>{date.toLocaleDateString('ru-RU')}</p>
+                  <p>{date.toLocaleTimeString('ru-RU')}</p>
+                </div>
+
+                <User
+                  avatarProps={{
+                    isBordered: true,
+                    src: performer.tgPhotoUrl as string,
+                    size: 'sm',
+                    className: "min-w-8 min-h-8"
+                  }}
+                  classNames={{ 
+                    base: `w-[60%] max-[370px]:w-[50%] max-[350px]:w-[40%] justify-start ${performer.isBlocked && 'text-red-500'}`,
+                    wrapper: "w-[70%]",
+                    name: "w-full"
+                  }}
+                  name={!!performer.tgUsername?.length 
+                    ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span> 
+                    : '???'
+                  }
+                  description={<CoinValue value={performer.profit} className="mr-3 text-tiny text-primary-500" />}
+                />
               </div>
 
-              <User
-                avatarProps={{
-                  isBordered: true,
-                  src: performer.tgPhotoUrl as string,
-                  size: 'sm',
-                }}
-                className={clsx(
-                  'w-1/2 justify-start',
-                  {'text-red-500': performer.isBlocked},
-                )}
-                name={!!performer.tgUsername?.length 
-                  ? <span className="inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span> 
-                  : '???'
+              <div className="w-24 text-right text-small text-primary-500"> 
+                {performer.isBlocked 
+                  ? <Button color="success" variant="flat" className="w-full" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
+                  : <Button color="danger" variant="flat" className="w-full" onPress={() => onBlockClick(performer.id)}>Block</Button>
                 }
-                description={<CoinValue value={performer.profit} className="mr-3 text-tiny text-primary-500" />}
-              />
-
-              {/* <CoinValue value={performer.profit} className="mr-3 text-small text-primary-500" /> */}
-
-              {performer.isBlocked 
-                ? <Button color="success" variant="flat" className="w-24" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
-                : <Button color="danger" variant="flat" className="w-24" onPress={() => onBlockClick(performer.id)}>Block</Button>
-              }
+              </div>
             </CardBody>
           </Card>
         )

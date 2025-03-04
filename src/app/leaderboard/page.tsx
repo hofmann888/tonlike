@@ -24,7 +24,7 @@ export default async function LeaderboardPage() {
   }
 
   return (
-    <div className="py-5 px-2 max-w-[100vw]">
+    <div className="py-5 px-2 max-w-[500px] max-[500px]:max-w-[100vw]">
       <div className="mb-8">
         <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">You:</Chip>
         <LeaderboardCard item={userLeaderboardItem} />

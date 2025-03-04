@@ -44,7 +44,7 @@ export default async function TasksPage({
   }
 
   return (
-    <div className="tasks-page h-full max-w-[100vw] flex flex-col justify-between">
+    <div className="tasks-page h-full flex flex-col justify-between max-w-[500px] max-[500px]:max-w-[100vw]">
       <div>
         <TasksFilter actions={actions} services={services} statusCount={statusCount} />
 

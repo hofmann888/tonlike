@@ -36,8 +36,8 @@ export default function BlackListCard({
       <CardBody className="flex-row justify-between items-center">
         <div className="flex">
           <div className="text-tiny mr-3 max-[340px]:hidden">
-            <p>{blackListItem.createdAt.toLocaleDateString()}</p>
-            <p>{blackListItem.createdAt.toLocaleTimeString()}</p>
+            <p>{blackListItem.createdAt.toLocaleDateString('ru-RU')}</p>
+            <p>{blackListItem.createdAt.toLocaleTimeString('ru-RU')}</p>
           </div>
 
           <User
