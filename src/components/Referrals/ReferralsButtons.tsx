@@ -25,7 +25,7 @@ export default function ReferralsButtons() {
         className="w-full mr-2" 
         aria-label="Invite"
         endContent={<FaShareAlt />}
-        onPress={() => shareURL(link, 'checkity check')}
+        onPress={() => shareURL(link, 'Join now and earn 1000 $LIKE!')}
       >
         Invite a friend
       </Button>
