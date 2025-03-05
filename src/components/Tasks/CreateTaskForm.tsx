@@ -274,7 +274,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </SubmitButton>
 
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
         <ModalContent>
           {(onClose) => (
             <>

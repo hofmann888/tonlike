@@ -34,6 +34,7 @@ export default function EarnWaringModal() {
       hideCloseButton={true}
       isDismissable={false} 
       isKeyboardDismissDisabled={true} 
+      placement="center"
     >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1 text-warning text-center">Warning</ModalHeader>
