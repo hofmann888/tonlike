@@ -347,3 +347,7 @@ export async function HideEarnWaning(dontShow: boolean = false) {
     expires: expires,
   });
 }
+
+export async function clearHideEarnWaningCookie() {
+  cookies().delete('earnWarningHide');
+}

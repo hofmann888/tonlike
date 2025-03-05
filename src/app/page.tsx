@@ -1,5 +1,6 @@
 'use client'
 
+import { clearHideEarnWaningCookie } from "@/core/actions";
 import { deleteSession } from "@/core/session";
 import { AppEnvEnum } from "@/lib/definitions";
 import { Button } from "@heroui/button";
@@ -10,6 +11,7 @@ export default function Home() {
 
   const test = async () => {
     console.log('test');
+    await clearHideEarnWaningCookie();
   }
 
   return (
