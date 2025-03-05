@@ -18,7 +18,7 @@ export default function EarnWaringModal() {
   const [dontShow, setDontShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => onOpen, []);
+  useEffect(() => onOpen(), []);
 
   async function hide() {
     setLoading(true);
