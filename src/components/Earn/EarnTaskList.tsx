@@ -1,5 +1,6 @@
 'use client'
 
+import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
 import { Task } from "@/lib/definitions";
 import EarnTaskCard from "./EarnTaskCard";
@@ -7,12 +8,33 @@ import EarnTaskHideModal from "./EarnTaskHideModal";
 import EarnTaskReportModal from "./EarnTaskReportModal";
 
 export default function EarnTaskList({tasks}: {tasks: Task[]}) {
+  const pageItemsSize = 10;
+  const [page, setPage] = useState(1); // TODO: useRouter and searchParams
+  const [total, setTotal] = useState(1);
   const [tasksFiltered, setTasksFiltered] = useState(tasks); // TODO?: optimize, just remove html block
+  const [tasksPaginated, setTasksPaginated] = useState([] as Task[]); // TODO: db pagination
+  
+  // TODO: refactor modals logic
   const [modalTaskId, setModalTaskId] = useState(0);
-
-  // TODO: peredelat' etu parashu s modalkami...ept ne mogli uchest' vneshnuu logiku? che ze cal...
   const [hideModalIsOpen, setHideModalIsOpen] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
+
+  useEffect(() => {
+    setTasksFiltered(tasks);
+  }, [tasks]);
+
+  useEffect(() => {
+    const start = (page - 1) * pageItemsSize;
+    const end = start + pageItemsSize;
+    setTasksPaginated(tasksFiltered.slice(start, end));
+    setTotal(Math.ceil(tasksFiltered.length / pageItemsSize));
+  }, [page, tasksFiltered]);
+
+  useEffect(() => {
+    if (page > total) {
+      setPage(total);
+    }
+  }, [total]);
 
   function hideModalOnOpenChange(isOpen: boolean) {
     setHideModalIsOpen(isOpen);
@@ -37,13 +59,9 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
     setTasksFiltered(tasksAfterFilter);
   }
 
-  useEffect(() => {
-    setTasksFiltered(tasks);
-  }, [tasks]);
-
   return (
     <div className="px-2">
-      {tasksFiltered.length ? tasksFiltered.map((task) => (
+      {tasksPaginated.length ? tasksPaginated.map((task) => (
         <EarnTaskCard 
           key={task.id} 
           task={task} 
@@ -51,6 +69,17 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onReportClick={() => reportClick(task.id)} 
         />
       )) : <p className="text-center text-medium mt-4">No tasks found.</p>}
+
+      {tasks.length > pageItemsSize && total > 1 && 
+        <Pagination 
+          showControls 
+          total={total} 
+          page={page} 
+          variant="bordered"
+          classNames={{ base: "flex justify-center my-5" }}
+          onChange={(page: number) => setPage(page)}
+        />
+      }
 
       <EarnTaskReportModal 
         taskId={modalTaskId} 
