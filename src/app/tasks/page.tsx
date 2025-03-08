@@ -5,10 +5,10 @@ import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/util
 import { fetchTasksByUserId } from "@/db/query";
 import { getAuthUser } from "@/core/session";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import TasksFilter from "@/components/Tasks/TasksFilter";
 import PageLoader from "@/components/Common/PageLoader";
 import TaskList from "@/components/Tasks/TaskList";
+import Link from "next/link";
 
 // TODO: optimize: prefetch, cache, pagination...
 // TODO: suspend, skeletons...

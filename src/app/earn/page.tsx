@@ -1,10 +1,12 @@
 'use server'
 
 import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest } from "@/lib/definitions";
-import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
+import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/core/session";
+import { Button } from "@heroui/button";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import EarnTabs from "@/components/Earn/EarnTabs";
 import PageLoader from "@/components/Common/PageLoader";
 import TasksFilter from "@/components/Tasks/TasksFilter";
@@ -53,17 +55,33 @@ export default async function EarnPage({
   const earnWarningShow = !cookies().get('earnWarningHide')?.value;
 
   return (
-    <div className="earn-page pb-5 max-w-[500px] max-[500px]:max-w-[100vw]">
+    <div className="flex flex-col h-full max-w-[500px] max-[500px]:max-w-[100vw]">
 
       <EarnTabs activeTab={tab} />
 
       {tab === 'quests' 
         ? <EarnQuestList quests={quests} />
         : 
-        <>
-          {!!tasks.length && <TasksFilter actions={actions} services={services} />}
-          <EarnTaskList tasks={tasksFiltered} />
-        </>
+        <div className="flex flex-col justify-between h-full">
+          <div>
+            {!!tasks.length && <TasksFilter actions={actions} services={services} />}
+
+            <EarnTaskList tasks={tasksFiltered} />
+          </div>
+
+          <div className="sticky bottom-[60px] z-40 bg-background px-2">
+            <Button
+              as={Link}
+              color="primary"
+              href="/tasks/create"
+              variant="shadow"
+              size="lg"
+              className="w-full mb-2 mt-2"
+            >
+              Create Task
+            </Button>
+          </div>
+        </div>
       }
 
       {earnWarningShow && <EarnWaringModal />}

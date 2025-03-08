@@ -68,7 +68,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onHideClick={() => hideClick(task.id)} 
           onReportClick={() => reportClick(task.id)} 
         />
-      )) : <p className="text-center text-medium mt-4">No tasks found.</p>}
+      )) : <p className="text-center text-medium mt-4">The task list is empty at the moment.<br />Create your own! 👇</p>}
 
       {tasks.length > pageItemsSize && total > 1 && 
         <Pagination 
