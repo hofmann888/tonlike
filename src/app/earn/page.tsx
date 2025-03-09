@@ -32,7 +32,7 @@ export default async function EarnPage({
   if (tab === 'tasks') {
     tasks = await fetchEarnTasksByUserId(user.id);
   } else {
-    quests = await fetchEarnQuestsByUserId(user.id) 
+    quests = await fetchEarnQuestsByUserId(user.id); 
   }
 
   const { actions, services } = tasksRelations(tasks);

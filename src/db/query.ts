@@ -864,7 +864,7 @@ export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refact
     return data as Quest[];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch tasks data.');
+    throw new Error('Failed to fetch quests data.');
   }
 }
 
