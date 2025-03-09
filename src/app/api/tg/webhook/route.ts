@@ -1,24 +1,27 @@
-'use server'
+import { Bot, webhookCallback } from "grammy";
 
-import { headers } from 'next/headers';
+const bot = new Bot(process.env.TG_BOT_TOKEN!);
 
-export async function POST(req: Request) {
-  try {
-    const headersList = headers();
-    const token = process.env.TG_BOT_WEBHOOK_TOKEN;
-    const secret = headersList.get('X-Telegram-Bot-Api-Secret-Token');
-    console.log('secret:', secret);
-
-    if (!secret || !token || secret !== token) {
-      throw new Error('Webhook auth failed.');
+bot.command("start", (ctx) => {
+  ctx.replyWithPhoto("https://tonlike.vercel.app/img/logo.png", {
+    caption: `TonLike is a mini app in Telegram for promoting social media. 🤝\n\nYou can both promote your social media by creating your own tasks and earn money by completing tasks of other users. 💰`,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: 'Start earning💵',
+            url: `https://t.me/${process.env.NEXT_PUBLIC_TG_BOT_NAME}/${process.env.NEXT_PUBLIC_TG_APP_NAME}`,
+          },
+          {
+            text: 'Stay tuned🔔',
+            url: 'https://t.me/tonlike_app'
+          },
+        ]
+      ]
     }
+  });
+});
 
-    const body = await req.json();
-    console.log('body:', body);
-
-    return Response.json({ 'message': 'ok' }); // Response.json(null);
-  } catch (error: any) {
-    console.log('Webhook Error:', error);
-    return Response.json({ success: false, error }, { status: 500 });
-  }
-}
+export const POST = webhookCallback(bot, 'std/http', { secretToken: process.env.TG_BOT_WEBHOOK_TOKEN });
+export const fetchCache = 'force-no-store';
+export const dynamic = 'force-dynamic';
