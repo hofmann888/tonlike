@@ -7,6 +7,8 @@ import {
   $debug,
   init as initSDK,
 } from '@telegram-apps/sdk-react';
+import { AppEnv, AppEnvEnum } from '@/lib/definitions';
+import telegramAnalytics from '@telegram-apps/analytics';
 
 /**
  * Initializes the application and configures its dependencies.
@@ -18,6 +20,14 @@ export function init(debug: boolean): void {
   // Initialize special event handlers for Telegram Desktop, Android, iOS, etc.
   // Also, configure the package.
   initSDK();
+
+  // Initialize Telegram Analytics
+  if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv)) {
+    telegramAnalytics.init({
+      token: process.env.TG_ANALYTICS_AUTH_TOKEN!,
+      appName: process.env.TG_ANALYTICS_IDENTIFIER!,
+    });
+  }
 
   // Mount all components used in the project.
   backButton.isSupported() && !backButton.isMounted() && backButton.mount();
