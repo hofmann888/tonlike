@@ -24,8 +24,8 @@ export function init(debug: boolean): void {
   // Initialize Telegram Analytics
   if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv)) {
     telegramAnalytics.init({
-      token: process.env.TG_ANALYTICS_AUTH_TOKEN!,
-      appName: process.env.TG_ANALYTICS_IDENTIFIER!,
+      token: process.env.NEXT_PUBLIC_TG_ANALYTICS_AUTH_TOKEN!,
+      appName: process.env.NEXT_PUBLIC_TG_ANALYTICS_IDENTIFIER!,
     });
   }
 
