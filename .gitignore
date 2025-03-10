@@ -47,7 +47,7 @@ next-env.d.ts
 
 # db
 /src/db/drizzle/
-/src/db/scripts/
+/src/db/seed.ts
 
 certificates
 
