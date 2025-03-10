@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     adBtn?.addEventListener('click', () => {
-      window.TelegramAdsController.triggerInterstitialBanner()
+      window.TelegramAdsController.triggerNativeNotification() // triggerInterstitialBanner
         .then((result) => {
           console.log(result);
         })
