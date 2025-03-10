@@ -42,6 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# scripts
+/src/scripts/
+
 # db
 /src/db/drizzle/
 /src/db/scripts/

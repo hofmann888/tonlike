@@ -8,10 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "tg:bot": "pnpm tsx src/utils/tg-bot.ts",
+    "app:test": "pnpm tsx src/scripts/test.ts",
+    "tg:bot": "pnpm tsx src/scripts/tg-bot.ts",
     "db:drop": "pnpm tsx src/db/scripts/drop.ts",
-    "db:seed": "pnpm tsx src/db/scripts/seed.ts",
-    "db:test": "pnpm tsx src/db/scripts/test.ts"
+    "db:seed": "pnpm tsx src/db/scripts/seed.ts"
   },
   "dependencies": {
     "@heroui/accordion": "2.2.7",
