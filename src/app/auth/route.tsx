@@ -17,7 +17,8 @@ export async function POST() {
       throw Error('Missing auth data or token.');
     }
 
-    if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv)) {
+    const appEnv = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
+    if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(appEnv)) {
       const expiresIn = parseInt(process.env.SESSION_TIME as string);
       validate(authData, token, {
         expiresIn: expiresIn, // TODO?: coockie expires && validate expiresIn?
@@ -29,6 +30,10 @@ export async function POST() {
     if (!initData?.user?.id) {
       throw Error('Undefined Telegram user.');
     }
+    if (appEnv === AppEnvEnum.STAGE && ![5229340312, 6681557705].includes(initData?.user?.id)) {
+      throw Error('Forbidden.');
+    }
+
     const tgUsername = initData.user.username ?? null;
     const tgPhotoUrl = initData.user.photoUrl ?? null;
 
