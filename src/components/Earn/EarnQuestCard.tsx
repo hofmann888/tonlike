@@ -2,13 +2,15 @@ import { addToast, ToastProps } from "@heroui/toast";
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
+import { Quest, ServiceActionNameEnum, ServiceName, ServiceNameEnum } from "@/lib/definitions";
 import { checkDailyDone, formatLink, tgOpenLink } from "@/utils/helpers";
-import { Quest, ServiceName, ServiceNameEnum } from "@/lib/definitions";
 import { checkQuest } from "@/utils/quest-checks";
+import { ShowPromiseResult } from "@/lib/adsgram";
+import { useAdsgram } from "@/hooks/useAdsgram";
+import { useCallback, useState } from "react";
 import { actionIcons } from "@/lib/const";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
-import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
 // TODO: quest progress (e.g. 3/5 friends invited...)
@@ -21,13 +23,30 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const oneTimeDone = !quest.daily && !!quest.doneLastAt;
   const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
-  const [loading, setLoading] = useState(false);
+  const [check, setCheck] = useState(false);
   const [checking, setChecking] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onReward = useCallback(() => {
+    setCheck(true);
+  }, []);
+  const onError = useCallback((result: ShowPromiseResult) => {
+    setCheck(false);
+    console.error('Adsgram onError:', JSON.stringify(result, null, 4));
+  }, []);
+  const showAd = useAdsgram({ onReward, onError });
 
   async function startClick() {
     setLoading(true);
 
     if (quest.service?.name === ServiceNameEnum.APP) {
+      if (quest.serviceAction.name === ServiceActionNameEnum.APP_AD) {
+        showAd();
+        setChecking(true);
+        setLoading(false);
+        return;
+      }
+
       checkClick();
       return;
     }
@@ -43,7 +62,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   async function checkClick() {
     setLoading(true);
 
-    const result = await checkQuest(quest.id);
+    const result = await checkQuest(quest.id, check);
     const toast = {
       color: result?.success ? "success" : "danger",
       title: result?.success ? "Success." : "Something went wrong.",
@@ -51,6 +70,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     };
 
     addToast(toast as ToastProps);
+    setCheck(false);
     setChecking(false);
     setLoading(false);
   }

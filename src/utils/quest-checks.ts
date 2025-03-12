@@ -9,7 +9,7 @@ import { checkDailyDone } from "./helpers";
 
 // TODO: refactor on class oop
 
-export async function checkQuest(questId: number) {
+export async function checkQuest(questId: number, checkExt?: boolean) {
   try {
     const [user, quest] = await Promise.all([
       getAuthUser(false, true), 
@@ -29,6 +29,9 @@ export async function checkQuest(questId: number) {
     switch (quest.serviceAction.name) {
       case ServiceActionNameEnum.APP_CHECK_IN:
         check = true;
+        break;
+      case ServiceActionNameEnum.APP_AD:
+        check = checkExt ?? check;
         break;
       case ServiceActionNameEnum.APP_INVITE:
         check = await checkInvitedCount(user.id, quest.countPerUser);
