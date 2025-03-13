@@ -42,8 +42,10 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     if (quest.service?.name === ServiceNameEnum.APP) {
       if (quest.serviceAction.name === ServiceActionNameEnum.APP_AD) {
         showAd();
-        setChecking(true);
-        setLoading(false);
+        setTimeout(() => {
+          setChecking(true);
+          setLoading(false);
+        }, 5000);
         return;
       }
 
