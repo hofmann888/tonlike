@@ -45,7 +45,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
         setTimeout(() => {
           setChecking(true);
           setLoading(false);
-        }, 5000);
+        }, 10000);
         return;
       }
 
