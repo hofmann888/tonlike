@@ -3,7 +3,7 @@
 import 'server-only';
 
 import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
-import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count } from 'drizzle-orm';
+import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count, max } from 'drizzle-orm';
 import { setSession } from '@/core/session';
 import { db } from './db';
 import * as schema from './schema';
@@ -837,7 +837,7 @@ export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refact
     const data = await db
       .select({
         ...getTableColumns(schema.quests), 
-        doneLastAt: sql<Date>`MAX(${schema.questEarnings.createdAt})`,
+        doneLastAt: max(schema.questEarnings.createdAt),
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
         serviceAction: getTableColumns(schema.serviceActions),
