@@ -16,10 +16,14 @@ import CoinValue from "../Common/CoinValue";
 // TODO: quest progress (e.g. 3/5 friends invited...)
 
 export default function EarnQuestCard({ quest }: { quest: Quest }) {
+  let countText;
+  if (quest.daily && quest.countPerUser > 1) { // TODO?: count for one-time?
+    countText = `${quest.doneCountToday}/${quest.countPerUser}`;
+  }
   const title = quest.title ? quest.title : (quest.serviceAction.title ?? quest.action?.title);
   const iconKey = quest.action?.name as keyof typeof actionIcons;
   const ActionIcon = actionIcons.hasOwnProperty(iconKey) ? actionIcons[iconKey] as IconType : undefined; // TODO: type
-  const dailyDone = quest.daily && quest.doneLastAt ? checkDailyDone(quest.doneLastAt) : false;
+  const dailyDone = quest.daily && quest.doneLastAt && quest.doneCountToday! >= quest.countPerUser ? checkDailyDone(quest.doneLastAt) : false;
   const oneTimeDone = !quest.daily && !!quest.doneLastAt;
   const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
@@ -104,24 +108,20 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <div className="flex items-center">
-            <Button 
-              color="primary" 
-              className="btn-border-shadow w-20" 
-              variant={checking ? "solid" : "bordered"}
-              isLoading={loading}
-              isDisabled={questIsDone}
-              isIconOnly={questIsDone}
-              onPress={() => checking ? checkClick() : startClick()}
-            >
-              {questIsDone 
-                ? <FaCheck /> 
-                : !loading && (checking ? 'Check' : 'Start')
-              }
-            </Button>
-          </div>
-        </div>
+        <Button 
+          color="primary" 
+          className="btn-border-shadow w-20" 
+          variant={checking ? "solid" : "bordered"}
+          isLoading={loading}
+          isDisabled={questIsDone}
+          isIconOnly={questIsDone}
+          onPress={() => checking ? checkClick() : startClick()}
+        >
+          {questIsDone 
+            ? <FaCheck /> 
+            : !loading && (checking ? 'Check' : countText ?? 'Start')
+          }
+        </Button>
       </CardBody>
     </Card>
   )

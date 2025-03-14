@@ -1,6 +1,6 @@
 'use server'
 
-import { fetchLastDateUserDoneQuest, fetchQuestById, fetchTaskEarningLastDoneByUserId, fetchUserReferralsCount, fetchTaskEarningDoneCountByUserId, fetchDoneQuestEarningCountByUserId, fetchTaskCountByUserId, createQuestEarningWithBalanceUpdate } from "@/db/query";
+import { fetchLastDateUserDoneQuest, fetchQuestById, fetchTaskEarningLastDoneByUserId, fetchUserReferralsCount, fetchTaskEarningDoneCountByUserId, fetchQuestDoneCountByUserId, fetchTaskCountByUserId, createQuestEarningWithBalanceUpdate, fetchQuestDoneCountTodayByUserAndQuestId } from "@/db/query";
 import { Quest, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { checkTgSubscribe, checkTgBoost } from "./task-checks";
 import { getAuthUser, setSession } from "@/core/session";
@@ -16,7 +16,7 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
       fetchQuestById(questId, [QuestRelationEnum.SERVICE_ACTION]), 
     ]);
 
-    const questDone = await checkQuestDone(quest.id, user.id, quest.daily);
+    const questDone = await checkQuestDone(quest, user);
     if (questDone) {
       return { 
         success: false, 
@@ -85,9 +85,12 @@ export async function earnOnQuest(quest: Quest, user: User) {
   await setSession(updatedUser); // TODO!?: tx?
 }
 
-export async function checkQuestDone(questId: number, userId: number, daily: boolean) {
-  const lastDoneDate = await fetchLastDateUserDoneQuest(userId, questId);
-  const check = daily ? checkDailyDone(lastDoneDate) : !!lastDoneDate;
+export async function checkQuestDone(quest: Quest, user: User) {
+  const [lastDoneDate, doneCountToday] = await Promise.all([
+    fetchLastDateUserDoneQuest(user.id, quest.id),
+    fetchQuestDoneCountTodayByUserAndQuestId(user.id, quest.id)
+  ]);
+  const check = quest.daily ? doneCountToday >= quest.countPerUser && checkDailyDone(lastDoneDate) : !!lastDoneDate;
  
   return check;
 }
@@ -120,7 +123,7 @@ export async function checkTaskDoneCount(userId: number, countNeed: number) {
 }
 
 export async function checkQuestDoneCount(userId: number, countNeed: number) {
-  const count = await fetchDoneQuestEarningCountByUserId(userId);
+  const count = await fetchQuestDoneCountByUserId(userId);
   const check = count >= countNeed;
   
   return check;

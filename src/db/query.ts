@@ -834,9 +834,23 @@ export async function fetchQuestById(id: number, relations?: schema.QuestRealati
 
 export async function fetchEarnQuestsByUserId(userId: number) { // TODO?: refactor 'active' for app service and check 'active'
   try {
+    const sq = db.select({ 
+      rowCount: count(schema.questEarnings.id),
+    })
+    .from(schema.questEarnings)
+    .where(
+      and(
+        eq(schema.questEarnings.userId, userId),
+        eq(schema.questEarnings.questId, schema.quests.id),
+        sql`${schema.questEarnings.createdAt}::date = CURRENT_DATE`
+      )
+    )
+    .as('sq');
+
     const data = await db
       .select({
         ...getTableColumns(schema.quests), 
+        doneCountToday: sql`${sq}`.mapWith(Number),
         doneLastAt: max(schema.questEarnings.createdAt),
         service: getTableColumns(schema.services),
         action: getTableColumns(schema.actions),
@@ -919,12 +933,28 @@ export async function fetchLastDateUserDoneQuest(userId: number, questId: number
     }
 }
 
-export async function fetchDoneQuestEarningCountByUserId(userId: number) {
+export async function fetchQuestDoneCountTodayByUserAndQuestId(userId: number, questId: number) {
   try {
     const data = await db.$count(schema.questEarnings, 
       and(
         eq(schema.questEarnings.userId, userId),
-        gt(schema.questEarnings.profit, 0)
+        eq(schema.questEarnings.questId, questId),
+        sql`${schema.questEarnings.createdAt}::date = CURRENT_DATE`
+      )
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function fetchQuestDoneCountByUserId(userId: number) {
+  try {
+    const data = await db.$count(schema.questEarnings, 
+      and(
+        eq(schema.questEarnings.userId, userId),
       )
     );
 

@@ -270,6 +270,7 @@ export type Quest = { // TODO?: EarnQuest?
   daily: boolean,
   priority: number,
   active: boolean,
+  doneCountToday?: number,
   doneLastAt?: Date, // TODO?: doneLastDate
 	createdAt: Date, // TODO?: undefined?
 	updatedAt?: Date,
