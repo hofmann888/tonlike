@@ -33,10 +33,8 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
 
   const onReward = useCallback(() => {
     setCheck(true);
-    setTimeout(() => {
-      setChecking(true);
-      setLoading(false);
-    }, 10000);
+    setChecking(true);
+    setLoading(false);
   }, []);
   const onError = useCallback((result: ShowPromiseResult) => {
     setCheck(false);
