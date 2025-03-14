@@ -33,9 +33,18 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
 
   const onReward = useCallback(() => {
     setCheck(true);
+    setTimeout(() => {
+      setChecking(true);
+      setLoading(false);
+    }, 10000);
   }, []);
   const onError = useCallback((result: ShowPromiseResult) => {
     setCheck(false);
+    setLoading(false);
+    addToast({
+      color: "danger",
+      title: "Something went wrong.",
+    } as ToastProps);
     console.error('Adsgram onError:', JSON.stringify(result, null, 4));
   }, []);
   const showAd = useAdsgram({ onReward, onError });
@@ -44,16 +53,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     setLoading(true);
 
     if (quest.service?.name === ServiceNameEnum.APP) {
-      if (quest.serviceAction.name === ServiceActionNameEnum.APP_AD) {
-        showAd();
-        setTimeout(() => {
-          setChecking(true);
-          setLoading(false);
-        }, 10000);
-        return;
-      }
-
-      checkClick();
+      quest.serviceAction.name === ServiceActionNameEnum.APP_AD ? showAd() : checkClick();
       return;
     }
 
