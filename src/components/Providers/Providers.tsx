@@ -1,14 +1,15 @@
 'use client'
 
 import type { ThemeProviderProps } from "next-themes";
-import * as React from "react";
-import { User } from "@/lib/definitions";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HeroUIProvider } from "@heroui/system";
+import { ToastProvider } from "@heroui/toast";
+import { I18nProvider } from "./I18nProvider";
 import { useRouter } from "next/navigation";
 import { ThemeProvider } from "next-themes";
-import { ToastProvider } from "@heroui/toast";
-import { HeroUIProvider } from "@heroui/system";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { User } from "@/lib/definitions";
 import UserProvider from "@/components/Providers/UserProvider";
+import * as React from "react";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -23,6 +24,7 @@ declare module "@react-types/shared" {
 }
 
 // TODO: HeroUIProvider not working
+// TODO: I18nProvider
 export function Providers({ children, themeProps, userData }: ProvidersProps) {
   const router = useRouter();
   const queryClient = new QueryClient(); // TODO: nah ono nado vasche?
@@ -30,12 +32,14 @@ export function Providers({ children, themeProps, userData }: ProvidersProps) {
   return (
     <HeroUIProvider navigate={router.push}>
       <ThemeProvider {...themeProps}>
-        <QueryClientProvider client={queryClient}>
-          <UserProvider userData={userData}>
-            <ToastProvider placement="bottom-center" toastOffset={60} toastProps={{ timeout: 3000, classNames: { base: "z-50" } }} />
-            {children}
-          </UserProvider>
-        </QueryClientProvider>
+        {/* <I18nProvider> */}
+          <QueryClientProvider client={queryClient}>
+            <UserProvider userData={userData}>
+              <ToastProvider placement="bottom-center" toastOffset={60} toastProps={{ timeout: 3000, classNames: { base: "z-50" } }} />
+              {children}
+            </UserProvider>
+          </QueryClientProvider>
+        {/* </I18nProvider> */}
       </ThemeProvider>
     </HeroUIProvider>
   );

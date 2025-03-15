@@ -10,7 +10,6 @@ import { useCallback } from "react";
 import EarnAdQuestCard from "@/components/Earn/EarnAdQuestCard";
 import PageLoader from "@/components/Common/PageLoader";
 
-
 export default function Home() {
   if (process.env.NEXT_PUBLIC_APP_ENV === AppEnvEnum.PROD) return <PageLoader />;
 

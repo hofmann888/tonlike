@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { I18nProvider } from "@/components/Providers/I18nProvider";
 import { Providers } from "@/components/Providers/Providers";
 import { TWARoot } from "@/components/TWA/TWARoot";
 import { getEnvBoolean } from "@/utils/helpers";
@@ -27,6 +28,7 @@ export const metadata: Metadata = { // TODO: icon
   icons: "/img/logo-circle.png",
 };
 
+// TODO: move to I18nProvider to Rroviders
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -49,20 +51,22 @@ export default async function RootLayout({
       }
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TWARoot>
-          <Providers 
-            userData={user}
-            themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
-          >
-            <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
-              <Header />
-              
-              <main className="layout-content">
-                {children}
-              </main>
+          <I18nProvider>
+            <Providers 
+              userData={user}
+              themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
+            >
+              <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
+                <Header />
+                
+                <main className="layout-content">
+                  {children}
+                </main>
 
-              <Footer />
-            </div>
-          </Providers>
+                <Footer />
+              </div>
+            </Providers>
+          </I18nProvider>
         </TWARoot>
       </body>
     </html>
