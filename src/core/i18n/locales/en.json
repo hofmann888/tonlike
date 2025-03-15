@@ -1,0 +1,10 @@
+{
+  "i18n": {
+    "language": "Language",
+    "languageKey": "EN",
+    "languageTitle": "English",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeLight": "Light"
+  }
+}

@@ -1,23 +1,27 @@
 'use client'
 
-import { useTheme } from 'next-themes'
-import { Switch } from "@heroui/switch";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { useTranslations } from 'next-intl';
+import { Switch } from "@heroui/switch";
+import { useTheme } from 'next-themes';
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
+  const t = useTranslations('i18n');
 
   return (
     <Switch
-      defaultSelected={theme === 'light'}
+      size="lg"
       color="primary"
       endContent={<FaMoon />}
-      size="lg"
       startContent={<FaSun />}
+      defaultSelected={theme === 'light'}
       onChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <span className="text-medium">
-        Theme: <span className="capitalize text-primary">{theme}</span>
+        {t('theme')}: <span className="text-primary">
+          {theme === 'light' ? t('themeLight') : t('themeDark')}
+        </span>
       </span>
     </Switch>
   )
