@@ -5,6 +5,7 @@ import { Form } from "@heroui/form";
 import { EditTaskFormState, Task } from "@/lib/definitions";
 import { EditTaskFormSubmit } from "@/core/actions";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import SubmitButton from "@/components/Common/SubmitButton";
@@ -14,6 +15,8 @@ import CoinIcon from "@/components/Common/CoinIcon";
 // TODO: check if count < done on price change
 export default function EditTaskForm({ task }: { task: Task }) {
   const { balance } = useUser();
+  
+  const t = useTranslations('i18n');
 
   const doneSum = task.doneSum ?? 0;
   const doneCount = task.doneCount ?? 0;
@@ -45,15 +48,15 @@ export default function EditTaskForm({ task }: { task: Task }) {
   return (
     <Form action={formAction} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
-        <CoinValue value={sum} textBefore="Sum:" />
-        <CoinValue value={doneSum} textBefore="Spent:" />
-        <CoinValue value={newSum} textBefore="New sum:" />
+        <CoinValue value={sum} textBefore={`${t('sum')}:`} />
+        <CoinValue value={doneSum} textBefore={`${t('spent')}:`} />
+        <CoinValue value={newSum} textBefore={`${t('newSum')}:`} />
       </div>
 
       <div className="flex w-full">
         <Input
           name="price"
-          label="Price"
+          label={t('price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -78,7 +81,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
         <Select 
           name="currency" 
-          label="Currency" 
+          label={t('currency')}
           variant="bordered" 
           className="w-1/4 max-[410px]:w-1/3"
           disallowEmptySelection
@@ -93,7 +96,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
       <div className="w-full flex justify-between items-baseline px-1">
         <Slider
-          label="Count"
+          label={t('count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -146,7 +149,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
       </div>
 
       <SubmitButton disabled={!newSum || newSum - doneSum > reserve} size="md" variant="flat" className="mt-2">
-        Update
+        {t('update')}
       </SubmitButton>
     </Form>
   )

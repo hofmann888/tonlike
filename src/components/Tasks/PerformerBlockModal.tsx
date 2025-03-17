@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
-import { useEffect, useRef, useState } from 'react';
 import { Button } from "@heroui/button";
+import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from 'react';
 import PerformerBlockForm from "./PerformerBlockForm";
 
 export default function PerformerBlockModal({ 
@@ -12,7 +13,9 @@ export default function PerformerBlockModal({
   onClose: () => void,
   performerBlocked: (id: number) => void
 }) {
+  const t = useTranslations('i18n');
   const formRef: any = useRef(null);
+  
   const [submitLoading, setSubmitLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -31,7 +34,7 @@ export default function PerformerBlockModal({
     setSubmitLoading(false);
 
     if (success) {
-      setMessage('User has been successfuly blocked.');
+      setMessage(t('blockPerformerSuccessMsg'));
       performerBlocked(id);
     }
   }
@@ -41,7 +44,7 @@ export default function PerformerBlockModal({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Block Performer</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">{t('blockPerformer')}</ModalHeader>
 
             <ModalBody>
               {message.length 
@@ -52,11 +55,11 @@ export default function PerformerBlockModal({
 
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
-                Close
+                {t('close')}
               </Button>
               {!message.length && 
                 <Button color="primary" onPress={onBlockClick} isLoading={submitLoading}>
-                  Block
+                  {t('block')}
                 </Button>
               }
             </ModalFooter>

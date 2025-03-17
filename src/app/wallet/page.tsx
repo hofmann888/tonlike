@@ -5,32 +5,13 @@
 // import DepositForm from "@/components/WalletPage/DepositForm";
 // import WithdrawForm from "@/components/WalletPage/WithdrawForm";
 // import WalletConnect from "@/components/WalletPage/WalletConnect";
-import { tgOpenLink } from '@/utils/helpers';
-import { Button } from "@heroui/button";
-import Image from 'next/image';
+import WalletBanner from '@/components/WalletPage/WalletBanner';
 
 export default function WalletPage() {
   // const { connected } = useTonConnect();
-  const link = 'https://t.me/tonlike_app';
-
   return (
     <div className="py-5 px-2 h-full max-w-[500px] max-[500px]:max-w-[100vw]">
-      <div className="flex flex-col justify-center items-center h-full">
-        <p className="text-center text-4xl font-black text-primary">COMING SOON</p>
-        <p className="text-center text-large font-bold mt-3">STAY TUNED...</p>
-      </div>
-
-      <div className="sticky bottom-28 w-full text-center">
-        <Button 
-          size="lg"
-          variant="light" 
-          aria-label="Telegram"
-          startContent={<Image width={30} height={30} src="/img/social/telegram.png" alt="telegram" />}
-          onPress={() => tgOpenLink(link)}
-        >
-          Subscribe
-        </Button>
-      </div>
+      <WalletBanner />
     </div>
   )
 

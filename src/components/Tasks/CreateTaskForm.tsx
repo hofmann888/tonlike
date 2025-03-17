@@ -11,6 +11,7 @@ import { Form } from "@heroui/form";
 import { CreateTaskFormState, Service } from "@/lib/definitions";
 import { CreateTaskFormSubmit } from "@/core/actions";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import TgSubscribeActionMessage from "@/components/Messages/TgSubscribeActionMessage";
@@ -22,6 +23,8 @@ import CoinIcon from "@/components/Common/CoinIcon";
 // TODO: link placeholders map
 // TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
+  const t = useTranslations('i18n');
+  
   const { balance } = useUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   
@@ -81,7 +84,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           className="px-3 gap-0"
           title={
             <>
-              <p>This task requires additional steps for verification.</p>
+              <p>{t('taskVerificationMsg')}</p>
               <Button 
                 color="primary" 
                 variant="light"
@@ -90,7 +93,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 disableRipple
                 disableAnimation
               >
-                Learn More
+                {t('learnMore')}
               </Button>
             </>
           } 
@@ -99,7 +102,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <Select
         name="serviceId"
-        label="Service"
+        label={t('service')}
         variant="bordered"
         classNames={{
           label: "group-data-[filled=true]:-translate-y-5",
@@ -119,7 +122,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 src={item.data?.icon}
               />
               <div className="flex flex-col">
-                <span>{item.data?.title}</span>
+                <span>{t(item.data!.title)}</span>
               </div>
             </div>
           ));
@@ -132,14 +135,14 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
               <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
             }
           >
-            {service.title}
+            {t(service.title)}
           </SelectItem>
         )}
       </Select>
 
       <Select 
         name="serviceActionId" 
-        label="Action" 
+        label={t('action')} 
         variant="bordered"
         items={service.serviceActions}
         onChange={(e) => {
@@ -153,13 +156,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         disallowEmptySelection
       >
         {(serviceAction) => (
-          <SelectItem key={serviceAction.id}>{serviceAction.title ?? serviceAction.action?.title}</SelectItem>
+          <SelectItem key={serviceAction.id}>{serviceAction.title ? t(serviceAction.title) : t(serviceAction.action!.title)}</SelectItem>
         )}
       </Select>
 
       <Input 
         name="link" 
-        label="Link" 
+        label={t('link')} 
         variant="bordered" 
         // placeholder="https://example.com or @example"
         value={link} 
@@ -177,7 +180,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       <div className="flex w-full">
         <Input
           name="price"
-          label="Price"
+          label={t('price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -202,7 +205,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
         <Select 
           name="currency" 
-          label="Currency" 
+          label={t('currency')} 
           variant="bordered" 
           className="w-1/4 max-[390px]:w-1/3"
           selectedKeys={['coin']}
@@ -217,7 +220,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <div className="w-full flex justify-between items-baseline px-2">
         <Slider
-          label="Count"
+          label={t('count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -270,7 +273,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </div>
 
       <SubmitButton disabled={!sum || sum > balance} className="mt-4">
-        <div className="flex items-center">Create (<CoinIcon className="inline" />{sum})</div>
+        <div className="flex items-center">{t('create')} (<CoinIcon className="inline" />{sum})</div>
       </SubmitButton>
 
 
@@ -278,13 +281,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Alert</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('alert')}</ModalHeader>
               <ModalBody>
                 {alert}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                  {t('close')}
                 </Button>
               </ModalFooter>
             </>

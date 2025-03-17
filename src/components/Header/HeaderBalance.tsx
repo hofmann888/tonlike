@@ -2,16 +2,18 @@
 
 import { Chip } from "@heroui/chip";
 import { useUser } from "@/hooks/useUser";
+import { useTranslations } from "next-intl";
 import { BsCurrencyDollar } from "react-icons/bs";
 import HeaderBalanceChipsSkeleton from "../Skeletons/HeaderBalanceChipsSkeleton";
 import CoinValue from "../Common/CoinValue";
 
 export default function HeaderBalance() {
   const { balance } = useUser();
+  const t = useTranslations('i18n');
 
   return (
     <div>
-      <span className="text-large">Balance:</span>
+      <span className="text-large">{t('balance')}:</span>
       {balance === undefined
         ? <HeaderBalanceChipsSkeleton />
         : 

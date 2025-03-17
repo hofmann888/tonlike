@@ -8,6 +8,7 @@ import { checkQuest } from "@/utils/quest-checks";
 import { ShowPromiseResult } from "@/lib/adsgram";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import { useCallback, useState } from "react";
+import { useTranslations } from "next-intl";
 import { actionIcons } from "@/lib/const";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
@@ -27,6 +28,8 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const oneTimeDone = !quest.daily && !!quest.doneLastAt;
   const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
+  const t = useTranslations('i18n');
+
   const [check, setCheck] = useState(false);
   const [checking, setChecking] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,7 +44,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     setLoading(false);
     addToast({
       color: "danger",
-      title: "Something went wrong.",
+      title: t('toastError'),
     } as ToastProps);
     console.error('Adsgram onError:', JSON.stringify(result, null, 4));
   }, []);
@@ -69,7 +72,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     const result = await checkQuest(quest.id, check);
     const toast = {
       color: result?.success ? "success" : "danger",
-      title: result?.success ? "Success." : "Something went wrong.",
+      title: result?.success ? t('toastSuccess') : t('toastError'),
       description: result?.message,
     };
 
@@ -99,7 +102,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           />
 
           <div className="flex flex-col mr-3">
-            <span className="text-medium">{ title }</span>
+            <span className="text-medium">{ t(title!) }</span>
             <div className="flex items-center text-small text-primary-500">
               + <CoinValue value={quest.price} />
             </div>
@@ -117,7 +120,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
         >
           {questIsDone 
             ? <FaCheck /> 
-            : !loading && (checking ? 'Check' : countText ?? 'Start')
+            : !loading && (checking ? t('check') : countText ?? t('start'))
           }
         </Button>
       </CardBody>

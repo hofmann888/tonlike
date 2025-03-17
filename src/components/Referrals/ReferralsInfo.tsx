@@ -2,6 +2,7 @@
 
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import { ClaimReferralEarnings } from "@/core/actions";
+import { useTranslations } from "next-intl";
 import { Button } from "@heroui/button";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
@@ -11,10 +12,12 @@ export default function ReferralsInfo({
 }: { 
   count: number, profit: number, profitToday: number, claimedSum: number
 }) {
-  const claimSum = profit - claimedSum;
+  const t = useTranslations('i18n');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const claimSum = profit - claimedSum;
 
   async function claim() {
     setLoading(true);
@@ -32,29 +35,29 @@ export default function ReferralsInfo({
     <div className="mb-8">
       <div className="flex justify-between">
         <Card className="mr-2 border-1 border-foreground-300 bg-[#00001280] w-3/4 max-[400px]:w-2/3">
-          <CardHeader className="text-medium text-primary pb-0">Invate Friends</CardHeader>
+          <CardHeader className="text-medium text-primary pb-0">{t('inviteFriends')}</CardHeader>
           <CardBody className="text-small text-foreground-500">
-            <p>Earn from they profit!</p>
-            <p>1000 coins for a friend + 10% from their earnings</p>
+            <p>{t('inviteFriendsMsg1')}</p>
+            <p>{t('inviteFriendsMsg2')}</p>
           </CardBody>
         </Card>
 
         <Card className="ml-2 border-1 border-foreground-300 bg-[#00001280] w-1/4 max-[400px]:w-1/3">
-          <CardHeader className="text-medium text-primary pb-0">Friends</CardHeader>
+          <CardHeader className="text-medium text-primary pb-0">{t('friends')}</CardHeader>
           <CardBody className="text-center text-3xl">{count}</CardBody>
         </Card>
       </div>
 
       <div className="flex justify-between mt-4">
         <Card className="w-1/2 mr-2 border-1 border-foreground-300 bg-[#00001280]">
-          <CardHeader className="text-medium text-primary pb-0">Profit today</CardHeader>
+          <CardHeader className="text-medium text-primary pb-0">{t('profitToday')}</CardHeader>
           <CardBody>
             <CoinValue value={profitToday} />
           </CardBody>
         </Card>
 
         <Card className="w-1/2 ml-2 border-1 border-foreground-300 bg-[#00001280]">
-          <CardHeader className="text-medium text-primary pb-0">Profit</CardHeader>
+          <CardHeader className="text-medium text-primary pb-0">{t('profit')}</CardHeader>
           <CardBody className="flex flex-row justify-between">
             <CoinValue value={profit} />
           </CardBody>
@@ -69,10 +72,10 @@ export default function ReferralsInfo({
             isDisabled={!claimSum}
             onPress={claim}
           >
-            Claim <CoinValue value={claimSum} className="text-small" />
+            {t('claim')} <CoinValue value={claimSum} className="text-small" />
           </Button>
           <p className="flex text-small">
-            Claimed: <CoinValue value={claimedSum} className="text-small ml-1" />
+            {t('claimed')}: <CoinValue value={claimedSum} className="text-small ml-1" />
           </p>
       </div>
 

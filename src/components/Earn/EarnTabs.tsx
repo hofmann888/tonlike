@@ -6,11 +6,13 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GoGoal } from "react-icons/go";
 import { BiTask } from "react-icons/bi";
+import { useTranslations } from "next-intl";
 
-
+// TODO: add chips to count tasks
 export default function EarnTabs({ activeTab }: { activeTab: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations('i18n');
 
   const [tab, setTab] = useState(activeTab);
 
@@ -39,7 +41,7 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
         title={
           <div className="flex items-center space-x-2">
             <BiTask />
-            <span>Tasks</span>
+            <span>{t('tasks')}</span>
             {/* <Chip size="sm" variant="faded">888</Chip> */}
           </div>
         }
@@ -50,7 +52,7 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
         title={
           <div className="flex items-center space-x-2">
             <GoGoal />
-            <span>Quests</span>
+            <span>{t('quests')}</span>
             {/* <Chip size="sm" variant="faded">8</Chip> */}
           </div>
         }

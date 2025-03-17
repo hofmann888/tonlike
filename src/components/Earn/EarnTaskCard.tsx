@@ -9,6 +9,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { formatLink, tgOpenLink } from "@/utils/helpers";
 import { ServiceName, Task } from "@/lib/definitions";
 import { checkTask } from "@/utils/task-checks";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
@@ -26,6 +27,7 @@ export default function EarnTaskCard({
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(false);
+  const t = useTranslations('i18n');
 
   function startClick() {
     const link = formatLink(task.link as string, task.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
@@ -40,7 +42,7 @@ export default function EarnTaskCard({
     const result = await checkTask(task.id);
     const toast = {
       color: result?.success ? "success" : "danger",
-      title: result?.success ? "Success." : "Something went wrong.",
+      title: result?.success ? t('toastSuccess') : t('toastError'),
       description: result?.message,
     };
 
@@ -64,7 +66,7 @@ export default function EarnTaskCard({
             alt={task.service?.title}
           />
           <div className="flex flex-col">
-            <span className="text-medium">{ actionTitle }</span>
+            <span className="text-medium">{ t(actionTitle!) }</span>
             <div className="flex items-center text-small mr-3 text-primary-500">
               + <CoinValue value={task.price} />
             </div>
@@ -87,7 +89,7 @@ export default function EarnTaskCard({
               onPress={() => checking ? checkClick() : startClick()}
               isLoading={loading}
             >
-              {!loading && (checking ? 'Check' : 'Start')}
+              {!loading && (checking ? t('check') : t('start'))}
             </Button>
             
             <Dropdown>
@@ -97,7 +99,13 @@ export default function EarnTaskCard({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Earn Task Actions">
-                <DropdownItem key="hide" startContent={<FaEyeSlash />} onPress={() => onHideClick(task.id)}>Hide</DropdownItem>
+                <DropdownItem 
+                  key="hide" 
+                  startContent={<FaEyeSlash />} 
+                  onPress={() => onHideClick(task.id)}
+                >
+                  {t('hide')}
+                </DropdownItem>
                 <DropdownItem 
                   key="report" 
                   className="text-danger"
@@ -105,7 +113,7 @@ export default function EarnTaskCard({
                   startContent={<FaExclamationCircle />}
                   onPress={() => onReportClick(task.id)}
                 >
-                  Report
+                  {t('report')}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

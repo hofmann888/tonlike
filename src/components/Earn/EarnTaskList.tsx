@@ -2,6 +2,7 @@
 
 import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Task } from "@/lib/definitions";
 import EarnTaskCard from "./EarnTaskCard";
 import EarnTaskHideModal from "./EarnTaskHideModal";
@@ -18,6 +19,8 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   const [modalTaskId, setModalTaskId] = useState(0);
   const [hideModalIsOpen, setHideModalIsOpen] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
+
+  const t = useTranslations('i18n');
 
   useEffect(() => {
     setTasksFiltered(tasks);
@@ -68,7 +71,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onHideClick={() => hideClick(task.id)} 
           onReportClick={() => reportClick(task.id)} 
         />
-      )) : <p className="text-center text-medium mt-4">The task list is empty at the moment.<br />Create your own! 👇</p>}
+      )) : <p className="text-center text-medium mt-4">{t('earnTaskListEmpty')}<br /> {t('earnTaskListCreateOwn')}</p>}
 
       {tasks.length > pageItemsSize && total > 1 && 
         <Pagination 
@@ -81,20 +84,20 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
         />
       }
 
-      <EarnTaskReportModal 
-        taskId={modalTaskId} 
-        onSubmit={modalSubmit} 
-        isOpen={reportModalIsOpen}
-        onOpenChange={reportModalOnOpenChange}
-        onClose={() => reportModalOnOpenChange(false)}
-      />
-
       <EarnTaskHideModal 
         taskId={modalTaskId} 
         onSubmit={modalSubmit} 
         isOpen={hideModalIsOpen}
         onOpenChange={hideModalOnOpenChange}
         onClose={() => hideModalOnOpenChange(false)}
+      />
+
+      <EarnTaskReportModal 
+        taskId={modalTaskId} 
+        onSubmit={modalSubmit} 
+        isOpen={reportModalIsOpen}
+        onOpenChange={reportModalOnOpenChange}
+        onClose={() => reportModalOnOpenChange(false)}
       />
     </div>
   )

@@ -1,10 +1,9 @@
 'use server'
 
-import { Chip } from "@heroui/chip";
 import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
 import { getAuthUser } from "@/core/session";
-import LeaderboardCard from "@/components/Leaderboard/LeaderboardCard";
+import Leaderboard from "@/components/Leaderboard/Leaderboard";
 import PageLoader from "@/components/Common/PageLoader";
 
 export default async function LeaderboardPage() {
@@ -25,15 +24,7 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="py-5 px-2 max-w-[500px] max-[500px]:max-w-[100vw]">
-      <div className="mb-8">
-        <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">You:</Chip>
-        <LeaderboardCard item={userLeaderboardItem} />
-      </div>
-
-      <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">Top 10:</Chip>
-      {leaderboard.map((item, idx) => (
-        <LeaderboardCard key={idx} item={item} />
-      ))}
+      <Leaderboard leaderboard={leaderboard} userLeaderboardItem={userLeaderboardItem} />
     </div>
   )
 }

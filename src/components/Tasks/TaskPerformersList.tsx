@@ -3,6 +3,7 @@ import { PerformerUnblock } from "@/core/actions";
 import { Card, CardBody } from "@heroui/card";
 import { useDisclosure } from "@heroui/modal";
 import { Performer } from "@/lib/definitions";
+import { useTranslations } from "next-intl";
 import { Button } from "@heroui/button";
 import { User } from "@heroui/user";
 import { useState } from "react";
@@ -13,6 +14,8 @@ import CoinValue from "../Common/CoinValue";
 // TODO?: show no performers message on empty list
 // TODO?: move modal to TaskList component
 export default function TaskPerformersList({ performers }: { performers: Performer[] }) {
+  const t = useTranslations('i18n');
+
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const [blockUserId, setBlockUserId] = useState(0);
@@ -86,8 +89,8 @@ export default function TaskPerformersList({ performers }: { performers: Perform
 
               <div className="w-24 text-right text-small text-primary-500"> 
                 {performer.isBlocked 
-                  ? <Button color="success" variant="flat" className="w-full" onPress={() => onUnblockClick(performer.id)}>Unblock</Button>
-                  : <Button color="danger" variant="flat" className="w-full" onPress={() => onBlockClick(performer.id)}>Block</Button>
+                  ? <Button color="success" variant="flat" className="w-full" onPress={() => onUnblockClick(performer.id)}>{t('unblock')}</Button>
+                  : <Button color="danger" variant="flat" className="w-full" onPress={() => onBlockClick(performer.id)}>{t('block')}</Button>
                 }
               </div>
             </CardBody>

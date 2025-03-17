@@ -5,10 +5,13 @@ import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
 import { ChangeTaskStatus, DeleteTask } from "@/core/actions";
 import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@heroui/button";
 import TaskCard from "./TaskCard";
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
+  const t = useTranslations('i18n');
+
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const [modalError, setModalError] = useState('');
@@ -44,15 +47,15 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   // TODO: compbine to one function
   function activateButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.ACTIVE);
-    openModal(id, 'Activate');
+    openModal(id, t('taskStatusActivate'));
   }
   function pauseButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.PAUSED);
-    openModal(id, 'Pause');
+    openModal(id, t('taskStatusPause'));
   }
   function deleteButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.DELETED);
-    openModal(id, 'Delete');
+    openModal(id, t('taskStatusDelete'));
   }
 
   function openModal(taskId: number, text: string) {
@@ -82,7 +85,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           onDeleteClick={() => deleteButtonClick(task.id)} 
           onActivateClick={() => activateButtonClick(task.id)} 
           />
-      )) : <p className="text-center text-medium">No tasks found.</p>}
+      )) : <p className="text-center text-medium">{t('taskListEmpty')}</p>}
 
       {tasks.length > pageItemsSize && 
         <Pagination 
@@ -99,9 +102,9 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Task {modalTaskId}</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('task')} {modalTaskId}</ModalHeader>
               <ModalBody>
-                <p className="text-medium">{modalText} this task?</p>
+                <p className="text-medium">{modalText} {t('thisTask')}?</p>
 
                 <div id="fields-error" aria-live="polite" aria-atomic="true">
                   {modalError &&
@@ -113,7 +116,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                  {t('close')}
                 </Button>
                 <Button color="primary" onPress={changeTaskStatus} isLoading={loading}>
                   {modalText}

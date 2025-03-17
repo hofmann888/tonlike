@@ -207,7 +207,7 @@ export type TaskStatusTitle = TaskStatusTitleEnum.ACTIVE | TaskStatusTitleEnum.P
 
 export type TaskStatusMapItem = {
   key: TaskStatus,
-  title: TaskStatusTitle,
+  title: string,
   icon: IconType,
   // count: number,
 }
@@ -230,7 +230,7 @@ export type TaskSortTitle = TaskSortTitleEnum.PRICE_ASC | TaskSortTitleEnum.PRIC
 
 export type TaskSortMapItem = {
   key: TaskSort,
-  title: TaskSortTitle,
+  title: string,
 }
 
 export enum TasksFilterParamEnum {

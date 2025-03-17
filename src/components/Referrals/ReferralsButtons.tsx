@@ -4,6 +4,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { Button } from "@heroui/button";
 import { FaCopy } from "react-icons/fa";
 import { useUser } from "@/hooks/useUser";
+import { useTranslations } from "next-intl";
 import { shareURL } from '@telegram-apps/sdk-react';
 
 // window.clipboardData.setData("Text", 'Copy this text to clipboard') // TODO: support for old browsers
@@ -12,6 +13,9 @@ import { shareURL } from '@telegram-apps/sdk-react';
 // TODO?: add input with link (to copy not through button)?
 export default function ReferralsButtons() {
   const { tgId } = useUser();
+
+  const t = useTranslations('i18n');
+
   const bot = process.env.NEXT_PUBLIC_TG_BOT_NAME as string;
   const app = process.env.NEXT_PUBLIC_TG_APP_NAME as string;
   const link = `https://t.me/${bot}/${app}?startapp=${tgId}`;
@@ -27,7 +31,7 @@ export default function ReferralsButtons() {
         endContent={<FaShareAlt />}
         onPress={() => shareURL(link, 'Join now and get 1000 $LIKE bonus!')}
       >
-        Invite a friend
+        {t('inviteAFriend')}
       </Button>
 
       <Button 

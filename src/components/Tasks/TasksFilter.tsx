@@ -5,30 +5,11 @@ import { Select, SelectItem } from "@heroui/select";
 import { Tabs, Tab } from "@heroui/tabs";
 import { Avatar } from "@heroui/avatar";
 import { Chip } from "@heroui/chip";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { FaPlay, FaPause, FaCheck, FaTrashAlt } from "react-icons/fa";
-import { 
-  Action, 
-  Service, 
-  TaskStatusMapItem, TaskStatusEnum, TaskStatusTitleEnum, 
-  TaskSortMapItem, TaskSortEnum, TaskSortTitleEnum 
-} from "@/lib/definitions";
-
-// TODO: combine status map and status count? # error on pass icon through component props cause its a function
-// TODO: remove enums and import object?
-const statusMap: TaskStatusMapItem[] = [
-  { key: TaskStatusEnum.ACTIVE, title: TaskStatusTitleEnum.ACTIVE, icon: FaPlay },
-  { key: TaskStatusEnum.PAUSED, title: TaskStatusTitleEnum.PAUSED, icon: FaPause },
-  { key: TaskStatusEnum.DONE, title: TaskStatusTitleEnum.DONE, icon: FaCheck },
-  { key: TaskStatusEnum.DELETED, title: TaskStatusTitleEnum.DELETED, icon: FaTrashAlt },
-]
-const sortMap: TaskSortMapItem[] = [
-  { key: TaskSortEnum.PRICE_ASC, title: TaskSortTitleEnum.PRICE_ASC },
-  { key: TaskSortEnum.PRICE_DESC, title: TaskSortTitleEnum.PRICE_DESC },
-  { key: TaskSortEnum.DATE_ASC, title: TaskSortTitleEnum.DATE_ASC },
-  { key: TaskSortEnum.DATE_DESC, title: TaskSortTitleEnum.DATE_DESC },
-]
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Action, Service, TaskStatusMapItem, TaskStatusEnum, TaskSortMapItem, TaskSortEnum } from "@/lib/definitions";
 
 export default function TasksFilter({
   actions, services, statusCount
@@ -38,16 +19,32 @@ export default function TasksFilter({
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
+  const t = useTranslations('i18n');
   
   const [actionsFilter, setActionsFilter] = useState(params.get('actions')?.split(','));
   const [servicesFilter, setServicesFilter] = useState(params.get('services')?.split(','));
   const [statusFilter, setStatusFilter] = useState(params.get('status'));
   const [sortFilter, setSortFilter] = useState(params.get('sort'));
+  const [pressText, setPressText] = useState('filterExpand');
 
-  const [pressSubText, setPressSubText] = useState('expand');
+  // TODO: combine status map and status count? # error on pass icon through component props cause its a function
+  // TODO: remove enums and import object?
+  const statusMap: TaskStatusMapItem[] = [
+    { key: TaskStatusEnum.ACTIVE, title: t('taskStatusActive'), icon: FaPlay },
+    { key: TaskStatusEnum.PAUSED, title: t('taskStatusPaused'), icon: FaPause },
+    { key: TaskStatusEnum.DONE, title: t('taskStatusDone'), icon: FaCheck },
+    { key: TaskStatusEnum.DELETED, title: t('taskStatusDeleted'), icon: FaTrashAlt },
+  ];
+
+  const sortMap: TaskSortMapItem[] = [
+    { key: TaskSortEnum.PRICE_ASC, title: `${t('sortPrice')}: ${t('sortLowToHigh')}`  },
+    { key: TaskSortEnum.PRICE_DESC, title: `${t('sortPrice')}: ${t('sortHighToLow')}` },
+    { key: TaskSortEnum.DATE_ASC, title: `${t('sortDate')}: ${t('sortLowToHigh')}` },
+    { key: TaskSortEnum.DATE_DESC, title: `${t('sortDate')}: ${t('sortHighToLow')}` },
+  ];
 
   const filterOnPress = () => {
-    pressSubText === 'expand' ? setPressSubText('collapse') : setPressSubText('expand');
+    pressText === 'filterExpand' ? setPressText('filterCollapse') : setPressText('filterExpand');
   }
 
   const tabOnChange = (key: string) => {
@@ -115,7 +112,7 @@ export default function TasksFilter({
       <div className="w-full relative">
         <Select 
           name="sort" 
-          label="Sort By" 
+          label={t('sortBy')} 
           size="sm"
           variant="bordered" 
           className="w-44 absolute top-[15px] right-[35px] max-[350px]:w-[150px]"
@@ -135,15 +132,15 @@ export default function TasksFilter({
             title={
             <div className="flex justify-between items-center pl-3">
               <div>
-                <p>Filter</p>
-                <p className="text-small text-foreground-400">Press to {pressSubText}</p>
+                <p>{t('filter')}</p>
+                <p className="text-small text-foreground-400">{t(pressText)}</p>
               </div>
             </div>
           }>
             <div className="flex flex-wrap gap-2">
               <Select
                 name="services"
-                label="Services"
+                label={t('services')}
                 variant="bordered"
                 selectionMode="multiple"
                 classNames={{
@@ -165,7 +162,7 @@ export default function TasksFilter({
                             src={item.data?.icon}
                           />
                           <div className="flex flex-col">
-                            <span>{item.data?.title}</span>
+                            <span>{t(item.data!.title)}</span>
                           </div>
                         </div>
                       ))}
@@ -180,14 +177,14 @@ export default function TasksFilter({
                       <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
                     }
                   >
-                    {service.title}
+                    {t(service.title)}
                   </SelectItem>
                 )}
               </Select>
 
               <Select 
                 name="actions" 
-                label="Actions" 
+                label={t('actions')} 
                 variant="bordered"
                 selectionMode="multiple"
                 items={actions} 
@@ -195,7 +192,7 @@ export default function TasksFilter({
                 onChange={(e) => setActionsFilter(e.target?.value.split(','))}
               >
                 {actions.map((action) => (
-                  <SelectItem key={action.id}>{action.title}</SelectItem>
+                  <SelectItem key={action.id}>{t(action.title)}</SelectItem>
                 ))}
               </Select>
             </div>

@@ -5,10 +5,10 @@ import { useState } from "react";
 import BlackListCard from "./BlackListCard";
 
 export const blackListReasonsMap: BlackListReasonsMapItem[] = [
-  { key: BlackListReasonEnum.TASK, title: 'Bad task completion' },
-  { key: BlackListReasonEnum.ACCOUNT, title: 'Bad account' },
-  { key: BlackListReasonEnum.BEHAVIOUR, title: 'Inappropriate behaviour' },
-  { key: BlackListReasonEnum.OTHER, title: 'Other' },
+  { key: BlackListReasonEnum.TASK, title: 'blackListReasonTask' },
+  { key: BlackListReasonEnum.ACCOUNT, title: 'blackListReasonAccount' },
+  { key: BlackListReasonEnum.BEHAVIOUR, title: 'blackListReasonBehaviour' },
+  { key: BlackListReasonEnum.OTHER, title: 'reasonOther' },
 ];
 
 export default function BlackList({ blackList }: { blackList: BlackListItem[] }) {

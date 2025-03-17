@@ -4,15 +4,14 @@ import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest } from "@/lib/d
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/core/session";
-import { Button } from "@heroui/button";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import EarnTabs from "@/components/Earn/EarnTabs";
 import PageLoader from "@/components/Common/PageLoader";
 import TasksFilter from "@/components/Tasks/TasksFilter";
 import EarnTaskList from "@/components/Earn/EarnTaskList";
 import EarnQuestList from "@/components/Earn/EarnQuestList";
 import EarnWaringModal from "@/components/Earn/EarnWarningModal";
+import CreateTaskButton from "@/components/Tasks/CreateTaskButton";
 
 export default async function EarnPage({
   searchParams
@@ -70,16 +69,7 @@ export default async function EarnPage({
           </div>
 
           <div className="sticky bottom-[60px] z-40 bg-background px-2">
-            <Button
-              as={Link}
-              color="primary"
-              href="/tasks/create"
-              variant="shadow"
-              size="lg"
-              className="w-full mb-2 mt-2"
-            >
-              Create Task
-            </Button>
+            <CreateTaskButton />
           </div>
         </div>
       }

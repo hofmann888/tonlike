@@ -4,11 +4,10 @@ import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchTasksByUserId } from "@/db/query";
 import { getAuthUser } from "@/core/session";
-import { Button } from "@heroui/button";
-import TasksFilter from "@/components/Tasks/TasksFilter";
-import PageLoader from "@/components/Common/PageLoader";
 import TaskList from "@/components/Tasks/TaskList";
-import Link from "next/link";
+import PageLoader from "@/components/Common/PageLoader";
+import TasksFilter from "@/components/Tasks/TasksFilter";
+import CreateTaskButton from "@/components/Tasks/CreateTaskButton";
 
 // TODO: optimize: prefetch, cache, pagination...
 // TODO: suspend, skeletons...
@@ -52,16 +51,7 @@ export default async function TasksPage({
       </div>
 
       <div className="sticky bottom-[60px] z-50 bg-background px-2">
-        <Button
-          as={Link}
-          color="primary"
-          href="/tasks/create"
-          variant="shadow"
-          size="lg"
-          className="w-full mb-2 mt-2"
-        >
-          Create Task
-        </Button>
+        <CreateTaskButton />
       </div>
     </div>
   )

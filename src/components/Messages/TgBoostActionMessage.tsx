@@ -1,16 +1,20 @@
+import { useTranslations } from "next-intl";
 import TgLinkButton from "@/components/Common/TgLinkButton";
 
 export default function TgBoostActionMessage() {
+  const t = useTranslations('i18n');
+
   const bot = process.env.NEXT_PUBLIC_TG_BOT_NAME as string;
   const botLink = `https://t.me/${bot}`;
 
+  // TODO: replace with one tgBoostTaskAlertMsg with variable (${botLinkJSX})
   return (
     <p className="text-medium">
-      In order for us to verify the completion of the task, you need to add our bot 
+      {t('tgBoostTaskAlertMsg1')}
       <TgLinkButton link={botLink} className="mx-1 text-medium">@{bot}</TgLinkButton>
-      as an administrator of the group or channel.
+      {t('tgBoostTaskAlertMsg2')}
       <br /><br />
-      You can still create a task without this action. However, without administrator rights, we cannot guarantee that the task will be properly completed by other users.
+      {t('tgTaskAlertSubMsg')}
     </p>
   )
 }

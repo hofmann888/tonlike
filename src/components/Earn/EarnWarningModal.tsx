@@ -1,20 +1,17 @@
 'use client'
 
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from "@heroui/modal";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { Checkbox } from "@heroui/checkbox";
-import { useEffect, useState } from "react";
 import { HideEarnWaning } from "@/core/actions";
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function EarnWaringModal() {
+  const t = useTranslations('i18n');
+
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+
   const [dontShow, setDontShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -37,16 +34,16 @@ export default function EarnWaringModal() {
       placement="center"
     >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1 text-warning text-center">Warning</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1 text-warning text-center">{t('warning')}</ModalHeader>
         <ModalBody>
           <p className="text-medium">
-            We recommend that you complete tasks responsibly. Otherwise, you may be banned and lose all your earnings.
+            {t('earnWarningMsg')}
           </p>
         </ModalBody>
         <ModalFooter className="justify-between">
-          <Checkbox isSelected={dontShow} onValueChange={setDontShow}>Don't show again</Checkbox>
+          <Checkbox isSelected={dontShow} onValueChange={setDontShow}>{t('dontShowAgain')}</Checkbox>
           <Button color="primary" onPress={hide} isLoading={loading}>
-            I Understand
+            {t('understand')}
           </Button>
         </ModalFooter>
       </ModalContent>

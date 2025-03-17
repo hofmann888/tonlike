@@ -4,6 +4,7 @@ import { Form } from "@heroui/form";
 import { blackListReasonsMap } from "../BlackList/BlackList";
 import { PerformerBlockFormState } from "@/lib/definitions";
 import { PerformerBlockFormSubmit } from "@/core/actions";
+import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useState } from "react";
 
@@ -17,6 +18,8 @@ export default function PerformerBlockForm({
   const [state, formAction] = useFormState(action, initialState);
   const [reasons, setReasons] = useState([] as string[]);
   const [comment, setComment] = useState('');
+  
+  const t = useTranslations('i18n');
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, blockUserId);
@@ -27,7 +30,7 @@ export default function PerformerBlockForm({
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
       <CheckboxGroup 
         name="reasons" 
-        label="Select reasons" 
+        label={t('reasonsSelect')} 
         color="primary"
         value={reasons}
         onValueChange={(value) => {
@@ -41,14 +44,14 @@ export default function PerformerBlockForm({
         isRequired
       >
         {blackListReasonsMap.map((item) => (
-          <Checkbox key={item.key} value={item.key}>{item.title}</Checkbox>
+          <Checkbox key={item.key} value={item.key}>{t(item.title)}</Checkbox>
         ))}
       </CheckboxGroup>
 
       <Textarea 
         name="comment" 
-        label="Comment" 
-        placeholder="Enter your comment" 
+        label={t('comment')} 
+        placeholder={t('commentPlaceholder')}
         className="mt-3" 
         value={comment}
         onValueChange={(value) => {

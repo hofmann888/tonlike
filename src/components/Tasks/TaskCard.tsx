@@ -13,6 +13,7 @@ import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { GetTaskPerformers } from "@/core/actions";
 import { FiExternalLink } from "react-icons/fi";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import TgLinkButton from "@/components/Common/TgLinkButton";
 import CoinValue from "@/components/Common/CoinValue";
@@ -30,6 +31,8 @@ export default function TaskCard({
   onDeleteClick: (id: number) => void,
   onActivateClick: (id: number) => void
 }) {
+  const t = useTranslations('i18n');
+
   const [performers, setPerformers] = useState([] as Performer[]);
   const [showPerformers, setShowPerformers] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -83,7 +86,7 @@ export default function TaskCard({
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </TgLinkButton>
 
-            <span className="whitespace-nowrap text-small text-foreground-400">{actionTitle}</span>
+            <span className="whitespace-nowrap text-small text-foreground-400">{t(actionTitle!)}</span>
           </div>
         </div>
 
@@ -117,10 +120,10 @@ export default function TaskCard({
             </DropdownTrigger>
             <DropdownMenu aria-label="Task Actions">
               {![TaskStatusEnum.DONE, TaskStatusEnum.DELETED].includes(task.status) 
-                ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>Edit</DropdownItem>
+                ? <DropdownItem key="edit" startContent={<FaEdit />} onPress={() => onEditClick()}>{t('edit')}</DropdownItem>
                 : null
               }
-              <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>Performers</DropdownItem>
+              <DropdownItem key="performers" startContent={<FaUserCheck />} onPress={() => onPerformersClick()}>{t('performers')}</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -135,7 +138,7 @@ export default function TaskCard({
               label: "tracking-wider font-medium text-default-600",
               value: "text-foreground/60",
             }}
-            label={`Progress: ${doneCount} / ${task.count}`}
+            label={`${t('progress')}: ${doneCount} / ${task.count}`}
             showValueLabel={true}
             size="sm"
             value={doneCount}
@@ -148,7 +151,7 @@ export default function TaskCard({
             <TaskPerformersList performers={performers} /> 
 
             <Button color="danger" variant="light" className="mt-4 w-full" onPress={() => setShowPerformers(false)}>
-              Close
+              {t('close')}
             </Button>
           </>
         }
@@ -158,7 +161,7 @@ export default function TaskCard({
             <EditTaskForm task={task} />
 
             <Button color="danger" variant="light" className="mt-2 w-full" onPress={() => setShowEditForm(false)}>
-              Close
+              {t('close')}
             </Button>
           </>
         }

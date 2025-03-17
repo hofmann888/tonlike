@@ -6,6 +6,7 @@ import { type BlackListItem } from "@/lib/definitions";
 import { blackListReasonsMap } from "./BlackList";
 import { PerformerUnblock } from "@/core/actions";
 import { FaInfoCircle } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 export default function BlackListCard({ 
@@ -15,6 +16,8 @@ export default function BlackListCard({
   blackListItem: BlackListItem,
   userUnblocked: (id: number) => void
 }) {
+  const t = useTranslations('i18n');
+
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -61,7 +64,7 @@ export default function BlackListCard({
             startContent={<FaInfoCircle />}
             onPress={() => setShowDetails(!showDetails)}
           >
-            <span className="max-[440px]:hidden">Details</span>
+            <span className="max-[440px]:hidden">{t('details')}</span>
           </Button>
 
           <Button 
@@ -71,7 +74,7 @@ export default function BlackListCard({
             isLoading={isLoading} 
             onPress={() => onUnblockClick()}
           >
-            {!isLoading && 'Unblock'}
+            {!isLoading && t('unblock')}
           </Button>
         </div>
       </CardBody>
@@ -80,17 +83,17 @@ export default function BlackListCard({
         <CardFooter className="block pt-0">
           {!!blackListItem.comment?.length && 
             <div className="text-small">
-              Comment: <span className="text-foreground-500">{blackListItem.comment}</span>
+              {t('comment')}: <span className="text-foreground-500">{blackListItem.comment}</span>
             </div>
           }
 
           <div className="text-small mt-1">
-            Reasons: 
+            {t('reasons')}: 
             {blackListItem.reasons.map((reason, idx) => {
-              const reasonMapItem = blackListReasonsMap.find((item) => item.key === reason) 
-              return (
-                <Chip key={idx} size="sm" variant="faded" color="warning" className="ml-1 mt-1">{reasonMapItem?.title}</Chip>
-              )
+              const reasonMapItem = blackListReasonsMap.find((item) => item.key === reason);
+              return reasonMapItem ? (
+                <Chip key={idx} size="sm" variant="faded" color="warning" className="ml-1 mt-1">{t(reasonMapItem.title)}</Chip>
+              ) : '';
             })}
           </div>
         </CardFooter>
