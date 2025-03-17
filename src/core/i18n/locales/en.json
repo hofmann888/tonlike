@@ -171,6 +171,129 @@
     "warning": "Warning",
     "earnWarningMsg": "We recommend that you complete tasks responsibly. Otherwise, you may be banned and lose all your earnings.",
     "dontShowAgain": "Don't show again",
-    "understand": "I Understand"
+    "understand": "I Understand",
+    "pageError": "Something went wrong...",
+    "tryAgain": "Try again"
+  },
+  "messages": {
+    "actions": {
+      "CreateTaskFormSubmit": {
+        "failed": "Failed to create task.",
+        "balance": "Not enough balance. Need at least ${sum}.",
+        "exists": "Task already exists."
+      },
+      "EditTaskFormSubmit": {
+        "failed": "Failed to update task.",
+        "balance": "Not enough balance. Need at least ${sum}.",
+        "status": "Wrong status.",
+        "task": "Wrong task.",
+        "count": "Count can't be less than progress."
+      },
+      "ChangeTaskStatus": {
+        "failed": "Failed to update task.",
+        "status": "Wrong status.",
+        "task": "Wrong task."
+      },
+      "DeleteTask": {
+        "failed": "Failed to delete task.",
+        "status": "Wrong status.",
+        "task": "Wrong task."
+      },
+      "GetTaskPerformers": {
+        "failed": "Failed to fetch data.",
+        "task": "Wrong task."
+      },
+      "PerformerBlockFormSubmit": {
+        "failed": "Failed to block user.",
+        "user": "User already blocked."
+      },
+      "PerformerUnblock": {
+        "failed": "Failed to unblock user.",
+        "user": "Wrong user."
+      },
+      "HideUserEarnTask": {
+        "failed": "Failed to hide task.",
+        "task": "Wrong task."
+      },
+      "EarnTaskReportFormSubmit": {
+        "failed": "Failed to report task.",
+        "task": "Wrong task."
+      },
+      "ClaimReferralEarnings": {
+        "failed": "Something went wrong. Try again.",
+        "claimed": "Already claimed."
+      }
+    },
+    "checks": {
+      "task": {
+        "notAvailable": "Task is not available.",
+        "failed": "Check failed.",
+        "tryAgain": "Try again.",
+        "completed": "Task completed."
+      },
+      "quest": {
+        "notAvailable": "Quest is not available.",
+        "failed": "Check failed.",
+        "tryAgain": "Try again.",
+        "completed": "Quest completed.",
+        "alreadyCompleted": "The quest has already been completed."
+      }
+    }
+  },
+  "errors": {
+    "forms": {
+      "common": {
+        "string": {
+          "min": "Must be {length} or more characters long.",
+          "max": "Must be {length} or fewer characters long."
+        }
+      },
+      "createTaskForm": {
+        "serviceActionId": {
+          "positive": "Wrong action.",
+          "refine": "Wrong action."
+        },
+        "link": {
+          "min": "Must be 3 or more characters long.",
+          "max": "Must be 255 or fewer characters long.",
+          "regex": "Wrong format."
+        },
+        "price": {
+          "min": "Must be greater or equal 1.",
+          "high": "Lower the price."
+        },
+        "count": {
+          "min": "Must be greater or equal 10."
+        }
+      },
+      "editTaskForm": {
+        "price": {
+          "min": "Must be greater or equal 1.",
+          "high": "Lower the price."
+        },
+        "count": {
+          "min": "Must be greater or equal 10.",
+          "low": "Too low count."
+        }
+      },
+      "performerBlockForm": {
+        "reasons": {
+          "enum": "Wrong reason.",
+          "nonempty": "Choose at least one reason."
+        },
+        "comment": {
+          "max": "Must be 5000 or fewer characters long."
+        }
+      },
+      "earnTaskReportForm": {
+        "reasons": {
+          "enum": "Wrong reason.",
+          "nonempty": "Choose at least one reason."
+        },
+        "comment": {
+          "max": "Must be 5000 or fewer characters long."
+        }
+      }
+    }
   }
 }

@@ -4,9 +4,12 @@ import { createTaskEarningWithBalanceUpdate, fetchTaskById, fetchTaskDoneCount, 
 import { tgCheckMembershipRequest, tgCheckBoostRequest } from "./tg-requests";
 import { Task, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { getAuthUser, setSession } from "@/core/session";
+import { getTranslations } from "next-intl/server";
 import { TaskRelationEnum } from "@/db/schema";
 
 export async function checkTask(taskId: number) {
+  const t = await getTranslations('messages.checks.task');
+
   try {
     const [user, task] = await Promise.all([
       getAuthUser(false, true), 
@@ -17,7 +20,7 @@ export async function checkTask(taskId: number) {
     if (!available) {
       return { 
         success: false, 
-        message: 'Task is not available.',
+        message: t('notAvailable'),
       }
     }
 
@@ -38,13 +41,13 @@ export async function checkTask(taskId: number) {
 
     return { 
       success: check,
-      message: check ? 'Task completed.' : 'Check failed.',
+      message: check ? t('completed') : t('failed'),
     };
   } catch (error) {
     console.log('Check Error:', error);
     return { 
       success: false, 
-      message: 'Try again.',
+      message: t('tryAgain'),
     };
   }
 }

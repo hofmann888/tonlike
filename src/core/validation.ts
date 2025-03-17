@@ -3,24 +3,25 @@ import { ServiceActionsRelationsEnum } from '@/db/schema';
 import { fetchServiceActionById } from '@/db/query';
 import { z } from 'zod';
 
+
 export const createTaskFormSchema = z.object({
   serviceActionId: z.coerce.number()
-    .positive({ message: 'Wrong action.' })
+    .positive({ message: 'createTaskForm.serviceActionId.positive' })
     .refine(async (id) => {
       const serviceAction = await fetchServiceActionById(id, [ServiceActionsRelationsEnum.ACTION, ServiceActionsRelationsEnum.SERVICE]);
       return serviceAction && serviceAction.active && serviceAction.action?.active && serviceAction.service?.active && serviceAction.service?.name !== ServiceNameEnum.APP;
-    }, { message: 'Wrong action.' }),
+    }, { message: 'createTaskForm.serviceActionId.refine' }),
   link: z.string()
-    .min(3, { message: 'Must be 3 or more characters long.' })
-    .max(255, { message: 'Must be 255 or fewer characters long.' })
-    .regex(/^(https?:\/\/|@)/, { message: 'Wrong format.' }), // TODO: check link format by service
-  price: z.coerce.number().min(1, { message: 'Must be greater or equal 1.'}),
-  count: z.coerce.number().min(10, { message: 'Must be greater or equal 10.'}),
+    .min(3, { message: 'createTaskForm.link.min' })
+    .max(255, { message: 'createTaskForm.link.max' })
+    .regex(/^(https?:\/\/|@)/, { message: 'createTaskForm.link.regex' }), // TODO: check link format by service
+  price: z.coerce.number().min(1, { message: 'createTaskForm.price.min'}),
+  count: z.coerce.number().min(10, { message: 'createTaskForm.count.min'}),
 });
 
 export const editTaskFormSchema = z.object({
-  price: z.coerce.number().min(1, { message: 'Must be greater or equal 1.'}),
-  count: z.coerce.number().min(10, { message: 'Must be greater or equal 10.'}),
+  price: z.coerce.number().min(1, { message: 'editTaskForm.price.min'}),
+  count: z.coerce.number().min(10, { message: 'editTaskForm.count.min'}),
 });
 
 export const performerBlockFormSchema = z.object({
@@ -29,10 +30,10 @@ export const performerBlockFormSchema = z.object({
     BlackListReasonEnum.ACCOUNT, 
     BlackListReasonEnum.BEHAVIOUR, 
     BlackListReasonEnum.OTHER
-  ], { message: 'Wrong reason.' })
+  ], { message: 'performerBlockForm.reasons.enum' })
     .array()
-    .nonempty({ message: 'Choose at least one reason.' }),
-  comment: z.string().max(5000, { message: 'Must be 5000 or fewer characters long.' }),
+    .nonempty({ message: 'performerBlockForm.reasons.nonempty' }),
+  comment: z.string().max(5000, { message: 'performerBlockForm.comment.max' }),
 });
 
 export const earnTaskReportFormSchema = z.object({
@@ -43,8 +44,8 @@ export const earnTaskReportFormSchema = z.object({
     ReportReasonEnum.COPYRIGHT, 
     ReportReasonEnum.CONTENT, 
     ReportReasonEnum.OTHER
-  ], { message: 'Wrong reason.' })
+  ], { message: 'earnTaskReportForm.reasons.enum' })
     .array()
-    .nonempty({ message: 'Choose at least one reason.' }),
-  comment: z.string().max(5000, { message: 'Must be 5000 or fewer characters long.' }),
+    .nonempty({ message: 'earnTaskReportForm.reasons.nonempty' }),
+  comment: z.string().max(5000, { message: 'earnTaskReportForm.comment.max' }),
 });

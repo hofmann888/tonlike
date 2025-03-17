@@ -23,7 +23,7 @@ import CoinIcon from "@/components/Common/CoinIcon";
 // TODO: link placeholders map
 // TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations();
   
   const { balance } = useUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -84,7 +84,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           className="px-3 gap-0"
           title={
             <>
-              <p>{t('taskVerificationMsg')}</p>
+              <p>{t('i18.taskVerificationMsg')}</p>
               <Button 
                 color="primary" 
                 variant="light"
@@ -93,7 +93,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 disableRipple
                 disableAnimation
               >
-                {t('learnMore')}
+                {t('i18n.learnMore')}
               </Button>
             </>
           } 
@@ -102,7 +102,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <Select
         name="serviceId"
-        label={t('service')}
+        label={t('i18n.service')}
         variant="bordered"
         classNames={{
           label: "group-data-[filled=true]:-translate-y-5",
@@ -122,7 +122,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 src={item.data?.icon}
               />
               <div className="flex flex-col">
-                <span>{t(item.data!.title)}</span>
+                <span>{t(`i18n.${item.data!.title}`)}</span>
               </div>
             </div>
           ));
@@ -135,14 +135,14 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
               <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
             }
           >
-            {t(service.title)}
+            {t(`i18n.${service.title}`)}
           </SelectItem>
         )}
       </Select>
 
       <Select 
         name="serviceActionId" 
-        label={t('action')} 
+        label={t('i18n.action')} 
         variant="bordered"
         items={service.serviceActions}
         onChange={(e) => {
@@ -152,17 +152,17 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           }
         }}
         isInvalid={!!state?.errors?.serviceActionId?.length}
-        errorMessage={state?.errors?.serviceActionId?.length ? state.errors.serviceActionId[0] : ''}
+        errorMessage={state?.errors?.serviceActionId?.length ? t(`errors.forms.${state.errors.serviceActionId[0]}`) : ''}
         disallowEmptySelection
       >
         {(serviceAction) => (
-          <SelectItem key={serviceAction.id}>{serviceAction.title ? t(serviceAction.title) : t(serviceAction.action!.title)}</SelectItem>
+          <SelectItem key={serviceAction.id}>{serviceAction.title ? t(`i18n.${serviceAction.title}`) : t(`i18n.${serviceAction.action!.title}`)}</SelectItem>
         )}
       </Select>
 
       <Input 
         name="link" 
-        label={t('link')} 
+        label={t('i18n.link')} 
         variant="bordered" 
         // placeholder="https://example.com or @example"
         value={link} 
@@ -173,14 +173,14 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           }
         }}
         isInvalid={!!state?.errors?.link?.length}
-        errorMessage={state?.errors?.link?.length ? state.errors.link[0] : ''}
+        errorMessage={state?.errors?.link?.length ? t(`errors.forms.${state.errors.link[0]}`) : ''}
         isClearable
       />
 
       <div className="flex w-full">
         <Input
           name="price"
-          label={t('price')}
+          label={t('i18n.price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -195,7 +195,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
             }
           }}
           isInvalid={!!state?.errors?.price?.length}
-          errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
+          errorMessage={state?.errors?.price?.length ? t(`errors.forms.${state.errors.price[0]}`) : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
               <CoinIcon className="text-default-400 text-large" />
@@ -205,7 +205,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
         <Select 
           name="currency" 
-          label={t('currency')} 
+          label={t('i18n.currency')} 
           variant="bordered" 
           className="w-1/4 max-[390px]:w-1/3"
           selectedKeys={['coin']}
@@ -220,7 +220,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <div className="w-full flex justify-between items-baseline px-2">
         <Slider
-          label={t('count')}
+          label={t('i18n.count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -260,7 +260,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
             }
           }}
           isInvalid={!!state?.errors?.count?.length}
-          errorMessage={state?.errors?.count?.length ? state.errors.count[0] : ''}
+          errorMessage={state?.errors?.count?.length ? t(`errors.forms.${state.errors.count[0]}`) : ''}
         />
       </div>
 
@@ -273,7 +273,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </div>
 
       <SubmitButton disabled={!sum || sum > balance} className="mt-4">
-        <div className="flex items-center">{t('create')} (<CoinIcon className="inline" />{sum})</div>
+        <div className="flex items-center">{t('i18n.create')} (<CoinIcon className="inline" />{sum})</div>
       </SubmitButton>
 
 
@@ -281,13 +281,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">{t('alert')}</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('i18n.alert')}</ModalHeader>
               <ModalBody>
                 {alert}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  {t('close')}
+                  {t('i18n.close')}
                 </Button>
               </ModalFooter>
             </>

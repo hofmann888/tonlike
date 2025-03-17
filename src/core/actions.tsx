@@ -6,13 +6,19 @@ import { CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnu
 import { createTaskFormSchema, editTaskFormSchema, earnTaskReportFormSchema, performerBlockFormSchema } from './validation';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 import { getAuthUser, setSession } from '@/core/session';
+import { getTranslations } from 'next-intl/server';
 import { formatLink } from '@/utils/helpers';
 import { revalidatePath } from 'next/cache'; 
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { sql } from 'drizzle-orm';
 
+// TODO: format zod validated errors for i18n and heroUI
+// TODO: actions -> server-actions
+
 export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
+  const t = await getTranslations('messages.actions.CreateTaskFormSubmit');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -26,7 +32,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     if (!validated.success) {
       return {
         errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to create task.',
+        message: t('failed'),
       };
     }
 
@@ -40,20 +46,20 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     
     if (user.balance < sum) { // TODO?: refactor zod refine?
       return {
-        errors: { price: ['Lower the price'] },
-        message: `Not enough balance to create task. Need at least $${sum}.`,
+        errors: { price: ['createTaskForm.price.high'] },
+        message: t('balance', { sum: sum }),
       }
     }
 
     if (await isTaskExists(data.userId, data.serviceActionId, data.link)) {
-      return { message: 'Task already exists.' }
+      return { message: t('exists') }
     }
 
     const { updatedUser } = await createTaskWithBalanceUpdate(data, user.balance - sum);
     await setSession(updatedUser); // TODO!?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
-    return { message: 'Failed to create task.' };
+    return { message: t('failed') };
   }
   
   revalidatePath('/tasks');
@@ -61,6 +67,8 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 }
 
 export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskFormState, formData: FormData) {
+  const t = await getTranslations('messages.actions.EditTaskFormSubmit');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -72,7 +80,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     if (!validated.success) {
       return {
         errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to update task.',
+        message: t('failed'),
       };
     }
 
@@ -84,11 +92,11 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     ]);
 
     if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(task.status)) {
-      throw new Error('Wrong status.');
+      throw new Error(t('status'));
     }
 
     if (!hasTask) {
-      throw new Error('Wrong task.');
+      throw new Error(t('task'));
     }
 
     const data = validated.data;
@@ -97,8 +105,8 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     if (data.count < doneCount) { // TODO?: refactor zod refine?
       return {
-        errors: { count: ['Too low count'] },
-        message: `Count can't be less than progress.`,
+        errors: { count: ['editTaskForm.count.low'] },
+        message: t('count'),
       }
     }
 
@@ -110,8 +118,8 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     if (newBalance < 0) { // TODO?: refactor zod refine?
       return {
-        errors: { price: ['Lower the price'] },
-        message: `Not enough balance to update task. Need at least $${cost - reserve}.`, // TODO: dynamic currency - coin|$
+        errors: { price: ['editTaskForm.price.high'] },
+        message: t('balance', { sum: cost - reserve }), // TODO: dynamic currency - coin|$
       }
     }
 
@@ -119,7 +127,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
     await setSession(updatedUser); // TODO!?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
-    return { message: 'Failed to update task.' };
+    return { message: t('failed') };
   }
   
   revalidatePath('/tasks');
@@ -127,21 +135,23 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 }
 
 export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
+  const t = await getTranslations('messages.actions.ChangeTaskStatus');
+
   try {
     const user: User = await getAuthUser(false, true);
 
     if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(status)) {
-      throw new Error('Wrong status.');
+      throw new Error(t('status'));
     }
 
     if (!await userHasTask(taskId, user.id)) {
-      throw new Error('Wrong task.');
+      throw new Error(t('task'));
     }
 
     await updateTask(taskId, { status });
   } catch (error) {
     console.log('Operation Error:', error);
-    return { message: 'Failed to update task.' };
+    return { message: t('failed') };
   }
 
   revalidatePath('/tasks');
@@ -149,6 +159,8 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
 }
 
 export async function DeleteTask(taskId: number) {
+  const t = await getTranslations('messages.actions.DeleteTask');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -160,11 +172,11 @@ export async function DeleteTask(taskId: number) {
     ]);
 
     if ([TaskStatusEnum.DELETED, TaskStatusEnum.DONE].includes(task.status)) {
-      throw new Error('Wrong status.');
+      throw new Error(t('status'));
     }
 
     if (!hasTask) {
-      throw new Error('Wrong task.');
+      throw new Error(t('task'));
     }
  
     const newBalance = user.balance + task.price * (task.count - doneCount);
@@ -174,7 +186,7 @@ export async function DeleteTask(taskId: number) {
     await setSession(updatedUser); // TODO?: tx?
   } catch (error) {
     console.log('Operation Error:', error);
-    return { message: 'Failed to delete task.' };
+    return { message: t('failed') };
   }
 
   revalidatePath('/tasks');
@@ -182,24 +194,26 @@ export async function DeleteTask(taskId: number) {
 }
 
 export async function GetTaskPerformers(taskId: number) {
+  const t = await getTranslations('messages.actions.GetTaskPerformers');
+
   try {
     const user: User = await getAuthUser(false, true);
 
     if (!await userHasTask(taskId, user.id)) {
-      throw new Error("Wrong task!");
+      throw new Error(t('task'));
     }
 
     const data = await fetchTaskPerformers(taskId);
     return { data };
   } catch (error) {
     console.log('Operation Error:', error);
-    return {
-      message: 'Failed to fetch data.',
-    };
+    return { message: t('failed') };
   }
 }
 
 export async function PerformerBlockFormSubmit(blockUserId: number, prevState: PerformerBlockFormState, formData: FormData) {
+  const t = await getTranslations('messages.actions.PerformerBlockFormSubmit');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -211,13 +225,13 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
     if (!validated.success) {
       return {
         errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to block user.',
+        message: t('failed'),
         success: false
       };
     }
 
     if (await userInBlackList(user.id, blockUserId)) {
-      throw new Error('User already blocked.');
+      throw new Error(t('user'));
     }
 
     const data = { userId: user.id, blockedUserId: blockUserId, ...validated.data };
@@ -227,37 +241,41 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Failed to block user.',
+      message: t('failed'),
       success: false
     };
   }
 }
 
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
+  const t = await getTranslations('messages.actions.PerformerUnblock');
+
   try {
     const user: User = await getAuthUser(false, true);
     
     const result = await removeUserFromBlackList(user.id, unblockUserId);
     if (!result) {
-      throw new Error('Wrong user.');
+      throw new Error(t('user'));
     }
 
     return { success: true };
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Failed to unblock user.',
+      message: t('failed'),
       success: false,
     };
   }
 }
 
 export async function HideUserEarnTask(taskId: number) {
+  const t = await getTranslations('messages.actions.HideUserEarnTask');
+
   try {
     const user: User = await getAuthUser(false, true);
 
     if (!await taskIsAvailableForUser(taskId, user.id)) {
-      throw new Error('Wrong task.');
+      throw new Error(t('task'));
     }
 
     await hideTaskEarningForUser(taskId, user.id);
@@ -266,13 +284,15 @@ export async function HideUserEarnTask(taskId: number) {
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Failed to hide task.',
+      message: t('failed'),
       success: false,
     };
   }
 }
 
 export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTaskReportFormState, formData: FormData) {
+  const t = await getTranslations('messages.actions.EarnTaskReportFormSubmit');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -284,13 +304,13 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
     if (!validated.success) {
       return {
         errors: validated.error.flatten().fieldErrors,
-        message: 'Failed to report task.',
+        message: t('failed'),
         success: false
       };
     }
 
     if (!await taskIsAvailableForUser(taskId, user.id)) {
-      throw new Error('Wrong task.');
+      throw new Error(t('task'));
     }
 
     const data = { userId: user.id, taskId: taskId, ...validated.data };
@@ -300,13 +320,15 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
   } catch (error) {
     console.log('Operation Error:', error);
     return {
-      message: 'Failed to report task.',
+      message: t('failed'),
       success: false
     };
   }
 }
 
 export async function ClaimReferralEarnings() {
+  const t = await getTranslations('messages.actions.ClaimReferralEarnings');
+
   try {
     const user: User = await getAuthUser(false, true);
 
@@ -319,7 +341,7 @@ export async function ClaimReferralEarnings() {
     const claimSum = profit - user.claimed;
 
     if (!claimSum) {
-      return { message: 'Already claimed.' };
+      return { message: t('claimed') };
     }
 
     await updateUserWithSession(user.id, { 
@@ -328,7 +350,7 @@ export async function ClaimReferralEarnings() {
     });
   } catch (error) {
     console.log('Operation Error:', error);
-    return { message: 'Something went wrong. Try again.' };
+    return { message: t('failed') };
   }
 
   revalidatePath('/referrals');

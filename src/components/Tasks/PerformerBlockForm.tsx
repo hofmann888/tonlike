@@ -19,7 +19,7 @@ export default function PerformerBlockForm({
   const [reasons, setReasons] = useState([] as string[]);
   const [comment, setComment] = useState('');
   
-  const t = useTranslations('i18n');
+  const t = useTranslations();
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, blockUserId);
@@ -30,7 +30,7 @@ export default function PerformerBlockForm({
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
       <CheckboxGroup 
         name="reasons" 
-        label={t('reasonsSelect')} 
+        label={t('i18n.reasonsSelect')} 
         color="primary"
         value={reasons}
         onValueChange={(value) => {
@@ -40,7 +40,7 @@ export default function PerformerBlockForm({
           }
         }}
         isInvalid={!!state?.errors?.reasons?.length}
-        errorMessage={state?.errors?.reasons?.length ? state.errors.reasons[0] : ''}
+        errorMessage={state?.errors?.reasons?.length ? t(`errors.forms.${state.errors.reasons[0]}`) : ''}
         isRequired
       >
         {blackListReasonsMap.map((item) => (
@@ -50,8 +50,8 @@ export default function PerformerBlockForm({
 
       <Textarea 
         name="comment" 
-        label={t('comment')} 
-        placeholder={t('commentPlaceholder')}
+        label={t('i18n.comment')} 
+        placeholder={t('i18n.commentPlaceholder')}
         className="mt-3" 
         value={comment}
         onValueChange={(value) => {
@@ -61,7 +61,7 @@ export default function PerformerBlockForm({
           }
         }}
         isInvalid={!!state?.errors?.comment?.length}
-        errorMessage={state?.errors?.comment?.length ? state.errors.comment[0] : ''}
+        errorMessage={state?.errors?.comment?.length ? t(`errors.forms.${state.errors.comment[0]}`) : ''}
       />
 
       <div id="fields-error" aria-live="polite" aria-atomic="true">

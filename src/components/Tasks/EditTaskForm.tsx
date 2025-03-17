@@ -16,7 +16,7 @@ import CoinIcon from "@/components/Common/CoinIcon";
 export default function EditTaskForm({ task }: { task: Task }) {
   const { balance } = useUser();
   
-  const t = useTranslations('i18n');
+  const t = useTranslations();
 
   const doneSum = task.doneSum ?? 0;
   const doneCount = task.doneCount ?? 0;
@@ -48,15 +48,15 @@ export default function EditTaskForm({ task }: { task: Task }) {
   return (
     <Form action={formAction} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
-        <CoinValue value={sum} textBefore={`${t('sum')}:`} />
-        <CoinValue value={doneSum} textBefore={`${t('spent')}:`} />
-        <CoinValue value={newSum} textBefore={`${t('newSum')}:`} />
+        <CoinValue value={sum} textBefore={`${t('i18n.sum')}:`} />
+        <CoinValue value={doneSum} textBefore={`${t('i18n.spent')}:`} />
+        <CoinValue value={newSum} textBefore={`${t('i18n.newSum')}:`} />
       </div>
 
       <div className="flex w-full">
         <Input
           name="price"
-          label={t('price')}
+          label={t('i18n.price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -71,7 +71,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
             }
           }}
           isInvalid={!!state?.errors?.price?.length}
-          errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
+          errorMessage={state?.errors?.price?.length ? t(`errors.forms.${state.errors.price[0]}`) : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
               <CoinIcon className="text-default-400 text-large" />
@@ -81,7 +81,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
         <Select 
           name="currency" 
-          label={t('currency')}
+          label={t('i18n.currency')}
           variant="bordered" 
           className="w-1/4 max-[410px]:w-1/3"
           disallowEmptySelection
@@ -96,7 +96,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
       <div className="w-full flex justify-between items-baseline px-1">
         <Slider
-          label={t('count')}
+          label={t('i18n.count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -136,7 +136,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
             }
           }}
           isInvalid={!!state?.errors?.count?.length}
-          errorMessage={state?.errors?.count?.length ? state.errors.count[0] : ''}
+          errorMessage={state?.errors?.count?.length ? t(`errors.forms.${state.errors.count[0]}`) : ''}
         />
       </div>
 
@@ -149,7 +149,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
       </div>
 
       <SubmitButton disabled={!newSum || newSum - doneSum > reserve} size="md" variant="flat" className="mt-2">
-        {t('update')}
+        {t('i18n.update')}
       </SubmitButton>
     </Form>
   )

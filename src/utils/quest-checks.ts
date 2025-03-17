@@ -4,12 +4,15 @@ import { fetchLastDateUserDoneQuest, fetchQuestById, fetchTaskEarningLastDoneByU
 import { Quest, User, ServiceActionNameEnum } from '@/lib/definitions';
 import { checkTgSubscribe, checkTgBoost } from "./task-checks";
 import { getAuthUser, setSession } from "@/core/session";
+import { getTranslations } from "next-intl/server";
 import { QuestRelationEnum } from "@/db/schema";
 import { checkDailyDone } from "./helpers";
 
 // TODO: refactor on class oop
 
 export async function checkQuest(questId: number, checkExt?: boolean) {
+  const t = await getTranslations('messages.checks.quest');
+
   try {
     const [user, quest] = await Promise.all([
       getAuthUser(false, true), 
@@ -20,7 +23,7 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
     if (questDone) {
       return { 
         success: false, 
-        message: 'The quest has already been completed.',
+        message: t('alreadyCompleted'),
       }
     }
     
@@ -58,7 +61,7 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
       default:
         return {
           success: false,
-          message: 'Quest is not available.',
+          message: t('notAvailable'),
         }
     }
 
@@ -66,13 +69,13 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
 
     return { 
       success: check,
-      message: check ? 'Quest completed.' : 'Check failed.',
+      message: check ? t('completed') : t('failed'),
     };
   } catch (error) {
     console.log('Check Error:', error);
     return { 
       success: false, 
-      message: 'Try again.',
+      message: t('tryAgain'),
     };
   }
 }

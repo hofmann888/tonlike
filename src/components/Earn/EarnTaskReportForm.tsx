@@ -18,15 +18,15 @@ export default function EarnTaskReportForm({
   const [reasons, setReasons] = useState([] as string[]);
   const [comment, setComment] = useState('');
 
-  const t = useTranslations('i18n');
+  const t = useTranslations();
 
   const reportReasonsMap: ReportReasonsMapItem[] = [
-    { key: ReportReasonEnum.UNAVAILABLE, title: t('reportReasonUnavailable') },
-    { key: ReportReasonEnum.SCAM, title: t('reportReasonScam') },
-    { key: ReportReasonEnum.SPAM, title: t('reportReasonSpam') },
-    { key: ReportReasonEnum.COPYRIGHT, title: t('reportReasonCopyright') },
-    { key: ReportReasonEnum.CONTENT, title: t('reportReasonContent') },
-    { key: ReportReasonEnum.OTHER, title: t('reportReasonOther') },
+    { key: ReportReasonEnum.UNAVAILABLE, title: t('i18n.reportReasonUnavailable') },
+    { key: ReportReasonEnum.SCAM, title: t('i18n.reportReasonScam') },
+    { key: ReportReasonEnum.SPAM, title: t('i18n.reportReasonSpam') },
+    { key: ReportReasonEnum.COPYRIGHT, title: t('i18n.reportReasonCopyright') },
+    { key: ReportReasonEnum.CONTENT, title: t('i18n.reportReasonContent') },
+    { key: ReportReasonEnum.OTHER, title: t('i18n.reportReasonOther') },
   ];
 
   if (state?.success !== undefined) {
@@ -38,7 +38,7 @@ export default function EarnTaskReportForm({
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
       <CheckboxGroup 
         name="reasons" 
-        label={t('reasonsSelect')} 
+        label={t('i18n.reasonsSelect')} 
         color="primary" 
         value={reasons}
         onValueChange={(value) => {
@@ -48,7 +48,7 @@ export default function EarnTaskReportForm({
           }
         }}
         isInvalid={!!state?.errors?.reasons?.length}
-        errorMessage={state?.errors?.reasons?.length ? state.errors.reasons[0] : ''}
+        errorMessage={state?.errors?.reasons?.length ? t(`errors.forms.${state.errors.reasons[0]}`) : ''}
         isRequired
       >
         {reportReasonsMap.map((item) => (
@@ -58,8 +58,8 @@ export default function EarnTaskReportForm({
 
       <Textarea 
         name="comment" 
-        label={t('comment')} 
-        placeholder={t('commentPlaceholder')}
+        label={t('i18n.comment')} 
+        placeholder={t('i18n.commentPlaceholder')}
         className="mt-3" 
         value={comment}
         onValueChange={(value) => {
@@ -69,7 +69,7 @@ export default function EarnTaskReportForm({
           }
         }}
         isInvalid={!!state?.errors?.comment?.length}
-        errorMessage={state?.errors?.comment?.length ? state.errors.comment[0] : ''}
+        errorMessage={state?.errors?.comment?.length ? t(`errors.forms.${state.errors.comment[0]}`) : ''}
       />
 
       {state?.message &&
