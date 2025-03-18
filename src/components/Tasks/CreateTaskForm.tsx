@@ -9,7 +9,7 @@ import { Alert } from "@heroui/alert";
 import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { CreateTaskFormState, Service } from "@/lib/definitions";
-import { CreateTaskFormSubmit } from "@/core/actions";
+import { CreateTaskFormSubmit } from "@/core/server-actions";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";

@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardHeader, CardBody } from "@heroui/card";
-import { ClaimReferralEarnings } from "@/core/actions";
+import { ClaimReferralEarnings } from "@/core/server-actions";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/button";
 import { useState } from "react";

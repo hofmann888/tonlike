@@ -17,7 +17,7 @@ import { sql } from 'drizzle-orm';
 // TODO: actions -> server-actions
 
 export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formData: FormData) {
-  const t = await getTranslations('messages.actions.CreateTaskFormSubmit');
+  const t = await getTranslations('messages.serverActions.CreateTaskFormSubmit');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -67,7 +67,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 }
 
 export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskFormState, formData: FormData) {
-  const t = await getTranslations('messages.actions.EditTaskFormSubmit');
+  const t = await getTranslations('messages.serverActions.EditTaskFormSubmit');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -135,7 +135,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 }
 
 export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
-  const t = await getTranslations('messages.actions.ChangeTaskStatus');
+  const t = await getTranslations('messages.serverActions.ChangeTaskStatus');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -159,7 +159,7 @@ export async function ChangeTaskStatus(taskId: number, status: TaskStatus) {
 }
 
 export async function DeleteTask(taskId: number) {
-  const t = await getTranslations('messages.actions.DeleteTask');
+  const t = await getTranslations('messages.serverActions.DeleteTask');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -194,7 +194,7 @@ export async function DeleteTask(taskId: number) {
 }
 
 export async function GetTaskPerformers(taskId: number) {
-  const t = await getTranslations('messages.actions.GetTaskPerformers');
+  const t = await getTranslations('messages.serverActions.GetTaskPerformers');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -212,7 +212,7 @@ export async function GetTaskPerformers(taskId: number) {
 }
 
 export async function PerformerBlockFormSubmit(blockUserId: number, prevState: PerformerBlockFormState, formData: FormData) {
-  const t = await getTranslations('messages.actions.PerformerBlockFormSubmit');
+  const t = await getTranslations('messages.serverActions.PerformerBlockFormSubmit');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -248,7 +248,7 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
 }
 
 export async function PerformerUnblock(unblockUserId: number) { // TODO?: UnblockUser?
-  const t = await getTranslations('messages.actions.PerformerUnblock');
+  const t = await getTranslations('messages.serverActions.PerformerUnblock');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -269,7 +269,7 @@ export async function PerformerUnblock(unblockUserId: number) { // TODO?: Unbloc
 }
 
 export async function HideUserEarnTask(taskId: number) {
-  const t = await getTranslations('messages.actions.HideUserEarnTask');
+  const t = await getTranslations('messages.serverActions.HideUserEarnTask');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -291,7 +291,7 @@ export async function HideUserEarnTask(taskId: number) {
 }
 
 export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTaskReportFormState, formData: FormData) {
-  const t = await getTranslations('messages.actions.EarnTaskReportFormSubmit');
+  const t = await getTranslations('messages.serverActions.EarnTaskReportFormSubmit');
 
   try {
     const user: User = await getAuthUser(false, true);
@@ -327,7 +327,7 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
 }
 
 export async function ClaimReferralEarnings() {
-  const t = await getTranslations('messages.actions.ClaimReferralEarnings');
+  const t = await getTranslations('messages.serverActions.ClaimReferralEarnings');
 
   try {
     const user: User = await getAuthUser(false, true);

@@ -3,7 +3,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { Checkbox } from "@heroui/checkbox";
 import { Button } from "@heroui/button";
-import { HideEarnWaning } from "@/core/actions";
+import { HideEarnWaning } from "@/core/server-actions";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 

@@ -2,7 +2,7 @@ import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { ReportReasonsMapItem, ReportReasonEnum, EarnTaskReportFormState } from "@/lib/definitions";
-import { EarnTaskReportFormSubmit } from "@/core/actions";
+import { EarnTaskReportFormSubmit } from "@/core/server-actions";
 import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useState } from "react";

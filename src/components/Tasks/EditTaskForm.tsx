@@ -3,7 +3,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { EditTaskFormState, Task } from "@/lib/definitions";
-import { EditTaskFormSubmit } from "@/core/actions";
+import { EditTaskFormSubmit } from "@/core/server-actions";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";

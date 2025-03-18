@@ -2,7 +2,7 @@
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { Task, TaskStatus, TaskStatusEnum } from "@/lib/definitions";
-import { ChangeTaskStatus, DeleteTask } from "@/core/actions";
+import { ChangeTaskStatus, DeleteTask } from "@/core/server-actions";
 import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";

@@ -1,6 +1,6 @@
 'use client'
 
-import { clearHideEarnWaningCookie } from "@/core/actions";
+import { clearHideEarnWaningCookie } from "@/core/server-actions";
 import { ShowPromiseResult } from "@/lib/adsgram";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import { deleteSession } from "@/core/session";

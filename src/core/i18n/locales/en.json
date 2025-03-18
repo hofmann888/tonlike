@@ -279,7 +279,7 @@
     }
   },
   "messages": {
-    "actions": {
+    "serverActions": {
       "CreateTaskFormSubmit": {
         "failed": "Failed to create task.",
         "balance": "Not enough balance. Need at least ${sum}.",

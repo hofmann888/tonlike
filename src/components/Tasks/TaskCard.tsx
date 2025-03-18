@@ -11,7 +11,7 @@ import { Button } from "@heroui/button";
 import { FaPause, FaPlay, FaTrashAlt, FaUserCheck, FaEdit } from "react-icons/fa";
 import { Performer, Task, TaskStatusEnum } from "@/lib/definitions";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { GetTaskPerformers } from "@/core/actions";
+import { GetTaskPerformers } from "@/core/server-actions";
 import { FiExternalLink } from "react-icons/fi";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

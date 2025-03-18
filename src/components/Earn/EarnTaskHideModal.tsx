@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
-import { HideUserEarnTask } from "@/core/actions";
+import { HideUserEarnTask } from "@/core/server-actions";
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from 'react';
 import { Button } from "@heroui/button";

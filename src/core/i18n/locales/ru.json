@@ -278,7 +278,7 @@
     }
   },
   "messages": {
-    "actions": {
+    "serverActions": {
       "CreateTaskFormSubmit": {
         "failed": "Не удалось создать задание.",
         "balance": "Недостаточно баланса. Необходимо как минимум ${sum}.",
