@@ -50,7 +50,7 @@ export default function EarnTaskReportForm({
           }
         }}
         isInvalid={!!state?.errors?.reasons?.length}
-        errorMessage={state?.errors?.reasons?.length ? t(`errors.forms.${state.errors.reasons[0]}`) : ''}
+        errorMessage={state?.errors?.reasons?.length ? state.errors.reasons[0] : ''}
         isRequired
       >
         {reportReasonsMap.map((item) => (
@@ -71,7 +71,7 @@ export default function EarnTaskReportForm({
           }
         }}
         isInvalid={!!state?.errors?.comment?.length}
-        errorMessage={state?.errors?.comment?.length ? t(`errors.forms.${state.errors.comment[0]}`) : ''}
+        errorMessage={state?.errors?.comment?.length ? state.errors.comment[0] : ''}
       />
 
       {state?.message &&

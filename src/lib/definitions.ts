@@ -8,13 +8,15 @@ export type NavLink = {
 }
 
 ////========== Forms
+// TODO!: fix any (without it errors in useFormState)
+
 export type CreateTaskFormState = {
   errors?: {
     serviceActionId?: string[];
     link?: string[];
     price?: string[];
     count?: string[];
-  };
+  } | any; 
   message?: string | null;
 };
 
@@ -22,7 +24,7 @@ export type EditTaskFormState = {
   errors?: {
     price?: string[];
     count?: string[];
-  };
+  } | any;
   message?: string | null;
 };
 
@@ -30,7 +32,7 @@ export type EarnTaskReportFormState = {
   errors?: {
     reasons?: string[];
     comment?: string[];
-  };
+  } | any;
   message?: string | null;
   success?: boolean;
 };
@@ -39,7 +41,7 @@ export type PerformerBlockFormState = {
   errors?: {
     reasons?: string[];
     comment?: string[];
-  };
+  } | any;
   message?: string | null;
   success?: boolean;
 };

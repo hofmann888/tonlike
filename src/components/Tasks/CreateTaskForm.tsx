@@ -153,7 +153,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           }
         }}
         isInvalid={!!state?.errors?.serviceActionId?.length}
-        errorMessage={state?.errors?.serviceActionId?.length ? t(`errors.forms.${state.errors.serviceActionId[0]}`) : ''}
+        errorMessage={state?.errors?.serviceActionId?.length ? state.errors.serviceActionId[0] : ''}
         disallowEmptySelection
       >
         {(serviceAction) => (
@@ -174,7 +174,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           }
         }}
         isInvalid={!!state?.errors?.link?.length}
-        errorMessage={state?.errors?.link?.length ? t(`errors.forms.${state.errors.link[0]}`) : ''}
+        errorMessage={state?.errors?.link?.length ? state.errors.link[0] : ''}
         isClearable
       />
 
@@ -196,7 +196,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
             }
           }}
           isInvalid={!!state?.errors?.price?.length}
-          errorMessage={state?.errors?.price?.length ? t(`errors.forms.${state.errors.price[0]}`) : ''}
+          errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
               <CoinIcon className="text-default-400 text-large" />
@@ -261,7 +261,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
             }
           }}
           isInvalid={!!state?.errors?.count?.length}
-          errorMessage={state?.errors?.count?.length ? t(`errors.forms.${state.errors.count[0]}`) : ''}
+          errorMessage={state?.errors?.count?.length ? state.errors.count[0] : ''}
         />
       </div>
 

@@ -1,8 +1,21 @@
 import { ReportReasonEnum, BlackListReasonEnum, ServiceNameEnum } from '@/lib/definitions';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 import { fetchServiceActionById } from '@/db/query';
+import { getTranslations } from 'next-intl/server';
 import { z } from 'zod';
 
+// TODO: return only first error of array (+ refactor form components on heroui error logic)
+export async function formatErrors(errors: any) {
+  const t = await getTranslations('errors.forms');
+  
+  for (var key in errors) {
+    if (errors[key]) {
+      errors[key] = errors[key].map((error: string) => t(error))
+    }
+  }
+
+  return errors as any;
+}
 
 export const createTaskFormSchema = z.object({
   serviceActionId: z.coerce.number()

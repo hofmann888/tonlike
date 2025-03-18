@@ -3,7 +3,7 @@
 // TODO: import * as query from "@/db/query";
 import { updateUserWithSession, updateTask, userHasTask, hideTaskEarningForUser, taskIsAvailableForUser, createReport, fetchTaskPerformers, userInBlackList, addUserToBlackList, removeUserFromBlackList, fetchTaskById, createTaskWithBalanceUpdate, updateTaskWithBalance, isTaskExists, fetchTaskDoneSum, fetchTaskDoneCount, fetchUserReferralsCount, fetchUserReferralsTaskEarningsSum, fetchServiceActionById } from '../db/query';
 import { CreateTaskFormState, EditTaskFormState, User, TaskStatus, TaskStatusEnum, EarnTaskReportFormState, PerformerBlockFormState, ServiceName } from '@/lib/definitions';
-import { createTaskFormSchema, editTaskFormSchema, earnTaskReportFormSchema, performerBlockFormSchema } from './validation';
+import { createTaskFormSchema, editTaskFormSchema, earnTaskReportFormSchema, performerBlockFormSchema, formatErrors } from './validation';
 import { ServiceActionsRelationsEnum } from '@/db/schema';
 import { getAuthUser, setSession } from '@/core/session';
 import { getTranslations } from 'next-intl/server';
@@ -31,7 +31,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
 
     if (!validated.success) {
       return {
-        errors: validated.error.flatten().fieldErrors,
+        errors: await formatErrors(validated.error.flatten().fieldErrors),
         message: t('failed'),
       };
     }
@@ -46,7 +46,7 @@ export async function CreateTaskFormSubmit(prevState: CreateTaskFormState, formD
     
     if (user.balance < sum) { // TODO?: refactor zod refine?
       return {
-        errors: { price: ['createTaskForm.price.high'] },
+        errors: await formatErrors({ price: ['createTaskForm.price.high'] }),
         message: t('balance', { sum: sum }),
       }
     }
@@ -79,7 +79,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     if (!validated.success) {
       return {
-        errors: validated.error.flatten().fieldErrors,
+        errors: await formatErrors(validated.error.flatten().fieldErrors),
         message: t('failed'),
       };
     }
@@ -105,7 +105,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     if (data.count < doneCount) { // TODO?: refactor zod refine?
       return {
-        errors: { count: ['editTaskForm.count.low'] },
+        errors: await formatErrors({ count: ['editTaskForm.count.low'] }),
         message: t('count'),
       }
     }
@@ -118,7 +118,7 @@ export async function EditTaskFormSubmit(taskId: number, prevState: EditTaskForm
 
     if (newBalance < 0) { // TODO?: refactor zod refine?
       return {
-        errors: { price: ['editTaskForm.price.high'] },
+        errors: await formatErrors({ price: ['editTaskForm.price.high'] }),
         message: t('balance', { sum: cost - reserve }), // TODO: dynamic currency - coin|$
       }
     }
@@ -224,7 +224,7 @@ export async function PerformerBlockFormSubmit(blockUserId: number, prevState: P
 
     if (!validated.success) {
       return {
-        errors: validated.error.flatten().fieldErrors,
+        errors: await formatErrors(validated.error.flatten().fieldErrors),
         message: t('failed'),
         success: false
       };
@@ -303,7 +303,7 @@ export async function EarnTaskReportFormSubmit(taskId: number, prevState: EarnTa
     
     if (!validated.success) {
       return {
-        errors: validated.error.flatten().fieldErrors,
+        errors: await formatErrors(validated.error.flatten().fieldErrors),
         message: t('failed'),
         success: false
       };

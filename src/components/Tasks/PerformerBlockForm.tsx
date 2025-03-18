@@ -41,7 +41,7 @@ export default function PerformerBlockForm({
           }
         }}
         isInvalid={!!state?.errors?.reasons?.length}
-        errorMessage={state?.errors?.reasons?.length ? t(`errors.forms.${state.errors.reasons[0]}`) : ''}
+        errorMessage={state?.errors?.reasons?.length ? state.errors.reasons[0] : ''}
         isRequired
       >
         {blackListReasonsMap.map((item) => (
@@ -62,7 +62,7 @@ export default function PerformerBlockForm({
           }
         }}
         isInvalid={!!state?.errors?.comment?.length}
-        errorMessage={state?.errors?.comment?.length ? t(`errors.forms.${state.errors.comment[0]}`) : ''}
+        errorMessage={state?.errors?.comment?.length ? state.errors.comment[0] : ''}
       />
 
       <div id="fields-error" aria-live="polite" aria-atomic="true">
