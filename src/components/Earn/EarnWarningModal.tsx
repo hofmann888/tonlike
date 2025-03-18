@@ -41,7 +41,7 @@ export default function EarnWaringModal() {
           </p>
         </ModalBody>
         <ModalFooter className="justify-between">
-          <Checkbox isSelected={dontShow} onValueChange={setDontShow}>{t('dontShow')}</Checkbox>
+          <Checkbox isSelected={dontShow} onValueChange={setDontShow} classNames={{ label: "max-[375px]:text-small" }}>{t('dontShow')}</Checkbox>
           <Button color="primary" onPress={hide} isLoading={loading}>
             {t('understand')}
           </Button>
