@@ -7,6 +7,15 @@ import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useState } from "react";
 
+const reportReasonsMap: ReportReasonsMapItem[] = [
+  { key: ReportReasonEnum.UNAVAILABLE, title: 'reasons.report.unavailable' },
+  { key: ReportReasonEnum.SCAM, title: 'reasons.report.scam' },
+  { key: ReportReasonEnum.SPAM, title: 'reasons.report.spam' },
+  { key: ReportReasonEnum.COPYRIGHT, title: 'reasons.report.copyright' },
+  { key: ReportReasonEnum.CONTENT, title: 'reasons.report.content' },
+  { key: ReportReasonEnum.OTHER, title: 'reasons.report.other' },
+];
+
 export default function EarnTaskReportForm({ 
   taskId, formRef, afterSubmit
 }: { 
@@ -15,19 +24,12 @@ export default function EarnTaskReportForm({
   const initialState: EarnTaskReportFormState = { errors: {}, message: null };
   const action = EarnTaskReportFormSubmit.bind(null, taskId);
   const [state, formAction] = useFormState(action, initialState);
+  
   const [reasons, setReasons] = useState([] as string[]);
   const [comment, setComment] = useState('');
 
-  const t = useTranslations();
-
-  const reportReasonsMap: ReportReasonsMapItem[] = [
-    { key: ReportReasonEnum.UNAVAILABLE, title: t('i18n.reportReasonUnavailable') },
-    { key: ReportReasonEnum.SCAM, title: t('i18n.reportReasonScam') },
-    { key: ReportReasonEnum.SPAM, title: t('i18n.reportReasonSpam') },
-    { key: ReportReasonEnum.COPYRIGHT, title: t('i18n.reportReasonCopyright') },
-    { key: ReportReasonEnum.CONTENT, title: t('i18n.reportReasonContent') },
-    { key: ReportReasonEnum.OTHER, title: t('i18n.reportReasonOther') },
-  ];
+  const t = useTranslations('components.EarnTaskReportForm');
+  const tEnums = useTranslations('enums');
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, taskId);
@@ -38,7 +40,7 @@ export default function EarnTaskReportForm({
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
       <CheckboxGroup 
         name="reasons" 
-        label={t('i18n.reasonsSelect')} 
+        label={t('reasons')} 
         color="primary" 
         value={reasons}
         onValueChange={(value) => {
@@ -52,14 +54,14 @@ export default function EarnTaskReportForm({
         isRequired
       >
         {reportReasonsMap.map((item) => (
-          <Checkbox key={item.key} value={item.key}>{item.title}</Checkbox>
+          <Checkbox key={item.key} value={item.key}>{tEnums(item.title)}</Checkbox>
         ))}
       </CheckboxGroup>
 
       <Textarea 
         name="comment" 
-        label={t('i18n.comment')} 
-        placeholder={t('i18n.commentPlaceholder')}
+        label={t('comment.label')} 
+        placeholder={t('comment.placeholder')}
         className="mt-3" 
         value={comment}
         onValueChange={(value) => {

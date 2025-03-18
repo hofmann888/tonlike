@@ -16,7 +16,8 @@ export default function BlackListCard({
   blackListItem: BlackListItem,
   userUnblocked: (id: number) => void
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.BlackListCard');
+  const tEnums = useTranslations('enums');
 
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -92,7 +93,7 @@ export default function BlackListCard({
             {blackListItem.reasons.map((reason, idx) => {
               const reasonMapItem = blackListReasonsMap.find((item) => item.key === reason);
               return reasonMapItem ? (
-                <Chip key={idx} size="sm" variant="faded" color="warning" className="ml-1 mt-1">{t(reasonMapItem.title)}</Chip>
+                <Chip key={idx} size="sm" variant="faded" color="warning" className="ml-1 mt-1">{tEnums(reasonMapItem.title)}</Chip>
               ) : '';
             })}
           </div>

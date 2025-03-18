@@ -1,7 +1,7 @@
 import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Form } from "@heroui/form";
-import { blackListReasonsMap } from "../BlackList/BlackList";
+import { blackListReasonsMap } from "@/components/BlackList/BlackList";
 import { PerformerBlockFormState } from "@/lib/definitions";
 import { PerformerBlockFormSubmit } from "@/core/actions";
 import { useTranslations } from "next-intl";
@@ -19,7 +19,8 @@ export default function PerformerBlockForm({
   const [reasons, setReasons] = useState([] as string[]);
   const [comment, setComment] = useState('');
   
-  const t = useTranslations();
+  const t = useTranslations('components.PerformerBlockForm');
+  const tEnums = useTranslations('enums');
 
   if (state?.success !== undefined) {
     afterSubmit(state?.success, blockUserId);
@@ -30,7 +31,7 @@ export default function PerformerBlockForm({
     <Form action={formAction} validationErrors={state?.errors} ref={formRef}>
       <CheckboxGroup 
         name="reasons" 
-        label={t('i18n.reasonsSelect')} 
+        label={t('reasons')} 
         color="primary"
         value={reasons}
         onValueChange={(value) => {
@@ -44,14 +45,14 @@ export default function PerformerBlockForm({
         isRequired
       >
         {blackListReasonsMap.map((item) => (
-          <Checkbox key={item.key} value={item.key}>{t(item.title)}</Checkbox>
+          <Checkbox key={item.key} value={item.key}>{tEnums(item.title)}</Checkbox>
         ))}
       </CheckboxGroup>
 
       <Textarea 
         name="comment" 
-        label={t('i18n.comment')} 
-        placeholder={t('i18n.commentPlaceholder')}
+        label={t('comment.label')} 
+        placeholder={t('comment.placeholder')}
         className="mt-3" 
         value={comment}
         onValueChange={(value) => {

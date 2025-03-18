@@ -9,7 +9,7 @@ import ThemeSwitcher from "@/components/Settings/ThemeSwither";
 
 export default function HeaderUser() {
   const { tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.HeaderUser');
 
   return (
     <div className="header-user">

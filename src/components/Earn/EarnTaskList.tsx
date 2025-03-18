@@ -20,7 +20,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   const [hideModalIsOpen, setHideModalIsOpen] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
 
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.EarnTaskList');
 
   useEffect(() => {
     setTasksFiltered(tasks);
@@ -71,7 +71,7 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
           onHideClick={() => hideClick(task.id)} 
           onReportClick={() => reportClick(task.id)} 
         />
-      )) : <p className="text-center text-medium mt-4">{t('earnTaskListEmpty')}<br /> {t('earnTaskListCreateOwn')}</p>}
+      )) : <p className="text-center text-medium mt-4" dangerouslySetInnerHTML={{__html: t.raw('empty')}} />}
 
       {tasks.length > pageItemsSize && total > 1 && 
         <Pagination 

@@ -1,14 +1,14 @@
 'use client'
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
-import { Button } from "@heroui/button";
 import { Checkbox } from "@heroui/checkbox";
+import { Button } from "@heroui/button";
 import { HideEarnWaning } from "@/core/actions";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 export default function EarnWaringModal() {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.EarnWaringModal');
 
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
 
@@ -37,11 +37,11 @@ export default function EarnWaringModal() {
         <ModalHeader className="flex flex-col gap-1 text-warning text-center">{t('warning')}</ModalHeader>
         <ModalBody>
           <p className="text-medium">
-            {t('earnWarningMsg')}
+            {t('message')}
           </p>
         </ModalBody>
         <ModalFooter className="justify-between">
-          <Checkbox isSelected={dontShow} onValueChange={setDontShow}>{t('dontShowAgain')}</Checkbox>
+          <Checkbox isSelected={dontShow} onValueChange={setDontShow}>{t('dontShow')}</Checkbox>
           <Button color="primary" onPress={hide} isLoading={loading}>
             {t('understand')}
           </Button>

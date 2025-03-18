@@ -9,16 +9,16 @@ export default function Leaderboard({
   leaderboard: LeaderboardItem[],
   userLeaderboardItem: LeaderboardItem,
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.Leaderboard');
 
   return (
     <>
       <div className="mb-8">
-        <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">{t('leaderboardMe')}:</Chip>
+        <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">{t('me')}:</Chip>
         <LeaderboardCard item={userLeaderboardItem} />
       </div>
 
-      <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">{t('leaderboardTop10')}:</Chip>
+      <Chip color="primary" variant="dot" className="mb-2 border-none text-medium">{t('top')}:</Chip>
       {leaderboard.map((item, idx) => (
         <LeaderboardCard key={idx} item={item} />
       ))}

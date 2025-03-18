@@ -4,15 +4,15 @@ import { Button } from "@heroui/button";
 import Image from 'next/image';
 
 export default function WalletBanner() {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.WalletBanner');
 
   const link = 'https://t.me/tonlike_app';
 
   return (
     <>
       <div className="flex flex-col justify-center items-center h-full">
-        <p className="text-center text-4xl font-black text-primary uppercase">{t('comingSoon')}</p>
-        <p className="text-center text-large font-bold mt-3 uppercase">{t('stayTuned')}...</p>
+        <p className="text-center text-4xl font-black text-primary uppercase">{t('soon')}</p>
+        <p className="text-center text-large font-bold mt-3 uppercase">{t('stayTuned')}</p>
       </div>
 
       <div className="sticky bottom-28 w-full text-center">

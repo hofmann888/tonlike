@@ -4,12 +4,12 @@ import { Chip } from "@heroui/chip";
 import { useUser } from "@/hooks/useUser";
 import { useTranslations } from "next-intl";
 import { BsCurrencyDollar } from "react-icons/bs";
-import HeaderBalanceChipsSkeleton from "../Skeletons/HeaderBalanceChipsSkeleton";
-import CoinValue from "../Common/CoinValue";
+import HeaderBalanceChipsSkeleton from "@/components/Skeletons/HeaderBalanceChipsSkeleton";
+import CoinValue from "@/components/Common/CoinValue";
 
 export default function HeaderBalance() {
   const { balance } = useUser();
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.HeaderBalance');
 
   return (
     <div>

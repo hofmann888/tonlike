@@ -8,7 +8,7 @@ import { useLocale } from 'next-intl';
 
 export default function LocaleSwitcher() {
   const locale = useLocale();
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.LocaleSwitcher');
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function LocaleSwitcher() {
       </select>
 
       <span className="text-medium">
-        {t('language')}: <span className="capitalize text-primary">{t('languageTitle')}</span>
+        {t('language')}: <span className="capitalize text-primary">{t('title')}</span>
       </span>
     </>
   )

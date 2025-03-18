@@ -23,7 +23,8 @@ import CoinIcon from "@/components/Common/CoinIcon";
 // TODO: link placeholders map
 // TODO: extended settings (schedule, timeout...)
 export default function CreateTaskForm({ services }: { services: Service[] }) {
-  const t = useTranslations();
+  const t = useTranslations('components.CreateTaskForm');
+  const tEnums = useTranslations('enums');
   
   const { balance } = useUser();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -84,7 +85,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           className="px-3 gap-0"
           title={
             <>
-              <p>{t('i18.taskVerificationMsg')}</p>
+              <p>{t('verification')}</p>
               <Button 
                 color="primary" 
                 variant="light"
@@ -93,7 +94,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 disableRipple
                 disableAnimation
               >
-                {t('i18n.learnMore')}
+                {t('learnMore')}
               </Button>
             </>
           } 
@@ -102,7 +103,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <Select
         name="serviceId"
-        label={t('i18n.service')}
+        label={t('service')}
         variant="bordered"
         classNames={{
           label: "group-data-[filled=true]:-translate-y-5",
@@ -122,7 +123,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
                 src={item.data?.icon}
               />
               <div className="flex flex-col">
-                <span>{t(`i18n.${item.data!.title}`)}</span>
+                <span>{tEnums(`services.${item.data!.title}`)}</span>
               </div>
             </div>
           ));
@@ -135,14 +136,14 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
               <Avatar alt={service.title} className="w-6 h-6" src={service.icon} />
             }
           >
-            {t(`i18n.${service.title}`)}
+            {tEnums(`services.${service.title}`)}
           </SelectItem>
         )}
       </Select>
 
       <Select 
         name="serviceActionId" 
-        label={t('i18n.action')} 
+        label={t('action')} 
         variant="bordered"
         items={service.serviceActions}
         onChange={(e) => {
@@ -156,13 +157,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         disallowEmptySelection
       >
         {(serviceAction) => (
-          <SelectItem key={serviceAction.id}>{serviceAction.title ? t(`i18n.${serviceAction.title}`) : t(`i18n.${serviceAction.action!.title}`)}</SelectItem>
+          <SelectItem key={serviceAction.id}>{serviceAction.title ? tEnums(`actions.${serviceAction.title}`) : tEnums(`actions.${serviceAction.action!.title}`)}</SelectItem>
         )}
       </Select>
 
       <Input 
         name="link" 
-        label={t('i18n.link')} 
+        label={t('link')} 
         variant="bordered" 
         // placeholder="https://example.com or @example"
         value={link} 
@@ -180,7 +181,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       <div className="flex w-full">
         <Input
           name="price"
-          label={t('i18n.price')}
+          label={t('price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -205,7 +206,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
         <Select 
           name="currency" 
-          label={t('i18n.currency')} 
+          label={t('currency')} 
           variant="bordered" 
           className="w-1/4 max-[390px]:w-1/3"
           selectedKeys={['coin']}
@@ -220,7 +221,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
 
       <div className="w-full flex justify-between items-baseline px-2">
         <Slider
-          label={t('i18n.count')}
+          label={t('count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -273,7 +274,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </div>
 
       <SubmitButton disabled={!sum || sum > balance} className="mt-4">
-        <div className="flex items-center">{t('i18n.create')} (<CoinIcon className="inline" />{sum})</div>
+        <div className="flex items-center">{t('create')} (<CoinIcon className="inline" />{sum})</div>
       </SubmitButton>
 
 
@@ -281,13 +282,13 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">{t('i18n.alert')}</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{t('alert')}</ModalHeader>
               <ModalBody>
                 {alert}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  {t('i18n.close')}
+                  {t('close')}
                 </Button>
               </ModalFooter>
             </>

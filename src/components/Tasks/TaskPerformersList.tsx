@@ -8,13 +8,13 @@ import { Button } from "@heroui/button";
 import { User } from "@heroui/user";
 import { useState } from "react";
 import PerformerBlockModal from "./PerformerBlockModal";
-import CoinValue from "../Common/CoinValue";
+import CoinValue from "@/components/Common/CoinValue";
 
-// TODO?: add loaders on btn clicks
+// TODO: add loaders on btn clicks
 // TODO?: show no performers message on empty list
 // TODO?: move modal to TaskList component
 export default function TaskPerformersList({ performers }: { performers: Performer[] }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.TaskPerformersList');
 
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 

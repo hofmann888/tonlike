@@ -16,7 +16,7 @@ import CoinIcon from "@/components/Common/CoinIcon";
 export default function EditTaskForm({ task }: { task: Task }) {
   const { balance } = useUser();
   
-  const t = useTranslations();
+  const t = useTranslations('components.EditTaskForm');
 
   const doneSum = task.doneSum ?? 0;
   const doneCount = task.doneCount ?? 0;
@@ -48,15 +48,15 @@ export default function EditTaskForm({ task }: { task: Task }) {
   return (
     <Form action={formAction} className="w-full mt-4">
       <div className="flex w-full justify-between text-small mb-2">
-        <CoinValue value={sum} textBefore={`${t('i18n.sum')}:`} />
-        <CoinValue value={doneSum} textBefore={`${t('i18n.spent')}:`} />
-        <CoinValue value={newSum} textBefore={`${t('i18n.newSum')}:`} />
+        <CoinValue value={sum} textBefore={`${t('sum')}:`} />
+        <CoinValue value={doneSum} textBefore={`${t('spent')}:`} />
+        <CoinValue value={newSum} textBefore={`${t('newSum')}:`} />
       </div>
 
       <div className="flex w-full">
         <Input
           name="price"
-          label={t('i18n.price')}
+          label={t('price')}
           type="number"
           placeholder="0"
           variant="bordered"
@@ -81,7 +81,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
         <Select 
           name="currency" 
-          label={t('i18n.currency')}
+          label={t('currency')}
           variant="bordered" 
           className="w-1/4 max-[410px]:w-1/3"
           disallowEmptySelection
@@ -96,7 +96,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
 
       <div className="w-full flex justify-between items-baseline px-1">
         <Slider
-          label={t('i18n.count')}
+          label={t('count')}
           size="sm"
           classNames={{
             base: "w-3/4 mr-2",
@@ -149,7 +149,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
       </div>
 
       <SubmitButton disabled={!newSum || newSum - doneSum > reserve} size="md" variant="flat" className="mt-2">
-        {t('i18n.update')}
+        {t('update')}
       </SubmitButton>
     </Form>
   )

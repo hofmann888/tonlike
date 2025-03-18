@@ -3,7 +3,6 @@ import { addToast, ToastProps } from "@heroui/toast";
 import { Card, CardBody } from "@heroui/card";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import { FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { formatLink, tgOpenLink } from "@/utils/helpers";
@@ -11,7 +10,7 @@ import { ServiceName, Task } from "@/lib/definitions";
 import { checkTask } from "@/utils/task-checks";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import CoinValue from "../Common/CoinValue";
+import CoinValue from "@/components/Common/CoinValue";
 
 // TODO: tg action link on boost
 
@@ -27,7 +26,8 @@ export default function EarnTaskCard({
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(false);
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.EarnTaskCard');
+  const tEnums = useTranslations('enums');
 
   function startClick() {
     const link = formatLink(task.link as string, task.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
@@ -42,7 +42,7 @@ export default function EarnTaskCard({
     const result = await checkTask(task.id);
     const toast = {
       color: result?.success ? "success" : "danger",
-      title: result?.success ? t('toastSuccess') : t('toastError'),
+      title: result?.success ? t('success') : t('error'),
       description: result?.message,
     };
 
@@ -66,21 +66,14 @@ export default function EarnTaskCard({
             alt={task.service?.title}
           />
           <div className="flex flex-col">
-            <span className="text-medium">{ t(actionTitle!) }</span>
+            <span className="text-medium">{ tEnums(`actions.${actionTitle}`) }</span>
             <div className="flex items-center text-small mr-3 text-primary-500">
               + <CoinValue value={task.price} />
             </div>
-            {/* <Link isExternal showAnchorIcon className="text-tiny " href='/img/social/telegram.png'>
-              <span className="max-w-20 overflow-hidden text-ellipsis whitespace-nowrap">{task.link}</span>
-            </Link> */}
           </div>
         </div>
 
         <div className="flex justify-between">
-          {/* <div className="flex items-center text-small mr-3">
-            <CoinValue value={task.price} />
-          </div> */}
-          
           <div className="flex items-center">
             <Button 
               color="primary"

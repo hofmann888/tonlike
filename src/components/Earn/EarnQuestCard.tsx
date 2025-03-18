@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { actionIcons } from "@/lib/const";
 import { FaCheck } from "react-icons/fa";
 import { IconType } from "react-icons";
-import CoinValue from "../Common/CoinValue";
+import CoinValue from "@/components/Common/CoinValue";
 
 // TODO: quest progress (e.g. 3/5 friends invited...)
 
@@ -28,7 +28,8 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
   const oneTimeDone = !quest.daily && !!quest.doneLastAt;
   const questIsDone = dailyDone || oneTimeDone; // TODO?: checkQuestDone?
 
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.EarnQuestCard');
+  const tEnums = useTranslations('enums');
 
   const [check, setCheck] = useState(false);
   const [checking, setChecking] = useState(false);
@@ -44,7 +45,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     setLoading(false);
     addToast({
       color: "danger",
-      title: t('toastError'),
+      title: t('error'),
     } as ToastProps);
     console.error('Adsgram onError:', JSON.stringify(result, null, 4));
   }, []);
@@ -72,7 +73,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
     const result = await checkQuest(quest.id, check);
     const toast = {
       color: result?.success ? "success" : "danger",
-      title: result?.success ? t('toastSuccess') : t('toastError'),
+      title: result?.success ? t('success') : t('error'),
       description: result?.message,
     };
 
@@ -102,7 +103,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           />
 
           <div className="flex flex-col mr-3">
-            <span className="text-medium">{ t(title!) }</span>
+            <span className="text-medium">{ tEnums(`actions.${title}`) }</span>
             <div className="flex items-center text-small text-primary-500">
               + <CoinValue value={quest.price} />
             </div>

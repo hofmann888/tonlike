@@ -1,179 +1,281 @@
 {
-  "i18n": {
-    "language": "Язык",
-    "languageKey": "RU",
-    "languageTitle": "Русский",
-    "theme": "Тема",
-    "themeDark": "Темная",
-    "themeLight": "Светлая",
-    "balance": "Баланс",
-    "blackList": "Черный Список",
-    "leaderboardMe": "Я",
-    "leaderboardTop10": "Топ 10",
-    "tasks": "Задания",
-    "quests": "Квесты",
-    "createTask": "Создать задание",
-    "filter": "Фильтр",
-    "filterExpand": "Раскрыть",
-    "filterCollapse": "Скрыть",
-    "sortBy": "Сортировка",
-    "sortPrice": "Цена",
-    "sortDate": "Дата",
-    "sortLowToHigh": "по возрастанию",
-    "sortHighToLow": "по убыванию",
-    "services": "Сервисы",
-    "actions": "Действия",
-    "questsDaily": "Ежедневные",
-    "questsOneTime": "Разовые",
-    "earnTaskListEmpty": "Список заданий в данный момент пуст.",
-    "earnTaskListCreateOwn": "Создать свое! 👇",
-    "taskListEmpty": "Список заданий пуст.",
-    "toastSuccess": "Успешно.",
-    "toastError": "Что-то пошло не так.",
-    "start": "Старт",
-    "check": "Чек",
-    "close": "Закрыть",
-    "hide": "Скрыть",
-    "hideTask": "Скрыть задание",
-    "hideTaskMsg": "Вы уверены, что хотите скрыть это задание?",
-    "hideTaskSuccessMsg": "Задание успешно скрыто.",
-    "report": "Пожаловаться",
-    "reportTask": "Пожаловаться на задание",
-    "reportTaskSuccessMsg": "Жалоба была успешно отправлена.",
-    "reasons": "Причины",
-    "reasonsSelect": "Выберите причины",
-    "reportReasonUnavailable": "Задание недоступно",
-    "reportReasonScam": "Мошенничество",
-    "reportReasonSpam": "Спам",
-    "reportReasonCopyright": "Нарушение авторских прав",
-    "reportReasonContent": "Неподобающий контент (насилие, порнография, политика)",
-    "reasonOther": "Другое",
-    "comment": "Комментарий",
-    "commentPlaceholder": "Уточните детали нарушения",
-    "progress": "Прогресс",
-    "edit": "Редактировать",
-    "performers": "Исполнители",
-    "taskStatusActive": "Активные",
-    "taskStatusPaused": "Приостановленные",
-    "taskStatusDone": "Выполненные",
-    "taskStatusDeleted": "Удаленные",
-    "taskStatusActivate": "Активировать",
-    "taskStatusPause": "Приостановить",
-    "taskStatusDelete": "Удалить",
-    "task": "Задание",
-    "thisTask": "это задание",
-    "sum": "Сумма",
-    "spent": "Потрачено",
-    "newSum": "Новая сумма",
-    "update": "Обновить",
-    "create": "Создать",
-    "service": "Сервис",
-    "action": "Действие",
-    "link": "Ссылка",
-    "price": "Цена",
-    "currency": "Валюта",
-    "count": "Количество",
-    "block": "Блок",
-    "unblock": "Разблок",
-    "blockPerformer": "Заблокировать иполнителя",
-    "blockPerformerSuccessMsg": "Пользователь заблокирован.",
-    "blackListReasonTask": "Задание не выполнено",
-    "blackListReasonAccount": "Неподходящий аккаунт",
-    "blackListReasonBehaviour": "Неподобающее поведение",
-    "details": "Детали",
-    "taskVerificationMsg": "Это задание требудет дополнительные действия для верификации.",
-    "learnMore": "Подробнее",
-    "alert": "Предупреждение",
-    "tgBoostTaskAlertMsg1": "Для того, чтобы мы могли верифицировать выполнение задания, необходимо добавить нашего бота",
-    "tgBoostTaskAlertMsg2": "в качестве администратора группы или канала.",
-    "tgSubscribeTaskAlertMsg1": "Для того, чтобы мы могли верифицировать выполнение задания для канала, необходимо добавить нашего бота",
-    "tgSubscribeTaskAlertMsg2": "в качестве администратора канала (это не касается групп).",
-    "tgTaskAlertSubMsg": "Вы по-прежнему можете создать задание без этого действия. Однако, без прав администратора, мы не сможем гарантировать надлежашего выполнения задания другими пользователями.",
-    "inviteAFriend": "Пригласить друга",
-    "inviteFriends": "Приглашай друзей",
-    "inviteFriendsMsg1": "Зарабатывай с их дохода!",
-    "inviteFriendsMsg2": "1000 монет за друга + 10% с их заработка",
-    "friends": "Друзья",
-    "friendsListEmpty": "Пока не пришлашено ни одного друга",
-    "profit": "Доход",
-    "profitToday": "Доход сегодня",
-    "claim": "Получить",
-    "claimed": "Получено",
-    "comingSoon": "Скоро",
-    "stayTuned": "Следите за обновлениями",
-    "subscribe": "Подписаться",
-    "Link": "Cсылка",
-    "Telegram": "Телеграм",
-    "X": "X",
-    "Instagram": "Инстаграм",
-    "Facebook": "Фэйсбук",
-    "TikTok": "ТикТок",
-    "Likee": "Лайки",
-    "YouTube": "Ютуб",
-    "Twitch": "Твитч",
-    "Discord": "Дискорд",
-    "VKontakte": "ВКонтакте",
-    "OK": "Одноклассники",
-    "Dzen": "Дзен",
-    "Warpcast": "Варпкаст",
-    "View": "Просмотр",
-    "Watch Stream": "Зрители на стрим",
-    "Watch a video": "Просмотр видео",
-    "Reaction": "Реакция",
-    "Like": "Лайк",
-    "Dislike": "Дизлайк",
-    "Comment": "Комментарий",
-    "Repost": "Репост",
-    "Repost to Story": "Репост в сторис",
-    "Save": "Сохранить",
-    "Bookmark": "Добавить в закладки",
-    "Add to Bookmarks": "Добавить в закладки",
-    "Add to Favorites": "Добавить в избранное",
-    "Save to Playlist": "Сохранить в плейлист",
-    "Download": "Скачать",
-    "Vote": "Проголосовать",
-    "Add to Friends": "Добавить в друзья",
-    "Subscribe": "Подписка",
-    "Follow": "Подписка",
-    "Boost": "Буст",
-    "Report": "Репорт",
-    "Play App": "Запустить приложение",
-    "Open App": "Открыть приложение",
-    "Open Mini App": "Открыть мини-приложение",
-    "Check-in": "Вход в приложение",
-    "Watch Ad": "Просмотр рекламы",
-    "Invite a friend": "Пригласить друга",
-    "Invite 5 friends": "Пригласить 5 друзей",
-    "Invite 10 friends": "Пригласить 10 друзей",
-    "Invite 25 friends": "Пригласить 25 друзей",
-    "Invite 50 friends": "Пригласить 50 друзей",
-    "Invite 100 friends": "Пригласить 100 друзей",
-    "Create a task": "Создать задание",
-    "Create 5 tasks": "Создать 5 заданий",
-    "Create 10 tasks": "Создать 10 заданий",
-    "Create 25 tasks": "Создать 25 заданий",
-    "Create 50 tasks": "Создать 50 заданий",
-    "Create 100 tasks": "Создать 100 заданий",
-    "Complete a task": "Выполнить задание",
-    "Complete 5 tasks": "Выполнить 5 заданий",
-    "Complete 10 tasks": "Выполнить 10 заданий",
-    "Complete 25 tasks": "Выполнить 25 заданий",
-    "Complete 50 tasks": "Выполнить 50 заданий",
-    "Complete 100 tasks": "Выполнить 100 заданий",
-    "Complete a quest": "Выполнить квест",
-    "Complete 5 quests": "Выполнить 5 квестов",
-    "Complete 10 quests": "Выполнить 10 квестов",
-    "Complete 25 quests": "Выполнить 25 квестов",
-    "Complete 50 quests": "Выполнить 50 квестов",
-    "Complete 100 quests": "Выполнить 100 квестов",
-    "Transaction on TON": "Транзакция на TON",
-    "Sign up + KYC": "Регистрация + KYC",
-    "warning": "Предупреждение",
-    "earnWarningMsg": "Мы рекомендуем подходить ответсвенно к выполнению заданий. В противном случае вы можете быть забанены и потерять все свои накопления.",
-    "dontShowAgain": "Больше не показывать",
-    "understand": "Я понимаю",
-    "pageError": "Что-то пошло не так...",
-    "tryAgain": "Попробовать снова"
+  "components": {
+    "LocaleSwitcher": {
+      "language": "Язык",
+      "title": "Русский"
+    },
+    "ThemeSwitcher": {
+      "theme": "Тема",
+      "dark": "Темная",
+      "light": "Светлая"
+    },
+    "HeaderBalance": {
+      "balance": "Баланс"
+    },
+    "HeaderUser": {
+      "blackList": "Черный Список"
+    },
+    "BlackList": {
+      "empty": "Черный список пуст."
+    },
+    "BlackListCard": {
+      "unblock": "Разблок",
+      "details": "Детали",
+      "comment": "Комментарий",
+      "reasons": "Причины"
+    },
+    "Leaderboard": {
+      "me": "Я",
+      "top": "Топ 10"
+    },
+    "EarnWaringModal": {
+      "warning": "Предупреждение",
+      "message": "Мы рекомендуем подходить ответсвенно к выполнению заданий. В противном случае вы можете быть забанены и потерять все свои накопления.",
+      "dontShow": "Больше не показывать",
+      "understand": "Я понимаю"
+    },
+    "EarnTabs": {
+      "tasks": "Задания",
+      "quests": "Квесты"
+    },
+    "EarnTaskList": {
+      "empty": "Список заданий в данный момент пуст. <br /> Создать свое! 👇"
+    },
+    "EarnTaskCard": {
+      "success": "Успешно.",
+      "error": "Что-то пошло не так.",
+      "start": "Старт",
+      "check": "Чек",
+      "hide": "Скрыть",
+      "report": "Пожаловаться"
+    },
+    "EarnTaskHideModal": {
+      "default": "Вы уверены, что хотите скрыть это задание?",
+      "success": "Задание успешно скрыто.",
+      "task": "Скрыть задание",
+      "close": "Закрыть",
+      "hide": "Скрыть"
+    },
+    "EarnTaskReportModal": {
+      "success": "Жалоба была успешно отправлена.",
+      "task": "Пожаловаться на задание",
+      "close": "Закрыть",
+      "report": "Отправить"
+    },
+    "EarnTaskReportForm": {
+      "reasons": "Выберите причины",
+      "comment": {
+        "label": "Комментарий",
+        "placeholder": "Уточните детали нарушения"
+      }
+    },
+    "EarnQuestList": {
+      "daily": "Ежедневные",
+      "oneTime": "Разовые"
+    },
+    "EarnQuestCard": {
+      "success": "Успешно.",
+      "error": "Что-то пошло не так.",
+      "start": "Старт",
+      "check": "Чек"
+    },
+    "TasksFilter": {
+      "status": {
+        "active": "Активные",
+        "paused": "Приостановленные",
+        "done": "Выполненные",
+        "deleted": "Удаленные"
+      },
+      "sort": {
+        "label": "Сортировка",
+        "asc": "по возрастанию",
+        "desc": "по убыванию",
+        "price": "Цена",
+        "date": "Дата"
+      },
+      "services": "Сервисы",
+      "actions": "Действия",
+      "filter": "Фильтр",
+      "expand": "Раскрыть",
+      "collapse": "Скрыть"
+    },
+    "TaskList": {
+      "empty": "Список заданий пуст.",
+      "task": "Задание",
+      "thisTask": "это задание",
+      "close": "Закрыть",
+      "activate": "Активировать",
+      "pause": "Приостановить",
+      "delete": "Удалить"
+    },
+    "TaskCard": {
+      "progress": "Прогресс",
+      "performers": "Исполнители",
+      "edit": "Редактировать",
+      "close": "Закрыть"
+    },
+    "TaskPerformersList": {
+      "block": "Блок",
+      "unblock": "Разблок"
+    },
+    "PerformerBlockModal": {
+      "header": "Заблокировать иполнителя",
+      "success": "Пользователь заблокирован.",
+      "block": "Заблокировать",
+      "close": "Закрыть"
+    },
+    "PerformerBlockForm": {
+      "reasons": "Выберите причины",
+      "comment": {
+        "label": "Комментарий",
+        "placeholder": "Уточните детали нарушения"
+      }
+    },
+    "CreateTaskButton": {
+      "create": "Создать задание"
+    },
+    "CreateTaskForm": {
+      "service": "Сервис",
+      "action": "Действие",
+      "link": "Ссылка",
+      "price": "Цена",
+      "currency": "Валюта",
+      "count": "Количество",
+      "create": "Создать",
+      "verification": "Это задание требует дополнительных действий для верификации.",
+      "learnMore": "Подробнее",
+      "alert": "Предупреждение",
+      "close": "Закрыть"
+    },
+    "EditTaskForm": {
+      "sum": "Сумма",
+      "spent": "Траты",
+      "newSum": "Новая",
+      "price": "Цена",
+      "currency": "Валюта",
+      "count": "Количество",
+      "update": "Обновить"
+    },
+    "TgSubscribeActionMessage": {
+      "message": "Для того, чтобы мы могли верифицировать выполнение задания для канала, необходимо добавить нашего бота <TgLinkButton>@{bot}</TgLinkButton> в качестве администратора канала (это не касается групп).",
+      "sub": "Вы по-прежнему можете создать задание без этого действия. Однако, без прав администратора, мы не сможем гарантировать надлежашего выполнения задания другими пользователями."
+    },
+    "TgBoostActionMessage": {
+      "message": "Для того, чтобы мы могли верифицировать выполнение задания, необходимо добавить нашего бота <TgLinkButton>@{bot}</TgLinkButton> в качестве администратора группы или канала.",
+      "sub": "Вы по-прежнему можете создать задание без этого действия. Однако, без прав администратора, мы не сможем гарантировать надлежашего выполнения задания другими пользователями."
+    },
+    "ReferralsInfo": {
+      "invite": "Приглашай друзей",
+      "message": "Зарабатывай с их дохода! <br /> 1000 монет за друга + 10% с их заработка",
+      "friends": "Друзья",
+      "profit": "Доход",
+      "profitToday": "Доход сегодня",
+      "claim": "Получить",
+      "claimed": "Получено"
+    },
+    "ReferralsList": {
+      "empty": "Пока не пришлашено ни одного друга"
+    },
+    "ReferralsButtons": {
+      "invite": "Пригласить друга"
+    },
+    "WalletBanner": {
+      "soon": "Скоро",
+      "stayTuned": "Следите за обновлениями...",
+      "subscribe": "Подписаться"
+    },
+    "ErrorPage": {
+      "error": "Что-то пошло не так...",
+      "tryAgain": "Попробовать снова"
+    }
+  },
+  "enums": {
+    "services": {
+      "Link": "Cсылка",
+      "Telegram": "Телеграм",
+      "X": "X",
+      "Instagram": "Инстаграм",
+      "Facebook": "Фэйсбук",
+      "TikTok": "ТикТок",
+      "Likee": "Лайки",
+      "YouTube": "Ютуб",
+      "Twitch": "Твитч",
+      "Discord": "Дискорд",
+      "VKontakte": "ВКонтакте",
+      "OK": "Одноклассники",
+      "Dzen": "Дзен",
+      "Warpcast": "Варпкаст"
+    },
+    "actions": {
+      "View": "Просмотр",
+      "Watch Stream": "Зрители на стрим",
+      "Watch a video": "Просмотр видео",
+      "Reaction": "Реакция",
+      "Like": "Лайк",
+      "Dislike": "Дизлайк",
+      "Comment": "Комментарий",
+      "Repost": "Репост",
+      "Repost to Story": "Репост в сторис",
+      "Save": "Сохранить",
+      "Bookmark": "Добавить в закладки",
+      "Add to Bookmarks": "Добавить в закладки",
+      "Add to Favorites": "Добавить в избранное",
+      "Save to Playlist": "Сохранить в плейлист",
+      "Download": "Скачать",
+      "Vote": "Проголосовать",
+      "Add to Friends": "Добавить в друзья",
+      "Subscribe": "Подписка",
+      "Follow": "Подписка",
+      "Boost": "Буст",
+      "Report": "Репорт",
+      "Play App": "Запустить приложение",
+      "Open App": "Открыть приложение",
+      "Open Mini App": "Открыть мини-приложение",
+      "Check-in": "Вход в приложение",
+      "Watch Ad": "Просмотр рекламы",
+      "Invite a friend": "Пригласить друга",
+      "Invite 5 friends": "Пригласить 5 друзей",
+      "Invite 10 friends": "Пригласить 10 друзей",
+      "Invite 25 friends": "Пригласить 25 друзей",
+      "Invite 50 friends": "Пригласить 50 друзей",
+      "Invite 100 friends": "Пригласить 100 друзей",
+      "Create a task": "Создать задание",
+      "Create 5 tasks": "Создать 5 заданий",
+      "Create 10 tasks": "Создать 10 заданий",
+      "Create 25 tasks": "Создать 25 заданий",
+      "Create 50 tasks": "Создать 50 заданий",
+      "Create 100 tasks": "Создать 100 заданий",
+      "Complete a task": "Выполнить задание",
+      "Complete 5 tasks": "Выполнить 5 заданий",
+      "Complete 10 tasks": "Выполнить 10 заданий",
+      "Complete 25 tasks": "Выполнить 25 заданий",
+      "Complete 50 tasks": "Выполнить 50 заданий",
+      "Complete 100 tasks": "Выполнить 100 заданий",
+      "Complete a quest": "Выполнить квест",
+      "Complete 5 quests": "Выполнить 5 квестов",
+      "Complete 10 quests": "Выполнить 10 квестов",
+      "Complete 25 quests": "Выполнить 25 квестов",
+      "Complete 50 quests": "Выполнить 50 квестов",
+      "Complete 100 quests": "Выполнить 100 квестов",
+      "Transaction on TON": "Транзакция на TON",
+      "Sign up + KYC": "Регистрация + KYC"
+    },
+    "reasons": {
+      "report": {
+        "unavailable": "Задание недоступно",
+        "scam": "Мошенничество",
+        "spam": "Спам",
+        "copyright": "Нарушение авторских прав",
+        "content": "Неподобающий контент (насилие, порнография, политика)",
+        "other": "Другое"
+      },
+      "blackList": {
+        "task": "Задание не выполнено",
+        "account": "Неподходящий аккаунт",
+        "behaviour": "Неподобающее поведение",
+        "other": "Другое"
+      }
+    }
   },
   "messages": {
     "actions": {

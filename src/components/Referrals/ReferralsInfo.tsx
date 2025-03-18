@@ -12,7 +12,7 @@ export default function ReferralsInfo({
 }: { 
   count: number, profit: number, profitToday: number, claimedSum: number
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.ReferralsInfo');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,10 +35,9 @@ export default function ReferralsInfo({
     <div className="mb-8">
       <div className="flex justify-between">
         <Card className="mr-2 border-1 border-foreground-300 bg-[#00001280] w-3/4 max-[400px]:w-2/3">
-          <CardHeader className="text-medium text-primary pb-0">{t('inviteFriends')}</CardHeader>
+          <CardHeader className="text-medium text-primary pb-0">{t('invite')}</CardHeader>
           <CardBody className="text-small text-foreground-500">
-            <p>{t('inviteFriendsMsg1')}</p>
-            <p>{t('inviteFriendsMsg2')}</p>
+            <p dangerouslySetInnerHTML={{__html: t.raw('message')}} />
           </CardBody>
         </Card>
 

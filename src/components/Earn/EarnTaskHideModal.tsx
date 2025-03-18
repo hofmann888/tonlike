@@ -1,14 +1,8 @@
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/modal";
-import { Button } from "@heroui/button";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import { HideUserEarnTask } from "@/core/actions";
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from 'react';
-import { HideUserEarnTask } from "@/core/actions";
+import { Button } from "@heroui/button";
 
 export default function EarnTaskHideModal({ 
   taskId, isOpen, onOpenChange, onClose, onSubmit
@@ -19,8 +13,8 @@ export default function EarnTaskHideModal({
   onOpenChange: (isOpen: boolean) => void,
   onSubmit: (id: number) => void
 }) {
-  const t = useTranslations('i18n');
-  const defaultMessage = t('hideTaskMsg');
+  const t = useTranslations('components.EarnTaskHideModal');
+  const defaultMessage = t('default');
   const [message, setMessage] = useState(defaultMessage);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,7 +39,7 @@ export default function EarnTaskHideModal({
 
     if (result.success) {
       setIsHidden(true);
-      setMessage(t('hideTaskSuccessMsg'));
+      setMessage(t('success'));
       onSubmit(taskId);
     }
 
@@ -55,7 +49,7 @@ export default function EarnTaskHideModal({
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">{t('hideTask')} #{taskId}</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">{t('task')} #{taskId}</ModalHeader>
 
         <ModalBody>
           <span className="text-medium">{message}</span> 

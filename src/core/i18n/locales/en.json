@@ -1,179 +1,282 @@
 {
-  "i18n": {
-    "language": "Language",
-    "languageKey": "EN",
-    "languageTitle": "English",
-    "theme": "Theme",
-    "themeDark": "Dark",
-    "themeLight": "Light",
-    "balance": "Balance",
-    "blackList": "Black List",
-    "leaderboardMe": "Me",
-    "leaderboardTop10": "Top 10",
-    "tasks": "Tasks",
-    "quests": "Quests",
-    "createTask": "Create Task",
-    "filter": "Filter",
-    "filterExpand": "Press to expand",
-    "filterCollapse": "Press to collapse",
-    "sortBy": "Sort By",
-    "sortPrice": "Price",
-    "sortDate": "Date",
-    "sortLowToHigh": "Low to High",
-    "sortHighToLow": "High to Low",
-    "services": "Services",
-    "actions": "Actions",
-    "questsDaily": "Daily",
-    "questsOneTime": "One-time",
-    "earnTaskListEmpty": "The task list is empty at the moment.",
-    "earnTaskListCreateOwn": "Create your own! 👇",
-    "taskListEmpty": "The task list is empty",
-    "toastSuccess": "Success.",
-    "toastError": "Something went wrong.",
-    "start": "Start",
-    "check": "Check",
-    "close": "Close",
-    "hide": "Hide",
-    "hideTask": "Hide Task",
-    "hideTaskMsg": "Are you sure you want to hide this task?",
-    "hideTaskSuccessMsg": "Task has been successfuly hidden.",
-    "report": "Report",
-    "reportTask": "Report Task",
-    "reportTaskSuccessMsg": "Task has been successfuly reported.",
-    "reasons": "Reasons",
-    "reasonsSelect": "Select reasons",
-    "reportReasonUnavailable": "Task is unavailable",
-    "reportReasonScam": "Scam",
-    "reportReasonSpam": "Spam",
-    "reportReasonCopyright": "Copiright",
-    "reportReasonContent": "Inappropriate content (violance, pornography, politics)",
-    "reasonOther": "Other",
-    "comment": "Comment",
-    "commentPlaceholder": "Describe the details",
-    "progress": "Progress",
-    "edit": "Edit",
-    "performers": "Performers",
-    "taskStatusActive": "Active",
-    "taskStatusPaused": "Paused",
-    "taskStatusDone": "Done",
-    "taskStatusDeleted": "Deleted",
-    "taskStatusActivate": "Activate",
-    "taskStatusPause": "Pause",
-    "taskStatusDelete": "Delete",
-    "task": "Task",
-    "thisTask": "this task",
-    "sum": "Sum",
-    "spent": "Spent",
-    "newSum": "New sum",
-    "update": "Update",
-    "create": "Create",
-    "service": "Service",
-    "action": "Action",
-    "link": "Link",
-    "price": "Price",
-    "currency": "Currency",
-    "count": "Count",
-    "block": "Block",
-    "unblock": "Unblock",
-    "blockPerformer": "Block Performer",
-    "blockPerformerSuccessMsg": "User has been successfuly blocked.",
-    "blackListReasonTask": "Bad task completion",
-    "blackListReasonAccount": "Bad account",
-    "blackListReasonBehaviour": "Inappropriate behaviour",
-    "details": "Details",
-    "taskVerificationMsg": "This task requires additional steps for verification.",
-    "learnMore": "Learn More",
-    "alert": "Alert",
-    "tgBoostTaskAlertMsg1": "In order for us to verify the completion of the task, you need to add our bot",
-    "tgBoostTaskAlertMsg2": "as an administrator of the group or channel.",
-    "tgSubscribeTaskAlertBsg1": "In order for us to verify the completion of the task for the channel, you need to add our bot",
-    "tgSubscribeTaskAlertBsg2": "as an administrator of the channel (this does not apply to groups).",
-    "tgTaskAlertSubMsg": "You can still create a task without this action. However, without administrator rights, we cannot guarantee that the task will be properly completed by other users.",
-    "inviteAFriend": "Invate a friends",
-    "inviteFriends": "Invate Friends",
-    "inviteFriendsMsg1": "Earn from they profit!",
-    "inviteFriendsMsg2": "1000 coins for a friend + 10% from their earnings",
-    "friends": "Friends",
-    "friendsListEmpty": "You haven't invited any friends yet",
-    "profit": "Profit",
-    "profitToday": "Profit today",
-    "claim": "Claim",
-    "claimed": "Claimed",
-    "comingSoon": "Coming Soon",
-    "stayTuned": "Stay Tuned",
-    "subscribe": "Subscribe",
-    "Link": "Link",
-    "Telegram": "Telegram",
-    "X": "X",
-    "Instagram": "Instagram",
-    "Facebook": "Facebook",
-    "TikTok": "TikTok",
-    "Likee": "Likee",
-    "YouTube": "YouTube",
-    "Twitch": "Twitch",
-    "Discord": "Discord",
-    "VKontakte": "VKontakte",
-    "OK": "OK",
-    "Dzen": "Dzen",
-    "Warpcast": "Warpcast",
-    "View": "View",
-    "Watch Stream": "Watch Stream",
-    "Watch a video": "Watch a video",
-    "Reaction": "Reaction",
-    "Like": "Like",
-    "Dislike": "Dislike",
-    "Comment": "Comment",
-    "Repost": "Repost",
-    "Repost to Story": "Repost to Story",
-    "Save": "Save",
-    "Bookmark": "Bookmark",
-    "Add to Bookmarks": "Add to Bookmarks",
-    "Add to Favorites": "Add to Favorites",
-    "Save to Playlist": "Save to Playlist",
-    "Download": "Download",
-    "Vote": "Vote",
-    "Add to Friends": "Add to Friends",
-    "Subscribe": "Subscribe",
-    "Follow": "Follow",
-    "Boost": "Boost",
-    "Report": "Report",
-    "Play App": "Play App",
-    "Open App": "Open App",
-    "Open Mini App": "Open Mini App",
-    "Check-in": "Check-in",
-    "Watch Ad": "Watch Ad",
-    "Invite a friend": "Invite a friend",
-    "Invite 5 friends": "Invite 5 friends",
-    "Invite 10 friends": "Invite 10 friends",
-    "Invite 25 friends": "Invite 25 friends",
-    "Invite 50 friends": "Invite 50 friends",
-    "Invite 100 friends": "Invite 100 friends",
-    "Create a task": "Create a task",
-    "Create 5 tasks": "Create 5 tasks",
-    "Create 10 tasks": "Create 10 tasks",
-    "Create 25 tasks": "Create 25 tasks",
-    "Create 50 tasks": "Create 50 tasks",
-    "Create 100 tasks": "Create 100 tasks",
-    "Complete a task": "Complete a task",
-    "Complete 5 tasks": "Complete 5 tasks",
-    "Complete 10 tasks": "Complete 10 tasks",
-    "Complete 25 tasks": "Complete 25 tasks",
-    "Complete 50 tasks": "Complete 50 tasks",
-    "Complete 100 tasks": "Complete 100 tasks",
-    "Complete a quest": "Complete a quest",
-    "Complete 5 quests": "Complete 5 quests",
-    "Complete 10 quests": "Complete 10 quests",
-    "Complete 25 quests": "Complete 25 quests",
-    "Complete 50 quests": "Complete 50 quests",
-    "Complete 100 quests": "Complete 100 quests",
-    "Transaction on TON": "Transaction on TON",
-    "Sign up + KYC": "Sign up + KYC",
-    "warning": "Warning",
-    "earnWarningMsg": "We recommend that you complete tasks responsibly. Otherwise, you may be banned and lose all your earnings.",
-    "dontShowAgain": "Don't show again",
-    "understand": "I Understand",
-    "pageError": "Something went wrong...",
-    "tryAgain": "Try again"
+  "components": {
+    "LocaleSwitcher": {
+      "language": "Language",
+      "title": "English"
+    },
+    "ThemeSwitcher": {
+      "theme": "Theme",
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "HeaderBalance": {
+      "balance": "Balance"
+    },
+    "HeaderUser": {
+      "blackList": "Black List"
+    },
+    "BlackList": {
+      "empty": "Black list is empty."
+    },
+    "BlackListCard": {
+      "unblock": "Unblock",
+      "details": "Details",
+      "comment": "Comment",
+      "reasons": "Reasons"
+    },
+    "Leaderboard": {
+      "me": "Me",
+      "top": "Top 10"
+    },
+    "EarnWaringModal": {
+      "warning": "Warning",
+      "message": "We recommend that you complete tasks responsibly. Otherwise, you may be banned and lose all your earnings.",
+      "dontShow": "Don't show again",
+      "understand": "I Understand"
+    },
+    "EarnTabs": {
+      "tasks": "Tasks",
+      "quests": "Quests"
+    },
+    "EarnTaskList": {
+      "empty": "The task list is empty at the moment. <br /> Create your own! 👇"
+    },
+    "EarnTaskCard": {
+      "success": "Success.",
+      "error": "Something went wrong.",
+      "start": "Start",
+      "check": "Check",
+      "hide": "Hide",
+      "report": "Report"
+    },
+    "EarnTaskHideModal": {
+      "default": "Are you sure you want to hide this task?",
+      "success": "Task has been successfuly hidden.",
+      "task": "Hide Task",
+      "close": "Close",
+      "hide": "Hide"
+    },
+    "EarnTaskReportModal": {
+      "success": "Task has been successfuly reported.",
+      "task": "Report Task",
+      "close": "Close",
+      "report": "Report"
+    },
+    "EarnTaskReportForm": {
+      "reasons": "Select reasons",
+      "comment": {
+        "label": "Comment",
+        "placeholder": "Describe the details"
+      }
+    },
+    "EarnQuestList": {
+      "daily": "Daily",
+      "oneTime": "One-time"
+    },
+    "EarnQuestCard": {
+      "success": "Success.",
+      "error": "Something went wrong.",
+      "start": "Start",
+      "check": "Check"
+    },
+    "TasksFilter": {
+      "status": {
+        "active": "Active",
+        "paused": "Paused",
+        "done": "Done",
+        "deleted": "Deleted"
+      },
+      "sort": {
+        "label": "Sort By",
+        "asc": "Low to High",
+        "desc": "High to Low",
+        "price": "Price",
+        "date": "Date"
+      },
+      "services": "Services",
+      "actions": "Actions",
+      "filter": "Filter",
+      "expand": "Press to expand",
+      "collapse": "Press to collapse"
+    },
+    "TaskList": {
+      "empty": "The task list is empty",
+      "task": "Task",
+      "thisTask": "this task",
+      "close": "Close",
+      "activate": "Activate",
+      "pause": "Pause",
+      "delete": "Delete"
+    },
+    "TaskCard": {
+      "progress": "Progress",
+      "performers": "Performers",
+      "edit": "Edit",
+      "close": "Close"
+    },
+    "TaskPerformersList": {
+      "block": "Block",
+      "unblock": "Unblock"
+    },
+    "PerformerBlockModal": {
+      "header": "Block Performer",
+      "success": "User has been successfuly blocked.",
+      "block": "Block",
+      "close": "Close"
+    },
+    "PerformerBlockForm": {
+      "reasons": "Select reasons",
+      "comment": {
+        "label": "Comment",
+        "placeholder": "Describe the details"
+      }
+    },
+    "CreateTaskButton": {
+      "create": "Create Task"
+    },
+    "CreateTaskForm": {
+      "service": "Service",
+      "action": "Action",
+      "link": "Link",
+      "price": "Price",
+      "currency": "Currency",
+      "count": "Count",
+      "create": "Create",
+      "verification": "This task requires additional steps for verification.",
+      "learnMore": "Learn More",
+      "alert": "Alert",
+      "close": "Close"
+    },
+    "EditTaskForm": {
+      "sum": "Sum",
+      "spent": "Spent",
+      "newSum": "New sum",
+      "price": "Price",
+      "currency": "Currency",
+      "count": "Count",
+      "update": "Update"
+    },
+    "TgSubscribeActionMessage": {
+      "message": "In order for us to verify the completion of the task for the channel, you need to add our bot <TgLinkButton>@{bot}</TgLinkButton> as an administrator of the channel (this does not apply to groups).",
+      "sub": "You can still create a task without this action. However, without administrator rights, we cannot guarantee that the task will be properly completed by other users."
+    },
+    "TgBoostActionMessage": {
+      "message": "In order for us to verify the completion of the task, you need to add our bot <TgLinkButton>@{bot}</TgLinkButton> as an administrator of the group or channel.",
+      "sub": "You can still create a task without this action. However, without administrator rights, we cannot guarantee that the task will be properly completed by other users."
+    },
+    "ReferralsInfo": {
+      "invite": "Invite Friends",
+      "message": "Earn from they profit! <br /> 1000 coins for a friend + 10% from their earnings",
+      "friends": "Friends",
+      "profit": "Profit",
+      "profitToday": "Profit today",
+      "claim": "Claim",
+      "claimed": "Claimed"
+    },
+    "ReferralsList": {
+      "empty": "You haven't invited any friends yet"
+    },
+    "ReferralsButtons": {
+      "invite": "Invite a friend"
+    },
+    "WalletBanner": {
+      "soon": "Coming Soon",
+      "stayTuned": "Stay Tuned...",
+      "subscribe": "Subscribe"
+    },
+    "ErrorPage": {
+      "error": "Something went wrong...",
+      "tryAgain": "Try again"
+    }
+  },
+
+  "enums": {
+    "services": {
+      "Link": "Link",
+      "Telegram": "Telegram",
+      "X": "X",
+      "Instagram": "Instagram",
+      "Facebook": "Facebook",
+      "TikTok": "TikTok",
+      "Likee": "Likee",
+      "YouTube": "YouTube",
+      "Twitch": "Twitch",
+      "Discord": "Discord",
+      "VKontakte": "VKontakte",
+      "OK": "OK",
+      "Dzen": "Dzen",
+      "Warpcast": "Warpcast"
+    },
+    "actions": {
+      "View": "View",
+      "Watch Stream": "Watch Stream",
+      "Watch a video": "Watch a video",
+      "Reaction": "Reaction",
+      "Like": "Like",
+      "Dislike": "Dislike",
+      "Comment": "Comment",
+      "Repost": "Repost",
+      "Repost to Story": "Repost to Story",
+      "Save": "Save",
+      "Bookmark": "Bookmark",
+      "Add to Bookmarks": "Add to Bookmarks",
+      "Add to Favorites": "Add to Favorites",
+      "Save to Playlist": "Save to Playlist",
+      "Download": "Download",
+      "Vote": "Vote",
+      "Add to Friends": "Add to Friends",
+      "Subscribe": "Subscribe",
+      "Follow": "Follow",
+      "Boost": "Boost",
+      "Report": "Report",
+      "Play App": "Play App",
+      "Open App": "Open App",
+      "Open Mini App": "Open Mini App",
+      "Check-in": "Check-in",
+      "Watch Ad": "Watch Ad",
+      "Invite a friend": "Invite a friend",
+      "Invite 5 friends": "Invite 5 friends",
+      "Invite 10 friends": "Invite 10 friends",
+      "Invite 25 friends": "Invite 25 friends",
+      "Invite 50 friends": "Invite 50 friends",
+      "Invite 100 friends": "Invite 100 friends",
+      "Create a task": "Create a task",
+      "Create 5 tasks": "Create 5 tasks",
+      "Create 10 tasks": "Create 10 tasks",
+      "Create 25 tasks": "Create 25 tasks",
+      "Create 50 tasks": "Create 50 tasks",
+      "Create 100 tasks": "Create 100 tasks",
+      "Complete a task": "Complete a task",
+      "Complete 5 tasks": "Complete 5 tasks",
+      "Complete 10 tasks": "Complete 10 tasks",
+      "Complete 25 tasks": "Complete 25 tasks",
+      "Complete 50 tasks": "Complete 50 tasks",
+      "Complete 100 tasks": "Complete 100 tasks",
+      "Complete a quest": "Complete a quest",
+      "Complete 5 quests": "Complete 5 quests",
+      "Complete 10 quests": "Complete 10 quests",
+      "Complete 25 quests": "Complete 25 quests",
+      "Complete 50 quests": "Complete 50 quests",
+      "Complete 100 quests": "Complete 100 quests",
+      "Transaction on TON": "Transaction on TON",
+      "Sign up + KYC": "Sign up + KYC"
+    },
+    "reasons": {
+      "report": {
+        "unavailable": "Task is unavailable",
+        "scam": "Scam",
+        "spam": "Spam",
+        "copyright": "Copiright",
+        "content": "Inappropriate content (violance, pornography, politics)",
+        "other": "Other"
+      },
+      "blackList": {
+        "task": "Bad task completion",
+        "account": "Bad account",
+        "behaviour": "Inappropriate behaviour",
+        "other": "Other"
+      }
+    }
   },
   "messages": {
     "actions": {

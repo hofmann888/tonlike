@@ -14,7 +14,7 @@ import { shareURL } from '@telegram-apps/sdk-react';
 export default function ReferralsButtons() {
   const { tgId } = useUser();
 
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.ReferralsButtons');
 
   const bot = process.env.NEXT_PUBLIC_TG_BOT_NAME as string;
   const app = process.env.NEXT_PUBLIC_TG_APP_NAME as string;
@@ -31,7 +31,7 @@ export default function ReferralsButtons() {
         endContent={<FaShareAlt />}
         onPress={() => shareURL(link, 'Join now and get 1000 $LIKE bonus!')}
       >
-        {t('inviteAFriend')}
+        {t('invite')}
       </Button>
 
       <Button 

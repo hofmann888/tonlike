@@ -13,7 +13,7 @@ export default function PerformerBlockModal({
   onClose: () => void,
   performerBlocked: (id: number) => void
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.PerformerBlockModal');
   const formRef: any = useRef(null);
   
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -34,7 +34,7 @@ export default function PerformerBlockModal({
     setSubmitLoading(false);
 
     if (success) {
-      setMessage(t('blockPerformerSuccessMsg'));
+      setMessage(t('success'));
       performerBlocked(id);
     }
   }
@@ -44,7 +44,7 @@ export default function PerformerBlockModal({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">{t('blockPerformer')}</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">{t('header')}</ModalHeader>
 
             <ModalBody>
               {message.length 

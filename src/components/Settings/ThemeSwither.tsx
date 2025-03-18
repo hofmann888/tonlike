@@ -7,7 +7,7 @@ import { useTheme } from 'next-themes';
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.ThemeSwitcher');
 
   return (
     <Switch
@@ -20,7 +20,7 @@ export default function ThemeSwitcher() {
     >
       <span className="text-medium">
         {t('theme')}: <span className="text-primary">
-          {theme === 'light' ? t('themeLight') : t('themeDark')}
+          {theme === 'light' ? t('light') : t('dark')}
         </span>
       </span>
     </Switch>

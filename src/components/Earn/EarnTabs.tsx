@@ -4,15 +4,15 @@
 import { Tabs, Tab } from "@heroui/tabs";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { GoGoal } from "react-icons/go";
 import { BiTask } from "react-icons/bi";
-import { useTranslations } from "next-intl";
 
 // TODO: add chips to count tasks
 export default function EarnTabs({ activeTab }: { activeTab: string }) {
-  const router = useRouter();
+  const t = useTranslations('components.EarnTabs');
   const pathname = usePathname();
-  const t = useTranslations('i18n');
+  const router = useRouter();
 
   const [tab, setTab] = useState(activeTab);
 

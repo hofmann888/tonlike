@@ -3,15 +3,18 @@
 import { type BlackListItem, type BlackListReasonsMapItem, BlackListReasonEnum } from "@/lib/definitions";
 import { useState } from "react";
 import BlackListCard from "./BlackListCard";
+import { useTranslations } from "next-intl";
 
 export const blackListReasonsMap: BlackListReasonsMapItem[] = [
-  { key: BlackListReasonEnum.TASK, title: 'blackListReasonTask' },
-  { key: BlackListReasonEnum.ACCOUNT, title: 'blackListReasonAccount' },
-  { key: BlackListReasonEnum.BEHAVIOUR, title: 'blackListReasonBehaviour' },
-  { key: BlackListReasonEnum.OTHER, title: 'reasonOther' },
+  { key: BlackListReasonEnum.TASK, title: 'reasons.blackList.task' },
+  { key: BlackListReasonEnum.ACCOUNT, title: 'reasons.blackList.account' },
+  { key: BlackListReasonEnum.BEHAVIOUR, title: 'reasons.blackList.behaviour' },
+  { key: BlackListReasonEnum.OTHER, title: 'reasons.blackList.other' },
 ];
 
 export default function BlackList({ blackList }: { blackList: BlackListItem[] }) {
+  const t = useTranslations('components.BlackList');
+
   const [blackListState, setBlackListState] = useState(blackList);
 
   function userUnblocked(id: number) {
@@ -31,7 +34,7 @@ export default function BlackList({ blackList }: { blackList: BlackListItem[] })
             userUnblocked={userUnblocked}
           />
         ))
-        : <p className="w-full text-center text-medium mt-2">Black list is empty.</p>
+        : <p className="w-full text-center text-medium mt-2">{t('empty')}</p>
       }
     </div>
   )

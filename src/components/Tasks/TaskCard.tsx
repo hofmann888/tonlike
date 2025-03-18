@@ -31,7 +31,8 @@ export default function TaskCard({
   onDeleteClick: (id: number) => void,
   onActivateClick: (id: number) => void
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.TaskCard');
+  const tEnums = useTranslations('enums');
 
   const [performers, setPerformers] = useState([] as Performer[]);
   const [showPerformers, setShowPerformers] = useState(false);
@@ -81,12 +82,13 @@ export default function TaskCard({
           <div className="flex flex-col max-w-[70%]">
             <TgLinkButton 
               link={task.link}
+              className="justify-start"
               endContent={<FiExternalLink className="w-4 min-w-4 max-[400px]:w-3 max-[400px]:min-w-3" />}
             >
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </TgLinkButton>
 
-            <span className="whitespace-nowrap text-small text-foreground-400">{t(actionTitle!)}</span>
+            <span className="whitespace-nowrap text-small text-foreground-400">{tEnums(`actions.${actionTitle}`)}</span>
           </div>
         </div>
 

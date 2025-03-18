@@ -1,13 +1,7 @@
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "@heroui/modal";
-import { Button } from "@heroui/button";
-import { useTranslations } from "next-intl";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { useRef, useState, useEffect } from 'react';
+import { useTranslations } from "next-intl";
+import { Button } from "@heroui/button";
 import EarnTaskReportForm from "./EarnTaskReportForm";
 
 export default function EarnTaskReportModal({ 
@@ -19,7 +13,7 @@ export default function EarnTaskReportModal({
   onOpenChange: (isOpen: boolean) => void,
   onSubmit: (id: number) => void,
 }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.EarnTaskReportModal');
   const formRef: any = useRef(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -39,7 +33,7 @@ export default function EarnTaskReportModal({
     setLoading(false);
 
     if (success) {
-      setMessage(t('reportTaskSuccessMsg'));
+      setMessage(t('success'));
       onSubmit(id);
     }
   }
@@ -47,7 +41,7 @@ export default function EarnTaskReportModal({
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">{t('reportTask')} #{taskId}</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">{t('task')} #{taskId}</ModalHeader>
 
         <ModalBody>
           {message.length 

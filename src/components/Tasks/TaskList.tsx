@@ -10,7 +10,7 @@ import { Button } from "@heroui/button";
 import TaskCard from "./TaskCard";
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
-  const t = useTranslations('i18n');
+  const t = useTranslations('components.TaskList');
 
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
@@ -47,15 +47,15 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   // TODO: compbine to one function
   function activateButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.ACTIVE);
-    openModal(id, t('taskStatusActivate'));
+    openModal(id, t('activate'));
   }
   function pauseButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.PAUSED);
-    openModal(id, t('taskStatusPause'));
+    openModal(id, t('pause'));
   }
   function deleteButtonClick(id: number) {
     setNewStatus(TaskStatusEnum.DELETED);
-    openModal(id, t('taskStatusDelete'));
+    openModal(id, t('delete'));
   }
 
   function openModal(taskId: number, text: string) {
@@ -85,7 +85,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           onDeleteClick={() => deleteButtonClick(task.id)} 
           onActivateClick={() => activateButtonClick(task.id)} 
           />
-      )) : <p className="text-center text-medium">{t('taskListEmpty')}</p>}
+      )) : <p className="text-center text-medium">{t('empty')}</p>}
 
       {tasks.length > pageItemsSize && 
         <Pagination 
