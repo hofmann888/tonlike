@@ -103,7 +103,7 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
           />
 
           <div className="flex flex-col mr-3">
-            <span className="text-medium max-[375px]:text-small">{ tEnums(`actions.${title}`) }</span>
+            <span className="text-medium">{ tEnums(`actions.${title}`) }</span>
             <div className="flex items-center text-small text-primary-500">
               + <CoinValue value={quest.price} />
             </div>

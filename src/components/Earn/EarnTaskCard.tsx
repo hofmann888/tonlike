@@ -66,7 +66,7 @@ export default function EarnTaskCard({
             alt={task.service?.title}
           />
           <div className="flex flex-col">
-            <span className="text-medium max-[375px]:text-small">{ tEnums(`actions.${actionTitle}`) }</span>
+            <span className="text-medium">{ tEnums(`actions.${actionTitle}`) }</span>
             <div className="flex items-center text-small mr-3 text-primary-500">
               + <CoinValue value={task.price} />
             </div>
