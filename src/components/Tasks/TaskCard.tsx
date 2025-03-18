@@ -88,7 +88,7 @@ export default function TaskCard({
               <span className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-medium max-[400px]:text-small">{task.link}</span>
             </TgLinkButton>
 
-            <span className="whitespace-nowrap text-small text-foreground-400">{tEnums(`actions.${actionTitle}`)}</span>
+            <span className="text-ellipsis whitespace-nowrap text-small text-foreground-400 max-[450px]:overflow-hidden max-[450px]:w-[130%] max-[420px]:max-w-full">{tEnums(`actions.${actionTitle}`)}</span>
           </div>
         </div>
 
