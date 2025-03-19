@@ -1,9 +1,10 @@
 'use client'
 
 import { Card, CardHeader, CardBody } from "@heroui/card";
+import { Button } from "@heroui/button";
 import { ClaimReferralEarnings } from "@/core/server-actions";
 import { useTranslations } from "next-intl";
-import { Button } from "@heroui/button";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import CoinValue from "../Common/CoinValue";
 
@@ -12,11 +13,13 @@ export default function ReferralsInfo({
 }: { 
   count: number, profit: number, profitToday: number, claimedSum: number
 }) {
+  const { theme } = useTheme();
   const t = useTranslations('components.ReferralsInfo');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const cardBg = theme === 'dark' ? 'bg-[#00001280]' : "bg-background";
   const claimSum = profit - claimedSum;
 
   async function claim() {
@@ -34,28 +37,28 @@ export default function ReferralsInfo({
   return (
     <div className="mb-8">
       <div className="flex justify-between">
-        <Card className="mr-2 border-1 border-foreground-300 bg-[#00001280] w-3/4 max-[400px]:w-2/3">
+        <Card className={`${cardBg} mr-2 border-1 border-foreground-300 w-3/4 max-[400px]:w-2/3`}>
           <CardHeader className="text-medium text-primary pb-0">{t('invite')}</CardHeader>
           <CardBody className="text-small text-foreground-500">
             <p dangerouslySetInnerHTML={{__html: t.raw('message')}} />
           </CardBody>
         </Card>
 
-        <Card className="ml-2 border-1 border-foreground-300 bg-[#00001280] w-1/4 max-[400px]:w-1/3">
+        <Card className={`${cardBg} ml-2 border-1 border-foreground-300 w-1/4 max-[400px]:w-1/3`}>
           <CardHeader className="text-medium text-primary pb-0">{t('friends')}</CardHeader>
           <CardBody className="text-center text-3xl">{count}</CardBody>
         </Card>
       </div>
 
       <div className="flex justify-between mt-4">
-        <Card className="w-1/2 mr-2 border-1 border-foreground-300 bg-[#00001280]">
+        <Card className={`${cardBg} w-1/2 mr-2 border-1 border-foreground-300`}>
           <CardHeader className="text-medium text-primary pb-0">{t('profitToday')}</CardHeader>
           <CardBody>
             <CoinValue value={profitToday} />
           </CardBody>
         </Card>
 
-        <Card className="w-1/2 ml-2 border-1 border-foreground-300 bg-[#00001280]">
+        <Card className={`${cardBg} w-1/2 ml-2 border-1 border-foreground-300`}>
           <CardHeader className="text-medium text-primary pb-0">{t('profit')}</CardHeader>
           <CardBody className="flex flex-row justify-between">
             <CoinValue value={profit} />
