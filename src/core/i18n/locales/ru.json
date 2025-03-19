@@ -187,6 +187,15 @@
     "ErrorPage": {
       "error": "Что-то пошло не так...",
       "tryAgain": "Попробовать снова"
+    },
+    "Footer": {
+      "nav": {
+        "leaderboard": "Топ",
+        "earn": "Заработок",
+        "tasks": "Мои задания",
+        "referrals": "Друзья",
+        "wallet": "Кошелек"
+      }
     }
   },
   "enums": {

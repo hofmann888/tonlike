@@ -4,6 +4,7 @@ import { IconType } from "react-icons";
 
 export type NavLink = {
   href: string,
+  title: string,
   icon: IconType,
 }
 

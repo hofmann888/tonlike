@@ -1,21 +1,24 @@
 'use client'
 
-import { FaCoins, FaTasks, FaTrophy, FaWallet, FaUserFriends } from "react-icons/fa";
+import { FaTasks, FaTrophy, FaWallet, FaUserFriends } from "react-icons/fa";
+import { FaSackDollar } from "react-icons/fa6";
 import { usePathname } from 'next/navigation';
+import { useTranslations } from "next-intl";
 import { NavLink } from "@/lib/definitions";
 import { Tabs, Tab } from "@heroui/tabs";
 import Link from "next/link";
 
 const navLinks: NavLink[] = [
-  { href: '/leaderboard', icon: FaTrophy },
-  { href: '/earn', icon: FaCoins },
-  { href: '/tasks', icon: FaTasks },
-  { href: '/referrals', icon: FaUserFriends },
-  { href: '/wallet', icon: FaWallet },
+  { href: '/leaderboard', title: "leaderboard", icon: FaTrophy },
+  { href: '/earn', title: "earn", icon: FaSackDollar },
+  { href: '/tasks', title: "tasks", icon: FaTasks },
+  { href: '/referrals', title: "referrals", icon: FaUserFriends },
+  { href: '/wallet', title: "wallet", icon: FaWallet },
 ]
 
 export default function Footer() {
   const pathname = usePathname();
+  const t = useTranslations('components.Footer');
 
   let selectedNav = pathname;
   if (pathname === '/tasks/create') {
@@ -46,7 +49,10 @@ export default function Footer() {
               key={link.href} 
               href={link.href}
               title={
-                <LinkIcon className="w-7 h-7" />
+                <div className="flex flex-col items-center justify-center">
+                  <LinkIcon className="w-6 h-6 mt-1" />
+                  <span className="text-xs mt-1">{t(`nav.${link.title}`)}</span>
+                </div>
               }
             />
           );

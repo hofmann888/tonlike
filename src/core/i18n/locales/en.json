@@ -187,6 +187,15 @@
     "ErrorPage": {
       "error": "Something went wrong...",
       "tryAgain": "Try again"
+    },
+    "Footer": {
+      "nav": {
+        "leaderboard": "Leaderboard",
+        "earn": "Earn",
+        "tasks": "My Tasks",
+        "referrals": "Friends",
+        "wallet": "Wallet"
+      }
     }
   },
 
