@@ -34,8 +34,8 @@ export default function Footer() {
         color="primary"
         classNames={{ 
           base: "w-full h-full", 
-          tabList: "w-full h-full relative rounded-none p-0 border-b border-divider gap-6 max-[355px]:gap-3",
-          tab: "h-full",
+          tabList: "w-full h-full relative rounded-none p-0 border-b border-divider gap-6 max-[480px]:gap-3 max-[410px]:gap-0",
+          tab: "h-full w-1/5",
           cursor: "w-full",
           tabContent: "group-data-[selected=true]:text-foreground-900"
           // cursor: "w-full bg-[#22d3ee]",
@@ -51,7 +51,7 @@ export default function Footer() {
               title={
                 <div className="flex flex-col items-center justify-center">
                   <LinkIcon className="w-6 h-6 mt-1" />
-                  <span className="text-xs mt-1">{t(`nav.${link.title}`)}</span>
+                  <span className="text-xs mt-1 max-[370px]:text-[0.65rem]">{t(`nav.${link.title}`)}</span>
                 </div>
               }
             />
