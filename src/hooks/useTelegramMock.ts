@@ -25,14 +25,14 @@ export function useTelegramMock(): void {
     } catch (e) {
       const initDataRaw = new URLSearchParams([
         ['user', JSON.stringify({
-          id: 6425951136,
-          first_name: 'Andrew',
-          last_name: 'Chill',
-          username: 'phnx888',
+          id: 6681557705,
+          first_name: 'TonLike',
+          last_name: '',
+          username: 'tonlike',
           language_code: 'en',
           is_premium: true,
           allows_write_to_pm: true,
-          photo_url: '/globe.svg',
+          photo_url: '/img/logo-circle.png',
         })],
         ['hash', '89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31'],
         ['auth_date', '1716922846'],
