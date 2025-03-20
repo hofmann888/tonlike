@@ -4,13 +4,13 @@ import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { EditTaskFormState, Task } from "@/lib/definitions";
 import { EditTaskFormSubmit } from "@/core/server-actions";
+import { PiCoinVertical } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
 import { useUser } from "@/hooks/useUser";
 import SubmitButton from "@/components/Common/SubmitButton";
 import CoinValue from "@/components/Common/CoinValue";
-import CoinIcon from "@/components/Common/CoinIcon";
 
 // TODO: check if count < done on price change
 export default function EditTaskForm({ task }: { task: Task }) {
@@ -74,7 +74,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
-              <CoinIcon className="text-default-400 text-large" />
+              <PiCoinVertical className="text-default-400 text-large" />
             </div>
           }
         />
@@ -88,7 +88,7 @@ export default function EditTaskForm({ task }: { task: Task }) {
           selectedKeys={['coin']}
           isDisabled
         >
-          <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
+          <SelectItem key="coin">
             {`$${coin}`}
           </SelectItem>
         </Select>

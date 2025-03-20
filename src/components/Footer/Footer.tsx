@@ -26,7 +26,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer row-start-3 w-full h-[60px] sticky bottom-0 z-40 border-t-1 border-foreground-900 bg-background">
+    <footer className="footer row-start-3 w-full h-[60px] sticky bottom-0 z-40 border-t-1 border-foreground-900 border-opacity-50 bg-background">
       <Tabs 
         selectedKey={selectedNav} 
         aria-label="Navigation"

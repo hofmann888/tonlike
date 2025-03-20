@@ -1,30 +1,40 @@
 'use client'
 
-import { Chip } from "@heroui/chip";
 import { useUser } from "@/hooks/useUser";
-import { useTranslations } from "next-intl";
-import { BsCurrencyDollar } from "react-icons/bs";
+import { User } from "@heroui/user";
+import { Chip } from "@heroui/chip";
 import HeaderBalanceChipsSkeleton from "@/components/Skeletons/HeaderBalanceChipsSkeleton";
 import CoinValue from "@/components/Common/CoinValue";
 
+
 export default function HeaderBalance() {
   const { balance } = useUser();
-  const t = useTranslations('components.HeaderBalance');
 
   return (
     <div>
-      <span className="text-large">{t('balance')}:</span>
+      <User
+        avatarProps={{
+          isBordered: false,
+          src: '/img/logo-circle.png',
+          className: "w-5 h-5"
+        }}
+        name={
+          <>
+            <span className="font-black">TONLIKE</span> 
+            <span className="text-foreground-500 text-[0.6rem] ml-1">alpha</span>
+          </>
+        }
+      />
+
       {balance === undefined
         ? <HeaderBalanceChipsSkeleton />
         : 
-          <div className="flex flex-row justify-center text-medium mt-1">
-            <Chip size="md" variant="flat" color="primary" className="mr-1">
+          <div className="flex flex-row justify-center text-medium -mt-1">
+            <Chip size="md" variant="light" color="primary" className="mr-1 header-balance-chip">
               <CoinValue value={balance ?? 0} />
             </Chip>
-            <Chip size="md" variant="flat" color="primary">
-              <div className="flex items-center">
-                <BsCurrencyDollar className="inline-block" />0
-              </div>
+            <Chip size="md" variant="light" color="primary" className="header-balance-chip">
+              <CoinValue value={0} currency="usdt" />
             </Chip>
           </div> 
       }

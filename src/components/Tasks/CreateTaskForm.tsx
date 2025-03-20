@@ -10,6 +10,7 @@ import { Input } from "@heroui/input";
 import { Form } from "@heroui/form";
 import { CreateTaskFormState, Service } from "@/lib/definitions";
 import { CreateTaskFormSubmit } from "@/core/server-actions";
+import { PiCoinVertical } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useFormState } from "react-dom";
@@ -17,7 +18,7 @@ import { useUser } from "@/hooks/useUser";
 import TgSubscribeActionMessage from "@/components/Messages/TgSubscribeActionMessage";
 import TgBoostActionMessage from "@/components/Messages/TgBoostActionMessage";
 import SubmitButton from "@/components/Common/SubmitButton";
-import CoinIcon from "@/components/Common/CoinIcon";
+import CoinValue from "@/components/Common/CoinValue";
 
 // TODO: format + validation (numbers float, link) +-
 // TODO: link placeholders map
@@ -199,7 +200,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           errorMessage={state?.errors?.price?.length ? state.errors.price[0] : ''}
           startContent={
             <div className="pointer-events-none flex items-center">
-              <CoinIcon className="text-default-400 text-large" />
+              <PiCoinVertical className="text-default-400 text-large" />
             </div>
           }
         />
@@ -213,7 +214,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
           isDisabled
           disallowEmptySelection
         >
-          <SelectItem key='coin' startContent={<CoinIcon className="text-default-400" />}>
+          <SelectItem key='coin'>
             {`$${coin}`}
           </SelectItem>
         </Select>
@@ -274,7 +275,7 @@ export default function CreateTaskForm({ services }: { services: Service[] }) {
       </div>
 
       <SubmitButton disabled={!sum || sum > balance} className="mt-4">
-        <div className="flex items-center">{t('create')} (<CoinIcon className="inline" />{sum})</div>
+        <div className="flex items-center">{t('create')} (<CoinValue value={sum} classNames={{ avatar: "w-4 h-4" }} />)</div>
       </SubmitButton>
 
 

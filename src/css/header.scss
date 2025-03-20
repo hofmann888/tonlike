@@ -1,0 +1,11 @@
+.header-balance-chip {
+    box-shadow: -1px 1px 2px 0px hsl(var(--heroui-primary) / var(--heroui-primary-opacity, var(--tw-text-opacity)));
+    background: #000012;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 50%, rgba(0, 111, 238, 0.3) 100%);
+}
+
+.light:root {
+    .header-balance-chip {
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 70%, rgb(0 111 238 / 20%) 100%);
+    }
+}

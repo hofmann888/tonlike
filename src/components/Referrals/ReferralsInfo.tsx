@@ -54,14 +54,14 @@ export default function ReferralsInfo({
         <Card className={`${cardBg} w-1/2 mr-2 border-1 border-foreground-300`}>
           <CardHeader className="text-medium text-primary pb-0">{t('profitToday')}</CardHeader>
           <CardBody>
-            <CoinValue value={profitToday} />
+            <CoinValue value={profitToday} classNames={{ avatar: "w-4 h-4" }} />
           </CardBody>
         </Card>
 
         <Card className={`${cardBg} w-1/2 ml-2 border-1 border-foreground-300`}>
           <CardHeader className="text-medium text-primary pb-0">{t('profit')}</CardHeader>
           <CardBody className="flex flex-row justify-between">
-            <CoinValue value={profit} />
+            <CoinValue value={profit} classNames={{ avatar: "w-4 h-4" }} />
           </CardBody>
         </Card>
       </div>
