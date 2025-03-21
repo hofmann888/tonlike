@@ -71,7 +71,8 @@
     },
     "EarnQuestList": {
       "daily": "Daily",
-      "oneTime": "One-time"
+      "oneTime": "One-time",
+      "warning": "We remind you that soon the reward for quests will be reduced, as it was a privilege for early users. The current multiplier is 10x."
     },
     "EarnQuestCard": {
       "success": "Success.",
