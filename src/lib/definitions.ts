@@ -271,8 +271,9 @@ export type Quest = { // TODO?: EarnQuest?
   price: number,
   countPerUser: number,
   daily: boolean,
-  priority: number,
+  partner: boolean,
   active: boolean,
+  priority: number,
   doneCountToday?: number,
   doneLastAt?: Date, // TODO?: doneLastDate
 	createdAt: Date, // TODO?: undefined?
@@ -365,3 +366,9 @@ export enum AppEnvEnum {
   PROD = 'production',
 }
 export type AppEnv =  AppEnvEnum.LOCAL | AppEnvEnum.DEV | AppEnvEnum.STAGE | AppEnvEnum.PROD;
+
+export enum QuestSectionEnum {
+  APP = 'app',
+  PARTNERS = 'partners'
+}
+export type QuestSection = QuestSectionEnum.APP | QuestSectionEnum.PARTNERS;

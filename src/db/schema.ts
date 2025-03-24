@@ -202,8 +202,9 @@ export const quests = pgTable('quests', {
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
   countPerUser: integer('count_per_user').notNull().default(1), // TODO: ne sovsem to...tipa earning tolko 1 budet
   daily: boolean().notNull().default(false),
-  priority: integer().notNull().default(0), // TODO?: order?
+  partner: boolean().notNull().default(false),
   active: boolean().notNull().default(true),
+  priority: integer().notNull().default(0),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   deletedAt: timestamp('deleted_at'),

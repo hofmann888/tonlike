@@ -23,10 +23,10 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
   return (
     <Tabs
       aria-label="Status"
-      selectedKey={tab}
-      color="primary"
       variant="underlined"
+      color="primary"
       radius="none"
+      selectedKey={tab}
       classNames={{
         base: "w-full mb-3",
         cursor: "w-full",
@@ -37,7 +37,7 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
       onSelectionChange={(key) => setTab(key as string)}
     >
       <Tab
-        key='tasks'
+        key="tasks"
         title={
           <div className="flex items-center space-x-2">
             <BiTask />
@@ -48,7 +48,7 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
       />
 
       <Tab
-        key='quests'
+        key="quests"
         title={
           <div className="flex items-center space-x-2">
             <GoGoal />

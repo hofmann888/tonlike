@@ -38,6 +38,10 @@
       "tasks": "Задания",
       "quests": "Квесты"
     },
+    "EarnQuestTabs": {
+      "app": "TonLike",
+      "partners": "Партнеры"
+    },
     "EarnTaskList": {
       "empty": "Список заданий в данный момент пуст. <br /> Создать свое! 👇"
     },

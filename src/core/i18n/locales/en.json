@@ -38,6 +38,10 @@
       "tasks": "Tasks",
       "quests": "Quests"
     },
+    "EarnQuestTabs": {
+      "app": "TonLike",
+      "partners": "Partners"
+    },
     "EarnTaskList": {
       "empty": "The task list is empty at the moment. <br /> Create your own! 👇"
     },

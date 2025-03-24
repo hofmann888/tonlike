@@ -1,6 +1,6 @@
 'use server'
 
-import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest } from "@/lib/definitions";
+import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest, QuestSection, QuestSectionEnum } from "@/lib/definitions";
 import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/core/session";
@@ -21,7 +21,8 @@ export default async function EarnPage({
   const user: User = await getAuthUser();
   if (!user) return (<PageLoader />);
 
-  const tab = searchParams.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it
+  const tab = searchParams?.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it
+  const questSection = searchParams?.section as QuestSection ?? QuestSectionEnum.APP;
 
   let quests: Quest[] = []; 
   let tasks: Task[] = [];
@@ -31,7 +32,7 @@ export default async function EarnPage({
   if (tab === 'tasks') {
     tasks = await fetchEarnTasksByUserId(user.id);
   } else {
-    quests = await fetchEarnQuestsByUserId(user.id); 
+    quests = await fetchEarnQuestsByUserId(user.id);
   }
 
   const { actions, services } = tasksRelations(tasks);
@@ -59,7 +60,7 @@ export default async function EarnPage({
       <EarnTabs activeTab={tab} />
 
       {tab === 'quests' 
-        ? <EarnQuestList quests={quests} />
+        ? <EarnQuestList quests={quests} section={questSection} />
         : 
         <div className="flex flex-col justify-between h-full">
           <div>
