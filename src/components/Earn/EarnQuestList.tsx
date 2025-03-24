@@ -1,7 +1,6 @@
 'use client'
 
 import { Chip } from "@heroui/chip";
-import { Alert } from "@heroui/alert";
 import { Quest, QuestSection, QuestSectionEnum } from "@/lib/definitions";
 import { useTranslations } from "next-intl";
 import EarnQuestTabs from "./EarnQuestTabs";
@@ -25,12 +24,6 @@ export default function EarnQuestList({
 
   return (
     <div className="px-2">
-      <Alert 
-        color="warning"
-        className="px-3 gap-0"
-        title={<p>{t('warning')}</p>} 
-      />
-
       {showTabs && 
         <div className="flex justify-center w-full mt-3">
           <EarnQuestTabs activeTab={section} />
