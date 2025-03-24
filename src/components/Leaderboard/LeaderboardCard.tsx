@@ -8,7 +8,7 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
     <Card  isBlurred className="border-none bg-background/60 dark:bg-default-100/50 mt-1">
       <CardBody className="flex flex-row justify-between items-center py-2">
         <div className="flex items-center w-3/4 max-[350px]:w-2/3">
-          <span className="text-small inline-block w-[40px] text-center mr-4">
+          <span className="text-small inline-block w-[42px] text-center mr-4">
             {item.position === 1 && <span className="text-xl">🥇</span>}
             {item.position === 2 && <span className="text-xl">🥈</span>}
             {item.position === 3 && <span className="text-xl">🥉</span>} 
