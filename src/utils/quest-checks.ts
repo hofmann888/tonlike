@@ -52,11 +52,17 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
         }
         check = await checkTaskDoneCount(user.id, quest.countPerUser);
         break;
+      case ServiceActionNameEnum.LINK_VIEW:
+        check = true;
+        break;
       case ServiceActionNameEnum.TELEGRAM_SUBSCRIBE:
         check = await checkTgSubscribe(user.tgId, quest.link as string);
         break;
       case ServiceActionNameEnum.TELEGRAM_BOOST:
         check = await checkTgBoost(user.tgId, quest.link as string);
+        break;
+      case ServiceActionNameEnum.TELEGRAM_PLAY:
+        check = true;
         break;
       default:
         return {

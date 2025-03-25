@@ -165,12 +165,14 @@ export enum ServiceActionNameEnum {
   APP_TASK_DONE = 'app_task_done',
   APP_QUEST_DONE = 'app_quest_done',
   APP_KYC = 'app_kyc',
+  LINK_VIEW = 'link_view',
   TELEGRAM_VIEW = 'tg_view',
   TELEGRAM_LIKE = 'tg_like',
   TELEGRAM_COMMENT = 'tg_comment',
   TELEGRAM_VOTE = 'tg_vote',
   TELEGRAM_SUBSCRIBE = 'tg_subscribe',
   TELEGRAM_BOOST = 'tg_boost',
+  TELEGRAM_PLAY = 'tg_play',
   // TODO: ...
 }
 
