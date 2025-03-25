@@ -199,6 +199,8 @@ export const quests = pgTable('quests', {
   serviceActionId: smallint('service_action_id').notNull().references(() => serviceActions.id), // TODO?: vse taki serviceId and actionId? hzhz
   link: varchar({ length: 255 }),
   title: varchar({ length: 255 }),
+  description: varchar({ length: 255 }),
+  icon: varchar({ length: 255 }),
   price: bigint({ mode: 'number' }).notNull(), // TODO?: numeric?  // TODO?: reward?...vrayd ly...hotya...
   countPerUser: integer('count_per_user').notNull().default(1), // TODO: ne sovsem to...tipa earning tolko 1 budet
   daily: boolean().notNull().default(false),

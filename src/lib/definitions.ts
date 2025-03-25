@@ -268,6 +268,8 @@ export type Quest = { // TODO?: EarnQuest?
   serviceActionId: number
   link?: string,
   title?: string,
+  description?: string,
+  icon?: string,
   price: number,
   countPerUser: number,
   daily: boolean,

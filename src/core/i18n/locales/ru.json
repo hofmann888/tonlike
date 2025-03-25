@@ -271,7 +271,18 @@
       "Complete 50 quests": "Выполнить 50 квестов",
       "Complete 100 quests": "Выполнить 100 квестов",
       "Transaction on TON": "Транзакция на TON",
-      "Sign up + KYC": "Регистрация + KYC"
+      "Sign up + KYC": "Регистрация + KYC",
+      "Storm Trade": "Storm Trade",
+      "EVAA Protocol": "EVAA Protocol",
+      "TON Poker": "TON Poker",
+      "Duckygram": "Duckygram",
+      "Moon hash": "Moon hash",
+      "Nicegram": "Nicegram",
+      "Open a trading position": "Открыть торговую позицию",
+      "Connect TON wallet": "Подключить кошелек TON",
+      "Play a game": "Сыграть игру",
+      "Start mining": "Начать майнить",
+      "Ads for your socials": "Реклама для ваших соц. сетей"
     },
     "reasons": {
       "report": {

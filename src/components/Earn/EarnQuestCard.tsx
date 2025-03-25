@@ -98,12 +98,15 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
               base: `${quest.service?.name === ServiceNameEnum.APP && 'bg-gradient-to-b from-pink-500 to-blue-500'} w-10 h-10 min-w-10 min-h-10`,
               icon: "text-2xl"
             }}
-            src={quest.service?.icon}
+            src={quest.icon ?? quest.service?.icon}
             icon={!quest.service?.icon && ActionIcon ? <ActionIcon /> : undefined}
           />
 
           <div className="flex flex-col mr-3">
             <span className="text-medium">{ tEnums(`actions.${title}`) }</span>
+            {!!quest.description?.length &&
+              <span className="text-small text-foreground-400">{ tEnums(`actions.${quest.description}`) }</span>
+            }
             <div className="flex items-center text-small text-primary-500">
               + <CoinValue value={quest.price} />
             </div>
