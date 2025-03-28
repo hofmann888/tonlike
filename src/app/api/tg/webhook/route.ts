@@ -3,6 +3,7 @@ import { Bot, webhookCallback } from "grammy";
 const bot = new Bot(process.env.TG_BOT_TOKEN!);
 
 bot.command("start", (ctx) => {
+  console.log('start ctx', ctx);
   ctx.replyWithPhoto("https://tonlike.vercel.app/img/logo.png", {
     caption: `TonLike is a mini app in Telegram for promoting social media. 🤝\n\nYou can both promote your social media by creating your own tasks and earn money by completing tasks of other users. 💰`,
     reply_markup: {
@@ -21,6 +22,19 @@ bot.command("start", (ctx) => {
     }
   });
 });
+
+bot.on('message', (ctx) => {
+  console.log('on message ctx', ctx);
+  console.log('on msg ctx.message', ctx.message);
+});
+
+// bot.handleUpdate()
+
+bot.preCheckoutQuery('some payload', async (ctx) => {
+  console.log('preCheckoutQuery ctx', ctx);
+  console.log('preCheckoutQuery ctx.preCheckoutQuery', ctx.preCheckoutQuery);
+  ctx.answerPreCheckoutQuery(false);
+})
 
 export const POST = webhookCallback(bot, 'std/http', { secretToken: process.env.TG_BOT_WEBHOOK_TOKEN });
 export const fetchCache = 'force-no-store';

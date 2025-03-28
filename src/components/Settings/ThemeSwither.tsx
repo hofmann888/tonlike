@@ -11,7 +11,7 @@ export default function ThemeSwitcher() {
 
   return (
     <Switch
-      size="lg"
+      size="md"
       color="primary"
       endContent={<FaMoon />}
       startContent={<FaSun />}

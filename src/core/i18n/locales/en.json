@@ -13,7 +13,8 @@
       "balance": "Balance"
     },
     "HeaderUser": {
-      "blackList": "Black List"
+      "blackList": "Black List",
+      "wallet": "Wallet"
     },
     "BlackList": {
       "empty": "Black list is empty."
@@ -198,6 +199,7 @@
         "earn": "Earn",
         "tasks": "My Tasks",
         "referrals": "Friends",
+        "shop": "Shop",
         "wallet": "Wallet"
       }
     }

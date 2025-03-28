@@ -1,7 +1,7 @@
 'use client'
 
 import { FaTasks, FaTrophy, FaWallet, FaUserFriends } from "react-icons/fa";
-import { FaSackDollar } from "react-icons/fa6";
+import { FaSackDollar, FaShop } from "react-icons/fa6";
 import { usePathname } from 'next/navigation';
 import { useTranslations } from "next-intl";
 import { NavLink } from "@/lib/definitions";
@@ -13,7 +13,7 @@ const navLinks: NavLink[] = [
   { href: '/earn', title: "earn", icon: FaSackDollar },
   { href: '/tasks', title: "tasks", icon: FaTasks },
   { href: '/referrals', title: "referrals", icon: FaUserFriends },
-  { href: '/wallet', title: "wallet", icon: FaWallet },
+  { href: '/shop', title: "shop", icon: FaShop },
 ]
 
 export default function Footer() {
