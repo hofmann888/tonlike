@@ -1,5 +1,5 @@
 import { pgTable, pgEnum, AnyPgColumn, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
-import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum } from "@/lib/definitions";
+import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum, ProductTypeEnum } from "@/lib/definitions";
 import { relations } from 'drizzle-orm';
 
 // TODO: add indexes in db
@@ -304,7 +304,7 @@ export const blackList = pgTable('black_list', {
   comment: text(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   // taskId: integer('task_id').notNull().references(() => tasks.id), // TODO?: i naxer eto nuzhno voobshe?
-})
+});
 
 export const blackListRelations = relations(blackList, ({ one }) => ({
   user: one(users, {
@@ -321,4 +321,50 @@ export const blackListRelations = relations(blackList, ({ one }) => ({
   //   fields: [blackList.taskId],
   //   references: [tasks.id],
   // }),
+}));
+
+
+// =============== Shop ===============
+export const productTypeEnum = pgEnum('product_type', [
+  ProductTypeEnum.COIN,
+  ProductTypeEnum.SUBSCRIPTION,
+]);
+
+export const products = pgTable('products', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  type: productTypeEnum().notNull(),
+  title: varchar({ length: 255 }),
+  description: varchar({ length: 255 }),
+  amount: integer().notNull().default(1),
+  price: bigint({ mode: 'number' }).notNull(),
+  discount: smallint().notNull().default(0),
+  priority: integer().notNull().default(0),
+  active: boolean().notNull().default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at'),
+  // TODO: currency
+});
+
+export const payments = pgTable('payments', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  productId: integer('product_id').notNull().references(() => products.id),
+  tgChargeId: varchar('tg_charge_id', { length: 255 }), // TODO?: txId?
+  providerChargeId: varchar('provider_charge_id', { length: 255 }),
+  price: bigint({ mode: 'number' }).notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  // TODO: currency
+});
+
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  user: one(users, {
+    fields: [payments.userId],
+    references: [users.id],
+    relationName: 'user',
+  }),
+  product: one(products, {
+    fields: [payments.productId],
+    references: [products.id],
+    relationName: 'product',
+  }),
 }));

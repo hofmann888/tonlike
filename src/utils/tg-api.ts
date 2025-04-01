@@ -1,19 +1,23 @@
 'use server'
 
+import { calculateFinalPrice, getProductPayload } from "./helpers";
+import { Product } from "@/lib/definitions";
 import { Bot } from "grammy";
 
 const bot = new Bot(process.env.TG_BOT_TOKEN!);
 
-export async function createInvoiceLink(label: string, amount: number) { // TODO!
+export async function createInvoiceLinkByProduct(product: Product) {
+  const finalPrice = calculateFinalPrice(product.price, product.discount);
+  const payload = getProductPayload(product);
+
   const invoiceLink = await bot.api.createInvoiceLink(
-    'createInvoiceLink title',
-    'createInvoiceLink description',
-    'createInvoiceLink payload',
+    product.title,
+    product.description,
+    payload,
     '',
     'XTR',
-    [{ label: label, amount: amount }]
+    [{ label: 'product', amount: finalPrice }]
   );
-  console.log('invoiceLink', invoiceLink);
 
   return invoiceLink;
 }

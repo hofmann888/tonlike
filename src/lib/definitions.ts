@@ -376,3 +376,32 @@ export enum QuestSectionEnum {
   PARTNERS = 'partners'
 }
 export type QuestSection = QuestSectionEnum.APP | QuestSectionEnum.PARTNERS;
+
+export enum ProductTypeEnum {
+  COIN = 'coin',
+  SUBSCRIPTION = 'sub',
+}
+export type ProductType = ProductTypeEnum.COIN | ProductTypeEnum.SUBSCRIPTION;
+
+export type Product = {
+  id: number,
+  type: ProductType,
+  title: string,
+  description: string,
+  amount: number,
+  price: number,
+  discount: number,
+  active: boolean,
+  createdAt: Date,
+  updatedAt: Date,
+}
+
+export type Payments = {
+  id: number,
+  userId: number,
+  productId: number,
+  tgChargeId: string,
+  providerChargeId: string,
+  price: number,
+  createdAt: Date,
+}
