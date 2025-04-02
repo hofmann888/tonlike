@@ -59,6 +59,12 @@ export async function updateSession(request: NextRequest) {
   return response;
 }
 
+export async function refreshSession() {
+  const user = await getAuthUser(true, true);
+  if (!user) return false;
+  setSession(user);
+}
+
 export async function getSession() {
   const session = cookies().get('session')?.value;
   if (!session) return null;

@@ -31,3 +31,5 @@ export type QuestEarningInsertDTO = typeof schema.questEarnings.$inferInsert;
 export type ReportInsertDTO = typeof schema.reports.$inferInsert;
 
 export type BlackListInsertDTO = typeof schema.blackList.$inferInsert;
+
+export type PaymentInsertDTO = typeof schema.payments.$inferInsert;

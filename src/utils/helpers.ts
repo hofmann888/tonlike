@@ -1,7 +1,8 @@
-import { addToast, ToastProps } from "@heroui/toast";
+import { Product, ServiceName, ServiceNameEnum } from '@/lib/definitions';
 import { openTelegramLink, openLink } from '@telegram-apps/sdk-react';
-import { ServiceName, ServiceNameEnum } from '@/lib/definitions';
+import { addToast, ToastProps } from "@heroui/toast";
 import { serviceLinksMap } from '@/lib/const';
+import { fetchProducts } from "@/db/query";
 
 export function checkDailyDone(date: Date) {
   if (!date) { // TODO?: throw error?
@@ -87,4 +88,23 @@ export function formatLink(str: string, serviceName: ServiceName, format: 'link'
 
 export function getEnvBoolean(value?: string) {
   return (value?.length && ['true', '1'].includes(value.toLowerCase())) as boolean;
+}
+
+export function calculateFinalPrice(price: number, discount: number = 0) {
+  return discount > 0 ? price - (price * discount / 100) : price;
+}
+
+export function getProductPayload(product: Product) {
+  return `${product.id}`;
+}
+
+export async function getProductPayloadList() {
+  const products = await fetchProducts(true);
+  let payload: string[] = [];
+
+  products.map((product: Product) => {
+    payload.push(getProductPayload(product));
+  });
+
+  return payload;
 }

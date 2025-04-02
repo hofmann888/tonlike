@@ -13,7 +13,8 @@
       "balance": "Balance"
     },
     "HeaderUser": {
-      "blackList": "Black List"
+      "blackList": "Black List",
+      "wallet": "Wallet"
     },
     "BlackList": {
       "empty": "Black list is empty."
@@ -188,6 +189,10 @@
       "stayTuned": "Stay Tuned...",
       "subscribe": "Subscribe"
     },
+    "ProductCard": {
+      "success": "Success.",
+      "purchased": "You have successfully purchased"
+    },
     "ErrorPage": {
       "error": "Something went wrong...",
       "tryAgain": "Try again"
@@ -198,6 +203,7 @@
         "earn": "Earn",
         "tasks": "My Tasks",
         "referrals": "Friends",
+        "shop": "Shop",
         "wallet": "Wallet"
       }
     }

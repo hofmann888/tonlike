@@ -2,7 +2,7 @@
 
 import 'server-only';
 
-import { Action, BlackListItem, LeaderboardItem, Performer, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
+import { Action, BlackListItem, LeaderboardItem, Performer, Product, Quest, Referral, Service, ServiceAction, Task, TaskEarning, TaskStatusEnum, User } from '@/lib/definitions';
 import { sql, and, eq, ne, gt, isNull, asc, desc, getTableColumns, inArray, sum, count, max } from 'drizzle-orm';
 import { setSession } from '@/core/session';
 import { db } from './db';
@@ -964,6 +964,48 @@ export async function fetchQuestDoneCountByUserId(userId: number) {
     throw new Error('Failed to execute query.');
   }
 }
+
+
+// ------------ SHOP ------------
+
+export async function fetchProducts(active?: boolean) {
+  try {
+    const data = await db.query.products.findMany({ 
+      orderBy: [desc(schema.products.priority)],
+      ...(active !== undefined && { where: eq(schema.actions.active, active) })
+    });
+
+    return data as Product[];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch products data.');
+  }
+}
+
+export async function fetchProductById(id: number) {
+  try {
+    const data = await db.query.products.findFirst({ where: eq(schema.products.id, id) });
+
+    return data as Product;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch product data.');
+  }
+}
+
+export async function createPayment(dto: dto.PaymentInsertDTO, tx?: any) {
+  try {
+    const con = tx ?? db;
+    const data = await con.insert(schema.payments).values(dto).returning({ id: schema.payments.id });
+
+    return data[0].id;
+  } catch (error ) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create payment.');
+  }
+}
+
+
 
 //- - - - - - - - - - - - -
 // TODO?

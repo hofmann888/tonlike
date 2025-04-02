@@ -1,9 +1,4 @@
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem
-} from "@heroui/dropdown";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Progress } from "@heroui/progress";
 import { Avatar } from "@heroui/avatar";

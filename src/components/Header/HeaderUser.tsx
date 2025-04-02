@@ -1,6 +1,7 @@
 'use client'
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import { FaWallet, FaUsersSlash } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useUser } from "@/hooks/useUser";
 import { User } from "@heroui/user";
@@ -33,7 +34,20 @@ export default function HeaderUser() {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
-          <DropdownItem key="blackList" color="primary" href="/black-list">
+          <DropdownItem 
+            key="wallet" 
+            href="/wallet" 
+            color="primary" 
+            startContent={<FaWallet className="text-foreground-500 text-large" />}
+          >
+            <span className="text-medium">{t('wallet')}</span>
+          </DropdownItem>
+          <DropdownItem 
+            key="blackList" 
+            href="/black-list" 
+            color="primary" 
+            startContent={<FaUsersSlash className="text-foreground-500 text-large" />}
+          >
             <span className="text-medium">{t('blackList')}</span>
           </DropdownItem>
           <DropdownItem key="theme" closeOnSelect={false}>
