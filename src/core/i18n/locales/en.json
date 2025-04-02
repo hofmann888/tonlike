@@ -14,7 +14,8 @@
     },
     "HeaderUser": {
       "blackList": "Black List",
-      "wallet": "Wallet"
+      "wallet": "Wallet",
+      "support": "Support"
     },
     "BlackList": {
       "empty": "Black list is empty."

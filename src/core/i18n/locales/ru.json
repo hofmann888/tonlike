@@ -14,7 +14,8 @@
     },
     "HeaderUser": {
       "blackList": "Черный Список",
-      "wallet": "Кошелек"
+      "wallet": "Кошелек",
+      "support": "Поддержка"
     },
     "BlackList": {
       "empty": "Черный список пуст."

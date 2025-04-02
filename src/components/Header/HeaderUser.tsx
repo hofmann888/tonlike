@@ -2,7 +2,9 @@
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import { FaWallet, FaUsersSlash } from "react-icons/fa";
+import { tgOpenLink } from "@/utils/helpers";
 import { useTranslations } from "next-intl";
+import { BiSupport } from "react-icons/bi";
 import { useUser } from "@/hooks/useUser";
 import { User } from "@heroui/user";
 import LocaleSwitcher from "@/components/Settings/LocaleSwitcher";
@@ -11,6 +13,8 @@ import ThemeSwitcher from "@/components/Settings/ThemeSwither";
 export default function HeaderUser() {
   const { tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
   const t = useTranslations('components.HeaderUser');
+
+  const supportLink = `https://t.me/${process.env.NEXT_PUBLIC_TG_SUPPORT_BOT_NAME}`;
 
   return (
     <div className="header-user">
@@ -49,6 +53,14 @@ export default function HeaderUser() {
             startContent={<FaUsersSlash className="text-foreground-500 text-large" />}
           >
             <span className="text-medium">{t('blackList')}</span>
+          </DropdownItem>
+          <DropdownItem 
+            key="support" 
+            color="primary" 
+            startContent={<BiSupport className="text-foreground-500 text-large" />}
+            onPress={() => tgOpenLink(supportLink)}
+          >
+            <span className="text-medium">{t('support')}</span>
           </DropdownItem>
           <DropdownItem key="theme" closeOnSelect={false}>
             <ThemeSwitcher />
