@@ -83,7 +83,7 @@ export default function TaskPerformersList({ performers }: { performers: Perform
                   description={
                     <CoinValue 
                       value={performer.profit} 
-                      classNames={{ base: "mr-3 text-tiny text-primary-500", avatar: "h-3 w-3 ml-0" }} 
+                      classNames={{ base: "mr-3 text-tiny text-primary-500", avatar: "h-3 w-3 ml-0 mt-[-1px]" }} 
                     />
                   }
                 />
