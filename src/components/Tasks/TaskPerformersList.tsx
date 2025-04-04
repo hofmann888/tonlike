@@ -63,7 +63,7 @@ export default function TaskPerformersList({ performers }: { performers: Perform
             <CardBody className="flex-row justify-between items-center">
               <div className="flex items-center w-3/4 max-[400px]:w-3/5 max-[350px]:w-2/3">
                 <div className="text-tiny mr-3">
-                  <p>{date.toLocaleDateString('ru-RU')}</p>
+                  <p>{date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })}</p>
                   <p>{date.toLocaleTimeString('ru-RU')}</p>
                 </div>
 
@@ -77,20 +77,26 @@ export default function TaskPerformersList({ performers }: { performers: Perform
                   classNames={{ 
                     base: `w-[60%] max-[370px]:w-[50%] max-[350px]:w-[40%] justify-start ${performer.isBlocked && 'text-red-500'}`,
                     wrapper: "w-[70%]",
-                    name: "w-full"
+                    name: "w-full flex"
                   }}
-                  name={!!performer.tgUsername?.length 
-                    ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{performer.tgUsername}</span> 
-                    : '???'
+                  name={
+                    <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
+                      {!!performer.tgUsername?.length ? `@${performer.tgUsername}` : performer.tgId}
+                    </span>
                   }
-                  description={<CoinValue value={performer.profit} className="mr-3 text-tiny text-primary-500" />}
+                  description={
+                    <CoinValue 
+                      value={performer.profit} 
+                      classNames={{ base: "mr-3 text-tiny text-primary-500", avatar: "h-3 w-3 ml-0" }} 
+                    />
+                  }
                 />
               </div>
 
-              <div className="w-24 text-right text-small text-primary-500"> 
+              <div className="w-24 min-w-24 max-[350px]:w-20 max-[350px]:min-w-20 text-right text-small text-primary-500"> 
                 {performer.isBlocked 
-                  ? <Button color="success" variant="flat" className="w-full" onPress={() => onUnblockClick(performer.id)}>{t('unblock')}</Button>
-                  : <Button color="danger" variant="flat" className="w-full" onPress={() => onBlockClick(performer.id)}>{t('block')}</Button>
+                  ? <Button color="success" variant="flat" className="w-full min-w-full" onPress={() => onUnblockClick(performer.id)}>{t('unblock')}</Button>
+                  : <Button color="danger" variant="flat" className="w-full min-w-full" onPress={() => onBlockClick(performer.id)}>{t('block')}</Button>
                 }
               </div>
             </CardBody>

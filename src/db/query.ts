@@ -93,6 +93,7 @@ export async function fetchUserReferrals(userId: number) {
     const data = await db
       .select({
         id: schema.users.id,
+        tgId: schema.users.tgId,
         tgUsername: schema.users.tgUsername,
         tgPhotoUrl: schema.users.tgPhotoUrl,
         createdAt: schema.users.createdAt,
@@ -159,6 +160,7 @@ export async function fetchLeaderboard(limit: number) {
     const data = await db.select({ 
       position: sql<number>`row_number() over(order by balance desc)`.mapWith(Number),
       balance: schema.users.balance,
+      tgId: schema.users.tgId,
       tgUsername: schema.users.tgUsername,
       tgPhotoUrl: schema.users.tgPhotoUrl,
     })
@@ -496,6 +498,7 @@ export async function fetchTaskPerformers(taskId: number) {
     const data = await db
       .select({
         id: schema.users.id,
+        tgId: schema.users.tgId,
         tgUsername: schema.users.tgUsername,
         tgPhotoUrl: schema.users.tgPhotoUrl,
         profit: schema.taskEarnings.profit,

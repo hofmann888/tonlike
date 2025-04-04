@@ -17,7 +17,7 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
       <CardBody className="flex-row justify-between items-center">
         <div className="flex items-center w-3/4 max-[350px]:w-2/3">
           <div className="text-tiny w-20">
-            <p>{date.toLocaleDateString('ru-RU')}</p>
+            <p>{date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })}</p>
             <p>{date.toLocaleTimeString('ru-RU')}</p>
           </div>
 
@@ -31,11 +31,12 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
             classNames={{ 
               base: "w-[60%] justify-start",
               wrapper: "w-[70%]",
-              name: "w-full"
+              name: "w-full flex"
             }}
-            name={!!referral.tgUsername?.length 
-              ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{referral.tgUsername}</span> 
-              : '???'
+            name={ 
+              <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
+                {!!referral.tgUsername?.length ? `@${referral.tgUsername}` : referral.tgId}
+              </span>
             }
           />
         </div>

@@ -38,9 +38,9 @@ export default function BlackListCard({
       isBlurred
     >
       <CardBody className="flex-row justify-between items-center">
-        <div className="flex">
-          <div className="text-tiny mr-3 max-[340px]:hidden">
-            <p>{blackListItem.createdAt.toLocaleDateString('ru-RU')}</p>
+        <div className="flex w-1/2">
+          <div className="text-tiny mr-3 w-[52px] min-w-[52px] max-[340px]:hidden">
+            <p>{blackListItem.createdAt.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })}</p>
             <p>{blackListItem.createdAt.toLocaleTimeString('ru-RU')}</p>
           </div>
 
@@ -48,12 +48,15 @@ export default function BlackListCard({
             avatarProps={{
               isBordered: true,
               src: blackListItem.blockedUser?.tgPhotoUrl as string,
-              size: 'sm',
+              size: "sm",
+              className: "min-w-8 min-h-8"
             }}
             classNames={{
-              name: "justify-start text-red-500 inline-block max-w-20 overflow-hidden text-ellipsis whitespace-nowrap"
+              base: "w-[60%] justify-start",
+              wrapper: "w-[70%] max-[340px]:w-full",
+              name: "max-w-full text-red-500 inline-block overflow-hidden text-ellipsis whitespace-nowrap",
             }}
-            name={!!blackListItem.blockedUser?.tgUsername?.length ? `@${blackListItem.blockedUser.tgUsername}` : '???'}
+            name={!!blackListItem.blockedUser?.tgUsername?.length ? `@${blackListItem.blockedUser.tgUsername}` : blackListItem.blockedUser?.tgId}
           />
         </div>
 
@@ -61,7 +64,7 @@ export default function BlackListCard({
           <Button 
             variant="light" 
             color="primary" 
-            className="mr-2 max-[440px]:min-w-8 max-[440px]:p-0" 
+            className="mr-1 px-3 max-[440px]:min-w-8 max-[440px]:p-0" 
             startContent={<FaInfoCircle />}
             onPress={() => setShowDetails(!showDetails)}
           >

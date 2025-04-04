@@ -8,7 +8,7 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
     <Card  isBlurred className="border-none bg-background/60 dark:bg-default-100/50 mt-1">
       <CardBody className="flex flex-row justify-between items-center py-2">
         <div className="flex items-center w-3/4 max-[350px]:w-2/3">
-          <span className="text-small inline-block w-[42px] text-center mr-4">
+          <span className="text-small inline-block w-[42px] min-w-[42px] text-center mr-4">
             {item.position === 1 && <span className="text-xl">🥇</span>}
             {item.position === 2 && <span className="text-xl">🥈</span>}
             {item.position === 3 && <span className="text-xl">🥉</span>} 
@@ -24,31 +24,15 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
             classNames={{ 
               base: "w-[80%] justify-start",
               wrapper: "w-[70%]",
-              name: "w-full"
+              name: "w-full flex"
             }}
-            name={!!item.tgUsername?.length 
-              ? <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">@{item.tgUsername}</span>
-              : '???'
+            name={
+              <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
+                {!!item.tgUsername?.length ? `@${item.tgUsername}` : item.tgId } 
+              </span>
             }
-            // description={<CoinValue value={user.balance} className="text-tiny text-primary-500" />}
           />
         </div>
-
-        {/* <span
-          className={clsx(
-            'text-small',
-            {
-              'text-yellow-500': idx + 1 === 1,
-              'text-gray-500': idx + 1 === 2,
-              'text-yellow-800': idx + 1 === 3,
-            },
-          )}
-        >
-          {idx === 0 && <span className="text-xl">🥇</span>}
-          {idx === 1 && <span className="text-xl">🥈</span>}
-          {idx === 2 && <span className="text-xl">🥉</span>} 
-          {idx > 2 && `#${idx + 1}`}
-        </span> */}
 
         <div className="w-1/4 max-[350px]:w-1/3 text-right text-small text-primary-500"> 
           <CoinValue value={item.balance} />

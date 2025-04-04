@@ -11,7 +11,7 @@ import LocaleSwitcher from "@/components/Settings/LocaleSwitcher";
 import ThemeSwitcher from "@/components/Settings/ThemeSwither";
 
 export default function HeaderUser() {
-  const { tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
+  const { tgId, tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
   const t = useTranslations('components.HeaderUser');
 
   const supportLink = `https://t.me/${process.env.NEXT_PUBLIC_TG_SUPPORT_BOT_NAME}`;
@@ -34,7 +34,7 @@ export default function HeaderUser() {
               description: "inline-block max-w-32 overflow-hidden text-ellipsis whitespace-nowrap text-medium"
             }}
             name={`${tgFirstName} ${tgLastName}`}
-            description={!!tgUsername?.length && `@${tgUsername}`}
+            description={!!tgUsername?.length ? `@${tgUsername}` : tgId}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">

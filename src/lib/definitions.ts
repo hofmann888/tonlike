@@ -64,6 +64,7 @@ export type User = {
 export type Referral = {
   id: number,
   profit: number,
+  tgId: number,
   tgUsername: string | null,
   tgPhotoUrl: string | null,
   createdAt: Date,
@@ -315,6 +316,7 @@ export type ReportReasonsMapItem = {
 
 export type Performer = {
   id: number,
+  tgId: number,
   tgUsername: string | null,
   tgPhotoUrl: string | null,
   profit: number,
@@ -359,6 +361,7 @@ export type BlackListReasonsMapItem = {
 export type LeaderboardItem = { // TODO?: id?
   position: number,
   balance: number,
+  tgId: number,
   tgPhotoUrl: string | null,
   tgUsername: string | null,
 }
