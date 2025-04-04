@@ -24,13 +24,9 @@ export default function LeaderboardCard({ item }: { item: LeaderboardItem }) {
             classNames={{ 
               base: "w-[80%] justify-start",
               wrapper: "w-[70%]",
-              name: "w-full flex"
+              name: "w-full max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap"
             }}
-            name={
-              <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
-                {!!item.tgUsername?.length ? `@${item.tgUsername}` : item.tgId } 
-              </span>
-            }
+            name={!!item.tgUsername?.length ? `@${item.tgUsername}` : item.tgId}
           />
         </div>
 

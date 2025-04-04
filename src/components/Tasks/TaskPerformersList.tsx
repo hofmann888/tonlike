@@ -61,7 +61,7 @@ export default function TaskPerformersList({ performers }: { performers: Perform
             shadow="sm"
           >
             <CardBody className="flex-row justify-between items-center">
-              <div className="flex items-center w-3/4 max-[400px]:w-3/5 max-[350px]:w-2/3">
+              <div className="flex items-center w-3/5 max-[350px]:w-2/3">
                 <div className="text-tiny mr-3">
                   <p>{date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })}</p>
                   <p>{date.toLocaleTimeString('ru-RU')}</p>
@@ -75,15 +75,11 @@ export default function TaskPerformersList({ performers }: { performers: Perform
                     className: "min-w-8 min-h-8"
                   }}
                   classNames={{ 
-                    base: `w-[60%] max-[370px]:w-[50%] max-[350px]:w-[40%] justify-start ${performer.isBlocked && 'text-red-500'}`,
+                    base: `w-[80%] max-[380px]:w-[60%] max-[350px]:w-[50%] justify-start ${performer.isBlocked && 'text-red-500'}`,
                     wrapper: "w-[70%]",
-                    name: "w-full flex"
+                    name: "w-full max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap"
                   }}
-                  name={
-                    <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
-                      {!!performer.tgUsername?.length ? `@${performer.tgUsername}` : performer.tgId}
-                    </span>
-                  }
+                  name={!!performer.tgUsername?.length ? `@${performer.tgUsername}` : performer.tgId}
                   description={
                     <CoinValue 
                       value={performer.profit} 

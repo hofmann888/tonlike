@@ -31,13 +31,9 @@ export default function ReferralCard({ referral }: { referral: Referral }) {
             classNames={{ 
               base: "w-[60%] justify-start",
               wrapper: "w-[70%]",
-              name: "w-full flex"
+              name: "w-full max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap"
             }}
-            name={ 
-              <span className="max-w-full inline-block overflow-hidden text-ellipsis whitespace-nowrap">
-                {!!referral.tgUsername?.length ? `@${referral.tgUsername}` : referral.tgId}
-              </span>
-            }
+            name={!!referral.tgUsername?.length ? `@${referral.tgUsername}` : referral.tgId}
           />
         </div>
         
