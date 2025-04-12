@@ -286,12 +286,14 @@
       "Duckygram": "Duckygram",
       "Moon hash": "Moon hash",
       "Nicegram": "Nicegram",
+      "Sticker Pack": "Sticker Pack",
       "Make a transaction": "Совершить транзакцию",
       "Open a trading position": "Открыть торговую позицию",
       "Connect TON wallet": "Подключить кошелек TON",
       "Play a game": "Сыграть игру",
       "Start mining": "Начать майнить",
-      "Ads for your socials": "Реклама для ваших соц. сетей"
+      "Ads for your socials": "Реклама для ваших соц. сетей",
+      "Get stickers": "Получить стикеры"
     },
     "reasons": {
       "report": {
