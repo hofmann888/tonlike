@@ -61,7 +61,9 @@ export default function EarnQuestCard({ quest }: { quest: Quest }) {
 
     const link = formatLink(quest.link as string, quest.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
     if (tgOpenLink(link)) {
-      setChecking(true);
+      setTimeout(() => {
+        setChecking(true);
+      }, 5000);
     }
     setLoading(false);
   }
