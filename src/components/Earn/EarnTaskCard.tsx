@@ -30,9 +30,13 @@ export default function EarnTaskCard({
   const tEnums = useTranslations('enums');
 
   function startClick() {
+    setLoading(true);
     const link = formatLink(task.link as string, task.service?.name as ServiceName, 'link'); // TODO?: remove?...already formated in action on creation
     if (tgOpenLink(link)) {
-      setChecking(true);
+      setTimeout(() => {
+        setLoading(false);
+        setChecking(true);
+      }, 5000);
     }
   }
 
