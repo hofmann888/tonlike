@@ -26,6 +26,7 @@ export default function EarnTaskCard({
   const actionTitle = task.serviceAction?.title ?? task.action?.title;
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const t = useTranslations('components.EarnTaskCard');
   const tEnums = useTranslations('enums');
 
@@ -53,6 +54,7 @@ export default function EarnTaskCard({
     addToast(toast as ToastProps);
     setChecking(false);
     setLoading(false);
+    result?.success && setDisabled(true);
   }
 
   return (
@@ -85,6 +87,7 @@ export default function EarnTaskCard({
               className="btn-border-shadow"
               onPress={() => checking ? checkClick() : startClick()}
               isLoading={loading}
+              isDisabled={disabled}
             >
               {!loading && (checking ? t('check') : t('start'))}
             </Button>
