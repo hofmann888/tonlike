@@ -10,13 +10,12 @@ import EarnTaskHideModal from "./EarnTaskHideModal";
 import EarnTaskReportModal from "./EarnTaskReportModal";
 
 export default function EarnTaskList({
-  tasks, page, pageItemsSize, itemsTotal
+  tasks, page, pageTotal, pageItemsSize, itemsTotal
 }: {
-  tasks: Task[], page: number, pageItemsSize: number, itemsTotal: number
+  tasks: Task[], page: number, pageTotal: number, pageItemsSize: number, itemsTotal: number
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [total, setTotal] = useState(1);
   
   // TODO: refactor modals logic
   const [modalTaskId, setModalTaskId] = useState(0);
@@ -30,14 +29,10 @@ export default function EarnTaskList({
   }
 
   useEffect(() => {
-    setTotal(Math.ceil(itemsTotal / pageItemsSize));
-  }, [page, tasks]);
-
-  useEffect(() => {
-    if (page > total) {
-      pushPage(total);
+    if (page > pageTotal) {
+      pushPage(pageTotal);
     }
-  }, [total]);
+  }, [pageTotal]);
 
   function hideModalOnOpenChange(isOpen: boolean) {
     setHideModalIsOpen(isOpen);
@@ -75,7 +70,7 @@ export default function EarnTaskList({
       {itemsTotal > pageItemsSize && 
         <Pagination 
           showControls 
-          total={total} 
+          total={pageTotal} 
           page={page} 
           variant="bordered"
           classNames={{ base: "flex justify-center my-5" }}

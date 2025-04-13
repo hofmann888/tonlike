@@ -25,6 +25,7 @@ export default async function EarnPage({
   const questSection = searchParams?.section as QuestSection ?? QuestSectionEnum.APP;
   
   const page = searchParams?.page as any as number ?? 1;
+  let pageTotal = 1;
   const pageItemsSize = 10;
   const offset = (page - 1) * pageItemsSize;
 
@@ -39,6 +40,7 @@ export default async function EarnPage({
       fetchUserEarnTasks(user.id, { limit: pageItemsSize, offset: offset }),
       fetchUserEarnTasksCount(user.id)
     ]);
+    pageTotal = Math.ceil(tasksCount / pageItemsSize);
   } else {
     quests = await fetchEarnQuestsByUserId(user.id);
   }
@@ -74,7 +76,13 @@ export default async function EarnPage({
           <div>
             {!!tasks.length && <TasksFilter actions={actions} services={services} />}
 
-            <EarnTaskList tasks={tasksFiltered} page={page} pageItemsSize={pageItemsSize} itemsTotal={tasksCount} />
+            <EarnTaskList 
+              tasks={tasksFiltered} 
+              page={page} 
+              pageTotal={pageTotal}
+              pageItemsSize={pageItemsSize} 
+              itemsTotal={tasksCount} 
+            />
           </div>
 
           <div className="sticky bottom-[60px] z-40 bg-background px-2">
