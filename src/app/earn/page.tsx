@@ -4,6 +4,7 @@ import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest, QuestSection, 
 import { fetchUserEarnTasks, fetchEarnQuestsByUserId, fetchUserEarnTasksCount } from "@/db/query";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/core/session";
+import { redirect } from 'next/navigation';
 import { cookies } from "next/headers";
 import EarnTabs from "@/components/Earn/EarnTabs";
 import PageLoader from "@/components/Common/PageLoader";
@@ -41,6 +42,9 @@ export default async function EarnPage({
       fetchUserEarnTasksCount(user.id)
     ]);
     pageTotal = Math.ceil(tasksCount / pageItemsSize);
+    if (page > pageTotal) {
+      redirect(`/earn?page=${pageTotal}`);
+    }
   } else {
     quests = await fetchEarnQuestsByUserId(user.id);
   }

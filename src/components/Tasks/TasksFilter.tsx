@@ -27,6 +27,7 @@ export default function TasksFilter({
   const [statusFilter, setStatusFilter] = useState(params.get('status'));
   const [sortFilter, setSortFilter] = useState(params.get('sort'));
   const [pressText, setPressText] = useState('expand');
+  const page = params.get('page');
 
   // TODO: combine status map and status count? # error on pass icon through component props cause its a function
   // TODO: remove enums and import object?
@@ -68,6 +69,9 @@ export default function TasksFilter({
     if (sortFilter?.length) {
       params += `sort=${sortFilter}&`;
     } 
+    if (page?.length) {
+      params += `page=${page}&`;
+    }
     params = params.slice(0, -1); 
     
     router.push(`${pathname}${params}`);

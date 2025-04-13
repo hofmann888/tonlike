@@ -28,12 +28,6 @@ export default function EarnTaskList({
     router.push(`${pathname}?page=${page}`);
   }
 
-  useEffect(() => {
-    if (page > pageTotal) {
-      pushPage(pageTotal);
-    }
-  }, [pageTotal]);
-
   function hideModalOnOpenChange(isOpen: boolean) {
     setHideModalIsOpen(isOpen);
   }
