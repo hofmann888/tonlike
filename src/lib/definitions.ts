@@ -174,6 +174,7 @@ export enum ServiceActionNameEnum {
   TELEGRAM_SUBSCRIBE = 'tg_subscribe',
   TELEGRAM_BOOST = 'tg_boost',
   TELEGRAM_PLAY = 'tg_play',
+  X_SUBSCRIBE = 'x_subscribe'
   // TODO: ...
 }
 

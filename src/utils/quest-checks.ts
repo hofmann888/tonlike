@@ -64,6 +64,9 @@ export async function checkQuest(questId: number, checkExt?: boolean) {
       case ServiceActionNameEnum.TELEGRAM_PLAY:
         check = true;
         break;
+      case ServiceActionNameEnum.X_SUBSCRIBE:
+        check = true;
+        break;
       default:
         return {
           success: false,
