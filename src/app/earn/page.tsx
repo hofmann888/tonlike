@@ -1,7 +1,7 @@
 'use server'
 
 import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest, QuestSection, QuestSectionEnum } from "@/lib/definitions";
-import { fetchEarnTasksByUserId, fetchEarnQuestsByUserId } from "@/db/query";
+import { fetchUserEarnTasks, fetchEarnQuestsByUserId, fetchUserEarnTasksCount } from "@/db/query";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { getAuthUser } from "@/core/session";
 import { cookies } from "next/headers";
@@ -23,14 +23,22 @@ export default async function EarnPage({
 
   const tab = searchParams?.tab as string ?? 'tasks'; // TODO?: pass as prop? # task filter removes it
   const questSection = searchParams?.section as QuestSection ?? QuestSectionEnum.APP;
+  
+  const page = searchParams?.page as any as number ?? 1;
+  const pageItemsSize = 10;
+  const offset = (page - 1) * pageItemsSize;
 
   let quests: Quest[] = []; 
   let tasks: Task[] = [];
+  let tasksCount = 0;
 
   // TODO?: move this logic to separate components to use Suspense?
   // TODO: remove await -> pass Promise -> use "use" hook in client
   if (tab === 'tasks') {
-    tasks = await fetchEarnTasksByUserId(user.id);
+    [tasks, tasksCount] = await Promise.all([
+      fetchUserEarnTasks(user.id, { limit: pageItemsSize, offset: offset }),
+      fetchUserEarnTasksCount(user.id)
+    ]);
   } else {
     quests = await fetchEarnQuestsByUserId(user.id);
   }
@@ -66,7 +74,7 @@ export default async function EarnPage({
           <div>
             {!!tasks.length && <TasksFilter actions={actions} services={services} />}
 
-            <EarnTaskList tasks={tasksFiltered} />
+            <EarnTaskList tasks={tasksFiltered} page={page} pageItemsSize={pageItemsSize} itemsTotal={tasksCount} />
           </div>
 
           <div className="sticky bottom-[60px] z-40 bg-background px-2">

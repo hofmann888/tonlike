@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter, usePathname } from "next/navigation";
 import { Pagination } from "@heroui/pagination";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -8,12 +9,14 @@ import EarnTaskCard from "./EarnTaskCard";
 import EarnTaskHideModal from "./EarnTaskHideModal";
 import EarnTaskReportModal from "./EarnTaskReportModal";
 
-export default function EarnTaskList({tasks}: {tasks: Task[]}) {
-  const pageItemsSize = 10;
-  const [page, setPage] = useState(1); // TODO: useRouter and searchParams
+export default function EarnTaskList({
+  tasks, page, pageItemsSize, itemsTotal
+}: {
+  tasks: Task[], page: number, pageItemsSize: number, itemsTotal: number
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [total, setTotal] = useState(1);
-  const [tasksFiltered, setTasksFiltered] = useState(tasks); // TODO?: optimize, just remove html block
-  const [tasksPaginated, setTasksPaginated] = useState([] as Task[]); // TODO: db pagination
   
   // TODO: refactor modals logic
   const [modalTaskId, setModalTaskId] = useState(0);
@@ -22,20 +25,17 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
 
   const t = useTranslations('components.EarnTaskList');
 
-  useEffect(() => {
-    setTasksFiltered(tasks);
-  }, [tasks]);
+  function pushPage(page: number) {
+    router.push(`${pathname}?page=${page}`);
+  }
 
   useEffect(() => {
-    const start = (page - 1) * pageItemsSize;
-    const end = start + pageItemsSize;
-    setTasksPaginated(tasksFiltered.slice(start, end));
-    setTotal(Math.ceil(tasksFiltered.length / pageItemsSize));
-  }, [page, tasksFiltered]);
+    setTotal(Math.ceil(itemsTotal / pageItemsSize));
+  }, [page, tasks]);
 
   useEffect(() => {
     if (page > total) {
-      setPage(total);
+      pushPage(total);
     }
   }, [total]);
 
@@ -58,13 +58,12 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
   }
 
   function modalSubmit(id: number) {
-    const tasksAfterFilter = tasksFiltered.filter(task => task.id !== id);
-    setTasksFiltered(tasksAfterFilter);
+    router.refresh();
   }
 
   return (
     <div className="px-2">
-      {tasksPaginated.length ? tasksPaginated.map((task) => (
+      {tasks.length ? tasks.map((task) => (
         <EarnTaskCard 
           key={task.id} 
           task={task} 
@@ -73,14 +72,14 @@ export default function EarnTaskList({tasks}: {tasks: Task[]}) {
         />
       )) : <p className="text-center text-medium mt-4" dangerouslySetInnerHTML={{__html: t.raw('empty')}} />}
 
-      {tasks.length > pageItemsSize && total > 1 && 
+      {itemsTotal > pageItemsSize && 
         <Pagination 
           showControls 
           total={total} 
           page={page} 
           variant="bordered"
           classNames={{ base: "flex justify-center my-5" }}
-          onChange={(page: number) => setPage(page)}
+          onChange={(page: number) => pushPage(page)}
         />
       }
 

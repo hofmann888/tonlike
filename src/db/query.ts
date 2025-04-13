@@ -440,51 +440,74 @@ export async function fetchTaskCountByUserId(userId: number) {
   }
 }
 
-export async function fetchEarnTasksByUserId(userId: number) {
+function fetchUserEarnTasksSubQuery(userId: number, selectQuery: any) {
+  return selectQuery.from(schema.tasks)
+    .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.tasks.serviceActionId))
+    .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
+    .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
+    .leftJoin(schema.taskEarnings, 
+      and(
+        eq(schema.taskEarnings.taskId, schema.tasks.id), 
+        eq(schema.taskEarnings.userId, userId)
+      )
+    )
+    .leftJoin(schema.reports, 
+      and(
+        eq(schema.reports.taskId, schema.tasks.id), 
+        eq(schema.reports.userId, userId)
+      )
+    )
+    .leftJoin(schema.blackList, 
+      and(
+        eq(schema.blackList.userId, schema.tasks.userId), 
+        eq(schema.blackList.blockedUserId, userId)
+      )
+    )
+    .where(
+      and(
+        ne(schema.tasks.userId, userId),
+        eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
+        eq(schema.serviceActions.active, true),
+        eq(schema.services.active, true),
+        eq(schema.actions.active, true),
+        isNull(schema.taskEarnings.id),
+        isNull(schema.reports.id),
+        isNull(schema.blackList.id),
+      )
+    )
+    .orderBy(desc(schema.tasks.price)) 
+}
+
+export async function fetchUserEarnTasksCount(userId: number) {
   try {
-    const data = await db
-      .select({
-        ...getTableColumns(schema.tasks), 
-        service: getTableColumns(schema.services),
-        action: getTableColumns(schema.actions),
-        serviceAction: getTableColumns(schema.serviceActions),
-      })
-      .from(schema.tasks)
-      .leftJoin(schema.serviceActions, eq(schema.serviceActions.id, schema.tasks.serviceActionId))
-      .leftJoin(schema.services, eq(schema.services.id, schema.serviceActions.serviceId))
-      .leftJoin(schema.actions, eq(schema.actions.id, schema.serviceActions.actionId))
-      .leftJoin(schema.taskEarnings, 
-        and(
-          eq(schema.taskEarnings.taskId, schema.tasks.id), 
-          eq(schema.taskEarnings.userId, userId)
-        )
-      )
-      .leftJoin(schema.reports, 
-        and(
-          eq(schema.reports.taskId, schema.tasks.id), 
-          eq(schema.reports.userId, userId)
-        )
-      )
-      .leftJoin(schema.blackList, 
-        and(
-          eq(schema.blackList.userId, schema.tasks.userId), 
-          eq(schema.blackList.blockedUserId, userId)
-        )
-      )
-      .where(
-        and(
-          ne(schema.tasks.userId, userId),
-          eq(schema.tasks.status, TaskStatusEnum.ACTIVE),
-          eq(schema.serviceActions.active, true),
-          eq(schema.services.active, true),
-          eq(schema.actions.active, true),
-          isNull(schema.taskEarnings.id),
-          isNull(schema.reports.id),
-          isNull(schema.blackList.id),
-        )
-      )
-      .orderBy(desc(schema.tasks.price))
-    ;
+    const select = db.select({ id: schema.tasks.id });
+    const sq = fetchUserEarnTasksSubQuery(userId, select).as('sq');
+
+    const [data] = await db.select({ count: count(sq.id) }).from(sq);
+  
+    return data.count;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to execute query.');
+  }
+}
+
+export async function fetchUserEarnTasks(userId: number, pagination?: { limit: number, offset: number }) {
+  try {
+    const select = db.select({
+      ...getTableColumns(schema.tasks), 
+      service: getTableColumns(schema.services),
+      action: getTableColumns(schema.actions),
+      serviceAction: getTableColumns(schema.serviceActions),
+    });
+
+    const query = fetchUserEarnTasksSubQuery(userId, select);
+
+    if (pagination) {
+      query.limit(pagination?.limit).offset(pagination?.offset);
+    }
+
+    const data = await query;
 
     return data as Task[];
   } catch (error) {
