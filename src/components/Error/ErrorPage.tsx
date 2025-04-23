@@ -15,6 +15,10 @@ export function ErrorPage({
 
   const t = useTranslations('components.ErrorPage');
 
+  function reload() {
+    location.reload();
+  }
+
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -31,7 +35,7 @@ export function ErrorPage({
         </p>
       }
 
-      <Button color="primary" variant="bordered" className="mt-3" onPress={() => reset && reset()}>{t('tryAgain')}</Button>
+      <Button color="primary" variant="bordered" className="mt-3" onPress={() => reload()}>{t('tryAgain')}</Button>
     </div>
   );
 }

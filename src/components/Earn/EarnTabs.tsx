@@ -1,24 +1,15 @@
 'use client'
 
 // import { Chip } from "@heroui/chip";
-import { Tabs, Tab } from "@heroui/tabs";
-import { useRouter, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Tabs, Tab } from "@heroui/tabs";
 import { GoGoal } from "react-icons/go";
 import { BiTask } from "react-icons/bi";
+import Link from "next/link";
 
 // TODO: add chips to count tasks
 export default function EarnTabs({ activeTab }: { activeTab: string }) {
   const t = useTranslations('components.EarnTabs');
-  const pathname = usePathname();
-  const router = useRouter();
-
-  const [tab, setTab] = useState(activeTab);
-
-  useEffect(() => {
-    router.push(`${pathname}?tab=${tab}`);
-  }, [tab]);
 
   return (
     <Tabs
@@ -26,7 +17,7 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
       variant="underlined"
       color="primary"
       radius="none"
-      selectedKey={tab}
+      selectedKey={activeTab}
       classNames={{
         base: "w-full mb-3",
         cursor: "w-full",
@@ -34,10 +25,11 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
         tab: "px-0 h-14 data-[selected=true]:bg-[#ffffff12]",
         tabContent: "group-data-[selected=true]:text-foreground-900"
       }}
-      onSelectionChange={(key) => setTab(key as string)}
     >
       <Tab
         key="tasks"
+        as={Link}
+        href="/earn"
         title={
           <div className="flex items-center space-x-2">
             <BiTask />
@@ -49,6 +41,8 @@ export default function EarnTabs({ activeTab }: { activeTab: string }) {
 
       <Tab
         key="quests"
+        as={Link}
+        href="/earn?tab=quests"
         title={
           <div className="flex items-center space-x-2">
             <GoGoal />

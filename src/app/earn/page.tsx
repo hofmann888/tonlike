@@ -1,5 +1,3 @@
-'use server'
-
 import { User, Task, TasksFilterParamEnum, TaskFilterItem, Quest, QuestSection, QuestSectionEnum } from "@/lib/definitions";
 import { fetchUserEarnTasks, fetchEarnQuestsByUserId, fetchUserEarnTasksCount } from "@/db/query";
 import { tasksRelations, tasksFilter, tasksSort } from "@/utils/task-filter";

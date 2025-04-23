@@ -1,6 +1,6 @@
 'use client'
 
-import { FaTasks, FaTrophy, FaWallet, FaUserFriends } from "react-icons/fa";
+import { FaTasks, FaTrophy, FaUserFriends } from "react-icons/fa";
 import { FaSackDollar, FaShop } from "react-icons/fa6";
 import { usePathname } from 'next/navigation';
 import { useTranslations } from "next-intl";

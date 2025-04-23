@@ -2,8 +2,8 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { Pagination } from "@heroui/pagination";
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { Task } from "@/lib/definitions";
 import EarnTaskCard from "./EarnTaskCard";
 import EarnTaskHideModal from "./EarnTaskHideModal";

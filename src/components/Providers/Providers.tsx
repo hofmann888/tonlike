@@ -1,7 +1,6 @@
 'use client'
 
 import type { ThemeProviderProps } from "next-themes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HeroUIProvider } from "@heroui/system";
 import { ToastProvider } from "@heroui/toast";
 import { I18nProvider } from "./I18nProvider";
@@ -27,18 +26,15 @@ declare module "@react-types/shared" {
 // TODO: I18nProvider
 export function Providers({ children, themeProps, userData }: ProvidersProps) {
   const router = useRouter();
-  const queryClient = new QueryClient(); // TODO: nah ono nado vasche?
 
   return (
     <HeroUIProvider navigate={router.push}>
       <ThemeProvider {...themeProps}>
         {/* <I18nProvider> */}
-          <QueryClientProvider client={queryClient}>
-            <UserProvider userData={userData}>
-              <ToastProvider placement="bottom-center" toastOffset={60} toastProps={{ timeout: 3000, classNames: { base: "z-50" } }} />
-              {children}
-            </UserProvider>
-          </QueryClientProvider>
+          <UserProvider userData={userData}>
+            <ToastProvider placement="bottom-center" toastOffset={60} toastProps={{ timeout: 3000, classNames: { base: "z-50" } }} />
+            {children}
+          </UserProvider>
         {/* </I18nProvider> */}
       </ThemeProvider>
     </HeroUIProvider>
