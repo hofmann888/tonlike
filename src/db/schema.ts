@@ -335,6 +335,7 @@ export const products = pgTable('products', {
   type: productTypeEnum().notNull(),
   title: varchar({ length: 255 }),
   description: varchar({ length: 255 }),
+  imgUrl: varchar('img_url', { length: 255 }),
   amount: integer().notNull().default(1),
   price: bigint({ mode: 'number' }).notNull(),
   discount: smallint().notNull().default(0),

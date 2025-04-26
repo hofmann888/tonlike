@@ -1,3 +1,6 @@
-.product-card .coin-value {
-    text-shadow: 1px 1px #000;
+.light:root {
+    .product-card .coin-value {
+        text-shadow: 1px 1px #000;
+        background-color: rgb(0 0 0 / 0.1);
+    }
 }

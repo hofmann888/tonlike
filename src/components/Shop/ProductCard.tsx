@@ -54,30 +54,30 @@ export default function ProductCard({ product }: { product: Product }) {
       onPress={openInvoice}
     >
       <CardBody className="p-0 relative overflow-hidden">
-        <div className="flex justify-center items-center w-full h-full absolute top-0 left-0 z-50 text-center">
+        <Image
+          alt={product.title}
+          shadow="sm"
+          radius="none"
+          src={product.imgUrl}
+          className="object-cover px-8 py-2"
+          width="100%"
+          isBlurred
+          removeWrapper
+        />
+
+        <div className="flex justify-center items-end w-full h-full text-center">
           {loading 
             ? <Spinner />
             :
               <CoinValue 
                 value={product.amount} 
                 classNames={{ 
-                  base: "coin-value text-3xl text-white justify-center font-bold w-full h-16 rounded-lg bg-black/30 max-[360px]:text-2xl",
+                  base: "coin-value text-3xl text-white justify-center font-bold w-full h-16 bg-white/5 max-[360px]:text-2xl",
                   avatar: "w-8 h-8" 
                 }} 
               />
           }
         </div>
-
-        <Image
-          alt={product.title}
-          shadow="sm"
-          radius="lg"
-          src="/img/logo.png"
-          className="object-cover blur-[10px]"
-          width="100%"
-          height="150px"
-          isBlurred
-        />
       </CardBody>
 
       <CardFooter className="justify-center max-[360px]:px-2">

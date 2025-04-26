@@ -392,6 +392,7 @@ export type Product = {
   type: ProductType,
   title: string,
   description: string,
+  imgUrl: string,
   amount: number,
   price: number,
   discount: number,
