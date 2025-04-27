@@ -72,7 +72,7 @@ export default function ProductCard({ product }: { product: Product }) {
               <CoinValue 
                 value={product.amount} 
                 classNames={{ 
-                  base: "coin-value text-3xl text-white justify-center font-bold w-full h-16 bg-white/5 max-[360px]:text-2xl",
+                  base: "coin-value text-3xl text-white justify-center font-bold w-full py-3 bg-white/5 max-[400px]:text-2xl",
                   avatar: "w-8 h-8" 
                 }} 
               />
