@@ -66,24 +66,26 @@ export default function ProductCard({ product }: { product: Product }) {
         />
 
         <div className="flex justify-center items-end w-full h-full text-center">
-          {loading 
-            ? <Spinner />
-            :
-              <CoinValue 
-                value={product.amount} 
-                classNames={{ 
-                  base: "coin-value text-3xl text-white justify-center font-bold w-full py-3 bg-white/5 max-[400px]:text-2xl",
-                  avatar: "w-8 h-8" 
-                }} 
-              />
-          }
+          <CoinValue 
+            value={product.amount} 
+            classNames={{ 
+              base: "coin-value text-3xl text-white justify-center font-bold w-full py-3 bg-white/5 max-[400px]:text-2xl",
+              avatar: "w-8 h-8" 
+            }} 
+          />
         </div>
       </CardBody>
 
       <CardFooter className="justify-center max-[360px]:px-2">
-        <span className="max-[330px]:text-[18px]">⭐ {finalPrice}</span>
-        {product.discount > 0 &&
-          <Chip color="danger" variant="flat" className="ml-1">-{product.discount}%</Chip>
+        {loading 
+          ? <Spinner />
+          :
+            <>
+              <span className="max-[330px]:text-[18px]">⭐ {finalPrice}</span>
+              {product.discount > 0 &&
+                <Chip color="danger" variant="flat" className="ml-1">-{product.discount}%</Chip>
+              }
+            </>
         }
       </CardFooter>
     </Card>
