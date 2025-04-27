@@ -1,12 +1,23 @@
 'use client'
 
+import { UpdateUserWalletAddress } from "@/core/server-actions";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonConnect } from "@/hooks/useTonConnect";
-import { CHAIN } from "@tonconnect/ui-react";
+// import { CHAIN } from "@tonconnect/ui-react";
+import { useEffect } from "react";
 import "@/css/wallet.scss";
 
 export default function WalletConnect() {
-  // const { network } = useTonConnect();
+  const { address } = useTonConnect();
+
+  useEffect(() => {
+    async function updateUserAddress() {
+      if (address?.length) {
+        await UpdateUserWalletAddress(address);
+      }
+    }
+    updateUserAddress();
+  }, [address]);
 
   return (
     <div className="flex items-center justify-center">

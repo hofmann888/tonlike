@@ -11,6 +11,7 @@ export type UserUpdateDto = {
   tgPhotoUrl?: string | null,
   balance?: number,
   claimed?: number,
+  address?: string
 }
 
 export type TaskInsertDTO = typeof schema.tasks.$inferInsert; // TODO?: custom dto?

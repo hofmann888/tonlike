@@ -57,6 +57,7 @@ export type User = {
   tgPhotoUrl: string | null,
   balance: number,
   claimed: number,
+  address?: string | null,
   createdAt?: Date,
 	updatedAt?: Date,
 }

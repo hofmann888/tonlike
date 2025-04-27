@@ -1,4 +1,4 @@
-import { pgTable, pgEnum, AnyPgColumn, boolean, smallint, integer, bigint, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, AnyPgColumn, boolean, smallint, integer, bigint, varchar, char, text, timestamp } from "drizzle-orm/pg-core";
 import { TaskStatusEnum, ReportReasonEnum, BlackListReasonEnum, ProductTypeEnum } from "@/lib/definitions";
 import { relations } from 'drizzle-orm';
 
@@ -13,9 +13,9 @@ export const users = pgTable('users', {
   tgPhotoUrl: varchar('tg_photo_url', { length: 255 }),
   balance: bigint({ mode: 'number' }).notNull().default(0),
   claimed: bigint({ mode: 'number' }).notNull().default(0), // TODO?: referralProfit(Claimed)
+  address: char({ length: 48 }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
-  // address: char({ length: 48 })
   // isBlocked | status?
   // lastLogin?
 }

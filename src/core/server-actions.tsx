@@ -373,3 +373,21 @@ export async function HideEarnWaning(dontShow: boolean = false) {
 export async function clearHideEarnWaningCookie() {
   cookies().delete('earnWarningHide');
 }
+
+export async function UpdateUserWalletAddress(address: string) {
+  try {
+    const user: User = await getAuthUser(false, false);
+
+    if (!address.length || user.address === address) {
+      return false;
+    }
+
+    await updateUserWithSession(user.id, { 
+      address: address, 
+    });
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

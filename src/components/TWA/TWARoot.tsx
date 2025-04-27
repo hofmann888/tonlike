@@ -15,7 +15,8 @@ import { init } from '@/core/init';
 import LayoutLoader from "@/components/Common/LayoutLoader";
 // import { setLocale } from '@/core/i18n/locale'; // TODO: localization
 
-const manifestUrl = 'https://tonlike.vercel.app/tonconnect-manifest.json';
+const manifestUrl = 'https://maxhofm.github.io/stepik-5-5/tonconnect-manifest.json'; // TODO!: edit
+// const manifestUrl = 'https://tonlike.vercel.app/tonconnect-manifest.json';
 
 function RootInner({ children }: PropsWithChildren) { // TODO?: move under Providers?
   const useMock = [AppEnvEnum.LOCAL, AppEnvEnum.DEV].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv);
