@@ -3,8 +3,8 @@
     z-index: 100001 !important;
 }
 
-.ton-connect-button,
 tc-root > div,
-tc-root [data-tc-button="true"] {
+.ton-connect-button,
+.ton-connect-button [data-tc-button="true"] {
     width: 100% !important;
 }
