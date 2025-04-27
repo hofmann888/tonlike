@@ -81,7 +81,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </CardBody>
 
       <CardFooter className="justify-center max-[360px]:px-2">
-        <span className="">⭐ {finalPrice}</span>
+        <span className="max-[330px]:text-[18px]">⭐ {finalPrice}</span>
         {product.discount > 0 &&
           <Chip color="danger" variant="flat" className="ml-1">-{product.discount}%</Chip>
         }
