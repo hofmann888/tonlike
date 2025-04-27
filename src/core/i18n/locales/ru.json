@@ -13,8 +13,9 @@
       "balance": "Баланс"
     },
     "HeaderUser": {
-      "blackList": "Черный Список",
       "wallet": "Кошелек",
+      "airdrop": "Аирдроп",
+      "blackList": "Черный Список",
       "support": "Поддержка"
     },
     "BlackList": {

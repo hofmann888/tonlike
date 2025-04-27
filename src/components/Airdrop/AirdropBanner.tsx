@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from "@heroui/button";
 import Image from 'next/image';
 
-export default function WalletBanner() {
+export default function AirdropBanner() {
   const t = useTranslations('components.WalletBanner');
 
   const link = 'https://t.me/tonlike_app';

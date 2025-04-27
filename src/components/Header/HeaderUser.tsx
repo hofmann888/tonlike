@@ -1,7 +1,7 @@
 'use client'
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
-import { FaWallet, FaUsersSlash } from "react-icons/fa";
+import { FaUsersSlash, FaParachuteBox } from "react-icons/fa";
 import { tgOpenLink } from "@/utils/helpers";
 import { useTranslations } from "next-intl";
 import { BiSupport } from "react-icons/bi";
@@ -9,6 +9,7 @@ import { useUser } from "@/hooks/useUser";
 import { User } from "@heroui/user";
 import LocaleSwitcher from "@/components/Settings/LocaleSwitcher";
 import ThemeSwitcher from "@/components/Settings/ThemeSwither";
+import WalletConnect from "@/components/Wallet/WalletConnect";
 
 export default function HeaderUser() {
   const { tgId, tgUsername, tgFirstName, tgLastName, tgPhotoUrl } = useUser();
@@ -40,11 +41,20 @@ export default function HeaderUser() {
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem 
             key="wallet" 
-            href="/wallet" 
-            color="primary" 
-            startContent={<FaWallet className="text-foreground-500 text-large" />}
+            color="primary"
+            className="px-0 data-[hover=true]:bg-transparent"
+            closeOnSelect={false}
+            isReadOnly
           >
-            <span className="text-medium">{t('wallet')}</span>
+            <WalletConnect />
+          </DropdownItem>
+          <DropdownItem 
+            key="airdrop" 
+            href="/airdrop" 
+            color="primary" 
+            startContent={<FaParachuteBox className="text-foreground-500 text-large" />}
+          >
+            <span className="text-medium">{t('airdrop')}</span>
           </DropdownItem>
           <DropdownItem 
             key="blackList" 
