@@ -78,7 +78,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
       <CardFooter className="justify-center max-[360px]:px-2">
         {loading 
-          ? <Spinner />
+          ? <Spinner className="h-[30px] w-[30px] max-[330px]:h-[28px] max-[330px]:w-[28px]" />
           :
             <>
               <span className="max-[330px]:text-[18px]">⭐ {finalPrice}</span>
