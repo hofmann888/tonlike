@@ -1,13 +1,20 @@
-// 'use client'
+'use client'
 
 // import { Tabs, Tab } from "@heroui/tabs";
 // import { useTonConnect } from "@/hooks/useTonConnect";
 // import DepositForm from "@/components/Wallet/DepositForm";
 // import WithdrawForm from "@/components/Wallet/WithdrawForm";
 // import WalletConnect from "@/components/Wallet/WalletConnect";
+import AirdropBanner from "@/components/Airdrop/AirdropBanner";
 
-// export default function WalletPage() {
+export default function WalletPage() {
 //   const { connected } = useTonConnect();
+
+  return (
+    <div className="py-5 px-2 h-full max-w-[500px] max-[500px]:max-w-[100vw]">
+      <AirdropBanner />
+    </div>
+  )
 
 //   if (!connected) return (
 //     <div className="wallet-page">
@@ -41,4 +48,4 @@
 //       </Tabs>
 //     </div>
 //   )
-// }
+}
