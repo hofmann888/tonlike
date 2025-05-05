@@ -131,8 +131,11 @@ export enum ServiceNameEnum {
   X = 'x',
   INSTAGRAM = 'instagram',
   TIKTOK = 'tiktok',
-  YOUTUBE = 'youtube',
+  LIKEE = 'likee',
   VK = 'vk',
+  YOUTUBE = 'youtube',
+  TWITCH = 'twitch',
+  DISCORD = 'discord',
   WARPCAST = 'warpcast',
   LINK = 'link',
 }
@@ -142,8 +145,11 @@ export type ServiceName =
   ServiceNameEnum.X | 
   ServiceNameEnum.INSTAGRAM | 
   ServiceNameEnum.TIKTOK | 
-  ServiceNameEnum.YOUTUBE | 
+  ServiceNameEnum.LIKEE |
   ServiceNameEnum.VK | 
+  ServiceNameEnum.YOUTUBE | 
+  ServiceNameEnum.TWITCH |
+  ServiceNameEnum.DISCORD |
   ServiceNameEnum.WARPCAST | 
   ServiceNameEnum.LINK
 ;

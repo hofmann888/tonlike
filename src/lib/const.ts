@@ -33,7 +33,9 @@ export const serviceLinksMap = {
   // video: https://youtu.be/hwXdkQCob6U?si=9Ke5Xqcw39fA5BSK 
   [ServiceNameEnum.VK]: ['https://vk.com/'],
   // post: https://vk.com/wall-124685923_430790
-  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'], 
+  [ServiceNameEnum.WARPCAST]: ['https://warpcast.com/'],
   // acc: https://warpcast.com/hofmann888
   // channel: https://warpcast.com/~/channel/ru 
+  [ServiceNameEnum.TWITCH]: ['https://www.twitch.tv/'],
+  [ServiceNameEnum.DISCORD]: ['https://discord.com/'],
 }
