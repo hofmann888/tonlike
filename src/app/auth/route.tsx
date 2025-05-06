@@ -4,6 +4,7 @@ import { createUser, updateUser, fetchUserByTgId } from '@/db/query';
 import { deleteSession, getSession, setSession } from '@/core/session';
 import { validate, parse } from '@telegram-apps/init-data-node';
 import { AppEnv, AppEnvEnum } from '@/lib/definitions';
+import { getEnvBoolean } from '@/utils/helpers';
 import { headers } from 'next/headers';
 
 export async function POST() {
@@ -18,7 +19,7 @@ export async function POST() {
     }
 
     const appEnv = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
-    if ([AppEnvEnum.PROD, AppEnvEnum.STAGE].includes(appEnv)) {
+    if (!getEnvBoolean(process.env.NEXT_PUBLIC_TG_MOCK)) {
       const expiresIn = parseInt(process.env.SESSION_TIME as string);
       validate(authData, token, {
         expiresIn: expiresIn, // TODO?: coockie expires && validate expiresIn?

@@ -18,8 +18,7 @@ import LayoutLoader from "@/components/Common/LayoutLoader";
 const manifestUrl = 'https://tonlike.vercel.app/tonconnect-manifest.json';
 
 function RootInner({ children }: PropsWithChildren) { // TODO?: move under Providers?
-  const useMock = [AppEnvEnum.LOCAL, AppEnvEnum.DEV].includes(process.env.NEXT_PUBLIC_APP_ENV as AppEnv);
-  if (useMock) {
+  if (getEnvBoolean(process.env.NEXT_PUBLIC_TG_MOCK)) {
     useTelegramMock(); // TODO: eslint-disable-next-line react-hooks/rules-of-hooks
   }
 
