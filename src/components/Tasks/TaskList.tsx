@@ -93,7 +93,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           total={Math.ceil(tasks.length / pageItemsSize)} 
           page={page} 
           variant="bordered"
-          classNames={{ base: "flex justify-center my-5" }}
+          classNames={{ base: "flex justify-center m-0 my-5" }}
           onChange={(page: number) => setPage(page)}
         />
       }

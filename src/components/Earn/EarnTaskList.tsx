@@ -67,7 +67,7 @@ export default function EarnTaskList({
           total={pageTotal} 
           page={page} 
           variant="bordered"
-          classNames={{ base: "flex justify-center my-5" }}
+          classNames={{ base: "flex justify-center m-0 mt-5" }}
           onChange={(page: number) => pushPage(page)}
         />
       }
