@@ -47,7 +47,7 @@ export default function Footer() {
             <Tab 
               key={link.href}
               title={
-                <Link href={link.href} prefetch={true} className="w-full h-full flex flex-col items-center justify-center">
+                <Link href={link.href} prefetch={true} className="w-full h-full flex flex-col items-center justify-center absolute z-50">
                   <LinkIcon className="w-6 h-6 mt-1" />
                   <span className="text-xs mt-1 max-[370px]:text-[0.65rem]">{t(`nav.${link.title}`)}</span>
                 </Link>
