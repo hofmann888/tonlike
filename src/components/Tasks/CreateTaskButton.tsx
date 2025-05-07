@@ -8,10 +8,11 @@ export default function CreateTaskButton() {
   return (
     <Button
       as={Link}
-      color="primary"
+      prefetch={true}
       href="/tasks/create"
-      variant="shadow"
       size="lg"
+      color="primary"
+      variant="shadow"
       className="w-full mb-2 mt-2"
     >
       {t('create')}
