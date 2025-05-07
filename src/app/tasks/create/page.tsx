@@ -1,10 +1,10 @@
-'use server'
-
 import { fetchServicesWithActions } from "@/db/query";
 import { getAuthUser } from "@/core/session";
 import { User } from "@/lib/definitions";
 import CreateTaskForm from "@/components/Tasks/CreateTaskForm";
 import PageLoader from "@/components/Common/PageLoader";
+
+export const revalidate = 3600;
 
 export default async function CreateTaskPage() {
   const user: User = await getAuthUser();

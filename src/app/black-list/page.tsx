@@ -1,9 +1,9 @@
-'use server'
-
 import { fetchBlackListByUserId } from "@/db/query";
 import { getAuthUser } from "@/core/session"
 import BlackList from "@/components/BlackList/BlackList";
 import PageLoader from "@/components/Common/PageLoader";
+
+export const revalidate = 3600;
 
 export default async function BlackListPage() {
   const user = await getAuthUser();

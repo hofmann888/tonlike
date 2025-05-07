@@ -4,7 +4,7 @@ import { getAuthUser } from "@/core/session";
 import PageLoader from "@/components/Common/PageLoader";
 import EarnQuestList from "@/components/Earn/EarnQuestList";
 
-export const revalidate = 360;
+export const revalidate = 3600;
 
 export default async function EarnQuestsPage({
   searchParams

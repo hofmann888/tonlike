@@ -1,6 +1,6 @@
-'use client'
-
 import AirdropBanner from '@/components/Airdrop/AirdropBanner';
+
+export const revalidate = 86400;
 
 export default function AirdropPage() {
   return (

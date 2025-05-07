@@ -1,11 +1,11 @@
-'use client'
-
 // import { Tabs, Tab } from "@heroui/tabs";
 // import { useTonConnect } from "@/hooks/useTonConnect";
 // import DepositForm from "@/components/Wallet/DepositForm";
 // import WithdrawForm from "@/components/Wallet/WithdrawForm";
 // import WalletConnect from "@/components/Wallet/WalletConnect";
 import AirdropBanner from "@/components/Airdrop/AirdropBanner";
+
+export const revalidate = 86400;
 
 export default function WalletPage() {
 //   const { connected } = useTonConnect();

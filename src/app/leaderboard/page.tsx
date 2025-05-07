@@ -1,10 +1,10 @@
-'use server'
-
 import { fetchLeaderboardPositionByUserId, fetchLeaderboard } from "@/db/query";
 import { LeaderboardItem } from "@/lib/definitions";
 import { getAuthUser } from "@/core/session";
 import Leaderboard from "@/components/Leaderboard/Leaderboard";
 import PageLoader from "@/components/Common/PageLoader";
+
+export const revalidate = 60;
 
 export default async function LeaderboardPage() {
   const user = await getAuthUser();

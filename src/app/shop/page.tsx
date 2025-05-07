@@ -4,6 +4,8 @@ import PageLoader from "@/components/Common/PageLoader";
 import ProductList from "@/components/Shop/ProductList"
 import "@/css/shop.scss";
 
+export const revalidate = 3600;
+
 export default async function ShopPage() {
   const user = await getAuthUser();
   if (!user) return (<PageLoader />);

@@ -1,3 +1,5 @@
+'use client'
+
 import { tgOpenLink } from '@/utils/helpers';
 import { useTranslations } from 'next-intl';
 import { Button } from "@heroui/button";

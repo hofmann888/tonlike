@@ -1,5 +1,3 @@
-'use server'
-
 import { User, Task, TaskStatusEnum, TasksFilterParamEnum, TaskFilterItem } from "@/lib/definitions";
 import { tasksRelations, tasksStatusCount, tasksFilter, tasksSort } from "@/utils/task-filter";
 import { fetchTasksByUserId } from "@/db/query";
@@ -8,6 +6,8 @@ import TaskList from "@/components/Tasks/TaskList";
 import PageLoader from "@/components/Common/PageLoader";
 import TasksFilter from "@/components/Tasks/TasksFilter";
 import CreateTaskButton from "@/components/Tasks/CreateTaskButton";
+
+export const revalidate = 60;
 
 // TODO: optimize: prefetch, cache, pagination...
 // TODO: suspend, skeletons...

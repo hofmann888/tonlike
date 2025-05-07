@@ -1,5 +1,3 @@
-'use server'
-
 import { fetchUserReferrals, fetchUserReferralsTaskEarningsSum } from "@/db/query";
 import { getAuthUser } from "@/core/session";
 import { User } from "@/lib/definitions";
@@ -7,6 +5,8 @@ import ReferralsButtons from "@/components/Referrals/ReferralsButtons";
 import ReferralsList from "@/components/Referrals/ReferralsList";
 import ReferralsInfo from "@/components/Referrals/ReferralsInfo";
 import PageLoader from "@/components/Common/PageLoader";
+
+export const revalidate = 300;
 
 export default async function RefferalsPage() {
   const user: User = await getAuthUser();
