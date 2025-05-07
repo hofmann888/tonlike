@@ -1,8 +1,8 @@
 'use client'
 
-import { Chip } from "@heroui/chip";
 import { Quest, QuestSection, QuestSectionEnum } from "@/lib/definitions";
 import { useTranslations } from "next-intl";
+import { Chip } from "@heroui/chip";
 import EarnQuestTabs from "./EarnQuestTabs";
 import EarnQuestCard from "./EarnQuestCard";
 

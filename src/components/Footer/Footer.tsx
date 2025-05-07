@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const navLinks: NavLink[] = [
   { href: '/leaderboard', title: "leaderboard", icon: FaTrophy },
-  { href: '/earn', title: "earn", icon: FaSackDollar },
+  { href: '/earn/tasks', title: "earn", icon: FaSackDollar },
   { href: '/tasks', title: "tasks", icon: FaTasks },
   { href: '/referrals', title: "referrals", icon: FaUserFriends },
   { href: '/shop', title: "shop", icon: FaShop },

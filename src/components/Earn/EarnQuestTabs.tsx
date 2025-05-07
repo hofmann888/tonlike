@@ -12,26 +12,26 @@ export default function EarnQuestTabs({ activeTab }: { activeTab: QuestSection }
       variant="bordered"
       color="primary"
       selectedKey={activeTab}
+      classNames={{
+        tab: "p-0",
+        tabContent: "w-full h-full"
+      }}
     >
       <Tab
         key="app"
-        as={Link}
-        href="/earn?tab=quests"
         title={
-          <div className="flex items-center space-x-2">
+          <Link href="/earn/quests" prefetch={true} className="w-full h-full flex items-center justify-center gap-1 px-3">
             <span>{t('app')}</span>
-          </div>
+          </Link>
         }
       />
 
       <Tab
         key="partners"
-        as={Link}
-        href="/earn?tab=quests&section=partners"
         title={
-          <div className="flex items-center space-x-2">
+          <Link href="/earn/quests?section=partners" prefetch={true} className="w-full h-full flex items-center justify-center gap-1 px-3">
             <span>{t('partners')}</span>
-          </div>
+          </Link>
         }
       />
     </Tabs>
