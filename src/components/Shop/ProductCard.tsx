@@ -10,10 +10,11 @@ import { refreshSession } from "@/core/session";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Product } from "@/lib/definitions";
-import { Image } from "@heroui/image";
 import { Chip } from "@heroui/chip";
 import { useState } from "react";
 import CoinValue from "@/components/Common/CoinValue";
+import Image from "next/image";
+
 
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -56,13 +57,10 @@ export default function ProductCard({ product }: { product: Product }) {
       <CardBody className="p-0 relative overflow-hidden">
         <Image
           alt={product.title}
-          shadow="sm"
-          radius="none"
           src={product.imgUrl}
-          className="object-cover px-8 py-2"
-          width="100%"
-          isBlurred
-          removeWrapper
+          width={256}
+          height={256}
+          className="object-cover px-8 py-2 w-full h-full"
         />
 
         <div className="flex justify-center items-end w-full h-full text-center">
