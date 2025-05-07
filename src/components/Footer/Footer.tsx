@@ -9,12 +9,24 @@ import { Tabs, Tab } from "@heroui/tabs";
 import Link from "next/link";
 
 const navLinks: NavLink[] = [
-  { href: '/leaderboard', title: "leaderboard", icon: FaTrophy },
-  { href: '/earn/tasks', title: "earn", icon: FaSackDollar },
-  { href: '/tasks', title: "tasks", icon: FaTasks },
-  { href: '/referrals', title: "referrals", icon: FaUserFriends },
-  { href: '/shop', title: "shop", icon: FaShop },
-]
+  { key: 'leaderboard', href: '/leaderboard', t: "leaderboard", icon: FaTrophy },
+  { key: 'earn', href: '/earn/tasks', t: "earn", icon: FaSackDollar },
+  { key: 'tasks', href: '/tasks', t: "tasks", icon: FaTasks },
+  { key: 'referrals', href: '/referrals', t: "referrals", icon: FaUserFriends },
+  { key: 'shop', href: '/shop', t: "shop", icon: FaShop },
+];
+
+export function TabWrap({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <div className="z-0 flex group relative justify-center items-center cursor-pointer transition-opacity tap-highlight-transparent data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-30 data-[hover-unselected=true]:opacity-disabled outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-small rounded-none h-full w-1/5 p-0">
+      {children}
+    </div>
+  )
+}
 
 export default function Footer() {
   const pathname = usePathname();
@@ -23,6 +35,9 @@ export default function Footer() {
   let selectedNav = pathname;
   if (pathname === '/tasks/create') {
     selectedNav = '/tasks';
+  }
+  if (pathname.includes('/earn/')) {
+    selectedNav ='/earn/tasks';
   }
 
   return (
@@ -43,13 +58,16 @@ export default function Footer() {
       >
         {navLinks.map((link) => {
           const LinkIcon = link.icon;
+          const activeClass = selectedNav === link.href ? 'text-foreground-900' : '';
           return (
             <Tab 
+              as={TabWrap}
               key={link.href}
+              href={link.href}
               title={
-                <Link href={link.href} prefetch={true} className="w-full h-full flex flex-col items-center justify-center absolute z-50">
+                <Link href={link.href} prefetch={true} className={`w-full h-full flex flex-col items-center justify-center ${activeClass}`}>
                   <LinkIcon className="w-6 h-6 mt-1" />
-                  <span className="text-xs mt-1 max-[370px]:text-[0.65rem]">{t(`nav.${link.title}`)}</span>
+                  <span className="text-xs mt-1 max-[370px]:text-[0.65rem]">{t(`nav.${link.t}`)}</span>
                 </Link>
               }
             />

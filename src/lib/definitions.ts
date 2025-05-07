@@ -3,8 +3,9 @@ import { IconType } from "react-icons";
 // TODO?: decompose? enums and types in seperate files?
 
 export type NavLink = {
+  key: string,
   href: string,
-  title: string,
+  t: string,
   icon: IconType,
 }
 
