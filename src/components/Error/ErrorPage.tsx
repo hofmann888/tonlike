@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { Button } from '@heroui/button';
 import { useTranslations } from 'next-intl';
+import { usePathname } from "next/navigation";
 import { AppEnv, AppEnvEnum } from '@/lib/definitions';
+import { revalidatePathAction } from '@/core/server-actions';
 
 // TODO!: set reset to resresh the page
 export function ErrorPage({
@@ -14,8 +16,10 @@ export function ErrorPage({
   const appEnv = process.env.NEXT_PUBLIC_APP_ENV as AppEnv;
 
   const t = useTranslations('components.ErrorPage');
+  const pathname = usePathname();
 
-  function reload() {
+  async function reload() {
+    await revalidatePathAction(pathname);
     location.reload();
   }
 

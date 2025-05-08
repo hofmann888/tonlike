@@ -391,3 +391,7 @@ export async function UpdateUserWalletAddress(address: string) {
     return false;
   }
 }
+
+export async function revalidatePathAction(url: string) {
+  revalidatePath(url);
+}
