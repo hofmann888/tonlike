@@ -49,14 +49,14 @@ export default async function RootLayout({
           <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
         </head>
       }
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-main`}>
         <TWARoot>
           <I18nProvider>
             <Providers 
               userData={user}
               themeProps={{ attribute: "class", defaultTheme: defaultTheme }}
             >
-              <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)]">
+              <div className="layout-grid grid grid-rows-[80px_1fr_60px] max-w-[500px] my-0 mx-auto min-h-screen font-[family-name:var(--font-geist-sans)] relative">
                 <Header />
                 
                 <main className="layout-content">
