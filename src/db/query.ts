@@ -88,9 +88,9 @@ export async function fetchUserByTgId(tgId: number) {
   }
 }
 
-export async function fetchUserReferrals(userId: number) {
+export async function fetchUserReferrals(userId: number, pagination?: { limit: number, offset: number }) {
   try {
-    const data = await db
+    const query = db
       .select({
         id: schema.users.id,
         tgId: schema.users.tgId,
@@ -110,6 +110,12 @@ export async function fetchUserReferrals(userId: number) {
       .groupBy(schema.users.id, schema.users.tgUsername, schema.users.tgPhotoUrl, schema.users.createdAt)
       .orderBy(desc(schema.users.createdAt))
     ;
+
+    if (pagination) {
+      query.limit(pagination?.limit).offset(pagination?.offset);
+    }
+
+    const data = await query;
 
     return data as Referral[];
   } catch (error) {
