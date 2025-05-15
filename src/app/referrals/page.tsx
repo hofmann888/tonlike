@@ -13,7 +13,7 @@ export default async function RefferalsPage() {
   if (!user) return (<PageLoader />);
 
   const [referrals, sum, sumToday] = await Promise.all([
-    fetchUserReferrals(user.id, { limit: 10, offset: 0 }),
+    fetchUserReferrals(user.id),
     fetchUserReferralsTaskEarningsSum(user.id),
     fetchUserReferralsTaskEarningsSum(user.id, true),
   ]);
@@ -22,6 +22,10 @@ export default async function RefferalsPage() {
   const referralsToday = referrals.filter((referral) => referral.createdAt?.toISOString().split('T')[0] === todayDateStr);
   const profit = Math.round(referrals.length * 1000 + sum / 10); // TODO!?: vashe fixit nado refferals sum (a esli price will change...)
   const profitToday = Math.round(referralsToday.length * 1000 + sumToday / 10);
+
+  // for (let i = 0; i < 20; i++) {
+  //   userRefs.push(userRefs[0]);
+  // }
 
   return (
     <div className="flex flex-col justify-between h-full pt-4 px-2 max-w-[500px] max-[500px]:max-w-[100vw]">
