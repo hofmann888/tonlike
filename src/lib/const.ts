@@ -38,4 +38,5 @@ export const serviceLinksMap = {
   // channel: https://warpcast.com/~/channel/ru 
   [ServiceNameEnum.TWITCH]: ['https://www.twitch.tv/'],
   [ServiceNameEnum.DISCORD]: ['https://discord.com/'],
+  [ServiceNameEnum.OK]: ['https://ok.ru/'],
 }

@@ -134,6 +134,7 @@ export enum ServiceNameEnum {
   TIKTOK = 'tiktok',
   LIKEE = 'likee',
   VK = 'vk',
+  OK = 'ok',
   YOUTUBE = 'youtube',
   TWITCH = 'twitch',
   DISCORD = 'discord',
@@ -148,6 +149,7 @@ export type ServiceName =
   ServiceNameEnum.TIKTOK | 
   ServiceNameEnum.LIKEE |
   ServiceNameEnum.VK | 
+  ServiceNameEnum.OK | 
   ServiceNameEnum.YOUTUBE | 
   ServiceNameEnum.TWITCH |
   ServiceNameEnum.DISCORD |
