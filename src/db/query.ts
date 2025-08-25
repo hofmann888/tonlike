@@ -364,7 +364,7 @@ export async function updateTaskWithBalance(id: number, dto: dto.TaskUpdateDTO, 
       taskId: batch[0][0].id, 
       updatedUser: batch[1][0] as User 
     };
-  } catch (error ) {
+  } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create task.');
   }
