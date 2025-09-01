@@ -65,7 +65,7 @@ export default function Footer() {
               key={link.href}
               href={link.href}
               title={
-                <Link href={link.href} prefetch={true} className={`w-full h-full flex flex-col items-center justify-center ${activeClass}`}>
+                <Link href={link.href} prefetch={link.key !== 'referrals'} className={`w-full h-full flex flex-col items-center justify-center ${activeClass}`}>
                   <LinkIcon className="w-6 h-6 mt-1" />
                   <span className="text-xs mt-1 max-[370px]:text-[0.65rem]">{t(`nav.${link.t}`)}</span>
                 </Link>

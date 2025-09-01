@@ -39,4 +39,5 @@ export const serviceLinksMap = {
   [ServiceNameEnum.TWITCH]: ['https://www.twitch.tv/'],
   [ServiceNameEnum.DISCORD]: ['https://discord.com/'],
   [ServiceNameEnum.OK]: ['https://ok.ru/'],
+  [ServiceNameEnum.DZEN]: ['https://dzen.ru/'],
 }

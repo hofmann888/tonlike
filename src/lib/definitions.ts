@@ -135,6 +135,7 @@ export enum ServiceNameEnum {
   LIKEE = 'likee',
   VK = 'vk',
   OK = 'ok',
+  DZEN = 'dzen',
   YOUTUBE = 'youtube',
   TWITCH = 'twitch',
   DISCORD = 'discord',
