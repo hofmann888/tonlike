@@ -139,7 +139,7 @@ export enum ServiceNameEnum {
   YOUTUBE = 'youtube',
   TWITCH = 'twitch',
   DISCORD = 'discord',
-  WARPCAST = 'warpcast',
+  FARCASTER = 'farcaster',
   LINK = 'link',
 }
 export type ServiceName = 
@@ -154,7 +154,7 @@ export type ServiceName =
   ServiceNameEnum.YOUTUBE | 
   ServiceNameEnum.TWITCH |
   ServiceNameEnum.DISCORD |
-  ServiceNameEnum.WARPCAST | 
+  ServiceNameEnum.FARCASTER | 
   ServiceNameEnum.LINK
 ;
 
