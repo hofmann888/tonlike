@@ -31,7 +31,7 @@ export async function POST() {
     if (!initData?.user?.id) {
       throw Error('Undefined Telegram user.');
     }
-    if (appEnv === AppEnvEnum.STAGE && ![5229340312, 6681557705].includes(initData?.user?.id)) {
+    if (appEnv === AppEnvEnum.STAGE && ![5229340312, 6681557705, 6425951136].includes(initData?.user?.id)) {
       throw Error('Forbidden.');
     }
 
