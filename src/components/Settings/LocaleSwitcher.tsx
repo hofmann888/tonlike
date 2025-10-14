@@ -14,7 +14,7 @@ export default function LocaleSwitcher() {
     <>
       <select
         name="lang"
-        className="w-[48px] h-7 mr-2 z-10 text-center text-xl outline-none py-0.5 rounded-md group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
+        className="w-[48px] h-7 mr-2 px-[10px] pb-[5px] z-10 text-center text-xl outline-none py-0.5 rounded-md group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
         defaultValue={locale}
         onChange={(e) => setLocale(e.target.value as Locale)}
       >
