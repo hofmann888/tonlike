@@ -14,6 +14,7 @@ export const users = pgTable('users', {
   balance: bigint({ mode: 'number' }).notNull().default(0),
   claimed: bigint({ mode: 'number' }).notNull().default(0), // TODO?: referralProfit(Claimed)
   address: char({ length: 48 }),
+  airdrop: boolean().notNull().default(false),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
   // isBlocked | status?

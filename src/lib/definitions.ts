@@ -59,6 +59,7 @@ export type User = {
   balance: number,
   claimed: number,
   address?: string | null,
+  airdrop?: boolean,
   createdAt?: Date,
 	updatedAt?: Date,
 }
