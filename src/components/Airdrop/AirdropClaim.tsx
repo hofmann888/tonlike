@@ -32,8 +32,8 @@ export default function AirdropClaim() {
           </Button>
         </div>
 
-        <div className="flex flex-col justify-center items-center mt-16">
-          <p className="text-center text-medium mb-3 text-primary-500 px-20">{t('supportMessage')}</p>
+        <div className="flex flex-col justify-center items-center mt-12">
+          <p className="text-center text-medium mb-3 text-primary-500 px-12">{t('supportMessage')}</p>
 
           <Button 
             size="lg"
@@ -47,7 +47,7 @@ export default function AirdropClaim() {
         </div>
       </div>
 
-      <div className="sticky bottom-28 w-full text-center">
+      <div className="sticky bottom-16 w-full text-center">
         <Button 
           size="lg"
           variant="light" 
