@@ -191,6 +191,13 @@
       "stayTuned": "Stay Tuned...",
       "subscribe": "Subscribe"
     },
+    "AirdropClaim": {
+      "airdrop": "Airdrop",
+      "claim": "Claim",
+      "subscribe": "Subscribe",
+      "support": "Support",
+      "supportMessage": "If you have any issues claiming the airdrop, please contact support. 👇"
+    },
     "ProductCard": {
       "success": "Success.",
       "purchased": "You have successfully purchased"
@@ -206,7 +213,8 @@
         "tasks": "My Tasks",
         "referrals": "Friends",
         "shop": "Shop",
-        "wallet": "Wallet"
+        "wallet": "Wallet",
+        "airdrop": "Airdrop"
       }
     }
   },

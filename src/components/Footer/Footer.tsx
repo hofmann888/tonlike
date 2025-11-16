@@ -1,7 +1,7 @@
 'use client'
 
-import { FaTasks, FaTrophy, FaUserFriends } from "react-icons/fa";
-import { FaSackDollar, FaShop } from "react-icons/fa6";
+import { FaTasks, FaTrophy, FaUserFriends, FaParachuteBox } from "react-icons/fa";
+import { FaSackDollar } from "react-icons/fa6";
 import { usePathname } from 'next/navigation';
 import { useTranslations } from "next-intl";
 import { NavLink } from "@/lib/definitions";
@@ -13,7 +13,7 @@ const navLinks: NavLink[] = [
   { key: 'earn', href: '/earn/tasks', t: "earn", icon: FaSackDollar },
   { key: 'tasks', href: '/tasks', t: "tasks", icon: FaTasks },
   { key: 'referrals', href: '/referrals', t: "referrals", icon: FaUserFriends },
-  { key: 'shop', href: '/shop', t: "shop", icon: FaShop },
+  { key: 'airdrop', href: '/airdrop', t: "airdrop", icon: FaParachuteBox },
 ];
 
 export function TabWrap({

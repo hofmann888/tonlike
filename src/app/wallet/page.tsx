@@ -3,7 +3,7 @@
 // import DepositForm from "@/components/Wallet/DepositForm";
 // import WithdrawForm from "@/components/Wallet/WithdrawForm";
 // import WalletConnect from "@/components/Wallet/WalletConnect";
-import AirdropBanner from "@/components/Airdrop/AirdropBanner";
+import AirdropBanner from "@/components/Airdrop/AirdropSoon";
 
 export const revalidate = 86400;
 

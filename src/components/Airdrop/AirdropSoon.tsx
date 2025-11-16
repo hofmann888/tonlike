@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from "@heroui/button";
 import Image from 'next/image';
 
-export default function AirdropBanner() {
+export default function AirdropSoon() {
   const t = useTranslations('components.WalletBanner');
 
   const link = 'https://t.me/tonlike_app';
